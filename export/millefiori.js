@@ -18,7 +18,8 @@
 define([
     "dojo","dojo/_base/declare",
     "ebg/core/gamegui",
-    "ebg/counter"
+    "ebg/counter",
+    "ebg/stock"
 ],
 function (dojo, declare) {
     return declare("bgagame.millefiori", ebg.core.gamegui, {
@@ -28,7 +29,8 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
-
+            this.cardwidth = 72;
+            this.cardheight = 96;
         },
         
         /*
@@ -57,14 +59,33 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            
- 
+            // Player hand
+            this.playerHand = new ebg.stock(); // new stock object for hand
+            this.playerHand.create( this, $('myhand'), this.cardwidth, this.cardheight );
+            this.playerHand.image_items_per_row = 13; // 13 images per row
+
+
+            // Create cards types:
+            for (var color = 1; color <= 4; color++) {
+                for (var value = 2; value <= 14; value++) {
+                    // Build card type id
+                    var card_type_id = this.getCardUniqueId(color, value);
+                    this.playerHand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
+                }
+            }
+            this.playerHand.addToStockWithId( this.getCardUniqueId( 2, 5 ), 42 );
+            this.boardHand = new ebg.stock(); // new stock object for hand
+            this.boardHand.create( this, $('boardhand'), this.cardwidth, this.cardheight );
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
             console.log( "Ending game setup" );
         },
-       
+        // Get card unique identifier based on its color and value
+        getCardUniqueId : function(color, value) {
+            return (color - 1) * 13 + (value - 2);
+        },
 
         ///////////////////////////////////////////////////
         //// Game & client states
