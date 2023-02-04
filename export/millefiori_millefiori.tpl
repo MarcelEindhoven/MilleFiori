@@ -24,10 +24,8 @@
     
     Please REMOVE this comment before publishing your game on BGA
 -->
-
-
-This is your game interface. You can edit this HTML in your ".tpl" file.
-
+<div id="board">
+</div>
 
 <script type="text/javascript">
 

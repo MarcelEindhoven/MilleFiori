@@ -67,6 +67,11 @@
     }
 */
 
+#board {
+    width: 847px;
+    height: 824px;
+    background-image: url('img/board.jpg');
+ }
 
 
 
