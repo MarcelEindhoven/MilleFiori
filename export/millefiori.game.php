@@ -103,14 +103,9 @@ class MilleFiori extends Table
         $this->cards->createCards( $cards, 'deck' );       
         // Shuffle deck
         $this->cards->shuffle('deck');
-        // Deal 5 cards to each players
-        $players = self::loadPlayersBasicInfos();
-        foreach ( $players as $player_id => $player ) {
-            $cards = $this->cards->pickCards(5, 'deck', $player_id);
-        } 
         $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
-        $this->activeNextPlayer();
+        // $this->activeNextPlayer();
 
         /************ End of the game initialization *****/
     }
@@ -248,14 +243,16 @@ class MilleFiori extends Table
     
     Example for game state "MyGameState":
 
-    function stMyGameState()
-    {
-        // Do some stuff ...
-        
-        // (very often) go to another gamestate
-        $this->gamestate->nextState( 'some_gamestate_transition' );
-    }    
     */
+    function stNewHand() {
+        // Deal 5 cards to each players
+        $players = self::loadPlayersBasicInfos();
+        foreach ( $players as $player_id => $player ) {
+            $cards = $this->cards->pickCards(5, 'deck', $player_id);
+        }
+
+        $this->gamestate->nextState( 'handDealt' );
+    }    
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie

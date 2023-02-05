@@ -58,7 +58,7 @@ $machinestates = array(
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 2 )
+        "transitions" => array( "" => 10 )
     ),
     
     // Note: ID=2 => your first state
@@ -71,18 +71,27 @@ $machinestates = array(
     		"possibleactions" => array( "playCard", "pass" ),
     		"transitions" => array( "playCard" => 2, "pass" => 2 )
     ),
-    
+
+    10 => array(
+        "name" => "newHand",
+        "description" => '',
+        "type" => "game",
+        "action" => "stNewHand",
+        "updateGameProgression" => true,   
+        "transitions" => array( "endGame" => 99, "handDealt" => 12 )
+    ),
+
+    12 => array(
+        "name" => "playerTurn",
+        "description" => clienttranslate('you must select a card'),
+        "type" => "multipleactiveplayer",
+        "possibleactions" => array( "selectCard" ),
+        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 2 )
+),
+
 /*
     Examples:
     
-    2 => array(
-        "name" => "nextPlayer",
-        "description" => '',
-        "type" => "game",
-        "action" => "stNextPlayer",
-        "updateGameProgression" => true,   
-        "transitions" => array( "endGame" => 99, "nextPlayer" => 10 )
-    ),
     
     10 => array(
         "name" => "playerTurn",
