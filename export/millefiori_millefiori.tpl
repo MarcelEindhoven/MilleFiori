@@ -24,18 +24,24 @@
     
     Please REMOVE this comment before publishing your game on BGA
 -->
-<div id="myhand_wrap" class="whiteblock">
+<div id="myhand_wrap" class="whiteblock" style="display: inline-block">
+<div style="display: inline-block">
     <h3>My Hand</h3>
-    <div id="myhand">
+    <div id="myhand" class="limited_hand">
     </div>
 </div>
-<div id="board">
+<div style="display: inline-block">
+    <h3>Selected cards</h3>
+    <div id="selectedhand" class="limited_hand">
+    </div>
+</div>
 </div>
 <div id="myhand_wrap" class="whiteblock">
     <h3>Board cards</h3>
     <div id="boardhand">
-        <div class="playertablecard"></div>
     </div>
+</div>
+<div id="board">
 </div>
 
 <script type="text/javascript">

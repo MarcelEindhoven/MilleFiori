@@ -108,6 +108,7 @@ class MilleFiori extends Table
         foreach ( $players as $player_id => $player ) {
             $cards = $this->cards->pickCards(5, 'deck', $player_id);
         } 
+        $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
@@ -139,7 +140,7 @@ class MilleFiori extends Table
         $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $current_player_id );
         
         // Cards played beside the table
-        $result['boardhand'] = $this->cards->getCardsInLocation( 'boardhand' );
+        $result['boardhand'] = $this->cards->getCardsInLocation( 'hand', -1 );
         return $result;
     }
 

@@ -60,29 +60,9 @@ function (dojo, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
             // Player hand
-            this.myhand = new ebg.stock(); // new stock object for hand
-            this.myhand.create( this, $('myhand'), this.cardwidth, this.cardheight );
-            this.myhand.image_items_per_row = 13; // 13 images per row
-
-
-            // Create cards types:
-            for (var color = 0; color <= 3; color++) {
-                for (var value = 0; value <= 12; value++) {
-                    // Build card type id
-                    var card_type_id = this.getCardUniqueId(color, value);
-                    this.myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
-                }
-            }
-            // Cards in player's hand
-            for ( var i in this.gamedatas.myhand) {
-                var card = this.gamedatas.myhand[i];
-                var color = card.type;
-                var value = card.type_arg;
-                this.myhand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
-            }
+            this.myhand = this.createHand('myhand', this.gamedatas.myhand);
             
-            this.boardHand = new ebg.stock(); // new stock object for hand
-            this.boardHand.create( this, $('boardhand'), this.cardwidth, this.cardheight );
+            this.boardHand = this.createHand('boardhand', this.gamedatas.boardhand);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -92,6 +72,30 @@ function (dojo, declare) {
         // Get card unique identifier based on its color and value
         getCardUniqueId : function(color, value) {
             return (color - 0) * 13 + (value - 0);
+        },
+        createHand: function(name, data) {
+            myhand = new ebg.stock(); // new stock object for hand
+            myhand.create( this, $(name), this.cardwidth, this.cardheight );
+            myhand.image_items_per_row = 13; // 13 images per row
+
+            // Create cards types:
+            for (var color = 0; color <= 3; color++) {
+                for (var value = 0; value <= 12; value++) {
+                    // Build card type id
+                    var card_type_id = this.getCardUniqueId(color, value);
+                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
+                }
+            }
+
+            // Cards in player's hand
+            for ( var i in data) {
+                var card = data[i];
+                var color = card.type;
+                var value = card.type_arg;
+                myhand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+            }
+
+            return myhand;
         },
 
         ///////////////////////////////////////////////////
