@@ -40,6 +40,8 @@ class MilleFiori extends Table
             //    "my_second_game_variant" => 101,
             //      ...
         ) );        
+        $this->cards = self::getNew( "module.common.deck" );
+        $this->cards->init( "card" );
 	}
 	
     protected function getGameName( )
@@ -88,8 +90,24 @@ class MilleFiori extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
-       
-
+        // Create cards
+        $cards = array ();
+        foreach ( [0, 1, 2, 3] as $color_id => $color ) {
+            // spade, heart, diamond, club
+            for ($value = 0; $value <= 12; $value ++) {
+                //  2, 3, 4, ... K, A
+                $cards [] = array ('type' => $color_id,'type_arg' => $value,'nbr' => 1 );
+            }
+        }
+        
+        $this->cards->createCards( $cards, 'deck' );       
+        // Shuffle deck
+        $this->cards->shuffle('deck');
+        // Deal 5 cards to each players
+        $players = self::loadPlayersBasicInfos();
+        foreach ( $players as $player_id => $player ) {
+            $cards = $this->cards->pickCards(5, 'deck', $player_id);
+        } 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
@@ -117,7 +135,11 @@ class MilleFiori extends Table
         $result['players'] = self::getCollectionFromDb( $sql );
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
-  
+        // Cards in player hand
+        $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $current_player_id );
+        
+        // Cards played beside the table
+        $result['boardhand'] = $this->cards->getCardsInLocation( 'boardhand' );
         return $result;
     }
 

@@ -68,8 +68,8 @@
 */
 
 #board {
-    width: 847px;
-    height: 824px;
+    width: 954px;
+    height: 952px;
     background-image: url('img/board.jpg');
  }
  .playertablecard {
