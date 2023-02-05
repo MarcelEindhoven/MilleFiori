@@ -82,9 +82,10 @@ $machinestates = array(
     ),
 
     12 => array(
-        "name" => "playerTurn",
+        "name" => "selectCard",
         "description" => clienttranslate('you must select a card'),
         "type" => "multipleactiveplayer",
+        "action" => "stSelectCard",
         "possibleactions" => array( "selectCard" ),
         "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 2 )
 ),

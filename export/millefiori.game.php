@@ -105,6 +105,7 @@ class MilleFiori extends Table
         $this->cards->shuffle('deck');
         $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
+        self::trace( "setupNewGame your message here" );
         // $this->activeNextPlayer();
 
         /************ End of the game initialization *****/
@@ -121,6 +122,7 @@ class MilleFiori extends Table
     */
     protected function getAllDatas()
     {
+        self::trace( "getAllDatas your message here" );
         $result = array();
     
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
@@ -136,6 +138,8 @@ class MilleFiori extends Table
         
         // Cards played beside the table
         $result['boardhand'] = $this->cards->getCardsInLocation( 'hand', -1 );
+
+//        $result['selectedhand'] = $this->cards->getCardsInLocation( 'hand', 10 + $current_player_id );
         return $result;
     }
 
@@ -245,6 +249,7 @@ class MilleFiori extends Table
 
     */
     function stNewHand() {
+//        self::trace( "stNewHand" );
         // Deal 5 cards to each players
         $players = self::loadPlayersBasicInfos();
         foreach ( $players as $player_id => $player ) {
@@ -252,7 +257,12 @@ class MilleFiori extends Table
         }
 
         $this->gamestate->nextState( 'handDealt' );
-    }    
+    }  
+    function stSelectCard() {
+//        self::trace( "stSelectCard" );
+//        $this->gamestate->setAllPlayersMultiactive();
+    }  
+      
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie

@@ -64,14 +64,33 @@ function (dojo, declare) {
             
             this.boardHand = this.createHand('boardhand', this.gamedatas.boardhand);
 
+//            this.selectedhand = this.createHand('selectedhand', this.gamedatas.selectedhand);
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
+
+            dojo.connect( this.myhand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
 
             console.log( "Ending game setup" );
         },
         // Get card unique identifier based on its color and value
         getCardUniqueId : function(color, value) {
             return (color - 0) * 13 + (value - 0);
+        },
+        onMyHandSelectionChanged: function() {
+            var items = this.myhand.getSelectedItems();
+
+            if (items.length > 0) {
+                var card_id = items[0].id;
+                if (this.checkAction('selectCard')) {
+                    // Can play a card
+
+                    console.log("on selectCard "+card_id);
+                } else {
+                    console.log("not allowed selectCard "+card_id);
+                }
+            }
+            this.myhand.unselectAll();
         },
         createHand: function(name, data) {
             myhand = new ebg.stock(); // new stock object for hand
