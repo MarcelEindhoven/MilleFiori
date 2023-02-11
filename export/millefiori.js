@@ -64,7 +64,7 @@ function (dojo, declare) {
             
             this.boardHand = this.createHand('boardhand', this.gamedatas.boardhand);
 
-//            this.selectedhand = this.createHand('selectedhand', this.gamedatas.selectedhand);
+            this.selectedhand = this.createHand('selectedhand', this.gamedatas.selectedhand);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -86,7 +86,12 @@ function (dojo, declare) {
                     // Can play a card
 
                     console.log("on selectCard "+card_id);
-                } else {
+                    this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                        card_id : card_id,
+                        lock : true
+                    }, this, function(result) {
+                    }, function(is_error) {
+                    });                } else {
                     console.log("not allowed selectCard "+card_id);
                 }
             }
@@ -129,7 +134,13 @@ function (dojo, declare) {
             
             switch( stateName )
             {
-            
+//            case "selectCard":
+//                console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
+//                this.myhand = this.createHand('myhand', args.args.myhand);
+    
+//                this.selectedhand = this.createHand('selectedhand', args.args.selectedhand);
+                
+//                break;
             /* Example:
             
             case 'myGameState':

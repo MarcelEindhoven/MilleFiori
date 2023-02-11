@@ -83,9 +83,11 @@ $machinestates = array(
 
     12 => array(
         "name" => "selectCard",
-        "description" => clienttranslate('you must select a card'),
+        "description" => clienttranslate('everyone must select a card'),
+        "descriptionmyturn" => clienttranslate('${you} must select a card'),
         "type" => "multipleactiveplayer",
         "action" => "stSelectCard",
+        "args" => "argumentHands",
         "possibleactions" => array( "selectCard" ),
         "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 2 )
 ),

@@ -106,7 +106,7 @@ class MilleFiori extends Table
         $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
-        // $this->activeNextPlayer();
+        $this->activeNextPlayer();
 
         /************ End of the game initialization *****/
     }
@@ -139,7 +139,7 @@ class MilleFiori extends Table
         // Cards played beside the table
         $result['boardhand'] = $this->cards->getCardsInLocation( 'hand', -1 );
 
-//        $result['selectedhand'] = $this->cards->getCardsInLocation( 'hand', 10 + $current_player_id );
+        $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
         return $result;
     }
 
@@ -205,7 +205,16 @@ class MilleFiori extends Table
     }
     
     */
-
+    function selectCard($card_id) {
+        self::checkAction("selectCard");
+        $player_id = self::getCurrentPlayerId();
+        $this->cards->moveCard($card_id, 'selectedhand', $player_id);
+        $this->gamestate->nextState('playersStillBusy');
+        $result = array();
+        $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
+        $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
+        return $result;
+    }
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments
@@ -233,6 +242,15 @@ class MilleFiori extends Table
         );
     }    
     */
+    function argumentHands() {
+        // Get some values from the current game situation in database...
+    
+        // return values:
+        return array(
+            'selectedhand' => $this->cards->getCardsInLocation( 'selectedhand', self::getCurrentPlayerId()),
+            'myhand' => $this->cards->getCardsInLocation( 'hand', self::getCurrentPlayerId()),
+        );
+    }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state actions
@@ -259,8 +277,8 @@ class MilleFiori extends Table
         $this->gamestate->nextState( 'handDealt' );
     }  
     function stSelectCard() {
-//        self::trace( "stSelectCard" );
-//        $this->gamestate->setAllPlayersMultiactive();
+        self::trace( "stSelectCard" );
+        $this->gamestate->setAllPlayersMultiactive();
     }  
       
 

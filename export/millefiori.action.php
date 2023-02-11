@@ -62,6 +62,14 @@
     }
     
     */
+    function selectCard() {
+      self::setAjaxMode();
+
+      $card_id = self::getArg( "card_id", AT_posint, true );
+
+      $this->game->selectCard($card_id);
+      self::ajaxResponse( );
+    }
 
   }
   
