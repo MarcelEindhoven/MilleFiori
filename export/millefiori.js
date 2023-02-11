@@ -134,13 +134,13 @@ function (dojo, declare) {
             
             switch( stateName )
             {
-//            case "selectedCard":
-//                console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
-//                this.myhand = this.createHand('myhand', args.args.myhand);
+            case "selectedCard":
+                console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
+                this.myhand = this.createHand('myhand', args.args.myhand);
     
-//                this.selectedhand = this.createHand('selectedhand', args.args.selectedhand);
+                this.selectedhand = this.createHand('selectedhand', args.args.selectedhand);
                 
-//                break;
+                break;
             /* Example:
             
             case 'myGameState':

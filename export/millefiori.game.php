@@ -247,12 +247,10 @@ class MilleFiori extends Table
     
         // return values:
         $current_player_id = self::getCurrentPlayerId();
-        /*
         return array(
             'selectedhand' => $this->cards->getCardsInLocation( 'selectedhand', self::getCurrentPlayerId()),
             'myhand' => $this->cards->getCardsInLocation( 'hand', self::getCurrentPlayerId()),
         );
-        */
         return array ();
     }
 
