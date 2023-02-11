@@ -136,8 +136,13 @@ function (dojo, declare) {
             {
             case "selectedCard":
                 console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
-                this.myhand = this.createHand('myhand', args.args.myhand);
-    
+                this.myhand.removeAll();
+                for (var i in args.args.myhand) {
+                    var card = args.args.myhand[i];
+                    var color = card.type;
+                    var value = card.type_arg;
+                    this.myhand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+                }
                 this.selectedhand = this.createHand('selectedhand', args.args.selectedhand);
                 
                 break;
