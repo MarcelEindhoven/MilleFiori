@@ -209,7 +209,7 @@ class MilleFiori extends Table
         self::checkAction("selectCard");
         $player_id = self::getCurrentPlayerId();
         $this->cards->moveCard($card_id, 'selectedhand', $player_id);
-        $this->gamestate->nextState('playersStillBusy');
+        $this->gamestate->nextState();
         $result = array();
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
@@ -246,10 +246,14 @@ class MilleFiori extends Table
         // Get some values from the current game situation in database...
     
         // return values:
+        $current_player_id = self::getCurrentPlayerId();
+        /*
         return array(
             'selectedhand' => $this->cards->getCardsInLocation( 'selectedhand', self::getCurrentPlayerId()),
             'myhand' => $this->cards->getCardsInLocation( 'hand', self::getCurrentPlayerId()),
         );
+        */
+        return array ();
     }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -279,7 +283,12 @@ class MilleFiori extends Table
     function stSelectCard() {
         self::trace( "stSelectCard" );
         $this->gamestate->setAllPlayersMultiactive();
-    }  
+    }
+    function stSelectedCard() {
+        self::trace( "stSelectedCard" );
+//        $this->gamestate->setAllPlayersMultiactive();
+        $this->gamestate->nextState('playersStillBusy');
+}
       
 
 //////////////////////////////////////////////////////////////////////////////
