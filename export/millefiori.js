@@ -82,20 +82,23 @@ function (dojo, declare) {
 
             if (items.length > 0) {
                 var card_id = items[0].id;
-                if (this.checkAction('selectCard')) {
-                    // Can play a card
-
-                    console.log("on selectCard "+card_id);
-                    this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
-                        card_id : card_id,
-                        lock : true
-                    }, this, function(result) {
-                    }, function(is_error) {
-                    });                } else {
-                    console.log("not allowed selectCard "+card_id);
-                }
+                this.selectCard(card_id);
             }
             this.myhand.unselectAll();
+        },
+        selectCard: function(card_id) {
+            if (this.checkAction('selectCard')) {
+                console.log("on selectCard "+card_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                    card_id : card_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectCard "+card_id);
+            }
         },
         createHand: function(name, data) {
             myhand = new ebg.stock(); // new stock object for hand
