@@ -71,6 +71,7 @@
     width: 954px;
     height: 952px;
     background-image: url('img/board.jpg');
+    position: relative;
  }
  .playertablecard {
     display: inline-block;
@@ -86,5 +87,14 @@
 .single_card_hand {
     width: 200px;
 }
+.field {
+    width: 20px;
+    height: 30px;
+    opacity: 0.2;
+    border-style: solid;
+    border-width: thick;
+    position: absolute;
+}
+
 
 
