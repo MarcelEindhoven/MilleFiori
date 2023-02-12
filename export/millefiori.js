@@ -73,62 +73,6 @@ function (dojo, declare) {
 
             console.log( "Ending game setup" );
         },
-        // Get card unique identifier based on its color and value
-        getCardUniqueId : function(color, value) {
-            return (color - 0) * 13 + (value - 0);
-        },
-        onMyHandSelectionChanged: function() {
-            var items = this.myhand.getSelectedItems();
-
-            if (items.length > 0) {
-                var card_id = items[0].id;
-                this.selectCard(card_id);
-            }
-            this.myhand.unselectAll();
-        },
-        selectCard: function(card_id) {
-            if (this.checkAction('selectCard')) {
-                console.log("on selectCard "+card_id);
-
-                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
-                    card_id : card_id,
-                    lock : true
-                }, this, function(result) {
-                }, function(is_error) {
-                });
-            } else {
-                console.log("not allowed selectCard "+card_id);
-            }
-        },
-        createAndFillHand: function(name, cards) {
-            return this.fillHand(this.createHand(name), cards);
-        },
-        createHand: function(name) {
-            myhand = new ebg.stock(); // new stock object for hand
-            myhand.create( this, $(name), this.cardwidth, this.cardheight );
-            myhand.image_items_per_row = 13; // 13 images per row
-
-            // Create cards types:
-            for (var color = 0; color <= 3; color++) {
-                for (var value = 0; value <= 12; value++) {
-                    // Build card type id
-                    var card_type_id = this.getCardUniqueId(color, value);
-                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
-                }
-            }
-
-            return myhand;
-        },
-        fillHand: function(hand, cards) {
-            // Cards in player's hand
-            for ( var i in cards) {
-                var card = cards[i];
-                var color = card.type;
-                var value = card.type_arg;
-                hand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
-            }
-            return hand;
-        },
 
         ///////////////////////////////////////////////////
         //// Game & client states
@@ -144,15 +88,8 @@ function (dojo, declare) {
             {
             case "selectedCard":
                 console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
-                this.myhand.removeAll();
-                for (var i in args.args.myhand) {
-                    var card = args.args.myhand[i];
-                    var color = card.type;
-                    var value = card.type_arg;
-                    this.myhand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
-                }
-                this.selectedhand = this.createHand('selectedhand', args.args.selectedhand);
-                
+                this.fillHand(this.myhand, args.args.myhand);
+                this.fillHand(this.selectedhand, args.args.selectedhand);
                 break;
             /* Example:
             
@@ -226,13 +163,64 @@ function (dojo, declare) {
         ///////////////////////////////////////////////////
         //// Utility methods
         
-        /*
-        
-            Here, you can defines some utility methods that you can use everywhere in your javascript
-            script.
-        
-        */
+        // Get card unique identifier based on its color and value
+        getCardUniqueId : function(color, value) {
+            return (color - 0) * 13 + (value - 0);
+        },
+        onMyHandSelectionChanged: function() {
+            var items = this.myhand.getSelectedItems();
 
+            if (items.length > 0) {
+                var card_id = items[0].id;
+                this.selectCard(card_id);
+            }
+            this.myhand.unselectAll();
+        },
+        selectCard: function(card_id) {
+            if (this.checkAction('selectCard')) {
+                console.log("on selectCard "+card_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                    card_id : card_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectCard "+card_id);
+            }
+        },
+        createAndFillHand: function(name, cards) {
+            return this.fillHand(this.createHand(name), cards);
+        },
+        createHand: function(name) {
+            myhand = new ebg.stock(); // new stock object for hand
+            myhand.create( this, $(name), this.cardwidth, this.cardheight );
+            myhand.image_items_per_row = 13; // 13 images per row
+
+            // Create cards types:
+            for (var color = 0; color <= 3; color++) {
+                for (var value = 0; value <= 12; value++) {
+                    // Build card type id
+                    var card_type_id = this.getCardUniqueId(color, value);
+                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
+                }
+            }
+
+            return myhand;
+        },
+        fillHand: function(hand, cards) {
+            hand.removeAll();
+
+            for ( var i in cards) {
+                var card = cards[i];
+                var color = card.type;
+                var value = card.type_arg;
+                hand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+            }
+
+            return hand;
+        },
 
         ///////////////////////////////////////////////////
         //// Player's action
