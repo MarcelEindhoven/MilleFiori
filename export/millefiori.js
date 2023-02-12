@@ -60,11 +60,11 @@ function (dojo, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
             // Player hand
-            this.myhand = this.createHand('myhand', this.gamedatas.myhand);
+            this.myhand = this.createAndFillHand('myhand', this.gamedatas.myhand);
             
-            this.boardHand = this.createHand('boardhand', this.gamedatas.boardhand);
+            this.boardHand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
 
-            this.selectedhand = this.createHand('selectedhand', this.gamedatas.selectedhand);
+            this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -100,7 +100,10 @@ function (dojo, declare) {
                 console.log("not allowed selectCard "+card_id);
             }
         },
-        createHand: function(name, data) {
+        createAndFillHand: function(name, cards) {
+            return this.fillHand(this.createHand(name), cards);
+        },
+        createHand: function(name) {
             myhand = new ebg.stock(); // new stock object for hand
             myhand.create( this, $(name), this.cardwidth, this.cardheight );
             myhand.image_items_per_row = 13; // 13 images per row
@@ -114,15 +117,17 @@ function (dojo, declare) {
                 }
             }
 
+            return myhand;
+        },
+        fillHand: function(hand, cards) {
             // Cards in player's hand
-            for ( var i in data) {
-                var card = data[i];
+            for ( var i in cards) {
+                var card = cards[i];
                 var color = card.type;
                 var value = card.type_arg;
-                myhand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+                hand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
             }
-
-            return myhand;
+            return hand;
         },
 
         ///////////////////////////////////////////////////
