@@ -82,6 +82,9 @@
 }
 .limited_hand {
     width: 500px;
- }
+}
+.single_card_hand {
+    width: 200px;
+}
 
 

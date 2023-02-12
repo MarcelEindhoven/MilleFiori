@@ -31,8 +31,13 @@
     </div>
 </div>
 <div style="display: inline-block">
-    <h3>Selected cards</h3>
-    <div id="selectedhand" class="limited_hand">
+    <h3>Selected card</h3>
+    <div id="selectedhand" class="single_card_hand">
+    </div>
+</div>
+<div style="display: inline-block">
+    <h3>Played card</h3>
+    <div id="playedhand" class="single_card_hand">
     </div>
 </div>
 </div>
