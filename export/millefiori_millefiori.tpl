@@ -46,7 +46,11 @@
     <div id="boardhand">
     </div>
 </div>
+
 <div id="board">
+    <!-- BEGIN field -->
+        <div id="field_{CATEGORY}_{ID}" class="field" style="left: {LEFT}px; top: {TOP}px;"></div>
+    <!-- END field -->
 </div>
 
 <script type="text/javascript">
