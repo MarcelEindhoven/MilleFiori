@@ -1,8 +1,8 @@
 <?php
-namespace NieuwenhovenGames\StarTurner;
+namespace NieuwenhovenGames\MilleFiori;
 /**
  *------
- * StarTurner implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
+ * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  *
  */
 
