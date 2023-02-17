@@ -285,7 +285,7 @@ class MilleFiori extends Table
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
 //        $this->gamestate->setAllPlayersMultiactive();
-        $this->gamestate->nextState('playersStillBusy');
+        $this->gamestate->nextState('allPlayersReady');
 }
       
 
