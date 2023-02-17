@@ -54,6 +54,7 @@ function (dojo, declare) {
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
+                this.addTokenOnBoard(player_id, 0, 'Harbour', 10);
                          
                 // TODO: Setting up players boards if needed
             }
@@ -70,6 +71,7 @@ function (dojo, declare) {
             this.setupNotifications();
 
             dojo.connect( this.myhand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
+            
 
             console.log( "Ending game setup" );
         },
@@ -166,6 +168,18 @@ function (dojo, declare) {
         // Get card unique identifier based on its color and value
         getCardUniqueId : function(color, value) {
             return (color - 0) * 13 + (value - 0);
+        },
+        addTokenOnBoard: function(player, nr, category, id)
+        {
+            console.log( "addTokenOnBoard "+ player);
+            dojo.place( this.format_block( 'jstpl_token0', {
+                player: player,
+                color: this.gamedatas.players[ player ].color,
+                nr: nr
+            } ) , 'tokens' );
+            
+            this.placeOnObject( 'token_'+player+'_'+nr, 'overall_player_board_'+player );
+            this.slideToObject( 'token_'+player+'_'+nr, 'field_'+category+'_'+id ).play();
         },
         onMyHandSelectionChanged: function() {
             var items = this.myhand.getSelectedItems();

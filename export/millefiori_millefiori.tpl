@@ -51,11 +51,13 @@
     <!-- BEGIN field -->
         <div id="field_{CATEGORY}_{ID}" class="field" style="left: {LEFT}px; top: {TOP}px;"></div>
     <!-- END field -->
+    <div id="tokens">
+    </div>
 </div>
-
 <script type="text/javascript">
 
 // Javascript HTML templates
+var jstpl_token0='<div class="token token0" id="token_${player}_${nr}" style="color:${color}"></div>';
 
 /*
 // Example:
