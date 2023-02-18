@@ -299,9 +299,20 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
-//        $this->gamestate->setAllPlayersMultiactive();
-        $this->gamestate->nextState('playersStillBusy');
-}
+        if ($this->haveAllPlayersSelectedCard()) {
+            $this->gamestate->nextState('allPlayersReady');
+        } else {
+            $this->gamestate->nextState('playersStillBusy');
+        }
+    }
+    private function haveAllPlayersSelectedCard() : bool{
+        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
+            if (!$this->cards->getCardsInLocation('selectedhand', $player_id)) {
+                return false;
+            }
+        }
+        return true;
+    }
       
 
 //////////////////////////////////////////////////////////////////////////////
