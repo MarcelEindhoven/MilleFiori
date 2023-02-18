@@ -86,8 +86,8 @@ class view_millefiori_millefiori extends game_view
         $this->page->insert_block('field', array (
             'CATEGORY' => 'Harbour',
             'ID' => 10,
-            'LEFT' => 100,
-            'TOP' => 0));
+            'LEFT' => 101,
+            'TOP' => 101));
 
 
 

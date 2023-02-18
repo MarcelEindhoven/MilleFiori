@@ -57,7 +57,7 @@
 <script type="text/javascript">
 
 // Javascript HTML templates
-var jstpl_token0='<div class="token token0" id="token_${player}_${nr}" style="color:${color}"></div>';
+var jstpl_token0='<div class="token token${player_number}" id="token_${player}_${nr}" style="background-color:#${color}"></div>';
 
 /*
 // Example:

@@ -11,14 +11,14 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class Ocean {
-    const KEY_CATEGORY = 'OCEAN';
+    const KEY_CATEGORY = 'Ocean';
     const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
     const RIGHT_EDGE = 52;
     const NUMBER_FIELDS = 21;
     const LEFT_MARGIN = 1.3;
-    const QUERY_PLAYER = "SELECT player_score score, player_color color ocean_position ocean_position FROM player";
+    const QUERY_PLAYER = "SELECT player_id id, player_no player_number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
     const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
 

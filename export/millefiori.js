@@ -54,7 +54,7 @@ function (dojo, declare) {
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
-                this.addTokenOnBoard(player_id, 0, 'Harbour', 10);
+                this.addTokenOnBoard(player_id, 0, 'Ocean', 0);
                          
                 // TODO: Setting up players boards if needed
             }
@@ -171,9 +171,10 @@ function (dojo, declare) {
         },
         addTokenOnBoard: function(player, nr, category, id)
         {
-            console.log( "addTokenOnBoard "+ player);
+            console.log( "addTokenOnBoard "+ player+ "color:"+this.gamedatas.players[ player ].color);
             dojo.place( this.format_block( 'jstpl_token0', {
                 player: player,
+                player_number: this.gamedatas.players[ player ].player_number - 1,
                 color: this.gamedatas.players[ player ].color,
                 nr: nr
             } ) , 'tokens' );

@@ -20,6 +20,7 @@
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
 require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
+include_once(__DIR__.'/modules/Ocean.php');
 
 class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterface
 {
@@ -77,12 +78,12 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
  
         // Create players
         // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
-        $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ";
+        $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
         $values = array();
         foreach( $players as $player_id => $player )
         {
             $color = array_shift( $default_colors );
-            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."')";
+            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."','0"."')";
         }
         $sql .= implode( $values, ',' );
         self::DbQuery( $sql );
@@ -139,7 +140,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = "SELECT player_id id, player_score score FROM player ";
+        $sql = NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER;
         $result['players'] = self::getCollectionFromDb( $sql );
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
@@ -150,6 +151,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $result['boardhand'] = $this->cards->getCardsInLocation( 'hand', -1 );
 
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
+
         return $result;
     }
 
