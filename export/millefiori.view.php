@@ -2,7 +2,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * MilleFiori implementation : © <Your name here> <Your email address here>
+ * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -23,7 +23,9 @@
  * Note: if the HTML of your game interface is always the same, you don't have to place anything here.
  *
  */
-  
+include_once(__DIR__.'/modules/PageBuilder.php');
+include_once(__DIR__.'/modules/OceanLayout.php');
+
 require_once( APP_BASE_PATH."view/common/game.view.php" );
   
 class view_millefiori_millefiori extends game_view
@@ -39,6 +41,8 @@ class view_millefiori_millefiori extends game_view
   	    // Get players & players number
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
+        $page_builder = new NieuwenhovenGames\MilleFiori\PageBuilder();
+        $page_builder->setPage($this->page)->addFields(NieuwenhovenGames\MilleFiori\OceanLayout::KEY_CATEGORY, NieuwenhovenGames\MilleFiori\OceanLayout::generateFields())->generateContent();
 
         /*********** Place your code below:  ************/
 
@@ -78,7 +82,7 @@ class view_millefiori_millefiori extends game_view
         }
         
         */
-        $this->page->begin_block( "millefiori_millefiori", "field" );
+//        $this->page->begin_block( "millefiori_millefiori", "field" );
         $this->page->insert_block('field', array (
             'CATEGORY' => 'Harbour',
             'ID' => 10,

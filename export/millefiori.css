@@ -68,8 +68,8 @@
 */
 
 #board {
-    width: 954px;
-    height: 952px;
+    width: 868px;
+    height: 872px;
     background-image: url('img/board.jpg');
     position: relative;
  }
