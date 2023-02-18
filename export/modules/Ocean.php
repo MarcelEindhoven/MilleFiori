@@ -14,12 +14,15 @@ class Ocean {
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
     const RIGHT_EDGE = 52;
+    const NUMBER_FIELDS = 21;
+
+    protected array $playerPositions = array();
 
     public static function generateFields() {
         $fields = array();
-        for ($i = 1; $i <= 21; ++$i) {
+        for ($i = 1; $i <= Ocean::NUMBER_FIELDS; ++$i) {
             $fields[] = array (
-                'ID' => 21 - $i,
+                'ID' => Ocean::NUMBER_FIELDS - $i,
                 'LEFT' => Ocean::RIGHT_EDGE - Ocean::FIELD_WIDTH * $i,
                 'TOP' => Ocean::BOTTOM_TOP
             );
@@ -32,6 +35,32 @@ class Ocean {
             }
         }
         return $fields;
+    }
+
+    public function getPlayerPosition($player) {
+        $this->initialisePlayerPositionIfNeeded($player);
+
+        return $this->playerPositions[$player];
+    }
+
+    public function advancePlayerPosition($player, int $places) : Ocean {
+        $this->initialisePlayerPositionIfNeeded($player);
+
+        $this->playerPositions[$player] += $places;
+
+        if ($this->playerPositions[$player] > Ocean::NUMBER_FIELDS) {
+            $this->playerPositions[$player] = Ocean::NUMBER_FIELDS;
+        }
+
+        return $this;
+    }
+
+    private function initialisePlayerPositionIfNeeded($player) {
+        if (! isset($this->playerPositions[$player])) {
+            $this->playerPositions[$player] = 0;
+        }
+
+        return $this;
     }
 }
 
