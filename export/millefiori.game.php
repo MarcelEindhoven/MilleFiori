@@ -19,8 +19,9 @@
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
+require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
 
-class MilleFiori extends Table
+class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterface
 {
 	function __construct( )
 	{
@@ -43,6 +44,15 @@ class MilleFiori extends Table
         $this->cards = self::getNew( "module.common.deck" );
         $this->cards->init( "card" );
 	}
+
+    // NieuwenhovenGames\BGA\DatabaseInterface
+    public function getObjectList(string $query) : array {
+        return self::getObjectListFromDB($query);
+    }
+
+    public function query(string $query) : void  {
+        self::DbQuery($query);
+    }
 	
     protected function getGameName( )
     {

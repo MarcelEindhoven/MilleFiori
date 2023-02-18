@@ -8,15 +8,33 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
+require_once(__DIR__.'/BGA/DatabaseInterface.php');
+
 class Ocean {
     const KEY_CATEGORY = 'OCEAN';
-    const FIELD_WIDTH = 2.7;
+    const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
     const RIGHT_EDGE = 52;
     const NUMBER_FIELDS = 21;
+    const LEFT_MARGIN = 1.3;
+    const QUERY_PLAYER = "SELECT player_score score, player_color color ocean_position ocean_position FROM player";
+    const QUERY_WHERE = " WHERE player_id=";
+    const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
+
+    protected ?\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase = null;
 
     protected array $playerPositions = array();
+
+    public static function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
+        $ocean = new Ocean();
+        return $ocean->setDatabase($sqlDatabase);
+    }
+
+    public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
+        $this->sqlDatabase = $sqlDatabase;
+        return $this;
+    }
 
     public static function generateFields() {
         $fields = array();
@@ -29,28 +47,30 @@ class Ocean {
         }
         foreach($fields as & $field) {
             $margin = $field['LEFT'];
-            if ($margin < 0) {
-                $field['LEFT'] = 0;
-                $field['TOP'] += $margin * Ocean::FIELD_HEIGHT / Ocean::FIELD_WIDTH;
+            if ($margin < Ocean::LEFT_MARGIN) {
+                $field['LEFT'] = Ocean::LEFT_MARGIN;
+                $field['TOP'] -= (Ocean::LEFT_MARGIN - $margin) * 1.1;
             }
         }
         return $fields;
     }
 
     public function getPlayerPosition($player) {
-        $this->initialisePlayerPositionIfNeeded($player);
+        $list = $this->sqlDatabase->getObjectList(Ocean::QUERY_PLAYER . Ocean::QUERY_WHERE . $player);
 
-        return $this->playerPositions[$player];
+        return $list[0]['ocean_position'];
     }
 
     public function advancePlayerPosition($player, int $places) : Ocean {
-        $this->initialisePlayerPositionIfNeeded($player);
+        $position = $this->getPlayerPosition($player);
 
-        $this->playerPositions[$player] += $places;
+        $position += $places;
 
-        if ($this->playerPositions[$player] > Ocean::NUMBER_FIELDS) {
-            $this->playerPositions[$player] = Ocean::NUMBER_FIELDS;
+        if ($position > Ocean::NUMBER_FIELDS) {
+            $position = Ocean::NUMBER_FIELDS;
         }
+        
+        $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $position . Ocean::QUERY_WHERE . $player);
 
         return $this;
     }

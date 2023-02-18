@@ -11,15 +11,18 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Ocean.php');
 
+include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
+
 class OceanTest extends TestCase{
     public function setup() : void {
-        $this->ocean = new Ocean();
+        $this->mock = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
+        $this->sut = Ocean::create($this->mock);
     }
 
     public function testGenerateFields() {
         // Arrange
         // Act
-        $fields = $this->ocean->generateFields();
+        $fields = $this->sut->generateFields();
         // Assert
         $this->assertCount(21, $fields);
         $this->assertFalse(min(array_column($fields, 'LEFT')) < 0);
@@ -28,32 +31,33 @@ class OceanTest extends TestCase{
 
     public function testPlayerPositionDefaultZero() {
         // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>0]]));
+
         // Act
-        $position = $this->ocean->getPlayerPosition(1);
+        $position = $this->sut->getPlayerPosition(1);
+        
         // Assert
         $this->assertEquals(0, $position);
     }
 
     public function testPlayerPositionAdvancePositionUpdated() {
         // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>5]]));
+        $this->mock->expects($this->exactly(1))->method('query');
         // Act
-        $this->ocean->advancePlayerPosition(2, 5);
+        $this->sut->advancePlayerPosition(2, 5);
         // Assert
-        $this->assertEquals(0, $this->ocean->getPlayerPosition(1));
-        $this->assertEquals(5, $this->ocean->getPlayerPosition(2));
     }
 
     public function testPlayerPositionAdvance25Position21() {
         // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>20]]));
+        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . 21 . Ocean::QUERY_WHERE . 2));
+
         // Act
-        $this->ocean->advancePlayerPosition(2, 5);
-        $this->ocean->advancePlayerPosition(2, 5);
-        $this->ocean->advancePlayerPosition(2, 5);
-        $this->ocean->advancePlayerPosition(2, 5);
-        $this->ocean->advancePlayerPosition(2, 5);
+        $this->sut->advancePlayerPosition(2, 5);
+
         // Assert
-        $this->assertEquals(0, $this->ocean->getPlayerPosition(1));
-        $this->assertEquals(21, $this->ocean->getPlayerPosition(2));
     }
 }
 ?>
