@@ -9,12 +9,12 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../export/modules/OceanLayout.php');
+include_once(__DIR__.'/../export/modules/Ocean.php');
 
-class OceanLayoutTest extends TestCase{
+class OceanTest extends TestCase{
     public function testGenerateFields() {
         // Arrange
-        $layout = new OceanLayout();
+        $layout = new Ocean();
         // Act
         $fields = $layout->generateFields();
         // Assert
