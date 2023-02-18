@@ -87,7 +87,7 @@ class view_millefiori_millefiori extends game_view
             'CATEGORY' => 'Harbour',
             'ID' => 10,
             'LEFT' => 101,
-            'TOP' => 101));
+            'TOP' => 103));
 
 
 

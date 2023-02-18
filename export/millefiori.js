@@ -51,13 +51,13 @@ function (dojo, declare) {
             console.log( "Starting game setup" );
             
             // Setting up player boards
-            for( var player_id in gamedatas.players )
-            {
+            for( var player_id in gamedatas.players ) {
                 var player = gamedatas.players[player_id];
                 this.addTokenOnBoard(player_id, 0, 'Ocean', 0);
                          
                 // TODO: Setting up players boards if needed
             }
+            this.moveShips();
             
             // TODO: Set up your game interface here, according to "gamedatas"
             // Player hand
@@ -143,7 +143,9 @@ function (dojo, declare) {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
             if( this.isCurrentPlayerActive() )
-            {            
+            {           
+                this.moveShips();
+ 
                 switch( stateName )
                 {
 /*               
@@ -169,18 +171,22 @@ function (dojo, declare) {
         getCardUniqueId : function(color, value) {
             return (color - 0) * 13 + (value - 0);
         },
-        addTokenOnBoard: function(player, nr, category, id)
-        {
-            console.log( "addTokenOnBoard "+ player+ "color:"+this.gamedatas.players[ player ].color);
+        addTokenOnBoard: function(player_id, nr, category, id) {
             dojo.place( this.format_block( 'jstpl_token0', {
-                player: player,
-                player_number: this.gamedatas.players[ player ].player_number - 1,
-                color: this.gamedatas.players[ player ].color,
+                player: player_id,
+                player_number: this.gamedatas.players[ player_id ].player_number - 1,
+                color: this.gamedatas.players[ player_id ].color,
                 nr: nr
             } ) , 'tokens' );
             
-            this.placeOnObject( 'token_'+player+'_'+nr, 'overall_player_board_'+player );
-            this.slideToObject( 'token_'+player+'_'+nr, 'field_'+category+'_'+id ).play();
+            this.placeOnObject( 'token_'+player_id+'_'+nr, 'overall_player_board_'+player_id );
+            this.slideToObject( 'token_'+player_id+'_'+nr, 'field_'+category+'_'+id ).play();
+        },
+        moveShips: function() {
+            for( var player_id in this.gamedatas.players ) {
+                var player = this.gamedatas.players[player_id];
+                this.slideToObject( 'token_'+player_id+'_0', 'field_Ocean_'+player.ocean_position).play();
+            }
         },
         onMyHandSelectionChanged: function() {
             var items = this.myhand.getSelectedItems();
