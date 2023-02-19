@@ -202,6 +202,12 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->gamestate->nextState();
         $this->notif_playerHands($current_player_id);
     }
+    function selectField($field_id) {
+        self::checkAction("playCard");
+        self::trace("selectField ". $field_id);
+        $current_player_id = self::getCurrentPlayerId();
+        $this->gamestate->nextState();
+    }
     function notif_playerHands($current_player_id) {
         self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
     }

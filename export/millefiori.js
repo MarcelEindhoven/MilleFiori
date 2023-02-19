@@ -203,6 +203,7 @@ function (dojo, declare) {
             var elements = evt.currentTarget.id.split('_');
             console.log("Category" + elements[1]);
             console.log("ID" + elements[2]);
+            this.selectField(evt.currentTarget.id);
         },
         selectCard: function(card_id) {
             if (this.checkAction('selectCard')) {
@@ -216,6 +217,20 @@ function (dojo, declare) {
                 });
             } else {
                 console.log("not allowed selectCard "+card_id);
+            }
+        },
+        selectField: function(field_id) {
+            if (this.checkAction('playCard')) {
+                console.log("on selectField "+field_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectField' + ".html", {
+                    field_id : field_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectField "+field_id);
             }
         },
         createAndFillHand: function(name, cards) {

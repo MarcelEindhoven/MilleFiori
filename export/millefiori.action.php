@@ -71,6 +71,14 @@
       self::ajaxResponse( );
     }
 
+    function selectField() {
+      self::setAjaxMode();
+
+      $field_id = self::getArg( "field_id", AT_alphanum, true );
+
+      $this->game->selectField($field_id);
+      self::ajaxResponse( );
+    }
   }
   
 
