@@ -93,10 +93,20 @@ $machinestates = array(
         "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 20 )
     ),
     20 => array(
-        "name" => "playerTurn",
+        "name" => "selectPlayCard",
+        "description" => clienttranslate('everyone must select a card'),
+        "descriptionmyturn" => clienttranslate('${you} must select a card'),
+        "type" => "game",
+        "action" => "stSelectPlayCard",
+        "transitions" => array( "" => 21 )
+    ),
+    21 => array(
+        "name" => "playCard",
         "description" => clienttranslate('${actplayer} must play the card'),
         "descriptionmyturn" => clienttranslate('${you} must play the card'),
         "type" => "activeplayer",
+        "action" => "stPlayCard",
+        "args" => "argumentHands",
         "possibleactions" => array( "playCard" ),
         "transitions" => array( "playCard" => 99 )
 ),

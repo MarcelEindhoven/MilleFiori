@@ -66,6 +66,7 @@ function (dojo, declare) {
             this.boardHand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
 
             this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
+            this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -93,7 +94,13 @@ function (dojo, declare) {
                 this.fillHand(this.myhand, args.args.myhand);
                 this.fillHand(this.selectedhand, args.args.selectedhand);
                 break;
-            /* Example:
+            case "playCard":
+                console.log( "Set hands " +  args.args.myhand.length + ", " + args.args.selectedhand.length);
+                this.fillHand(this.myhand, args.args.myhand);
+                this.fillHand(this.selectedhand, args.args.selectedhand);
+                this.fillHand(this.playedhand, args.args.playedhand);
+                break;
+                /* Example:
             
             case 'myGameState':
             
