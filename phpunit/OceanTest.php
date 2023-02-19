@@ -19,6 +19,26 @@ class OceanTest extends TestCase{
         $this->sut = Ocean::create($this->mock);
     }
 
+    public function testSelectableFieldsPlus5ReturnField5() {
+        // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>0]]));
+        // Act
+        $selectableFields = $this->sut->getSelectableFields(2, 5);
+        // Assert
+        $this->assertCount(1, $selectableFields);
+        $this->assertEquals('field_ocean_5', current($selectableFields));
+    }
+
+    public function testSelectableFields20Plus5ReturnField21() {
+        // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>20]]));
+        // Act
+        $selectableFields = $this->sut->getSelectableFields(2, 5);
+        // Assert
+        $this->assertCount(1, $selectableFields);
+        $this->assertEquals('field_ocean_21', current($selectableFields));
+    }
+
     public function testGenerateFields() {
         // Arrange
         // Act

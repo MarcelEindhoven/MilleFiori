@@ -53,7 +53,7 @@ function (dojo, declare) {
             // Setting up player boards
             for( var player_id in gamedatas.players ) {
                 var player = gamedatas.players[player_id];
-                this.addTokenOnBoard(player_id, 0, 'Ocean', 0);
+                this.addTokenOnBoard(player_id, 0, 'ocean', 0);
                          
                 // TODO: Setting up players boards if needed
             }
@@ -70,6 +70,7 @@ function (dojo, declare) {
 
             dojo.connect( this.myhand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
             
+            this.setSelectableFields(this.gamedatas.selectableFields);
 
             console.log( "Ending game setup" );
         },
@@ -140,9 +141,10 @@ function (dojo, declare) {
         {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
+            this.moveShips();
             if( this.isCurrentPlayerActive() )
             {           
-                this.moveShips();
+                console.log( 'onUpdateActionButtons: isCurrentPlayerActive' );
  
                 switch( stateName )
                 {
@@ -170,6 +172,7 @@ function (dojo, declare) {
             return (color - 0) * 13 + (value - 0);
         },
         addTokenOnBoard: function(player_id, nr, category, id) {
+            console.log("addTokenOnBoard "+player_id+" "+nr+" "+category+" "+id);
             dojo.place( this.format_block( 'jstpl_token0', {
                 player: player_id,
                 player_number: this.gamedatas.players[ player_id ].player_number - 1,
@@ -183,7 +186,7 @@ function (dojo, declare) {
         moveShips: function() {
             for( var player_id in this.gamedatas.players ) {
                 var player = this.gamedatas.players[player_id];
-                this.slideToObject( 'token_'+player_id+'_0', 'field_Ocean_'+player.ocean_position).play();
+                this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
             }
         },
         onMyHandSelectionChanged: function() {
@@ -255,41 +258,6 @@ function (dojo, declare) {
         
         */
         
-        /* Example:
-        
-        onMyMethodToCall1: function( evt )
-        {
-            console.log( 'onMyMethodToCall1' );
-            
-            // Preventing default browser reaction
-            dojo.stopEvent( evt );
-
-            // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if( ! this.checkAction( 'myAction' ) )
-            {   return; }
-
-            this.ajaxcall( "/millefiori/millefiori/myAction.html", { 
-                                                                    lock: true, 
-                                                                    myArgument1: arg1, 
-                                                                    myArgument2: arg2,
-                                                                    ...
-                                                                 }, 
-                         this, function( result ) {
-                            
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-                            
-                         }, function( is_error) {
-
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                         } );        
-        },        
-        
-        */
-
-        
         ///////////////////////////////////////////////////
         //// Reaction to cometD notifications
 
@@ -302,7 +270,7 @@ function (dojo, declare) {
                   your millefiori.game.php file.
         
         */
-        notif_playerHands: function( notif ) {
+        notif_playerHands: function(notif) {
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
             this.fillHand(this.myhand, notif.args.myhand);
@@ -310,6 +278,17 @@ function (dojo, declare) {
             this.fillHand(this.selectedhand, notif.args.selectedhand);
             this.fillHand(this.playedhand, notif.args.playedhand);
 
+        },
+        notify_selectableFields: function(notif) {
+            this.setSelectableFields(notif.args.selectableFields);
+        },
+        setSelectableFields: function(selectableFields) {
+            console.log('selectableFields');
+            dojo.query('.selectable').removeClass('selectable');
+            for (var i in selectableFields) {
+                console.log('selectableField '+ selectableFields[i]);
+                dojo.addClass(selectableFields[i], 'selectable');
+            }
         },
         setupNotifications: function() {
             console.log( 'notifications subscriptions setup' );

@@ -113,7 +113,7 @@
 .token3 {
     clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
 }
-.blink {
+.selectable {
     animation: blink-animation 1s steps(5, start) infinite;
     -webkit-animation: blink-animation 1s steps(5, start) infinite;
   }

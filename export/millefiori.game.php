@@ -131,16 +131,20 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         _ when the game starts
         _ when a player refreshes the game page (F5)
     */
-    protected function getAllDatas()
-    {
+    protected function getAllDatas() {
         self::trace( "getAllDatas your message here" );
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
+
         $result = $this->getHands($current_player_id);
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER;
         $result['players'] = self::getCollectionFromDb( $sql );
+
+        $result['selectableFields'] = $this->getSelectableFields();
+        self::trace("selectableFields ". count($result['selectableFields']));
+
   
         return $result;
     }
@@ -187,37 +191,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 //////////////////////////////////////////////////////////////////////////////
 //////////// Player actions
 //////////// 
-
-    /*
-        Each time a player is doing some game action, one of the methods below is called.
-        (note: each method below must match an input method in millefiori.action.php)
-    */
-
-    /*
     
-    Example:
-
-    function playCard( $card_id )
-    {
-        // Check that this is the player's turn and that it is a "possible action" at this game state (see states.inc.php)
-        self::checkAction( 'playCard' ); 
-        
-        $player_id = self::getActivePlayerId();
-        
-        // Add your game logic to play a card there 
-        ...
-        
-        // Notify all players about the card played
-        self::notifyAllPlayers( "cardPlayed", clienttranslate( '${player_name} plays ${card_name}' ), array(
-            'player_id' => $player_id,
-            'player_name' => self::getActivePlayerName(),
-            'card_name' => $card_name,
-            'card_id' => $card_id
-        ) );
-          
-    }
-    
-    */
     function selectCard($card_id) {
         self::checkAction("selectCard");
         $current_player_id = self::getCurrentPlayerId();
@@ -231,6 +205,29 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function notif_playerHands($current_player_id) {
         self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
     }
+    function notify_selectableFields() {
+        $active_player_id = self::getActivePlayerId();
+        self::notifyPlayer($active_player_id, 'selectableFields', '', $this->getSelectableFields());
+    }
+    function getSelectableFields() {
+        $active_player_id = self::getActivePlayerId();
+        self::trace("getSelectableFields ". $active_player_id);
+
+        if (self::getCurrentPlayerId() != $active_player_id) {
+            self::trace("getSelectableFields ". self::getCurrentPlayerId());
+            return [];
+        }
+        $cardBeingPlayed = current($this->cards->getCardsInLocation('playedhand'));
+        if (!$cardBeingPlayed) {
+            self::trace("getSelectableFields !cardBeingPlayed" );
+            return [];
+        }
+        self::trace("cardBeingPlayed".implode(',', $cardBeingPlayed));
+        self::trace("getSelectableFields ". $cardBeingPlayed['type_arg']);
+        $f= NieuwenhovenGames\MilleFiori\Ocean::create($this)->getSelectableFields($active_player_id, $cardBeingPlayed['type_arg']);
+        self::trace("getSelectableFields ". count($f));
+        return $f;
+    }
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments
@@ -242,22 +239,6 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         game state.
     */
 
-    /*
-    
-    Example for game state "MyGameState":
-    
-    function argMyGameState()
-    {
-        // Get some values from the current game situation in database...
-    
-        // return values:
-        return array(
-            'variable1' => $value1,
-            'variable2' => $value2,
-            ...
-        );
-    }    
-    */
     function argumentHands() {
         // Return public information only
         // Get some values from the current game situation in database...
@@ -280,13 +261,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         The action method of state X is called everytime the current game state is set to X.
     */
     
-    /*
-    
-    Example for game state "MyGameState":
-
-    */
     function stNewHand() {
-//        self::trace( "stNewHand" );
+      self::trace("stNewHand");
         // Deal 5 cards to each players
         $players = self::loadPlayersBasicInfos();
         foreach ( $players as $player_id => $player ) {
@@ -320,6 +296,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $active_player_id = self::getActivePlayerId();
         foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
             $this->cards->moveCard($selectedCard['id'], 'playedhand');
+            $this->notify_selectableFields();
         }
         $players = self::loadPlayersBasicInfos();
         foreach ($players as $player_id => $player) {

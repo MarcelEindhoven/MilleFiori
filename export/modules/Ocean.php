@@ -11,7 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class Ocean {
-    const KEY_CATEGORY = 'Ocean';
+    const KEY_CATEGORY = 'ocean';
     const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
@@ -34,6 +34,9 @@ class Ocean {
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
+    }
+    public function getSelectableFields($player, int $places) : array {
+        return ['field_'.Ocean::KEY_CATEGORY.'_'.$this->getNextPlayerPosition($player, $places)];
     }
 
     public static function generateFields() {
@@ -62,6 +65,12 @@ class Ocean {
     }
 
     public function advancePlayerPosition($player, int $places) : Ocean {
+        $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $this->getNextPlayerPosition($player, $places) . Ocean::QUERY_WHERE . $player);
+
+        return $this;
+    }
+
+    private function getNextPlayerPosition($player, int $places) : int {
         $position = $this->getPlayerPosition($player);
 
         $position += $places;
@@ -70,9 +79,7 @@ class Ocean {
             $position = Ocean::NUMBER_FIELDS;
         }
         
-        $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $position . Ocean::QUERY_WHERE . $player);
-
-        return $this;
+        return $position;
     }
 
     private function initialisePlayerPositionIfNeeded($player) {
