@@ -206,6 +206,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
         $current_player_id = self::getCurrentPlayerId();
+
         $this->gamestate->nextState();
     }
     function notif_playerHands($current_player_id) {
@@ -213,6 +214,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     function notify_selectableFields() {
         $active_player_id = self::getActivePlayerId();
+        self::trace("notify_selectableFields ". $active_player_id);
         self::notifyPlayer($active_player_id, 'selectableFields', '', $this->getSelectableFields());
     }
     function getSelectableFields() {
@@ -299,6 +301,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     function stSelectPlayCard() {
         self::trace( "stSelectPlayCard" );
+
+        $this->activeNextPlayer();
+
         $active_player_id = self::getActivePlayerId();
         foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
             $this->cards->moveCard($selectedCard['id'], 'playedhand');
@@ -308,7 +313,6 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         foreach ($players as $player_id => $player) {
             $this->notif_playerHands($player_id);
         }
-
 
         $this->gamestate->nextState();
     }

@@ -108,7 +108,7 @@ $machinestates = array(
         "action" => "stPlayCard",
         "args" => "argumentHands",
         "possibleactions" => array( "playCard" ),
-        "transitions" => array( "playCard" => 99 )
+        "transitions" => array( "playCard" => 20 )
 ),
 
 /*
