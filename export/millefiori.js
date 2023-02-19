@@ -198,6 +198,12 @@ function (dojo, declare) {
             }
             this.myhand.unselectAll();
         },
+        onSelectField: function( evt ) {
+            dojo.stopEvent( evt );
+            var elements = evt.currentTarget.id.split('_');
+            console.log("Category" + elements[1]);
+            console.log("ID" + elements[2]);
+        },
         selectCard: function(card_id) {
             if (this.checkAction('selectCard')) {
                 console.log("on selectCard "+card_id);
@@ -289,6 +295,7 @@ function (dojo, declare) {
                 console.log('selectableField '+ selectableFields[i]);
                 dojo.addClass(selectableFields[i], 'selectable');
             }
+            dojo.query('.selectable').connect('onclick', this, 'onSelectField');
         },
         setupNotifications: function() {
             console.log( 'notifications subscriptions setup' );
