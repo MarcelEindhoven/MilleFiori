@@ -134,23 +134,23 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     protected function getAllDatas()
     {
         self::trace( "getAllDatas your message here" );
-        $result = array();
-    
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
+        $result = $this->getHands($current_player_id);
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER;
         $result['players'] = self::getCollectionFromDb( $sql );
   
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
-        // Cards in player hand
-        $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $current_player_id );
+        return $result;
+    }
+    protected function getHands($player_id) {
+        $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
+        $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
-        $result['boardhand'] = $this->cards->getCardsInLocation( 'hand', -1 );
+        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
 
-        $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
         return $result;
@@ -226,9 +226,10 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         }
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
         $this->gamestate->nextState();
-        $result = array();
-        $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $current_player_id );
-        return $result;
+        $this->notif_playerHands($current_player_id);
+    }
+    function notif_playerHands($current_player_id) {
+        self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
     }
     
 //////////////////////////////////////////////////////////////////////////////
@@ -264,6 +265,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         // return values:
         $current_player_id = self::getCurrentPlayerId();
         return array(
+            'boardhand' => $this->cards->getCardsInLocation('hand', -1),
             'playedhand' => $this->cards->getCardsInLocation('playedhand'),
         );
         return array ();
@@ -319,6 +321,12 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
             $this->cards->moveCard($selectedCard['id'], 'playedhand');
         }
+        $players = self::loadPlayersBasicInfos();
+        foreach ($players as $player_id => $player) {
+            $this->notif_playerHands($player_id);
+        }
+
+
         $this->gamestate->nextState();
     }
     function stPlayCard() {

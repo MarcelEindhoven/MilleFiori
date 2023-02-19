@@ -59,12 +59,9 @@ function (dojo, declare) {
             }
             this.moveShips();
             
-            // TODO: Set up your game interface here, according to "gamedatas"
             // Player hand
             this.myhand = this.createAndFillHand('myhand', this.gamedatas.myhand);
-            
             this.boardHand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
-
             this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
             this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
 
@@ -91,8 +88,9 @@ function (dojo, declare) {
             {
             case "selectedCard":
             case "playCard":
+                //this.fillHand(this.boardhand, args.args.boardhand);
                 this.fillHand(this.playedhand, args.args.playedhand);
-                break;
+                    break;
                 /* Example:
             
             case 'myGameState':
@@ -304,8 +302,16 @@ function (dojo, declare) {
                   your millefiori.game.php file.
         
         */
-        setupNotifications: function()
-        {
+        notif_playerHands: function( notif ) {
+            // Get the color of the player who is returning the discs
+            //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
+            this.fillHand(this.myhand, notif.args.myhand);
+            //this.fillHand(this.boardhand, notif.args.boardhand);
+            this.fillHand(this.selectedhand, notif.args.selectedhand);
+            this.fillHand(this.playedhand, notif.args.playedhand);
+
+        },
+        setupNotifications: function() {
             console.log( 'notifications subscriptions setup' );
             
             // TODO: here, associate your game notifications with local methods
@@ -319,7 +325,8 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
-        },  
+            dojo.subscribe( 'playerHands', this, "notif_playerHands" );
+            this.notifqueue.setSynchronous( 'playerHands', 500 );        },  
         
         // TODO: from this point and below, you can write your game notifications handling methods
         
