@@ -258,13 +258,12 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }    
     */
     function argumentHands() {
+        // Return public information only
         // Get some values from the current game situation in database...
     
         // return values:
         $current_player_id = self::getCurrentPlayerId();
         return array(
-            'selectedhand' => $this->cards->getCardsInLocation('selectedhand', self::getCurrentPlayerId()),
-            'myhand' => $this->cards->getCardsInLocation('hand', self::getCurrentPlayerId()),
             'playedhand' => $this->cards->getCardsInLocation('playedhand'),
         );
         return array ();
