@@ -214,6 +214,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             $this->cards->moveCard($playedCard['id'], 'hand', -2);
         }
 
+        $this->notify_selectableFields();
 
         $this->gamestate->nextState();
     }
