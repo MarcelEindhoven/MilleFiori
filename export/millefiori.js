@@ -163,6 +163,22 @@ function (dojo, declare) {
                 }
             }
         },        
+        onMyHandSelectionChanged: function() {
+            var items = this.myhand.getSelectedItems();
+
+            if (items.length > 0) {
+                var card_id = items[0].id;
+                this.selectCard(card_id);
+            }
+            this.myhand.unselectAll();
+        },
+        onSelectField: function( evt ) {
+            dojo.stopEvent( evt );
+            var elements = evt.currentTarget.id.split('_');
+            console.log("Category" + elements[1]);
+            console.log("ID" + elements[2]);
+            this.selectField(evt.currentTarget.id);
+        },
 
         ///////////////////////////////////////////////////
         //// Utility methods
@@ -187,50 +203,6 @@ function (dojo, declare) {
             for( var player_id in this.gamedatas.players ) {
                 var player = this.gamedatas.players[player_id];
                 this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
-            }
-        },
-        onMyHandSelectionChanged: function() {
-            var items = this.myhand.getSelectedItems();
-
-            if (items.length > 0) {
-                var card_id = items[0].id;
-                this.selectCard(card_id);
-            }
-            this.myhand.unselectAll();
-        },
-        onSelectField: function( evt ) {
-            dojo.stopEvent( evt );
-            var elements = evt.currentTarget.id.split('_');
-            console.log("Category" + elements[1]);
-            console.log("ID" + elements[2]);
-            this.selectField(evt.currentTarget.id);
-        },
-        selectCard: function(card_id) {
-            if (this.checkAction('selectCard')) {
-                console.log("on selectCard "+card_id);
-
-                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
-                    card_id : card_id,
-                    lock : true
-                }, this, function(result) {
-                }, function(is_error) {
-                });
-            } else {
-                console.log("not allowed selectCard "+card_id);
-            }
-        },
-        selectField: function(field_id) {
-            if (this.checkAction('playCard')) {
-                console.log("on selectField "+field_id);
-
-                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectField' + ".html", {
-                    field_id : field_id,
-                    lock : true
-                }, this, function(result) {
-                }, function(is_error) {
-                });
-            } else {
-                console.log("not allowed selectField "+field_id);
             }
         },
         createAndFillHand: function(name, cards) {
@@ -278,7 +250,35 @@ function (dojo, declare) {
             _ make a call to the game server
         
         */
-        
+        selectCard: function(card_id) {
+            if (this.checkAction('selectCard')) {
+                console.log("on selectCard "+card_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectCard' + ".html", {
+                    card_id : card_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectCard "+card_id);
+            }
+        },
+        selectField: function(field_id) {
+            if (this.checkAction('playCard')) {
+                console.log("on selectField "+field_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectField' + ".html", {
+                    field_id : field_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectField "+field_id);
+            }
+        },
+            
         ///////////////////////////////////////////////////
         //// Reaction to cometD notifications
 
@@ -291,6 +291,26 @@ function (dojo, declare) {
                   your millefiori.game.php file.
         
         */
+        setupNotifications: function() {
+            console.log( 'notifications subscriptions setup' );
+            
+            // TODO: here, associate your game notifications with local methods
+            
+            // Example 1: standard notification handling
+            // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+            
+            // Example 2: standard notification handling + tell the user interface to wait
+            //            during 3 seconds after calling the method in order to let the players
+            //            see what is happening in the game.
+            // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+            // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
+            // 
+            dojo.subscribe( 'playerHands', this, "notif_playerHands" );
+            this.notifqueue.setSynchronous( 'playerHands', 500 );  
+        
+            dojo.subscribe( 'selectableFields', this, "notify_selectableFields" );
+            this.notifqueue.setSynchronous( 'selectableFields', 500 );
+        },  
         notif_playerHands: function(notif) {
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
@@ -312,25 +332,5 @@ function (dojo, declare) {
             }
             dojo.query('.selectable').connect('onclick', this, 'onSelectField');
         },
-        setupNotifications: function() {
-            console.log( 'notifications subscriptions setup' );
-            
-            // TODO: here, associate your game notifications with local methods
-            
-            // Example 1: standard notification handling
-            // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
-            
-            // Example 2: standard notification handling + tell the user interface to wait
-            //            during 3 seconds after calling the method in order to let the players
-            //            see what is happening in the game.
-            // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
-            // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
-            // 
-            dojo.subscribe( 'playerHands', this, "notif_playerHands" );
-            this.notifqueue.setSynchronous( 'playerHands', 500 );  
-        
-            dojo.subscribe( 'selectableFields', this, "notify_selectableFields" );
-            this.notifqueue.setSynchronous( 'selectableFields', 500 );
-        },  
    });             
 });
