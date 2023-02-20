@@ -327,23 +327,10 @@ function (dojo, declare) {
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
             dojo.subscribe( 'playerHands', this, "notif_playerHands" );
-            this.notifqueue.setSynchronous( 'playerHands', 500 );        },  
+            this.notifqueue.setSynchronous( 'playerHands', 500 );  
         
-        // TODO: from this point and below, you can write your game notifications handling methods
-        
-        /*
-        Example:
-        
-        notif_cardPlayed: function( notif )
-        {
-            console.log( 'notif_cardPlayed' );
-            console.log( notif );
-            
-            // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
-            
-            // TODO: play the card in the user interface.
-        },    
-        
-        */
+            dojo.subscribe( 'selectableFields', this, "notify_selectableFields" );
+            this.notifqueue.setSynchronous( 'selectableFields', 500 );
+        },  
    });             
 });
