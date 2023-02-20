@@ -44,6 +44,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         ) );        
         $this->cards = self::getNew( "module.common.deck" );
         $this->cards->init( "card" );
+
+        // Limit game for integration testing
+        $this->handSize = 1;
 	}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
@@ -279,7 +282,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         // Deal 5 cards to each players
         $players = self::loadPlayersBasicInfos();
         foreach ( $players as $player_id => $player ) {
-            $cards = $this->cards->pickCards(2, 'deck', $player_id);
+            $cards = $this->cards->pickCards($this->handSize, 'deck', $player_id);
         }
 
         $this->gamestate->nextState( 'handDealt' );
@@ -319,7 +322,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             $this->notif_playerHands($player_id);
         }
 
-        $this->gamestate->nextState();
+        $this->gamestate->nextState('turnBusy');
     }
     function stPlayCard() {
         self::trace( "stPlayCard" );
