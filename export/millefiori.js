@@ -49,21 +49,13 @@ function (dojo, declare) {
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
-            
-            // Setting up player boards
-            for( var player_id in gamedatas.players ) {
-                var player = gamedatas.players[player_id];
-                this.addTokenOnBoard(player_id, 0, 'ocean', 0);
-                         
-                // TODO: Setting up players boards if needed
-            }
+
+            // TODO: Setting up players boards if needed
+
+            this.createShips(gamedatas);
             this.moveShips();
             
-            // Player hand
-            this.myhand = this.createAndFillHand('myhand', this.gamedatas.myhand);
-            this.boardHand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
-            this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
-            this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
+            this.createAndFillHands(gamedatas);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -73,6 +65,18 @@ function (dojo, declare) {
             this.setSelectableFields(this.gamedatas.selectableFields);
 
             console.log( "Ending game setup" );
+        },
+        createShips: function( gamedatas ) {
+            for( var player_id in gamedatas.players ) {
+                var player = gamedatas.players[player_id];
+                this.addTokenOnBoard(player_id, 0, 'ocean', 0);
+            }            
+        },
+        createAndFillHands: function( gamedatas ) {
+            this.myhand = this.createAndFillHand('myhand', this.gamedatas.myhand);
+            this.boardhand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
+            this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
+            this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
         },
 
         ///////////////////////////////////////////////////

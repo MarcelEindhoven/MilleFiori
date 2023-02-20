@@ -327,6 +327,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     function stPlayCard() {
         self::trace( "stPlayCard" );
+        $this->notify_selectableFields();
     }
       
 
