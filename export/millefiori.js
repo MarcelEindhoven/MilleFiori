@@ -29,8 +29,8 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
-            this.cardwidth = 72;
-            this.cardheight = 96;
+            this.cardwidth = 100;
+            this.cardheight = 150;
         },
         
         /*
@@ -169,7 +169,7 @@ function (dojo, declare) {
         
         // Get card unique identifier based on its color and value
         getCardUniqueId : function(color, value) {
-            return (color - 0) * 13 + (value - 0);
+            return (color - 0) * 9 + (value - 0);
         },
         addTokenOnBoard: function(player_id, nr, category, id) {
             console.log("addTokenOnBoard "+player_id+" "+nr+" "+category+" "+id);
@@ -239,14 +239,14 @@ function (dojo, declare) {
         createHand: function(name) {
             myhand = new ebg.stock(); // new stock object for hand
             myhand.create( this, $(name), this.cardwidth, this.cardheight );
-            myhand.image_items_per_row = 13; // 13 images per row
+            myhand.image_items_per_row = 9; // 13 images per row
 
             // Create cards types:
-            for (var color = 0; color <= 3; color++) {
-                for (var value = 0; value <= 12; value++) {
+            for (var color = 0; color < 13; color++) {
+                for (var value = 0; value < 9; value++) {
                     // Build card type id
                     var card_type_id = this.getCardUniqueId(color, value);
-                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
+                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/alle_kaarten.png', card_type_id);
                 }
             }
 

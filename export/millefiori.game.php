@@ -103,9 +103,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         // TODO: setup the initial game situation here
         // Create cards
         $cards = array ();
-        foreach ( [0, 1, 2, 3] as $color_id => $color ) {
+        for ($color_id = 0;  $color_id < 13; $color_id++ ) {
             // spade, heart, diamond, club
-            for ($value = 0; $value <= 12; $value ++) {
+            for ($value = 0; $value <9; $value ++) {
                 //  2, 3, 4, ... K, A
                 $cards [] = array ('type' => $color_id,'type_arg' => $value,'nbr' => 1 );
             }
