@@ -139,7 +139,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $result = $this->getHands($current_player_id);
-    
+        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
+
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER;
@@ -156,7 +157,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
-        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
+        // $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
 
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
@@ -189,6 +190,23 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         In this space, you can put any utility methods useful for your game logic
     */
 
+    function moveFromHandToSelected($card_id) {
+        $current_player_id = self::getCurrentPlayerId();
+        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
+            $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
+        }
+        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
+        $this->notif_playerHands($current_player_id);
+    }
+    function removeFromPlayedHand() {
+        foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
+            $this->cards->moveCard($playedCard['id'], 'hand', -2);
+        }
+
+        $result = array();
+        $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
+        self::notifyPlayer($current_player_id, 'playerHands', $result);
+    }
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -197,22 +215,16 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     
     function selectCard($card_id) {
         self::checkAction("selectCard");
-        $current_player_id = self::getCurrentPlayerId();
-        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
-        }
-        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
+
+        $this->moveFromHandToSelected($card_id);
+
         $this->gamestate->nextState();
-        $this->notif_playerHands($current_player_id);
     }
     function selectField($field_id) {
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
-        $current_player_id = self::getCurrentPlayerId();
 
-        foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
-            $this->cards->moveCard($playedCard['id'], 'hand', -2);
-        }
+        $this->removeFromPlayedHand();
 
         $this->notify_selectableFields();
 
