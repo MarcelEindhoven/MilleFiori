@@ -12,6 +12,7 @@ require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class Ocean {
     const KEY_CATEGORY = 'ocean';
+    const KEY_PLAYER = 'ocean_position';
     const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
@@ -33,6 +34,10 @@ class Ocean {
 
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
+        $list = $sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
+        foreach ($list as $player_id => $player) {
+            $this->playerPositions[$player_id] = $player[Ocean::KEY_PLAYER];
+        }
         return $this;
     }
     public function getSelectableFields($player, int $places) : array {
@@ -59,9 +64,10 @@ class Ocean {
     }
 
     public function getPlayerPosition($player) {
-        $list = $this->sqlDatabase->getObjectList(Ocean::QUERY_PLAYER . Ocean::QUERY_WHERE . $player);
+        // . Ocean::QUERY_WHERE . $player);
 
-        return $list[0]['ocean_position'];
+        //return $list[0]['ocean_position'];
+        return $this->playerPositions[$player];
     }
 
     public function advancePlayerPosition($player, int $places) : Ocean {

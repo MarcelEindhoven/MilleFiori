@@ -16,12 +16,27 @@ include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
 class OceanTest extends TestCase{
     public function setup() : void {
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
+    }
+    public function arrange($player_id, $player_position) {
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue(
+            [$player_id => ['ocean_position'=> $player_position], 
+            $player_id + 1 => ['ocean_position'=>0]]));
         $this->sut = Ocean::create($this->mock);
+    }
+    
+    public function testGenerateFields() {
+        // Arrange
+        // Act
+        $fields = Ocean::create($this->mock)->generateFields();
+        // Assert
+        $this->assertCount(21, $fields);
+        $this->assertFalse(min(array_column($fields, 'LEFT')) < 0);
+        //$this->assertEqualsCanonicalizing();
     }
 
     public function testSelectableFieldsPlus5ReturnField5() {
         // Arrange
-        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>0]]));
+        $this->arrange(2, 0);
         // Act
         $selectableFields = $this->sut->getSelectableFields(2, 5);
         // Assert
@@ -31,7 +46,7 @@ class OceanTest extends TestCase{
 
     public function testSelectableFields20Plus5ReturnField21() {
         // Arrange
-        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>20]]));
+        $this->arrange(2, 20);
         // Act
         $selectableFields = $this->sut->getSelectableFields(2, 5);
         // Assert
@@ -39,19 +54,9 @@ class OceanTest extends TestCase{
         $this->assertEquals('field_ocean_21', current($selectableFields));
     }
 
-    public function testGenerateFields() {
-        // Arrange
-        // Act
-        $fields = $this->sut->generateFields();
-        // Assert
-        $this->assertCount(21, $fields);
-        $this->assertFalse(min(array_column($fields, 'LEFT')) < 0);
-        //$this->assertEqualsCanonicalizing();
-    }
-
     public function testPlayerPositionDefaultZero() {
         // Arrange
-        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>0]]));
+        $this->arrange(0, 0);
 
         // Act
         $position = $this->sut->getPlayerPosition(1);
@@ -62,7 +67,7 @@ class OceanTest extends TestCase{
 
     public function testPlayerPositionAdvancePositionUpdated() {
         // Arrange
-        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>5]]));
+        $this->arrange(2, 5);
         $this->mock->expects($this->exactly(1))->method('query');
         // Act
         $this->sut->advancePlayerPosition(2, 5);
@@ -71,7 +76,7 @@ class OceanTest extends TestCase{
 
     public function testPlayerPositionAdvance25Position21() {
         // Arrange
-        $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue([['ocean_position'=>20]]));
+        $this->arrange(2, 20);
         $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . 21 . Ocean::QUERY_WHERE . 2));
 
         // Act
