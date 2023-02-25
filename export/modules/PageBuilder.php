@@ -12,6 +12,7 @@ class PageBuilder {
     const PAGE_NAME = 'millefiori_millefiori';
     const FIELD_BLOCK = 'field';
     const KEY_CATEGORY = 'CATEGORY';
+    const KEY_FIELD_ID = 'ID';
     const WIDTH_PIXELS = 868;
     const HEIGHT_PIXELS = 872;
     const WIDTH_CM = 52;
@@ -23,9 +24,22 @@ class PageBuilder {
         return $this;
     }
 
+    static public function completeIDs(string $category, array $ids) : array {
+        $completeIDs = [];
+        foreach ($ids as $id) {
+            $completeIDs[] = PageBuilder::completeID($category, $id);
+        }
+        return $completeIDs;
+    }
+
+    static public function completeID(string $category, string $id) : string {
+        return PageBuilder::FIELD_BLOCK . '_' . $category . '_' . $id;
+    }
+
     public function addFields(string $category, array $fields) : PageBuilder {
         foreach($fields as $field) {
             $field[PageBuilder::KEY_CATEGORY] = $category;
+            //$field[PageBuilder::KEY_FIELD_ID] = PageBuilder::completeID($category, $field[PageBuilder::KEY_FIELD_ID]);
             $this->fields[] = $field;
         }
         return $this;

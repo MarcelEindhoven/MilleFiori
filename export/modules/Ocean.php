@@ -36,12 +36,12 @@ class Ocean {
         $this->sqlDatabase = $sqlDatabase;
         $list = $sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
         foreach ($list as $player_id => $player) {
-            $this->playerPositions[$player_id] = $player[Ocean::KEY_PLAYER];
+            $this->playerPositions[$player['id']] = $player[Ocean::KEY_PLAYER];
         }
         return $this;
     }
     public function getSelectableFields($player, int $places) : array {
-        return ['field_'.Ocean::KEY_CATEGORY.'_'.$this->getNextPlayerPosition($player, $places)];
+        return [$this->getNextPlayerPosition($player, $places)];
     }
 
     public static function generateFields() {
@@ -64,9 +64,6 @@ class Ocean {
     }
 
     public function getPlayerPosition($player) {
-        // . Ocean::QUERY_WHERE . $player);
-
-        //return $list[0]['ocean_position'];
         return $this->playerPositions[$player];
     }
 

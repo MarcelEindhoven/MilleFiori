@@ -41,7 +41,7 @@ class OceanTest extends TestCase{
         $selectableFields = $this->sut->getSelectableFields(2, 5);
         // Assert
         $this->assertCount(1, $selectableFields);
-        $this->assertEquals('field_ocean_5', current($selectableFields));
+        $this->assertEquals('5', current($selectableFields));
     }
 
     public function testSelectableFields20Plus5ReturnField21() {
@@ -51,7 +51,7 @@ class OceanTest extends TestCase{
         $selectableFields = $this->sut->getSelectableFields(2, 5);
         // Assert
         $this->assertCount(1, $selectableFields);
-        $this->assertEquals('field_ocean_21', current($selectableFields));
+        $this->assertEquals('21', current($selectableFields));
     }
 
     public function testPlayerPositionDefaultZero() {
