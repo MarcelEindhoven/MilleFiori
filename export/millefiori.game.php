@@ -146,6 +146,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     */
     protected function getAllDatas() {
         self::trace( "getAllDatas your message here" );
+
+        $this->initialiseHelperClassesIfNeeded();
+
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $result = $this->getHands($current_player_id);
@@ -153,13 +156,15 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER;
-        $result['players'] = self::getCollectionFromDb( $sql );
+        $result['players'] = $this->getPlayerData();
 
         $result['selectableFields'] = $this->getSelectableFields($current_player_id);
         self::trace("selectableFields ". count($result['selectableFields']));
 
         return $result;
+    }
+    protected function getPlayerData(): array {
+        return self::getCollectionFromDb(NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER);
     }
     protected function getHands($player_id) {
         $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
@@ -220,6 +225,19 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             $this->notif_playerHands($player_id);
         }
     }
+    function notify_shipMoved() {
+        self::trace("notify_shipMoved ". count($this->getPlayerData()));
+
+        $this->notifyAllPlayers('shipMoved', '', ['players' => $this->getPlayerData()]);
+    }
+    function notif_playerHands($current_player_id) {
+        self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
+    }
+    function notify_selectableFields() {
+        $active_player_id = self::getActivePlayerId();
+        self::trace("notify_selectableFields ". $active_player_id);
+        self::notifyPlayer($active_player_id, 'selectableFields', '', ['selectableFields' => $this->getSelectableFields($active_player_id)]);
+    }
 
     function moveFromSelectedToPlayed() {
         $this->initialiseHelperClassesIfNeeded();
@@ -254,19 +272,12 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         $active_player_id = self::getActivePlayerId();
         $this->ocean->setPlayerPosition($active_player_id, +$this->fields->getID($field_id));
+        $this->notify_shipMoved();
 
         $this->removeFromPlayedHand();
         self::notifyPlayer($active_player_id, 'selectableFields', '', []);
 
         $this->gamestate->nextState();
-    }
-    function notif_playerHands($current_player_id) {
-        self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
-    }
-    function notify_selectableFields() {
-        $active_player_id = self::getActivePlayerId();
-        self::trace("notify_selectableFields ". $active_player_id);
-        self::notifyPlayer($active_player_id, 'selectableFields', '', ['selectableFields' => $this->getSelectableFields($active_player_id)]);
     }
     function getSelectableFields($player_id) {
         $active_player_id = self::getActivePlayerId();

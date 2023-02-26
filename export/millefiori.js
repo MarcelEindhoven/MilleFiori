@@ -311,20 +311,36 @@ function (dojo, declare) {
             // 
             dojo.subscribe( 'playerHands', this, "notif_playerHands" );
             this.notifqueue.setSynchronous( 'playerHands', 500 );  
-        
+
             dojo.subscribe( 'selectableFields', this, "notify_selectableFields" );
             this.notifqueue.setSynchronous( 'selectableFields', 500 );
+
+            dojo.subscribe( 'shipMoved', this, "notify_shipMoved" );
+            this.notifqueue.setSynchronous( 'shipMoved', 500 );
         },  
         notif_playerHands: function(notif) {
+            console.log('notif_playerHands');
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
-            this.fillHand(this.myhand, notif.args.myhand);
-            //this.fillHand(this.boardhand, notif.args.boardhand);
-            this.fillHand(this.selectedhand, notif.args.selectedhand);
-            this.fillHand(this.playedhand, notif.args.playedhand);
+            if (undefined != notif.args.myhand) {
+                this.fillHand(this.myhand, notif.args.myhand);
+            }
+            if (undefined != notif.args.selectedhand) {
+                this.fillHand(this.selectedhand, notif.args.selectedhand);
+            }
+            if (undefined != notif.args.playedhand) {
+                this.fillHand(this.playedhand, notif.args.playedhand);
+            }
+        },
+        notify_shipMoved: function(notif) {
+            console.log('notify_shipMoved ' + notif.args.players.length);
 
+            this.gamedatas.players = notif.args.players;
+
+            this.moveShips();
         },
         notify_selectableFields: function(notif) {
+            console.log('notify_selectableFields');
             this.setSelectableFields(notif.args.selectableFields);
         },
         setSelectableFields: function(selectableFields) {
