@@ -73,8 +73,11 @@ class Ocean {
         return $this->playerPositions[$player];
     }
 
-    public function advancePlayerPosition($player, int $places) : Ocean {
-        $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $this->getNextPlayerPosition($player, $places) . Ocean::QUERY_WHERE . $player);
+    public function setPlayerPosition($player, int $places) : Ocean {
+        if ($places > $this->getPlayerPosition($player)) {
+            $this->playerPositions[$player] = $places;
+            $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $places . Ocean::QUERY_WHERE . $player);
+        }
 
         return $this;
     }
@@ -89,14 +92,6 @@ class Ocean {
         }
         
         return $position;
-    }
-
-    private function initialisePlayerPositionIfNeeded($player) {
-        if (! isset($this->playerPositions[$player])) {
-            $this->playerPositions[$player] = 0;
-        }
-
-        return $this;
     }
 }
 

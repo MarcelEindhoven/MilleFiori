@@ -65,24 +65,38 @@ class OceanTest extends TestCase{
         $this->assertEquals(0, $position);
     }
 
-    public function testPlayerPositionAdvancePositionUpdated() {
+    public function testPlayerPositionSetSamePositionNotUpdated() {
         // Arrange
-        $this->arrange(2, 5);
-        $this->mock->expects($this->exactly(1))->method('query');
+        $player_id = 2;
+        $this->arrange($player_id, 5);
+        $this->mock->expects($this->exactly(0))->method('query');
         // Act
-        $this->sut->advancePlayerPosition(2, 5);
+        $this->sut->setPlayerPosition($player_id, 5);
         // Assert
+        $this->assertEquals(5, $this->sut->getPlayerPosition($player_id));
     }
 
-    public function testPlayerPositionAdvance25Position21() {
+    public function testPlayerPositionSetPreviousPositionNotUpdated() {
         // Arrange
-        $this->arrange(2, 20);
-        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . 21 . Ocean::QUERY_WHERE . 2));
-
+        $player_id = 2;
+        $this->arrange($player_id, 5);
+        $this->mock->expects($this->exactly(0))->method('query');
         // Act
-        $this->sut->advancePlayerPosition(2, 5);
-
+        $this->sut->setPlayerPosition($player_id, 4);
         // Assert
+        $this->assertEquals(5, $this->sut->getPlayerPosition($player_id));
+    }
+
+    public function testPlayerPositionSetDifferentPositionUpdated() {
+        // Arrange
+        $player_id = 2;
+        $position = 6;
+        $this->arrange($player_id, 5);
+        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . $position . Ocean::QUERY_WHERE . $player_id));
+        // Act
+        $this->sut->setPlayerPosition($player_id, $position);
+        // Assert
+        $this->assertEquals($position, $this->sut->getPlayerPosition($player_id));
     }
 }
 ?>
