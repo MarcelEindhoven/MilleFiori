@@ -21,7 +21,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
 require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
 include_once(__DIR__.'/modules/Ocean.php');
-include_once(__DIR__.'/modules/PageBuilder.php');
+include_once(__DIR__.'/modules/Fields.php');
 
 class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterface
 {
@@ -121,9 +121,18 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
+
+        $this->initialiseHelperClassesIfNeeded();
+
         $this->activeNextPlayer();
 
         /************ End of the game initialization *****/
+    }
+    protected function initialiseHelperClassesIfNeeded() {
+        if (!property_exists($this, 'ocean')) {
+            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
+            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
+        }
     }
 
     /*
@@ -213,11 +222,13 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
 
     function moveFromSelectedToPlayed() {
+        $this->initialiseHelperClassesIfNeeded();
+
         $active_player_id = self::getActivePlayerId();
         foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
             $this->cards->moveCard($selectedCard['id'], 'playedhand');
             self::notifyPlayer($active_player_id, 'selectableFields', '', 
-                NieuwenhovenGames\MilleFiori\Ocean::create($this)->getSelectableFields($active_player_id, $selectedCard['type_arg'])
+                $this->ocean->getSelectableFields($active_player_id, $selectedCard['type_arg'])
             );
         }
 
@@ -239,8 +250,11 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
 
+        $active_player_id = self::getActivePlayerId();
+        // $this->ocean->setPlayerPosition($active_player_id, $position);
+
         $this->removeFromPlayedHand();
-        self::notifyPlayer(self::getActivePlayerId(), 'selectableFields', '', []);
+        self::notifyPlayer($active_player_id, 'selectableFields', '', []);
 
         $this->gamestate->nextState();
     }
@@ -267,8 +281,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         }
         self::trace("cardBeingPlayed".implode(',', $cardBeingPlayed));
         self::trace("getSelectableFields ". $cardBeingPlayed['type_arg']);
-        $f= NieuwenhovenGames\MilleFiori\PageBuilder::completeIDs(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY,
-        NieuwenhovenGames\MilleFiori\Ocean::create($this)->getSelectableFields($active_player_id, $cardBeingPlayed['type_arg']));
+        $f = $this->fields->completeIDs(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY,
+        $this->ocean->getSelectableFields($active_player_id, $cardBeingPlayed['type_arg']));
         self::trace("getSelectableFields ". count($f));
         return $f;
     }

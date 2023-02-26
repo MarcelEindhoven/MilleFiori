@@ -36,27 +36,6 @@ class PageBuilderTest extends TestCase{
         // Assert
     }
 
-    public function testCompleteIDsEmptyListReturnsEmptyList() {
-        // Arrange
-        $sut = new PageBuilder();
-        $category = 'Category';
-        // Act
-        $ids = $sut->completeIDs($category, []);
-        // Assert
-        $this->assertEquals([], $ids);
-    }
-
-    public function testCompleteIDsListReturnsCompletedList() {
-        // Arrange
-        $sut = new PageBuilder();
-        $category = 'Category';
-        $expectedList = [PageBuilder::FIELD_BLOCK . '_' . $category . '_' . 'ID1', PageBuilder::FIELD_BLOCK . '_' . $category . '_'];
-        // Act
-        $ids = $sut->completeIDs($category, ['ID1', '']);
-        // Assert
-        $this->assertEquals($expectedList, $ids);
-    }
-
     public function testSingleFieldHeaderPlusInsert() {
         // Arrange
         $left_cm = 15;

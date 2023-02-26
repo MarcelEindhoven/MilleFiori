@@ -24,18 +24,6 @@ class PageBuilder {
         return $this;
     }
 
-    static public function completeIDs(string $category, array $ids) : array {
-        $completeIDs = [];
-        foreach ($ids as $id) {
-            $completeIDs[] = PageBuilder::completeID($category, $id);
-        }
-        return $completeIDs;
-    }
-
-    static public function completeID(string $category, string $id) : string {
-        return PageBuilder::FIELD_BLOCK . '_' . $category . '_' . $id;
-    }
-
     public function addFields(string $category, array $fields) : PageBuilder {
         foreach($fields as $field) {
             $field[PageBuilder::KEY_CATEGORY] = $category;
