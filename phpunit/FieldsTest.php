@@ -22,6 +22,16 @@ class FieldsTest extends TestCase{
         $this->category = 'Category';
     }
 
+    public function testAnalyseFieldGetID() {
+        // Arrange
+        $this->arrangeDefault();
+        $expected_id = 'ID1';
+        // Act
+        $id = $this->sut->getID(Fields::FIELD_PREFIX . $this->category . '_' . $expected_id);
+        // Assert
+        $this->assertEquals($expected_id, $id);
+    }
+
     public function testCompleteIDsEmptyListReturnsEmptyList() {
         // Arrange
         $this->arrangeDefault();

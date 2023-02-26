@@ -23,4 +23,8 @@ class Fields {
     static public function completeID(string $category, string $id) : string {
         return Fields::FIELD_PREFIX . $category . Fields::FIELD_SEPARATOR . $id;
     }
+
+    static public function getID(string $field_id): string {
+        return explode(Fields::FIELD_SEPARATOR, $field_id)[2];
+    }
 }
