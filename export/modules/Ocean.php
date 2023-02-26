@@ -30,17 +30,22 @@ class Ocean {
 
     public static function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $ocean = new Ocean();
-        return $ocean->setDatabase($sqlDatabase);
+        return $ocean->setDatabase($sqlDatabase)->initialiseFromDatabase();
     }
 
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
-        $list = $sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
+        return $this;
+    }
+
+    public function initialiseFromDatabase() : Ocean {
+        $list = $this->sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
         foreach ($list as $player_id => $player) {
             $this->playerPositions[$player[Ocean::KEY_PLAYER_ID]] = $player[Ocean::KEY_PLAYER_POSITION];
         }
         return $this;
     }
+
     public function getSelectableFields($player, int $places) : array {
         return [$this->getNextPlayerPosition($player, $places)];
     }
