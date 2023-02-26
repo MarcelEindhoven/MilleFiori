@@ -250,8 +250,10 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
 
+        $this->initialiseHelperClassesIfNeeded();
+
         $active_player_id = self::getActivePlayerId();
-        // $this->ocean->setPlayerPosition($active_player_id, $position);
+        $this->ocean->setPlayerPosition($active_player_id, +$this->fields->getID($field_id));
 
         $this->removeFromPlayedHand();
         self::notifyPlayer($active_player_id, 'selectableFields', '', []);
