@@ -69,7 +69,7 @@ class PageBuilderTest extends TestCase{
             'TOP' => 5);
         $field_expected = array (
             'CATEGORY' => 'Harbour',
-            'ID' => 'field_Harbour_10',
+            'ID' => '10',
             'LEFT' => (int)($field_input['LEFT'] * PageBuilder::WIDTH_PIXELS / PageBuilder::WIDTH_CM),
             'TOP' => (int)($field_input['TOP'] * PageBuilder::HEIGHT_PIXELS / PageBuilder::HEIGHT_CM));
         $this->mock->expects($this->exactly(1))->method('insert_block')->withConsecutive(

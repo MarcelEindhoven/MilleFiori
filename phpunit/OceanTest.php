@@ -19,8 +19,8 @@ class OceanTest extends TestCase{
     }
     public function arrange($player_id, $player_position) {
         $this->mock->expects($this->exactly(1))->method('getObjectList')->will($this->returnValue(
-            [$player_id => ['ocean_position'=> $player_position], 
-            $player_id + 1 => ['ocean_position'=>0]]));
+            [0 => [Ocean::KEY_PLAYER_ID => $player_id, Ocean::KEY_PLAYER_POSITION => $player_position], 
+             1 => [Ocean::KEY_PLAYER_ID => $player_id + 1, Ocean::KEY_PLAYER_POSITION=>0]]));
         $this->sut = Ocean::create($this->mock);
     }
     

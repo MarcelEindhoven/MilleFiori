@@ -39,7 +39,6 @@ class PageBuilder {
     public function addFields(string $category, array $fields) : PageBuilder {
         foreach($fields as $field) {
             $field[PageBuilder::KEY_CATEGORY] = $category;
-            //$field[PageBuilder::KEY_FIELD_ID] = PageBuilder::completeID($category, $field[PageBuilder::KEY_FIELD_ID]);
             $this->fields[] = $field;
         }
         return $this;

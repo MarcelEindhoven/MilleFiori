@@ -12,7 +12,8 @@ require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class Ocean {
     const KEY_CATEGORY = 'ocean';
-    const KEY_PLAYER = 'ocean_position';
+    const KEY_PLAYER_POSITION = 'ocean_position';
+    const KEY_PLAYER_ID = 'id';
     const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
@@ -36,7 +37,7 @@ class Ocean {
         $this->sqlDatabase = $sqlDatabase;
         $list = $sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
         foreach ($list as $player_id => $player) {
-            $this->playerPositions[$player['id']] = $player[Ocean::KEY_PLAYER];
+            $this->playerPositions[$player[Ocean::KEY_PLAYER_ID]] = $player[Ocean::KEY_PLAYER_POSITION];
         }
         return $this;
     }
