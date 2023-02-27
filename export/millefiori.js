@@ -53,7 +53,7 @@ function (dojo, declare) {
             // TODO: Setting up players boards if needed
 
             this.createShips(gamedatas);
-            this.moveShips();
+            this.moveShips(gamedatas.players);
             
             this.createAndFillHands(gamedatas);
 
@@ -145,7 +145,6 @@ function (dojo, declare) {
         {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
-            this.moveShips();
             if( this.isCurrentPlayerActive() )
             {           
                 console.log( 'onUpdateActionButtons: isCurrentPlayerActive' );
@@ -203,9 +202,10 @@ function (dojo, declare) {
             this.placeOnObject( 'token_'+player_id+'_'+nr, 'overall_player_board_'+player_id );
             this.slideToObject( 'token_'+player_id+'_'+nr, 'field_'+category+'_'+id ).play();
         },
-        moveShips: function() {
-            for( var player_id in this.gamedatas.players ) {
-                var player = this.gamedatas.players[player_id];
+        moveShips: function(gamedatas) {
+            for( var player_id in gamedatas.players ) {
+                var player = gamedatas.players[player_id];
+                console.log('moveShips player_id ' + player_id + ' ocean_position ' + player.ocean_position);
                 this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
             }
         },
@@ -335,9 +335,7 @@ function (dojo, declare) {
         notify_shipMoved: function(notif) {
             console.log('notify_shipMoved ' + notif.args.players.length);
 
-            this.gamedatas.players = notif.args.players;
-
-            this.moveShips();
+            this.moveShips(notif.args);
         },
         notify_selectableFields: function(notif) {
             console.log('notify_selectableFields');
