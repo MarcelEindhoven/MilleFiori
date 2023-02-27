@@ -186,10 +186,6 @@ function (dojo, declare) {
         ///////////////////////////////////////////////////
         //// Utility methods
         
-        // Get card unique identifier based on its color and value
-        getCardUniqueId : function(color, value) {
-            return (color - 0) * 9 + (value - 0);
-        },
         addTokenOnBoard: function(player_id, nr, category, id) {
             console.log("addTokenOnBoard "+player_id+" "+nr+" "+category+" "+id);
             dojo.place( this.format_block( 'jstpl_token0', {
@@ -215,14 +211,12 @@ function (dojo, declare) {
         createHand: function(name) {
             myhand = new ebg.stock(); // new stock object for hand
             myhand.create( this, $(name), this.cardwidth, this.cardheight );
-            myhand.image_items_per_row = 9; // 13 images per row
+            myhand.image_items_per_row = 9; // 9 images per row
 
             // Create cards types:
-            for (var color = 0; color < 13; color++) {
-                for (var value = 0; value < 9; value++) {
-                    // Build card type id
-                    var card_type_id = this.getCardUniqueId(color, value);
-                    myhand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/alle_kaarten.png', card_type_id);
+            for (var id = 0; id < 110; id++) {
+                if (id != 35) {
+                    myhand.addItemType(id, id, g_gamethemeurl + 'img/alle_kaarten.png', id);
                 }
             }
 
@@ -233,9 +227,7 @@ function (dojo, declare) {
 
             for ( var i in cards) {
                 var card = cards[i];
-                var color = card.type;
-                var value = card.type_arg;
-                hand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+                hand.addToStockWithId(card.type, card.id);
             }
 
             return hand;
