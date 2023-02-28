@@ -23,6 +23,15 @@ class Ocean {
     const QUERY_PLAYER = "SELECT player_id id, player_no player_number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
     const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
+    const PLACES_PER_CARD = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5
+    , 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 0
+    , 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5
+    , 1, 2, 3, 5, 1, 2, 3, 5, 1, 2, 3, 4
+    , 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 5
+    , 1, 2, 3, 3, 3, 4, 5
+    , 1, 1, 2, 3, 4, 5, 5
+    , 1, 2, 2, 3, 4, 4, 5
+    , 1, 1, 2, 2, 3, 3, 4, 4, 5];
 
     protected ?\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase = null;
 
@@ -46,8 +55,8 @@ class Ocean {
         return $this;
     }
 
-    public function getSelectableFields($player, int $places) : array {
-        return [$this->getNextPlayerPosition($player, $places)];
+    public function getSelectableFields($player, int $card_id) : array {
+        return [$this->getNextPlayerPosition($player, $card_id)];
     }
 
     public static function generateFields() {
@@ -82,10 +91,10 @@ class Ocean {
         return $this;
     }
 
-    private function getNextPlayerPosition($player, int $places) : int {
+    private function getNextPlayerPosition($player, int $card_id) : int {
         $position = $this->getPlayerPosition($player);
 
-        $position += $places;
+        $position += Ocean::PLACES_PER_CARD[$card_id];
 
         if ($position > Ocean::NUMBER_FIELDS) {
             $position = Ocean::NUMBER_FIELDS;

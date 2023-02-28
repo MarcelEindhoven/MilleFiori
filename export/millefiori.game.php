@@ -244,7 +244,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
             $this->cards->moveCard($selectedCard['id'], 'playedhand');
             self::notifyPlayer($active_player_id, 'selectableFields', '', 
-                $this->ocean->getSelectableFields($active_player_id, $selectedCard['type_arg'])
+                $this->ocean->getSelectableFields($active_player_id, $selectedCard['type'])
             );
         }
 
@@ -291,9 +291,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             return [];
         }
         self::trace("cardBeingPlayed".implode(',', $cardBeingPlayed));
-        self::trace("getSelectableFields ". $cardBeingPlayed['type_arg']);
+        self::trace("getSelectableFields ". $cardBeingPlayed['type']);
         $f = $this->fields->completeIDs(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY,
-        $this->ocean->getSelectableFields($active_player_id, $cardBeingPlayed['type_arg']));
+        $this->ocean->getSelectableFields($active_player_id, $cardBeingPlayed['type']));
         self::trace("getSelectableFields ". count($f));
         return $f;
     }

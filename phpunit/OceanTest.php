@@ -38,17 +38,17 @@ class OceanTest extends TestCase{
         // Arrange
         $this->arrange(2, 0);
         // Act
-        $selectableFields = $this->sut->getSelectableFields(2, 5);
+        $selectableFields = $this->sut->getSelectableFields(2, 4);
         // Assert
         $this->assertCount(1, $selectableFields);
         $this->assertEquals('5', current($selectableFields));
     }
 
-    public function testSelectableFields20Plus5ReturnField21() {
+    public function testSelectableFields17Plus5ReturnField21() {
         // Arrange
-        $this->arrange(2, 20);
+        $this->arrange(2, 27);
         // Act
-        $selectableFields = $this->sut->getSelectableFields(2, 5);
+        $selectableFields = $this->sut->getSelectableFields(2, 109);
         // Assert
         $this->assertCount(1, $selectableFields);
         $this->assertEquals('21', current($selectableFields));
