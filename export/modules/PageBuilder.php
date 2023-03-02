@@ -13,8 +13,8 @@ class PageBuilder {
     const FIELD_BLOCK = 'field';
     const KEY_CATEGORY = 'CATEGORY';
     const KEY_FIELD_ID = 'ID';
-    const WIDTH_PIXELS = 868;
-    const HEIGHT_PIXELS = 872;
+    const WIDTH_PIXELS = 1000;
+    const HEIGHT_PIXELS = 1000;
     const WIDTH_CM = 52;
     const HEIGHT_CM = 52;
     protected array $fields = array();
