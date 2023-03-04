@@ -268,8 +268,13 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         $this->initialiseHelperClassesIfNeeded();
 
+        $this->processSelectedField(+$this->fields->getID($field_id));
+
+        $this->gamestate->nextState();
+    }
+    private function processSelectedField($id_within_category) {
         $active_player_id = self::getActivePlayerId();
-        $id_within_category =  +$this->fields->getID($field_id);
+
         $points = $this->ocean->getReward($active_player_id, $id_within_category)['points'];
         if ($points != 0) {
             $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$active_player_id'";
@@ -282,8 +287,6 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         $this->removeFromPlayedHand();
         self::notifyPlayer($active_player_id, 'selectableFields', '', []);
-
-        $this->gamestate->nextState();
     }
     function getSelectableFields($player_id) {
         $active_player_id = self::getActivePlayerId();
@@ -376,8 +379,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         }
         return false;
     }
-    private function numberPlayerHandCard() : bool  {
+    private function numberPlayerHandCard() : int  {
         foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
+            self::trace( "count for player_id " .   $player_id . ' = ' . count($this->cards->getCardsInLocation('hand', $player_id)));
             return count($this->cards->getCardsInLocation('hand', $player_id));
         }
     }
