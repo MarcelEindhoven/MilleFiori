@@ -47,7 +47,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->cards->init( "card" );
 
         // Limit game for integration testing
-        $this->handSize = 2;
+        $this->handSize = 3;
 	}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
@@ -275,7 +275,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$active_player_id'";
             self::DbQuery($sql);
             $newScore = self::getObjectFromDB("SELECT player_id, player_score FROM player  WHERE player_id='$active_player_id'", true )['player_score'];
-            self::notifyAllPlayers('newScore', '', ['newScore' => $points, 'player_id' => $active_player_id]);
+            self::notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $active_player_id]);
         }
         $this->ocean->setPlayerPosition($active_player_id, $id_within_category);
         $this->notify_shipMoved();
@@ -368,14 +368,33 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         }
         return true;
     }
+    private function hasAnyPlayerSelectedCard() : bool  {
+        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
+            if ($this->cards->getCardsInLocation('selectedhand', $player_id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private function numberPlayerHandCard() : bool  {
+        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
+            return count($this->cards->getCardsInLocation('hand', $player_id));
+        }
+    }
     function stSelectPlayCard() {
         self::trace( "stSelectPlayCard" );
 
-        $this->activeNextPlayer();
+        if ($this->hasAnyPlayerSelectedCard()) {
+            $this->activeNextPlayer();
 
-        $this->moveFromSelectedToPlayed();
+            $this->moveFromSelectedToPlayed();
 
-        $this->gamestate->nextState('turnBusy');
+            $this->gamestate->nextState('turnBusy');
+        } else if ($this->numberPlayerHandCard() > 1) {
+            $this->gamestate->nextState('turnEnded');
+        } else {
+            $this->gamestate->nextState('roundEnded');
+        }
     }
     function stPlayCard() {
         self::trace( "stPlayCard" );
