@@ -89,14 +89,14 @@ class OceanTest extends TestCase{
         $this->assertEquals('5', current($selectableFields));
     }
 
-    public function testSelectableFields17Plus5ReturnField21() {
+    public function testSelectableFields_17Plus5_ReturnFieldMaximum() {
         // Arrange
-        $this->arrange(2, 27);
+        $this->arrange(2, 17);
         // Act
         $selectableFields = $this->sut->getSelectableFields(2, 109);
         // Assert
         $this->assertCount(1, $selectableFields);
-        $this->assertEquals('21', current($selectableFields));
+        $this->assertEquals(Ocean::NUMBER_FIELDS - 1, current($selectableFields));
     }
 
     public function testPlayerPositionDefaultZero() {

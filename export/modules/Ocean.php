@@ -105,8 +105,8 @@ class Ocean {
 
         $position += Ocean::PLACES_PER_CARD[$card_id];
 
-        if ($position > Ocean::NUMBER_FIELDS) {
-            $position = Ocean::NUMBER_FIELDS;
+        if ($position >= Ocean::NUMBER_FIELDS) {
+            $position = Ocean::NUMBER_FIELDS - 1;
         }
         
         return $position;
