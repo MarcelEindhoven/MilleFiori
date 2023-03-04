@@ -47,7 +47,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->cards->init( "card" );
 
         // Limit game for integration testing
-        $this->handSize = 1;
+        $this->handSize = 2;
 	}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
@@ -269,7 +269,15 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->initialiseHelperClassesIfNeeded();
 
         $active_player_id = self::getActivePlayerId();
-        $this->ocean->setPlayerPosition($active_player_id, +$this->fields->getID($field_id));
+        $id_within_category =  +$this->fields->getID($field_id);
+        $points = $this->ocean->getReward($active_player_id, $id_within_category)['points'];
+        if ($points != 0) {
+            $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$active_player_id'";
+            self::DbQuery($sql);
+            $newScore = self::getObjectFromDB("SELECT player_id, player_score FROM player  WHERE player_id='$active_player_id'", true )['player_score'];
+            self::notifyAllPlayers('newScore', '', ['newScore' => $points, 'player_id' => $active_player_id]);
+        }
+        $this->ocean->setPlayerPosition($active_player_id, $id_within_category);
         $this->notify_shipMoved();
 
         $this->removeFromPlayedHand();

@@ -309,7 +309,16 @@ function (dojo, declare) {
 
             dojo.subscribe( 'shipMoved', this, "notify_shipMoved" );
             this.notifqueue.setSynchronous( 'shipMoved', 500 );
-        },  
+
+            dojo.subscribe( 'newScore', this, "notify_newScore" );
+            this.notifqueue.setSynchronous( 'newScore', 500 );
+        }, 
+        notify_newScore : function(notif) {
+            // Update players' score
+            console.log('notify_newScore');
+
+            this.scoreCtrl[notif.args.player_id].toValue(notif.args.newScore);
+        },
         notif_playerHands: function(notif) {
             console.log('notif_playerHands');
             // Get the color of the player who is returning the discs
