@@ -32,6 +32,7 @@ class Ocean {
     , 1, 1, 2, 3, 4, 5, 5
     , 1, 2, 2, 3, 4, 4, 5
     , 1, 1, 2, 2, 3, 3, 4, 4, 5];
+    const POINTS_PER_POSITION = [0, 1, 1, 1, 3, 1, 10, 0, 1, 5, 1, 1, 10, 10, 1, 5, 0, 1, 1, 1, 10];
 
     protected ?\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase = null;
 
@@ -45,6 +46,14 @@ class Ocean {
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
+    }
+
+    public function getReward($player, $chosen_id) : array {
+        $points = 0;
+        if ($chosen_id != $this->getPlayerPosition($player)) {
+            $points = Ocean::POINTS_PER_POSITION[$chosen_id];
+        }
+        return ['points' => $points];
     }
 
     public function initialiseFromDatabase() : Ocean {
