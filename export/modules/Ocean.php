@@ -43,6 +43,10 @@ class Ocean {
         return $ocean->setDatabase($sqlDatabase)->initialiseFromDatabase();
     }
 
+    public static function getTooltips() {
+        return Ocean::PLACES_PER_CARD;
+    }
+
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
         return $this;

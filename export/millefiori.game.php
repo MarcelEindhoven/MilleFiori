@@ -158,6 +158,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         $result['selectableFields'] = $this->getSelectableFields($current_player_id);
         self::trace("selectableFields ". count($result['selectableFields']));
+        $result['tooltipsCards'] = $this->ocean->getTooltips();
 
         return $result;
     }

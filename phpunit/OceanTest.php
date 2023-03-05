@@ -24,6 +24,15 @@ class OceanTest extends TestCase{
         $this->sut = Ocean::create($this->mock);
     }
 
+    public function testTooltips_Get_Array() {
+        // Arrange
+        $this->arrange(2, 0);
+        // Act
+        $tooltips = $this->sut->getTooltips();
+        // Assert
+        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
+    }
+
     public function testReward_Zero_NoReward() {
         // Arrange
         $this->arrange(2, 0);

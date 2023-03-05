@@ -212,6 +212,7 @@ function (dojo, declare) {
             myhand = new ebg.stock(); // new stock object for hand
             myhand.create( this, $(name), this.cardwidth, this.cardheight );
             myhand.image_items_per_row = 9; // 9 images per row
+            myhand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
 
             // Create cards types:
             for (var id = 0; id < 110; id++) {
@@ -221,6 +222,11 @@ function (dojo, declare) {
             }
 
             return myhand;
+        },
+        setupNewCard: function( card_div, card_type_id, card_id )
+        {
+           // Add a special tooltip on the card:
+           this.addTooltip(card_div.id, "" + this.gamedatas.tooltipsCards[card_type_id]);
         },
         fillHand: function(hand, cards) {
             hand.removeAll();
