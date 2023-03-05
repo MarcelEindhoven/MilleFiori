@@ -206,10 +206,11 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function moveFromHandToSelected($card_id) {
         $current_player_id = self::getCurrentPlayerId();
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
+            self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
             $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
         }
+        self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
-        $this->notif_playerHands($current_player_id);
     }
     function removeFromPlayedHand() {
         foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {

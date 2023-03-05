@@ -318,6 +318,9 @@ function (dojo, declare) {
 
             dojo.subscribe( 'newScore', this, "notify_newScore" );
             this.notifqueue.setSynchronous( 'newScore', 500 );
+
+            dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
+            this.notifqueue.setSynchronous('cardMoved', 1100);
         }, 
         notify_newScore : function(notif) {
             // Update players' score
@@ -343,6 +346,26 @@ function (dojo, declare) {
             console.log('notify_shipMoved ' + notif.args.players.length);
 
             this.moveShips(notif.args);
+        },
+        getHand: function (id) {
+            if (id == 'myhand') {
+                return this.myhand;
+            }
+            if (id == 'selectedhand') {
+                return this.selectedhand;
+            }
+            if (id == 'playedhand') {
+                return this.playedhand;
+            }
+            if (id == 'boardhand') {
+                return this.boardhand;
+            }
+        },
+        notify_cardMoved: function(notif) {
+            console.log('notify_cardMoved ' + notif.args.cardID['type'] + ' ' + notif.args.cardID['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
+
+            this.getHand(notif.args.toStock).addToStockWithId(notif.args.cardID.type, notif.args.cardID.id, notif.args.fromStock + '_item_' + notif.args.cardID.id);
+            this.getHand(notif.args.fromStock).removeFromStockById(notif.args.cardID.id);
         },
         notify_selectableFields: function(notif) {
             console.log('notify_selectableFields');
