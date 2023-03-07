@@ -22,6 +22,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
 include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Fields.php');
+include_once(__DIR__.'/modules/PlayerProperties.php');
 
 class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterface
 {
@@ -81,16 +82,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
-        // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
-        $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
-        $values = array();
-        foreach( $players as $player_id => $player )
-        {
-            $color = array_shift( $default_colors );
-            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."','0"."')";
-        }
-        $sql .= implode( $values, ',' );
-        self::DbQuery( $sql );
+        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this,  $players, $default_colors);
+
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
         
