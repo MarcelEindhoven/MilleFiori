@@ -11,9 +11,9 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class PlayerProperties {
-    static public function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase, $players, $default_colors) : PlayerProperties {
+    static public function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {
         $properties = new PlayerProperties();
-        return $properties->setDatabase($sqlDatabase)->setupNewGame($players, $default_colors);
+        return $properties->setDatabase($sqlDatabase);
     }
 
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {

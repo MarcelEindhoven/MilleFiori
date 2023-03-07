@@ -82,7 +82,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
-        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this,  $players, $default_colors);
+        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setupNewGame($players, $default_colors);
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
