@@ -11,6 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class PlayerProperties {
+    const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
     static public function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {
         $properties = new PlayerProperties();
         return $properties->setDatabase($sqlDatabase);
@@ -33,7 +34,7 @@ class PlayerProperties {
             $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."','0"."')";
         }
 
-        $sql .= implode($values, ',');
+        $sql = PlayerProperties::CREATE_PLAYERS . implode(',', $values);
         $this->sqlDatabase->query($sql);
 
         return $this;
