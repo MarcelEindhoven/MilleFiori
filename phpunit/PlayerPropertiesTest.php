@@ -29,7 +29,18 @@ class PlayerPropertiesTest extends TestCase{
             $this->players[$i] = ['player_canal' => 0, 'player_name' => 'player_' . $i, 'player_avatar' => ''];
             $query .= "('$i','" . PlayerPropertiesTest::COLORS[$i] . "','0','player_$i','','0')";
         }
-        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
+        if ($number_players < 4) {
+            $query_robot = PlayerProperties::CREATE_ROBOTS;
+            for ($i=$number_players; $i<4; $i++) {
+                if ($i > $number_players) {
+                    $query_robot .= ",";
+                }
+                $query_robot .= "('$i','" . PlayerPropertiesTest::COLORS[$i] . "','robot_$i','0')";
+            }
+            $this->mock->expects($this->exactly(2))->method('query')->withConsecutive([$this->equalTo($query)], [$this->equalTo($query_robot)]);
+        } else {
+            $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
+        }
     }
 
     public function defaultAct() {

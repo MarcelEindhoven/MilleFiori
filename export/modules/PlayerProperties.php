@@ -12,6 +12,7 @@ require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class PlayerProperties {
     const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
+    const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_color, player_name, ocean_position) VALUES ";
     static public function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {
         $properties = new PlayerProperties();
         return $properties->setDatabase($sqlDatabase);
@@ -23,9 +24,7 @@ class PlayerProperties {
     }
 
     public function setupNewGame($players, $default_colors) : PlayerProperties {
-        // Create players
-        // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
-        $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
+        $sql = PlayerProperties::CREATE_PLAYERS;
         $values = array();
 
         foreach ($players as $player_id => $player)
@@ -36,6 +35,17 @@ class PlayerProperties {
 
         $sql = PlayerProperties::CREATE_PLAYERS . implode(',', $values);
         $this->sqlDatabase->query($sql);
+
+        if (count($players) < 4) {
+            $values = array();
+            for ($i=count($players); $i<4; $i++) {
+                $color = array_shift($default_colors);
+                $values[] = "('$i','" . $color . "','robot_$i','0')";
+            }
+    
+            $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
+            $this->sqlDatabase->query($sql);
+        }
 
         return $this;
     }
