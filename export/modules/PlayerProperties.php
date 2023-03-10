@@ -24,32 +24,46 @@ class PlayerProperties {
     }
 
     public function setupNewGame($players, $default_colors) : PlayerProperties {
-        $sql = PlayerProperties::CREATE_PLAYERS;
+        $remaining_colours = $this->setupPlayers($players, $default_colors);
+
+        $this->setupRobots(4 - count($players), $remaining_colours);
+
+        return $this;
+    }
+    private function setupRobots($robot_count, $colors) {
+        if ($robot_count <= 0) {
+            return;
+        }
+
         $values = array();
 
+        for ($i= 0; $i< $robot_count; $i++) {
+            $color = array_shift($colors);
+            $values[] = "('$i','" . $color . "','robot_$i','0')";
+        }
+
+        $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
+        $this->sqlDatabase->query($sql);
+    }
+
+    private function setupPlayers($players, &$default_colors)
+    {
+        $sql = PlayerProperties::CREATE_PLAYERS;
+        $values = array();
+        
         foreach ($players as $player_id => $player)
         {
             $color = array_shift($default_colors);
             $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."','0"."')";
         }
-
+        
         $sql = PlayerProperties::CREATE_PLAYERS . implode(',', $values);
         $this->sqlDatabase->query($sql);
 
-        if (count($players) < 4) {
-            $values = array();
-            for ($i=count($players); $i<4; $i++) {
-                $color = array_shift($default_colors);
-                $values[] = "('$i','" . $color . "','robot_$i','0')";
-            }
-    
-            $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
-            $this->sqlDatabase->query($sql);
-        }
-
-        return $this;
+        return $default_colors;
     }
 
 }
 
 ?>
+
