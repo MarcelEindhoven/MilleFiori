@@ -116,10 +116,11 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         /************ End of the game initialization *****/
     }
+
     protected function initialiseHelperClassesIfNeeded() {
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
-            $this->game = new NieuwenhovenGames\MilleFiori\Game();
+            $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
         }
@@ -150,7 +151,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         $result['selectableFields'] = $this->getSelectableFields($current_player_id);
         self::trace("selectableFields ". count($result['selectableFields']));
-        $result['tooltipsCards'] = $this->ocean->getTooltips();
+        $result['tooltipsCards'] = $this->game->getTooltips();
 
         return $result;
     }

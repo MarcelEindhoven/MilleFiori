@@ -10,9 +10,12 @@ namespace NieuwenhovenGames\MilleFiori;
 
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
+include_once(__DIR__.'/../export/modules/Ocean.php');
+
 class Game {
     const NUMBER_CARDS_INCLUDING_START = 110;
     const INDEX_START_CARD = 35;
+
     static public function getCardDefinitions(): array {
         $cards = array ();
         for ($id = 0;  $id < Game::NUMBER_CARDS_INCLUDING_START; $id++ ) {
@@ -21,6 +24,20 @@ class Game {
             }
         }
         return $cards;
+    }
+
+    public static function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Game {
+        $game = new Game();
+        return $game->setDatabase($sqlDatabase);
+    }
+
+    public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Game {
+        $this->sqlDatabase = $sqlDatabase;
+        return $this;
+    }
+
+    public function getTooltips() {
+        return Ocean::PLACES_PER_CARD;
     }
 }
 
