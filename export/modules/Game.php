@@ -10,7 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
 
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
-include_once(__DIR__.'/../export/modules/Ocean.php');
+include_once(__DIR__.'/Ocean.php');
 
 class Game {
     const NUMBER_CARDS_INCLUDING_START = 110;

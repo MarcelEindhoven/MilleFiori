@@ -364,7 +364,9 @@ function (dojo, declare) {
         notify_cardMoved: function(notif) {
             console.log('notify_cardMoved ' + notif.args.cardID['type'] + ' ' + notif.args.cardID['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
 
-            this.getHand(notif.args.toStock).addToStockWithId(notif.args.cardID.type, notif.args.cardID.id, notif.args.fromStock + '_item_' + notif.args.cardID.id);
+            if (notif.args.toStock) {
+                this.getHand(notif.args.toStock).addToStockWithId(notif.args.cardID.type, notif.args.cardID.id, notif.args.fromStock + '_item_' + notif.args.cardID.id);
+            }
             this.getHand(notif.args.fromStock).removeFromStockById(notif.args.cardID.id);
         },
         notify_selectableFields: function(notif) {

@@ -205,11 +205,14 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
     function removeFromPlayedHand() {
+        self::trace("removeFromPlayedHand ");
         foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
+            self::trace("removeFromPlayedHand " . $playedCard['id']);
+            $this->notifyAllPlayers('cardMoved', '', ['fromStock' => 'playedhand', 'cardID' => $playedCard]);
             $this->cards->moveCard($playedCard['id'], 'hand', -2);
         }
 
-        $this->notify_playersHands();
+        // $this->notify_playersHands();
     }
     function notify_playersHands() {
         $players = self::loadPlayersBasicInfos();
