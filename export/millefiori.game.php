@@ -20,6 +20,8 @@
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
 require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
+
+include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
@@ -77,12 +79,14 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     {    
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown
-        // The number of colors defined here must correspond to the maximum number of players allowed for the gams
+        // The number of colors defined here must correspond to the maximum number of players allowed for the game
         $gameinfos = self::getGameinfos();
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
         $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setupNewGame($players, $default_colors);
+
+        $this->initialiseHelperClassesIfNeeded();
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
@@ -99,21 +103,14 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         // TODO: setup the initial game situation here
         // Create cards
-        $cards = array ();
-        for ($id = 0;  $id < 110; $id++ ) {
-            if ($id != 35) {
-                $cards [] = array ('type' => $id,'type_arg' => 0,'nbr' => 1 );
-            }
-        }
         
-        $this->cards->createCards( $cards, 'deck' );       
+        $this->cards->createCards($this->game->getCardDefinitions(), 'deck');       
+
         // Shuffle deck
         $this->cards->shuffle('deck');
         $this->cards->pickCards(9, 'deck', -1);
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
-
-        $this->initialiseHelperClassesIfNeeded();
 
         $this->activeNextPlayer();
 
@@ -121,6 +118,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     protected function initialiseHelperClassesIfNeeded() {
         if (!property_exists($this, 'ocean')) {
+            self::trace( "Initialise helper classes" );
+            $this->game = new NieuwenhovenGames\MilleFiori\Game();
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
         }
