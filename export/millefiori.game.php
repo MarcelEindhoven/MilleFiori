@@ -143,7 +143,6 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
         $result = $this->getHands($current_player_id);
-        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
 
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
@@ -163,7 +162,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
-        // $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
+        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
 
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
