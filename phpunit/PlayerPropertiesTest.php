@@ -43,7 +43,8 @@ class PlayerPropertiesTest extends TestCase{
         $query_robot = PlayerProperties::CREATE_ROBOTS;
         for ($index = 0; $index < 4 - $number_players; $index++) {
             $query_robot .= $this->optionalSeparator($index);
-            $query_robot .= "('$index','" . PlayerPropertiesTest::COLORS[$number_players + $index] . "','robot_$index','0')";
+            $robot_number = $number_players +1+ $index;
+            $query_robot .= "('$index','$robot_number','" . PlayerPropertiesTest::COLORS[$number_players + $index] . "','robot_$index','0')";
         }
         return $query_robot;
     }
@@ -119,6 +120,16 @@ class PlayerPropertiesTest extends TestCase{
         // Assert
         $this->assertEquals($expected_list, $list);
     }
+    public function testIsRobot_3_Yes() {
+        // Arrange
+        $this->arrangeCreate(2, 0);
+        // Act
+        $this->defaultAct();
+        $is_robot = $this->sut->isPlayerARobot(3);
+        // Assert
+        $this->assertTrue($is_robot);
+    }
+
 
 }
 ?>

@@ -56,6 +56,10 @@ class PlayerProperties {
         return $mapped_list;
     }
 
+    public function isPlayerARobot($player_id) : bool {
+        return $player_id < 9;
+    }
+
     private function setupRobots(int $player_number_offset, int $robot_count, array $colors) {
         if ($robot_count <= 0) {
             return;

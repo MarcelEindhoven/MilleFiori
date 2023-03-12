@@ -219,6 +219,10 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
         // $this->notify_playersHands();
     }
+    function isPlayerARobot($player_id) : bool {
+        return $this->playerProperties->isPlayerARobot($player_id);
+    }
+
     function notify_playersHands() {
         $players = self::loadPlayersBasicInfos();
         foreach ($players as $player_id => $player) {
@@ -355,6 +359,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function stSelectCard() {
         self::trace( "stSelectCard" );
         $this->gamestate->setAllPlayersMultiactive();
+        // All robots select a card
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
