@@ -92,7 +92,7 @@ class PlayerPropertiesTest extends TestCase{
         1 => [PlayerProperties::KEY_ID => $player_id + 1, PlayerProperties::KEY_POSITION => 0]];
         $robot_list = [0 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => $player_position], 
         1 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]];
-        $expected_list = [$player_list[0], $player_list[1], $robot_list[0], $robot_list[1], ];
+        $expected_list = [$player_id => $player_list[0], $player_id + 1 => $player_list[1], $player_id + 2 => $robot_list[0], $player_id + 3 => $robot_list[1], ];
         $this->mock->expects($this->exactly(2))->method('getObjectList')
             ->withConsecutive([$this->equalTo(PlayerProperties::QUERY_PLAYER)], [$this->equalTo(PlayerProperties::QUERY_ROBOT)])
             ->willReturnOnConsecutiveCalls($player_list, $robot_list);
@@ -111,7 +111,7 @@ class PlayerPropertiesTest extends TestCase{
             , 2 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => 0]
             , 3 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]
         ];
-        $expected_list = [$player_list[0], $player_list[1], $player_list[2], $player_list[3], ];
+        $expected_list = [$player_id => $player_list[0], $player_id + 1 => $player_list[1], $player_id + 2 => $player_list[2], $player_id + 3 => $player_list[3], ];
         $this->mock->expects($this->exactly(1))->method('getObjectList')->with($this->equalTo(PlayerProperties::QUERY_PLAYER))->will($this->returnValue(
             $player_list));
         // Act

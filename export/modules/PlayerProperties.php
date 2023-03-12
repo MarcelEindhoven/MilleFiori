@@ -40,13 +40,20 @@ class PlayerProperties {
     }
 
     public function getPropertiesPlayersPlusRobots() {
-        $properties_list = array_values($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_PLAYER));
+        $properties_list = $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_PLAYER));
         if (count($properties_list) < 4) {
-            $properties_list += $this->sqlDatabase->getObjectList(PlayerProperties::QUERY_ROBOT);
+            $properties_list += $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_ROBOT));
         }
         return $properties_list;
     }
 
+    private function mapIDToDataContainingID(array $list): array {
+        $mapped_list = [];
+        foreach ($list as $element) {
+            $mapped_list[$element['id']] = $element;
+        }
+        return $mapped_list;
+    }
 
     private function setupRobots(int $robot_count, array $colors) {
         if ($robot_count <= 0) {
