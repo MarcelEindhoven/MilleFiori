@@ -344,10 +344,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     */
     
     function stNewHand() {
-      self::trace("stNewHand");
+        self::trace("stNewHand");
         // Deal 5 cards to each players
-        $players = self::loadPlayersBasicInfos();
-        foreach ( $players as $player_id => $player ) {
+        foreach (self::getPlayerDataIncludingRobots() as $player_id => $player) {
             $cards = $this->cards->pickCards($this->handSize, 'deck', $player_id);
         }
 
