@@ -187,7 +187,7 @@ function (dojo, declare) {
         //// Utility methods
         
         addTokenOnBoard: function(player_id, number, color, category, id) {
-            console.log("addTokenOnBoard "+player_id+" "+number+" "+category+" "+id);
+            console.log("addTokenOnBoard "+player_id+" "+number+" "+color+" "+category+" "+id);
             dojo.place( this.format_block( 'jstpl_token0', {
                 player: player_id,
                 player_number: number - 1,
@@ -195,10 +195,13 @@ function (dojo, declare) {
                 nr: id
             } ) , 'tokens' );
             
+            this.placePlayerBoardAndSlide(player_id, 'token_'+player_id+'_'+id, 'field_'+category+'_'+ 0 );
+        },
+        placePlayerBoardAndSlide(player_id, token_id, destination) {
             if (player_id > 9) {
-                this.placeOnObject( 'token_'+player_id+'_'+id, 'overall_player_board_'+player_id );
+                this.placeOnObject(token_id, 'overall_player_board_'+player_id);
             }
-            this.slideToObject( 'token_'+player_id+'_'+id, 'field_'+category+'_'+ 0 ).play();
+            this.slideToObject(token_id, destination).play();
         },
         moveShips: function(gamedatas) {
             for( var player_id in gamedatas.players ) {
