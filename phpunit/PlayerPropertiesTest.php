@@ -99,7 +99,7 @@ class PlayerPropertiesTest extends TestCase{
         // Act
         $list = $this->sut->getPropertiesPlayersPlusRobots();
         // Assert
-        $this->assertEquals($player_list, $list);
+        $this->assertEquals($expected_list, $list);
     }
 
     public function testProperties_4Players_SelectOnlyPlayers() {

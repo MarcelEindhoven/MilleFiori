@@ -84,9 +84,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
-        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setupNewGame($players, $default_colors);
-
         $this->initialiseHelperClassesIfNeeded();
+        $this->playerProperties->setupNewGame($players, $default_colors);
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
@@ -120,6 +119,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     protected function initialiseHelperClassesIfNeeded() {
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
+
+            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this);
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
@@ -147,6 +148,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $result['players'] = $this->getPlayerData();
+        $result['playersIncludingRobots'] = $this->getPlayerDataIncludingRobots();
 
         $result['selectableFields'] = $this->getSelectableFields($current_player_id);
         self::trace("selectableFields ". count($result['selectableFields']));
@@ -156,6 +158,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     }
     protected function getPlayerData(): array {
         return self::getCollectionFromDb(NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER);
+    }
+    protected function getPlayerDataIncludingRobots(): array {
+        return $this->playerProperties->getPropertiesPlayersPlusRobots();
     }
     protected function getHands($player_id) {
         $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
@@ -223,7 +228,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function notify_shipMoved() {
         self::trace("notify_shipMoved ". count($this->getPlayerData()));
 
-        $this->notifyAllPlayers('shipMoved', '', ['players' => $this->getPlayerData()]);
+        $this->notifyAllPlayers('shipMoved', '', ['players' => $this->playerProperties->getPropertiesPlayersPlusRobots()]);
     }
     function notif_playerHands($current_player_id) {
         self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));

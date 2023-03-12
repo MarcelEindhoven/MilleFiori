@@ -67,9 +67,9 @@ function (dojo, declare) {
             console.log( "Ending game setup" );
         },
         createShips: function( gamedatas ) {
-            for( var player_id in gamedatas.players ) {
-                var player = gamedatas.players[player_id];
-                this.addTokenOnBoard(player_id, 0, 'ocean', 0);
+            for( var player_id in gamedatas.playersIncludingRobots ) {
+                var player = gamedatas.playersIncludingRobots[player_id];
+                this.addTokenOnBoard(player.id, player.number, player.color, 'ocean', 0);
             }            
         },
         createAndFillHands: function( gamedatas ) {
@@ -186,17 +186,17 @@ function (dojo, declare) {
         ///////////////////////////////////////////////////
         //// Utility methods
         
-        addTokenOnBoard: function(player_id, nr, category, id) {
-            console.log("addTokenOnBoard "+player_id+" "+nr+" "+category+" "+id);
+        addTokenOnBoard: function(player_id, number, color, category, id) {
+            console.log("addTokenOnBoard "+player_id+" "+number+" "+category+" "+id);
             dojo.place( this.format_block( 'jstpl_token0', {
                 player: player_id,
-                player_number: this.gamedatas.players[ player_id ].player_number - 1,
-                color: this.gamedatas.players[ player_id ].color,
-                nr: nr
+                player_number: number,
+                color: color,
+                nr: id
             } ) , 'tokens' );
             
-            this.placeOnObject( 'token_'+player_id+'_'+nr, 'overall_player_board_'+player_id );
-            this.slideToObject( 'token_'+player_id+'_'+nr, 'field_'+category+'_'+id ).play();
+            this.placeOnObject( 'token_'+player_id+'_'+id, 'overall_player_board_'+player_id );
+            this.slideToObject( 'token_'+player_id+'_'+id, 'field_'+category+'_'+ 0 ).play();
         },
         moveShips: function(gamedatas) {
             for( var player_id in gamedatas.players ) {

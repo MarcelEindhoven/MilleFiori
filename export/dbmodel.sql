@@ -30,8 +30,10 @@ CREATE TABLE IF NOT EXISTS `card` (
 CREATE TABLE IF NOT EXISTS `robot` (
   `robot_number` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `player_id` int(10) NOT NULL,
+  `player_number` int(10) NOT NULL,
   `player_name` varchar(32) NOT NULL,
   `player_color` varchar(6) NOT NULL,
+  `player_score` int(10) NOT NULL,
   `ocean_position` int(11) NOT NULL,
   PRIMARY KEY (`robot_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
