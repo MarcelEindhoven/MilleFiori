@@ -76,7 +76,7 @@ $machinestates = array(
     12 => array(
         "name" => "selectCard",
         "description" => clienttranslate('everyone must select a card'),
-        "descriptionmyturn" => clienttranslate('${you} must select a card'),
+        "descriptionmyturn" => clienttranslate('everyone must select a card'),
         "type" => "multipleactiveplayer",
         "action" => "stSelectCard",
         "possibleactions" => array( "selectCard" ),
@@ -85,8 +85,8 @@ $machinestates = array(
 
     13 => array(
         "name" => "selectedCard",
-        "description" => clienttranslate('everyone must select a card'),
-        "descriptionmyturn" => clienttranslate('${you} must select a card'),
+        "description" => clienttranslate('selected a card'),
+        "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
         "args" => "argumentHands",
@@ -94,8 +94,8 @@ $machinestates = array(
     ),
     20 => array(
         "name" => "selectPlayCard",
-        "description" => clienttranslate('everyone must select a card'),
-        "descriptionmyturn" => clienttranslate('${you} must select a card'),
+        "description" => clienttranslate('everyone selected a card'),
+        "descriptionmyturn" => clienttranslate('everyone selected a card'),
         "type" => "game",
         "action" => "stSelectPlayCard",
         "transitions" => array( "turnBusy" => 21, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
