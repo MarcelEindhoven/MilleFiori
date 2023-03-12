@@ -20,7 +20,7 @@ class Ocean {
     const RIGHT_EDGE = 52;
     const NUMBER_FIELDS = 21;
     const LEFT_MARGIN = 0.7;
-    const QUERY_PLAYER = "SELECT player_id id, player_no player_number, player_score score, player_color color, ocean_position ocean_position FROM player";
+    const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
     const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
     const PLACES_PER_CARD = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5

@@ -190,12 +190,14 @@ function (dojo, declare) {
             console.log("addTokenOnBoard "+player_id+" "+number+" "+category+" "+id);
             dojo.place( this.format_block( 'jstpl_token0', {
                 player: player_id,
-                player_number: number,
+                player_number: number - 1,
                 color: color,
                 nr: id
             } ) , 'tokens' );
             
-            this.placeOnObject( 'token_'+player_id+'_'+id, 'overall_player_board_'+player_id );
+            if (player_id > 9) {
+                this.placeOnObject( 'token_'+player_id+'_'+id, 'overall_player_board_'+player_id );
+            }
             this.slideToObject( 'token_'+player_id+'_'+id, 'field_'+category+'_'+ 0 ).play();
         },
         moveShips: function(gamedatas) {

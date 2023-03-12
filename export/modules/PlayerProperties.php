@@ -16,7 +16,7 @@ class PlayerProperties {
 
     const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
-    const QUERY_ROBOT = "SELECT player_id idid, player_number number, player_score score, player_color color, ocean_position ocean_position FROM robot";
+    const QUERY_ROBOT = "SELECT player_id id, player_number number, player_score score, player_color color, ocean_position ocean_position FROM robot";
 
     const KEY_POSITION = 'ocean_position';
     const KEY_ID = 'id';
@@ -35,7 +35,7 @@ class PlayerProperties {
     public function setupNewGame(array $players, array $default_colors) : PlayerProperties {
         $remaining_colours = $this->setupPlayers($players, $default_colors);
 
-        $this->setupRobots(4 - count($players), $remaining_colours);
+        $this->setupRobots(count($players) + 1, 4 - count($players), $remaining_colours);
 
         return $this;
     }
@@ -56,16 +56,17 @@ class PlayerProperties {
         return $mapped_list;
     }
 
-    private function setupRobots(int $robot_count, array $colors) {
+    private function setupRobots(int $player_number_offset, int $robot_count, array $colors) {
         if ($robot_count <= 0) {
             return;
         }
 
         $values = array();
 
-        for ($i= 0; $i< $robot_count; $i++) {
+        for ($robot_index = 0; $robot_index < $robot_count; $robot_index++) {
             $color = array_shift($colors);
-            $values[] = "('$i','" . $color . "','robot_$i','0')";
+            $player_number = $player_number_offset + $robot_index;
+            $values[] = "('$robot_index','$player_number','$color','robot_$robot_index','0')";
         }
 
         $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
