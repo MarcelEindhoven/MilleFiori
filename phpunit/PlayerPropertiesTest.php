@@ -19,7 +19,8 @@ class PlayerPropertiesTest extends TestCase{
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
         $this->sut = PlayerProperties::create($this->mock);
     }
-    public function arrange($number_players, $number_colors) {
+
+    private function arrangeCreate($number_players, $number_colors) {
         $this->players = [];
         for ($i=0; $i<$number_players; $i++) {
             $this->players[$i] = ['player_canal' => 0, 'player_name' => 'player_' . $i, 'player_avatar' => ''];
@@ -69,7 +70,7 @@ class PlayerPropertiesTest extends TestCase{
 
     public function testNewGame_2Players_Query() {
         // Arrange
-        $this->arrange(2, 0);
+        $this->arrangeCreate(2, 0);
         // Act
         $this->defaultAct();
         // Assert
@@ -77,10 +78,46 @@ class PlayerPropertiesTest extends TestCase{
 
     public function testNewGame_4Players_Query() {
         // Arrange
-        $this->arrange(4, 0);
+        $this->arrangeCreate(4, 0);
         // Act
         $this->defaultAct();
         // Assert
+    }
+
+    public function testProperties_2Players_SelectPlayersRobots() {
+        // Arrange
+        $player_id = 2;
+        $player_position = 5;
+        $player_list = [0 => [PlayerProperties::KEY_ID => $player_id, PlayerProperties::KEY_POSITION => $player_position], 
+        1 => [PlayerProperties::KEY_ID => $player_id + 1, PlayerProperties::KEY_POSITION => 0]];
+        $robot_list = [0 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => $player_position], 
+        1 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]];
+        $expected_list = [$player_list[0], $player_list[1], $robot_list[0], $robot_list[1], ];
+        $this->mock->expects($this->exactly(2))->method('getObjectList')
+            ->withConsecutive([$this->equalTo(PlayerProperties::QUERY_PLAYER)], [$this->equalTo(PlayerProperties::QUERY_ROBOT)])
+            ->willReturnOnConsecutiveCalls($player_list, $robot_list);
+        // Act
+        $list = $this->sut->getPropertiesPlayersPlusRobots();
+        // Assert
+        $this->assertEquals($player_list, $list);
+    }
+
+    public function testProperties_4Players_SelectOnlyPlayers() {
+        // Arrange
+        $player_id = 2;
+        $player_position = 5;
+        $player_list = [0 => [PlayerProperties::KEY_ID => $player_id, PlayerProperties::KEY_POSITION => $player_position]
+            , 1 => [PlayerProperties::KEY_ID => $player_id + 1, PlayerProperties::KEY_POSITION => 0]
+            , 2 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => 0]
+            , 3 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]
+        ];
+        $expected_list = [$player_list[0], $player_list[1], $player_list[2], $player_list[3], ];
+        $this->mock->expects($this->exactly(1))->method('getObjectList')->with($this->equalTo(PlayerProperties::QUERY_PLAYER))->will($this->returnValue(
+            $player_list));
+        // Act
+        $list = $this->sut->getPropertiesPlayersPlusRobots();
+        // Assert
+        $this->assertEquals($expected_list, $list);
     }
 
 }
