@@ -60,6 +60,10 @@ class PlayerProperties {
         return $player_id < 9;
     }
 
+    public function getRobotProperties() : array {
+        return $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_ROBOT));
+    }
+
     private function setupRobots(int $player_number_offset, int $robot_count, array $colors) {
         if ($robot_count <= 0) {
             return;
