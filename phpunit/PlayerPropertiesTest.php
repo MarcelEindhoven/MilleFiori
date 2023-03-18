@@ -85,6 +85,17 @@ class PlayerPropertiesTest extends TestCase{
         // Assert
     }
 
+    public function testRobotProperties_4Players_NoRobots() {
+        // Arrange
+        $this->mock->expects($this->exactly(1))->method('getObjectList')
+            ->with($this->equalTo(PlayerProperties::QUERY_ROBOT))
+            ->will($this->returnValue([]));
+        // Act
+        $robotProperties = $this->sut->getRobotProperties();
+        // Assert
+        $this->assertEquals([], $robotProperties);
+    }
+
     public function testProperties_2Players_SelectPlayersRobots() {
         // Arrange
         $player_id = 2;

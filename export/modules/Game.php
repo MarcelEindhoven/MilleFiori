@@ -8,9 +8,12 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
+include_once(__DIR__.'/BGA/CardsInterface.php');
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 include_once(__DIR__.'/Ocean.php');
+include_once(__DIR__.'/Robot.php');
+include_once(__DIR__.'/PlayerProperties.php');
 
 class Game {
     const NUMBER_CARDS_INCLUDING_START = 110;
@@ -34,6 +37,21 @@ class Game {
     public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Game {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
+    }
+
+    public function setCards(\NieuwenhovenGames\BGA\CardsInterface $bgaCards) : Game {
+        $this->bgaCards = $bgaCards;
+        return $this;
+    }
+
+    public function setPlayerProperties(PlayerProperties $properties) {
+        $this->playerProperties = $properties;
+    }
+
+    public function allRobotsSelectCard() {
+        foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
+            $this->bgaCards->getCardsInLocation('hand', $robot->getPlayerID());
+        }
     }
 
     public function getTooltips() {
