@@ -42,8 +42,13 @@ class Game {
         return $this;
     }
 
-    public function setCards($bgaCards) : Game {
-        $this->bgaCards = $bgaCards;
+    public function setCards($cards) : Game {
+        $this->cards = $cards;
+        return $this;
+    }
+
+    public function setNotifyInterface($notifyInterface) : Game {
+        $this->notifyInterface = $notifyInterface;
         return $this;
     }
 
@@ -51,21 +56,28 @@ class Game {
         $this->playerProperties = $properties;
     }
 
+    public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
+        if ($this->playerProperties->isPlayerARobot($player_id)) {
+            return;
+        }
+        $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
+    }
+
     public function allRobotsSelectCard() {
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            $cards = $this->bgaCards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
+            $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
             $cardID = $robot->selectCard(array_column($cards, Game::CARD_KEY_ID));
             $this->moveFromHandToSelected($cardID, $robot->getPlayerID());
         }
     }
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
-        foreach ($this->bgaCards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            // self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
-            $this->bgaCards->moveCard($selectedCard['id'], 'hand', $current_player_id);
+        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
+            self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
+            $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
         }
-        // self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
-        $this->bgaCards->moveCard($card_id, 'selectedhand', $current_player_id);
+        self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
+        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 
     public function getTooltips() {

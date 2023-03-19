@@ -124,6 +124,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
             $this->game->setPlayerProperties($this->playerProperties);
+            $this->game->setNotifyInterface($this);
 
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
