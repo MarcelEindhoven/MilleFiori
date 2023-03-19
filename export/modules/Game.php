@@ -20,6 +20,7 @@ class Game {
     const INDEX_START_CARD = 35;
     const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
+    const CARD_KEY_ID = 'id';
 
     static public function getCardDefinitions(): array {
         $cards = array ();
@@ -41,7 +42,7 @@ class Game {
         return $this;
     }
 
-    public function setCards(\NieuwenhovenGames\BGA\CardsInterface $bgaCards) : Game {
+    public function setCards($bgaCards) : Game {
         $this->bgaCards = $bgaCards;
         return $this;
     }
@@ -53,8 +54,18 @@ class Game {
     public function allRobotsSelectCard() {
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
             $cards = $this->bgaCards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
-            $cardID = $robot->selectCard(array_column($cards, PlayerProperties::KEY_ID));
+            $cardID = $robot->selectCard(array_column($cards, Game::CARD_KEY_ID));
+            $this->moveFromHandToSelected($cardID, $robot->getPlayerID());
         }
+    }
+
+    public function moveFromHandToSelected($card_id, $current_player_id) {
+        foreach ($this->bgaCards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
+            // self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
+            $this->bgaCards->moveCard($selectedCard['id'], 'hand', $current_player_id);
+        }
+        // self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
+        $this->bgaCards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 
     public function getTooltips() {

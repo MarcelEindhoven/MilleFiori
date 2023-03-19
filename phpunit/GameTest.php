@@ -32,7 +32,7 @@ class GameTest extends TestCase{
         // Assert
     }
 
-    private function createCard(string $cardID) {
+    private function createCard(int $cardID) {
         return ['id' => $cardID];
     }
 
@@ -44,9 +44,13 @@ class GameTest extends TestCase{
         $this->mockPlayerProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue($robot_list));
 
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
-        $this->mockCards->expects($this->exactly(2))->method('getCardsInLocation')
-        ->withConsecutive([$this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id)], [$this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id + 1)])
-        ->willReturnOnConsecutiveCalls([$this->createCard('one')], [$this->createCard('two')]);
+        $this->mockCards->expects($this->exactly(4))->method('getCardsInLocation')
+        ->withConsecutive([
+            $this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id)]
+            , [$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id)]
+            , [$this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id + 1)]
+            , [$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id + 1)])
+        ->willReturnOnConsecutiveCalls([$this->createCard(1)], [], [$this->createCard(2)], []);
 
         //$this->mockCards->expects($this->exactly(2))->method('moveCard')
         //->withConsecutive([$this->equalTo('one'), $this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id)], [$this->equalTo('two'), $this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id + 1)]);

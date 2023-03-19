@@ -122,6 +122,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 
             $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this);
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
+            $this->game->setCards($this->cards);
+            $this->game->setPlayerProperties($this->playerProperties);
+
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
         }
@@ -359,7 +362,8 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function stSelectCard() {
         self::trace( "stSelectCard" );
         $this->gamestate->setAllPlayersMultiactive();
-        // All robots select a card
+
+        $this->game->allRobotsSelectCard();
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
