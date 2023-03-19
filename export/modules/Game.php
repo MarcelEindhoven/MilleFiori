@@ -18,6 +18,8 @@ include_once(__DIR__.'/PlayerProperties.php');
 class Game {
     const NUMBER_CARDS_INCLUDING_START = 110;
     const INDEX_START_CARD = 35;
+    const CARDS_HAND = 'hand';
+    const CARDS_SELECTED_HAND = 'selectedhand';
 
     static public function getCardDefinitions(): array {
         $cards = array ();
@@ -50,7 +52,7 @@ class Game {
 
     public function allRobotsSelectCard() {
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            $this->bgaCards->getCardsInLocation('hand', $robot->getPlayerID());
+            $cards = $this->bgaCards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
         }
     }
 

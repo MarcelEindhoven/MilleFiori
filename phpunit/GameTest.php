@@ -32,6 +32,10 @@ class GameTest extends TestCase{
         // Assert
     }
 
+    private function createCard(string $cardID) {
+        return ['id' => $cardID];
+    }
+
     public function testRobotsSelectCard_OneCard2Robots_Select2Cards() {
         // Arrange
         $robot_id = 2;
@@ -40,7 +44,12 @@ class GameTest extends TestCase{
         $this->mockPlayerProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue($robot_list));
 
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
-        $this->mockCards->expects($this->exactly(2))->method('getCardsInLocation')->willReturnOnConsecutiveCalls(['one'], ['two']);
+        $this->mockCards->expects($this->exactly(2))->method('getCardsInLocation')
+        ->withConsecutive([$this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id)], [$this->equalTo(Game::CARDS_HAND), $this->equalTo($robot_id + 1)])
+        ->willReturnOnConsecutiveCalls([$this->createCard('one')], [$this->createCard('two')]);
+
+        //$this->mockCards->expects($this->exactly(2))->method('moveCard')
+        //->withConsecutive([$this->equalTo('one'), $this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id)], [$this->equalTo('two'), $this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($robot_id + 1)]);
         // Act
         $this->sut->setCards($this->mockCards);
         $this->sut->allRobotsSelectCard();

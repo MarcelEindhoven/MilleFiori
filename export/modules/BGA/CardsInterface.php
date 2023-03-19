@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\BGA;
  */
 
 interface CardsInterface {
-    public function getCardsInLocation(string $location, int $id = null) : array;
+    public function getCardsInLocation(string $location, int $locationIndex = null) : array;
+    public function moveCard(int $cardID, string $location, int $locationIndex = null) : void;
 }
 ?>
