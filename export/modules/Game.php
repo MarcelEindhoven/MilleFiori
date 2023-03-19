@@ -53,6 +53,7 @@ class Game {
     public function allRobotsSelectCard() {
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
             $cards = $this->bgaCards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
+            $cardID = $robot->selectCard(array_column($cards, PlayerProperties::KEY_ID));
         }
     }
 

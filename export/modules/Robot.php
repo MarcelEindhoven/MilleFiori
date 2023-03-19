@@ -28,6 +28,14 @@ class Robot {
         $this->robotProperties = $robotProperties;
         return $this;
     }
+
+    public function selectCard(array $cardIDs) {
+        if (! $cardIDs) {
+            return;
+        }
+        // For now, any card will do
+        return array_shift($cardIDs);
+    }
 }
 
 ?>

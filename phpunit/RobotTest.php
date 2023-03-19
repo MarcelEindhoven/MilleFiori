@@ -36,5 +36,22 @@ class RobotTest extends TestCase{
         $this->assertCount(2, $robots);
         $this->assertEquals($robot_id, $robots[0]->getPlayerID());
     }
+
+    public function testSelectCard_Empty_ReturnNull() {
+        // Arrange
+        // Act
+        $card = $this->sut->selectCard([]);
+        // Assert
+        $this->assertEquals(null, $card);
+    }
+
+    public function testSelectCard_Single_ReturnCardID() {
+        // Arrange
+        $expectedCardID = 'card';
+        // Act
+        $card = $this->sut->selectCard([$expectedCardID]);
+        // Assert
+        $this->assertEquals($expectedCardID, $card);
+    }
 }
 ?>
