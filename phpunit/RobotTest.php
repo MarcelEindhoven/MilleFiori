@@ -53,5 +53,13 @@ class RobotTest extends TestCase{
         // Assert
         $this->assertEquals($expectedCardID, $card);
     }
+
+    public function testSelectField_Empty_ReturnNull() {
+        // Arrange
+        // Act
+        $card = $this->sut->selectField([]);
+        // Assert
+        $this->assertEquals(null, $card);
+    }
 }
 ?>

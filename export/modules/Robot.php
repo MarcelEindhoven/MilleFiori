@@ -29,12 +29,20 @@ class Robot {
         return $this;
     }
 
-    public function selectCard(array $cardIDs) {
-        if (! $cardIDs) {
+    public function selectCard(array $IDs) {
+        if (! $IDs) {
             return;
         }
-        // For now, any card will do
-        return array_shift($cardIDs);
+        // For now, any will do
+        return array_shift($IDs);
+    }
+
+    public function selectField(array $IDs) {
+        if (! $IDs) {
+            return;
+        }
+        // For now, any will do
+        return array_shift($IDs);
     }
 }
 
