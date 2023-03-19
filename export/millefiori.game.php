@@ -204,15 +204,6 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         In this space, you can put any utility methods useful for your game logic
     */
 
-    function moveFromHandToSelected($card_id) {
-        $current_player_id = self::getCurrentPlayerId();
-        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
-            $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
-        }
-        self::notifyPlayer($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
-        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
-    }
     function removeFromPlayedHand() {
         self::trace("removeFromPlayedHand ");
         foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
@@ -268,7 +259,9 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
     function selectCard($card_id) {
         self::checkAction("selectCard");
 
-        $this->moveFromHandToSelected($card_id);
+        $this->initialiseHelperClassesIfNeeded();
+
+        $this->game->moveFromHandToSelected($card_id, self::getCurrentPlayerId());
 
         $this->gamestate->nextState();
     }
