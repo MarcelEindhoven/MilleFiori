@@ -20,7 +20,9 @@ class Game {
     const INDEX_START_CARD = 35;
     const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
+    const CARDS_PLAYED_HAND = 'playedhand';
     const CARD_KEY_ID = 'id';
+    const CARD_KEY_TYPE = 'type';
 
     static public function getCardDefinitions(): array {
         $cards = array ();
@@ -56,6 +58,10 @@ class Game {
         $this->playerProperties = $properties;
     }
 
+    public function setOcean(Ocean $ocean) {
+        $this->ocean = $ocean;
+    }
+
     public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
         if ($this->playerProperties->isPlayerARobot($player_id)) {
             return;
@@ -63,18 +69,32 @@ class Game {
         $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
     }
 
+    public function allRobotsPlayCard() {
+        foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
+            $cards = $this->cards->getCardsInLocation(Game::CARDS_SELECTED_HAND, $robot->getPlayerID());
+            $card = array_shift($cards);
+            $this->robotPlayCard($robot, $card);
+        }
+    }
+    private function robotPlayCard($robot, $card) {
+        $this->cards->moveCard($card[Game::CARD_KEY_ID], Game::CARDS_PLAYED_HAND);
+
+        $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
+        $field = $robot->selectField($fields);
+    }
+
     public function allRobotsSelectCard() {
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
             $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
-            $cardID = $robot->selectCard(array_column($cards, Game::CARD_KEY_ID));
-            $this->moveFromHandToSelected($cardID, $robot->getPlayerID());
+            $card_id = $robot->selectCard(array_column($cards, Game::CARD_KEY_ID));
+            $this->moveFromHandToSelected($card_id, $robot->getPlayerID());
         }
     }
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
             self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
-            $this->cards->moveCard($selectedCard['id'], 'hand', $current_player_id);
+            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], 'hand', $current_player_id);
         }
         self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
