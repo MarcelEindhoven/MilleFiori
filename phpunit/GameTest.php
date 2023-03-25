@@ -130,17 +130,13 @@ class GameTest extends TestCase{
         );
 
         $this->mock->expects($this->exactly(2))
-        ->method('getObjectFromDB')
+        ->method('getObject')
         ->willReturnOnConsecutiveCalls(['player_score' => 7], ['player_score' => 8]);
-
-        $this->mockFields->expects($this->exactly(2))
-        ->method('getID')
-        ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->mockOcean->expects($this->exactly(2))
         ->method('getSelectableFields')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
-        ->willReturnOnConsecutiveCalls(['field_ocean_1'], ['field_ocean_2']);
+        ->willReturnOnConsecutiveCalls(['1'], ['2']);
 
         $this->mockOcean->expects($this->exactly(2))
         ->method('getReward')

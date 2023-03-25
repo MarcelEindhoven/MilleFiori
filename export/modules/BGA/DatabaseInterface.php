@@ -10,12 +10,12 @@ namespace NieuwenhovenGames\BGA;
 
 interface DatabaseInterface {
     public function query(string $query) : void;
-    public function getObjectFromDB(string $query) : array;
+    public function getObject(string $query) : array;
     public function getObjectList(string $query) : array;
     public function trace(string $trace) : void;
 
     /*
-    Static functions
+    Protected methods that cannot be called directly
 
     DbQuery($query);
     getUniqueValueFromDB( $sql );
