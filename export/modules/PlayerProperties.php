@@ -48,6 +48,11 @@ class PlayerProperties {
         return $properties_list;
     }
 
+    public function setOceanPosition(int $player_id, int $ocean_position) : PlayerProperties {
+
+        return $this;
+    }
+
     private function mapIDToDataContainingID(array $list): array {
         $mapped_list = [];
         foreach ($list as $element) {
@@ -56,7 +61,7 @@ class PlayerProperties {
         return $mapped_list;
     }
 
-    public function isPlayerARobot($player_id) : bool {
+    public function isPlayerARobot(int $player_id) : bool {
         return $player_id < 9;
     }
 

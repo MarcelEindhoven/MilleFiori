@@ -131,6 +131,7 @@ class PlayerPropertiesTest extends TestCase{
         // Assert
         $this->assertEquals($expected_list, $list);
     }
+
     public function testIsRobot_3_Yes() {
         // Arrange
         $this->arrangeCreate(2, 0);
@@ -141,6 +142,14 @@ class PlayerPropertiesTest extends TestCase{
         $this->assertTrue($is_robot);
     }
 
+    public function testProperties_SetOcean_SQLUpdate() {
+        // Arrange
+        $this->arrangeCreate(2, 0);
+        // Act
+        $this->defaultAct();
+        $this->sut->setOceanPosition(3, 4);
+        // Assert
+    }
 
 }
 ?>
