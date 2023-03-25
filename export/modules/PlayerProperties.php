@@ -59,7 +59,6 @@ class PlayerProperties {
     }
 
     public function setProperty(int $player_id, string $property_key, $property_value) : PlayerProperties {
-        $database = 'robot';
         if ($this->isPlayerARobot($player_id)) {
             $database = PlayerProperties::DATABASE_ROBOT;
         } else {

@@ -24,6 +24,14 @@ class OceanTest extends TestCase{
         $this->sut = Ocean::create($this->mock);
     }
 
+    private function expectNoUpdate() {
+        $this->mock->expects($this->exactly(0))->method('query');
+    }
+
+    private function expectSingleUpdate($player_id, $position) {
+        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . $position . Ocean::QUERY_WHERE . $player_id));
+    }
+
     public function testTooltips_Get_Array() {
         // Arrange
         $this->arrange(2, 0);
@@ -123,7 +131,8 @@ class OceanTest extends TestCase{
         // Arrange
         $player_id = 2;
         $this->arrange($player_id, 5);
-        $this->mock->expects($this->exactly(0))->method('query');
+        $this->expectNoUpdate();
+        
         // Act
         $this->sut->setPlayerPosition($player_id, 5);
         // Assert
@@ -134,7 +143,7 @@ class OceanTest extends TestCase{
         // Arrange
         $player_id = 2;
         $this->arrange($player_id, 5);
-        $this->mock->expects($this->exactly(0))->method('query');
+        $this->expectNoUpdate();
         // Act
         $this->sut->setPlayerPosition($player_id, 4);
         // Assert
@@ -146,7 +155,7 @@ class OceanTest extends TestCase{
         $player_id = 2;
         $position = 6;
         $this->arrange($player_id, 5);
-        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo(Ocean::UPDATE_OCEAN_POSITION . $position . Ocean::QUERY_WHERE . $player_id));
+        $this->expectSingleUpdate($player_id, $position);
         // Act
         $this->sut->setPlayerPosition($player_id, $position);
         // Assert
