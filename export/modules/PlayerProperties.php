@@ -23,6 +23,7 @@ class PlayerProperties {
     const QUERY_ROBOT = "SELECT player_id id, player_number number, player_score score, player_color color, ocean_position ocean_position FROM robot";
 
     const KEY_POSITION = 'ocean_position';
+    const KEY_PLAYER_SCORE = 'player_score';
     const KEY_ID = 'id';
     const KEY_NUMBER = 'number';
 

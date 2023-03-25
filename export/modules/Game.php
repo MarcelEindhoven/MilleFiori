@@ -104,11 +104,10 @@ class Game {
     private function processReward($player_id, $reward) {
         $points = $reward['points'];
         if ($points != 0) {
-            $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$player_id'";
-            $this->sqlDatabase->query($sql);
+            $newScore = $points + $this->playerProperties->getProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE);
+            $this->playerProperties->setProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE, $newScore);
 
-            $newScore = $this->sqlDatabase->getObject("SELECT player_id, player_score FROM player  WHERE player_id='$player_id'", true )['player_score'];
-            $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
+//            $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
         }
     }
 
