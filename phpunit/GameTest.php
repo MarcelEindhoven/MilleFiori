@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
+include_once(__DIR__.'/../export/modules/Fields.php');
 include_once(__DIR__.'/../export/modules/Game.php');
 include_once(__DIR__.'/../export/modules/PlayerProperties.php');
 include_once(__DIR__.'/../export/modules/Robot.php');
@@ -31,6 +32,9 @@ class GameTest extends TestCase{
 
         $this->mockPlayerProperties = $this->createMock(PlayerProperties::class);
         $this->sut->setPlayerProperties($this->mockPlayerProperties);
+
+        $this->mockFields = $this->createMock(Fields::class);
+        $this->sut->setFields($this->mockFields);
 
         $this->mockOcean = $this->createMock(Ocean::class);
         $this->sut->setOcean($this->mockOcean);
@@ -116,14 +120,36 @@ class GameTest extends TestCase{
         ->withConsecutive([$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id)], [$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id + 1)])
         ->willReturnOnConsecutiveCalls([$this->createCard(1)], [$this->createCard(2)]);
 
-        $this->mockCards->expects($this->exactly(2))
+        $this->mockCards->expects($this->exactly(4))
         ->method('moveCard')
-        ->withConsecutive([$this->equalTo($cards[0][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)], [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)]);
+        ->withConsecutive(
+            [$this->equalTo($cards[0][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)]
+          , [$this->equalTo($cards[0][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_HAND), $this->equalTo(-2)]
+          , [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)]
+          , [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_HAND), $this->equalTo(-2)]
+        );
+
+        $this->mock->expects($this->exactly(2))
+        ->method('getObjectFromDB')
+        ->willReturnOnConsecutiveCalls(['player_score' => 7], ['player_score' => 8]);
+
+        $this->mockFields->expects($this->exactly(2))
+        ->method('getID')
+        ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->mockOcean->expects($this->exactly(2))
         ->method('getSelectableFields')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
         ->willReturnOnConsecutiveCalls(['field_ocean_1'], ['field_ocean_2']);
+
+        $this->mockOcean->expects($this->exactly(2))
+        ->method('getReward')
+        ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
+        ->willReturnOnConsecutiveCalls(['points' => 3], ['points' => 5]);
+
+        $this->mockOcean->expects($this->exactly(2))
+        ->method('setPlayerPosition')
+        ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)]);
         // Act
         $this->sut->allRobotsPlayCard();
         // Assert

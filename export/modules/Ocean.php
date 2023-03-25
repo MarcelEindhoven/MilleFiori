@@ -34,11 +34,9 @@ class Ocean {
     , 1, 1, 2, 2, 3, 3, 4, 4, 5];
     const POINTS_PER_POSITION = [0, 1, 1, 1, 3, 1, 10, 0, 1, 5, 1, 1, 10, 10, 1, 5, 0, 1, 1, 1, 10];
 
-    protected ?\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase = null;
-
     protected array $playerPositions = array();
 
-    public static function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
+    public static function create($sqlDatabase) : Ocean {
         $ocean = new Ocean();
         return $ocean->setDatabase($sqlDatabase)->initialiseFromDatabase();
     }
@@ -47,7 +45,7 @@ class Ocean {
         return Ocean::PLACES_PER_CARD;
     }
 
-    public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Ocean {
+    public function setDatabase($sqlDatabase) : Ocean {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
     }

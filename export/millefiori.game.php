@@ -26,7 +26,7 @@ include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
 
-class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterface
+class MilleFiori extends Table
 {
 	function __construct( )
 	{
@@ -54,14 +54,18 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
 	}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
-    public function getObjectList(string $query) : array {
-        return self::getObjectListFromDB($query);
-    }
-
     public function query(string $query) : void  {
         self::DbQuery($query);
     }
 	
+    public function getObject(string $query) : array {
+        return self::getObjectFromDB($query);
+    }
+
+    public function getObjectList(string $query) : array {
+        return self::getObjectListFromDB($query);
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -120,14 +124,16 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
 
+            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
+            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this);
+
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
             $this->game->setPlayerProperties($this->playerProperties);
             $this->game->setNotifyInterface($this);
-
-            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
-            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
+            $this->game->setOcean($this->ocean);
+            $this->game->setFields($this->fields);
         }
     }
 
@@ -363,6 +369,7 @@ class MilleFiori extends Table implements \NieuwenhovenGames\BGA\DatabaseInterfa
         self::trace( "stSelectedCard" );
         if ($this->haveAllPlayersSelectedCard()) {
             $this->gamestate->nextState('allPlayersReady');
+            //$this->game->allRobotsPlayCard();
         } else {
             $this->gamestate->nextState('playersStillBusy');
         }

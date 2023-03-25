@@ -34,12 +34,12 @@ class Game {
         return $cards;
     }
 
-    public static function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Game {
+    public static function create($sqlDatabase) : Game {
         $game = new Game();
         return $game->setDatabase($sqlDatabase);
     }
 
-    public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : Game {
+    public function setDatabase($sqlDatabase) : Game {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
     }
@@ -58,6 +58,10 @@ class Game {
         $this->playerProperties = $properties;
     }
 
+    public function setFields(Fields $fields) {
+        $this->fields = $fields;
+    }
+
     public function setOcean(Ocean $ocean) {
         $this->ocean = $ocean;
     }
@@ -70,17 +74,43 @@ class Game {
     }
 
     public function allRobotsPlayCard() {
+        $this->sqlDatabase->trace( "allRobotsPlayCard" );
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
+            //$this->sqlDatabase->trace( "allRobotsPlayCard " . PlayerProperties::KEY_ID." ". $this->playerProperties->getRobotProperties()[0][PlayerProperties::KEY_ID]);
             $cards = $this->cards->getCardsInLocation(Game::CARDS_SELECTED_HAND, $robot->getPlayerID());
             $card = array_shift($cards);
             $this->robotPlayCard($robot, $card);
         }
     }
     private function robotPlayCard($robot, $card) {
-        $this->cards->moveCard($card[Game::CARD_KEY_ID], Game::CARDS_PLAYED_HAND);
+        $card_id = $card[Game::CARD_KEY_ID];
+        $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
 
         $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
-        $field = $robot->selectField($fields);
+        $field_id = $robot->selectField($fields);
+        $this->processSelectedField($robot->getPlayerID(), $field_id);
+
+        $this->cards->moveCard($card_id, Game::CARDS_HAND, -2);
+    }
+
+    private function processSelectedField($player_id, $field_id) {
+        $id_within_category = +$this->fields->getID($field_id);
+
+        $this->processReward($player_id, $this->ocean->getReward($player_id, $id_within_category));
+
+        $this->ocean->setPlayerPosition($player_id, $id_within_category);
+        $this->notifyInterface->notifyAllPlayers('shipMoved', '', ['players' => $this->playerProperties->getPropertiesPlayersPlusRobots()]);
+    }
+
+    private function processReward($player_id, $reward) {
+        $points = $reward['points'];
+        if ($points != 0) {
+            $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$player_id'";
+            $this->sqlDatabase->query($sql);
+
+            $newScore = $this->sqlDatabase->getObjectFromDB("SELECT player_id, player_score FROM player  WHERE player_id='$player_id'", true )['player_score'];
+            $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
+        }
     }
 
     public function allRobotsSelectCard() {

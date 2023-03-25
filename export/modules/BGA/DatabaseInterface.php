@@ -9,7 +9,25 @@ namespace NieuwenhovenGames\BGA;
  */
 
 interface DatabaseInterface {
-    public function getObjectList(string $query) : array;
     public function query(string $query) : void;
+    public function getObjectFromDB(string $query) : array;
+    public function getObjectList(string $query) : array;
+    public function trace(string $trace) : void;
+
+    /*
+    Static functions
+
+    DbQuery($query);
+    getUniqueValueFromDB( $sql );
+    getCollectionFromDB( $sql, $bSingleValue=false );
+    getNonEmptyCollectionFromDB( $sql );
+    getNonEmptyObjectFromDB( $sql );
+    getObjectFromDB( $sql );
+    getObjectListFromDB( $sql, $bUniqueValue=false );
+    getDoubleKeyCollectionFromDB( $sql, $bSingleValue=false );
+    DbGetLastId();
+    DbAffectedRow();
+    escapeStringForDB( $string );
+    */
 }
 ?>

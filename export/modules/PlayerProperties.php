@@ -22,12 +22,12 @@ class PlayerProperties {
     const KEY_ID = 'id';
     const KEY_NUMBER = 'number';
 
-    static public function create(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {
+    static public function create($sqlDatabase) : PlayerProperties {
         $properties = new PlayerProperties();
         return $properties->setDatabase($sqlDatabase);
     }
 
-    public function setDatabase(\NieuwenhovenGames\BGA\DatabaseInterface $sqlDatabase) : PlayerProperties {
+    public function setDatabase($sqlDatabase) : PlayerProperties {
         $this->sqlDatabase = $sqlDatabase;
         return $this;
     }
