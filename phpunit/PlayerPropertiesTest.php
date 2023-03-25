@@ -142,12 +142,17 @@ class PlayerPropertiesTest extends TestCase{
         $this->assertTrue($is_robot);
     }
 
-    public function testProperties_SetOcean_SQLUpdate() {
+    public function testProperties_RobotSetOcean_SQLUpdate() {
         // Arrange
-        $this->arrangeCreate(2, 0);
+        $database = 'robot';
+        $property_key = PlayerProperties::KEY_POSITION;
+        $player_id = 3;
+        $property_value = 4;
+
+        $query = 'UPDATE $database SET $property_key=$property_value WHERE player_id=$player_id';
+        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
         // Act
-        $this->defaultAct();
-        $this->sut->setOceanPosition(3, 4);
+        $this->sut->setOceanPosition($player_id, $property_value);
         // Assert
     }
 

@@ -11,6 +11,10 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class PlayerProperties {
+    const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
+    const DATABASE_PLAYER = 'player';
+    const DATABASE_ROBOT = 'robot';
+
     const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
     const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_number, player_color, player_name, ocean_position) VALUES ";
 
@@ -49,6 +53,11 @@ class PlayerProperties {
     }
 
     public function setOceanPosition(int $player_id, int $ocean_position) : PlayerProperties {
+        $database = 'robot';
+        $property_key = PlayerProperties::KEY_POSITION;
+        $property_value = $ocean_position;
+
+        $this->sqlDatabase->query('UPDATE $database SET $property_key=$property_value WHERE player_id=$player_id');
 
         return $this;
     }
