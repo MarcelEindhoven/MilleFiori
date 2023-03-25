@@ -53,11 +53,20 @@ class PlayerProperties {
     }
 
     public function setOceanPosition(int $player_id, int $ocean_position) : PlayerProperties {
-        $database = 'robot';
-        $property_key = PlayerProperties::KEY_POSITION;
-        $property_value = $ocean_position;
+        $this->setProperty($player_id, PlayerProperties::KEY_POSITION, $ocean_position);
 
-        $this->sqlDatabase->query('UPDATE $database SET $property_key=$property_value WHERE player_id=$player_id');
+        return $this;
+    }
+
+    public function setProperty(int $player_id, string $property_key, $property_value) : PlayerProperties {
+        $database = 'robot';
+        if ($this->isPlayerARobot($player_id)) {
+            $database = PlayerProperties::DATABASE_ROBOT;
+        } else {
+            $database = PlayerProperties::DATABASE_PLAYER;
+        }
+
+        $this->sqlDatabase->query("UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}");
 
         return $this;
     }

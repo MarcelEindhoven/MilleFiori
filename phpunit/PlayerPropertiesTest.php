@@ -137,23 +137,42 @@ class PlayerPropertiesTest extends TestCase{
         $this->arrangeCreate(2, 0);
         // Act
         $this->defaultAct();
-        $is_robot = $this->sut->isPlayerARobot(3);
+        $is_robot = $this->sut->isPlayerARobot($this->createRobotID());
         // Assert
         $this->assertTrue($is_robot);
     }
 
     public function testProperties_RobotSetOcean_SQLUpdate() {
         // Arrange
-        $database = 'robot';
-        $property_key = PlayerProperties::KEY_POSITION;
-        $player_id = 3;
+        $player_id = $this->createRobotID();
         $property_value = 4;
 
-        $query = 'UPDATE $database SET $property_key=$property_value WHERE player_id=$player_id';
+        $query = $this->createQueryUpdate(PlayerProperties::DATABASE_ROBOT, PlayerProperties::KEY_POSITION, $player_id, $property_value);
         $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
         // Act
         $this->sut->setOceanPosition($player_id, $property_value);
         // Assert
+    }
+
+    public function testProperties_PlayerSetOcean_SQLUpdatePlayer() {
+        // Arrange
+        $player_id = $this->createPlayerID();
+        $property_value = 4;
+
+        $query = $this->createQueryUpdate(PlayerProperties::DATABASE_PLAYER, PlayerProperties::KEY_POSITION, $player_id, $property_value);
+        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
+        // Act
+        $this->sut->setOceanPosition($player_id, $property_value);
+        // Assert
+    }
+    private function createQueryUpdate($database, $property_key, $player_id, $property_value) {
+        return "UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}";
+    }
+    private function createRobotID() {
+        return 3;
+    }
+    private function createPlayerID() {
+        return 13;
     }
 
 }
