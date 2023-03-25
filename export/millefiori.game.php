@@ -59,6 +59,7 @@ class MilleFiori extends Table
     }
 	
     public function getObject(string $query) : array {
+        self::trace("getObject {$query}");
         return self::getObjectFromDB($query);
     }
 
@@ -88,8 +89,8 @@ class MilleFiori extends Table
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
+        NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setupNewGame($players, $default_colors);
         $this->initialiseHelperClassesIfNeeded();
-        $this->playerProperties->setupNewGame($players, $default_colors);
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
@@ -124,9 +125,9 @@ class MilleFiori extends Table
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
 
-            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this);
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this);
+            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
 
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
@@ -369,7 +370,7 @@ class MilleFiori extends Table
         self::trace( "stSelectedCard" );
         if ($this->haveAllPlayersSelectedCard()) {
             $this->gamestate->nextState('allPlayersReady');
-            //$this->game->allRobotsPlayCard();
+            $this->game->allRobotsPlayCard();
         } else {
             $this->gamestate->nextState('playersStillBusy');
         }

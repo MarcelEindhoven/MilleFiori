@@ -8,8 +8,6 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/BGA/DatabaseInterface.php');
-
 class Ocean {
     const KEY_CATEGORY = 'ocean';
     const KEY_PLAYER_POSITION = 'ocean_position';
@@ -36,17 +34,17 @@ class Ocean {
 
     protected array $playerPositions = array();
 
-    public static function create($sqlDatabase) : Ocean {
+    public static function create($properties) : Ocean {
         $ocean = new Ocean();
-        return $ocean->setDatabase($sqlDatabase)->initialiseFromDatabase();
+        return $ocean->setDatabase($properties)->initialiseFromDatabase();
     }
 
     public static function getTooltips() {
         return Ocean::PLACES_PER_CARD;
     }
 
-    public function setDatabase($sqlDatabase) : Ocean {
-        $this->sqlDatabase = $sqlDatabase;
+    public function setDatabase($properties) : Ocean {
+        $this->properties = $properties;
         return $this;
     }
 
@@ -59,7 +57,7 @@ class Ocean {
     }
 
     public function initialiseFromDatabase() : Ocean {
-        $list = $this->sqlDatabase->getObjectList(Ocean::QUERY_PLAYER);
+        $list = $this->properties->getPropertiesPlayersPlusRobots();
         foreach ($list as $player_id => $player) {
             $this->playerPositions[$player[Ocean::KEY_PLAYER_ID]] = $player[Ocean::KEY_PLAYER_POSITION];
         }
@@ -96,7 +94,7 @@ class Ocean {
     public function setPlayerPosition($player, int $places) : Ocean {
         if ($places > $this->getPlayerPosition($player)) {
             $this->playerPositions[$player] = $places;
-            $this->sqlDatabase->query(Ocean::UPDATE_OCEAN_POSITION . $places . Ocean::QUERY_WHERE . $player);
+            $this->properties->setOceanPosition($player, $places);
         }
 
         return $this;

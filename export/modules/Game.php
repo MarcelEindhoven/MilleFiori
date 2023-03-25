@@ -76,7 +76,7 @@ class Game {
     public function allRobotsPlayCard() {
         $this->sqlDatabase->trace( "allRobotsPlayCard" );
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            //$this->sqlDatabase->trace( "allRobotsPlayCard " . PlayerProperties::KEY_ID." ". $this->playerProperties->getRobotProperties()[0][PlayerProperties::KEY_ID]);
+            $this->sqlDatabase->trace( "allRobotsPlayCard " . PlayerProperties::KEY_ID." ". $this->playerProperties->getRobotProperties()[0][PlayerProperties::KEY_ID]);
             $cards = $this->cards->getCardsInLocation(Game::CARDS_SELECTED_HAND, $robot->getPlayerID());
             $card = array_shift($cards);
             $this->robotPlayCard($robot, $card);
@@ -85,17 +85,16 @@ class Game {
     private function robotPlayCard($robot, $card) {
         $card_id = $card[Game::CARD_KEY_ID];
         $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
+        $this->sqlDatabase->trace('getPlayerPosition ' . $robot->getPlayerID() . ' ' . $card[Game::CARD_KEY_TYPE] . ' '. $this->ocean->getPlayerPosition($robot->getPlayerID()));
 
         $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
-        $field_id = $robot->selectField($fields);
-        $this->processSelectedField($robot->getPlayerID(), $field_id);
+        $id_within_category = $robot->selectField($fields);
+        $this->processSelectedField($robot->getPlayerID(), $id_within_category);
 
         $this->cards->moveCard($card_id, Game::CARDS_HAND, -2);
     }
 
-    private function processSelectedField($player_id, $field_id) {
-        $id_within_category = +$this->fields->getID($field_id);
-
+    private function processSelectedField($player_id, $id_within_category) {
         $this->processReward($player_id, $this->ocean->getReward($player_id, $id_within_category));
 
         $this->ocean->setPlayerPosition($player_id, $id_within_category);
@@ -108,7 +107,7 @@ class Game {
             $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$player_id'";
             $this->sqlDatabase->query($sql);
 
-            $newScore = $this->sqlDatabase->getObjectFromDB("SELECT player_id, player_score FROM player  WHERE player_id='$player_id'", true )['player_score'];
+            $newScore = $this->sqlDatabase->getObject("SELECT player_id, player_score FROM player  WHERE player_id='$player_id'", true )['player_score'];
             $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
         }
     }
