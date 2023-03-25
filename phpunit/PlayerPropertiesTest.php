@@ -142,6 +142,21 @@ class PlayerPropertiesTest extends TestCase{
         $this->assertTrue($is_robot);
     }
 
+    public function testProperties_RobotGet_SQLSelect() {
+        // Arrange
+        $player_id = $this->createRobotID();
+        $database = PlayerProperties::DATABASE_ROBOT;
+        $property_key = PlayerProperties::KEY_POSITION;
+        $expected_property_value = 4;
+        $this->mock->expects($this->exactly(1))->method('getObject')
+            ->with($this->equalTo("SELECT {$property_key} FROM {$database} WHERE player_id={$player_id}"))
+            ->will($this->returnValue([$property_key => $expected_property_value]));
+
+        // Act
+        $property_value = $this->sut->getProperty($player_id, $property_key);
+        // Assert
+    }
+
     public function testProperties_RobotSetOcean_SQLUpdate() {
         // Arrange
         $player_id = $this->createRobotID();
