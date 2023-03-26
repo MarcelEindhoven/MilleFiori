@@ -37,6 +37,11 @@ class PlayerProperties {
         return $this;
     }
 
+    public function setNotifyInterface($notify) : PlayerProperties {
+        $this->notify = $notify;
+        return $this;
+    }
+
     public function setupNewGame(array $players, array $default_colors) : PlayerProperties {
         $remaining_colours = $this->setupPlayers($players, $default_colors);
 

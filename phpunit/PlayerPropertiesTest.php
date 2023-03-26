@@ -12,12 +12,15 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../export/modules/PlayerProperties.php');
 
 include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
+include_once(__DIR__.'/../export/modules/BGA/NotifyInterface.php');
 
 class PlayerPropertiesTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];
     public function setup() : void {
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
+        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
         $this->sut = PlayerProperties::create($this->mock);
+        $this->sut->setNotifyInterface($this->mockNotify);
     }
 
     private function arrangeCreate($number_players, $number_colors) {
