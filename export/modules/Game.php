@@ -121,10 +121,10 @@ class Game {
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
+            $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'cardID' => $selectedCard]);
             $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], 'hand', $current_player_id);
         }
-        self::notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
+        $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'cardID' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 

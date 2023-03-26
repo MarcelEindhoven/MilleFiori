@@ -129,10 +129,6 @@ class GameTest extends TestCase{
           , [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_HAND), $this->equalTo(-2)]
         );
 
-        $this->mock->expects($this->exactly(2))
-        ->method('getObject')
-        ->willReturnOnConsecutiveCalls(['player_score' => 7], ['player_score' => 8]);
-
         $this->mockOcean->expects($this->exactly(2))
         ->method('getSelectableFields')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
