@@ -126,7 +126,7 @@ class MilleFiori extends Table
             self::trace( "Initialise helper classes" );
 
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
-            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this);
+            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setNotifyInterface($this);
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
 
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);

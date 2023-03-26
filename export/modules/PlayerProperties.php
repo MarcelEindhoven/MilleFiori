@@ -57,10 +57,19 @@ class PlayerProperties {
         }
         return $properties_list;
     }
+
     public function getProperty(int $player_id, string $property_key) {
         $database = $this->getDatabase($player_id);
 
         return $this->sqlDatabase->getObject("SELECT {$property_key} FROM {$database} WHERE player_id={$player_id}")[$property_key];
+    }
+
+    public function setProperty(int $player_id, string $property_key, $property_value) : PlayerProperties {
+        $database = $this->getDatabase($player_id);
+
+        $this->sqlDatabase->query("UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}");
+
+        return $this;
     }
 
     public function setOceanPosition(int $player_id, int $ocean_position) : PlayerProperties {
@@ -71,20 +80,23 @@ class PlayerProperties {
         return $this;
     }
 
+    public function addScore(int $player_id, int $delta_score) : PlayerProperties {
+        $newScore = $delta_score + $this->getProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE);
+        $this->setProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE, $newScore);
+
+        if (! $this->isPlayerARobot($player_id)) {
+            $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
+        }
+
+        return $this;
+    }
+
     private function getDatabase(int $player_id) {
         if ($this->isPlayerARobot($player_id)) {
             return PlayerProperties::DATABASE_ROBOT;
         } else {
             return PlayerProperties::DATABASE_PLAYER;
         }
-    }
-
-    public function setProperty(int $player_id, string $property_key, $property_value) : PlayerProperties {
-        $database = $this->getDatabase($player_id);
-
-        $this->sqlDatabase->query("UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}");
-
-        return $this;
     }
 
     private function mapIDToDataContainingID(array $list): array {

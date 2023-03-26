@@ -103,10 +103,7 @@ class Game {
     private function processReward($player_id, $reward) {
         $points = $reward['points'];
         if ($points != 0) {
-            $newScore = $points + $this->playerProperties->getProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE);
-            $this->playerProperties->setProperty($player_id, PlayerProperties::KEY_PLAYER_SCORE, $newScore);
-
-//            $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
+            $this->playerProperties->addScore($player_id, $points);
         }
     }
 
