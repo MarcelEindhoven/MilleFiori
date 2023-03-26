@@ -12,9 +12,12 @@ require_once(__DIR__.'/BGA/CardsInterface.php');
 include_once(__DIR__.'/BGA/NotifyInterface.php');
 
 class CardsHandler {
+    const LOCATION_SWAP = -3;
+    const HAND = 'hand';
+
     static public function create($cards) : CardsHandler {
-        $cards = new CardsHandler();
-        return $cards->setCards($cards);
+        $cardsHandler = new CardsHandler();
+        return $cardsHandler->setCards($cards);
     }
 
     public function setCards($cards) : CardsHandler {
@@ -28,6 +31,17 @@ class CardsHandler {
     }
 
     public function swapHands(array $player_ids) : CardsHandler {
+        if (count($player_ids) < 2) {
+            return $this;
+        }
+        $previous_player = CardsHandler::LOCATION_SWAP;
+        foreach ($player_ids as $player_id) {
+            $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, $player_id, $previous_player);
+            $previous_player = $player_id;
+        }
+
+        $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, CardsHandler::LOCATION_SWAP, $previous_player);
+
         return $this;
     }
 

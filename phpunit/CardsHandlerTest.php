@@ -24,8 +24,17 @@ class CardsHandlerTest extends TestCase{
     public function testswapHands_NoPlayers_NoAction() {
         // Arrange
         $this->mockNotify->expects($this->exactly(0))->method('notifyPlayer');
+        $this->mockCards->expects($this->exactly(0))->method('moveAllCardsInLocation');
         // Act
         $this->sut->swapHands([]);
+        // Assert
+    }
+
+    public function testswapHands_2Players_Swap() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(3))->method('moveAllCardsInLocation');
+        // Act
+        $this->sut->swapHands([11, 12]);
         // Assert
     }
 }
