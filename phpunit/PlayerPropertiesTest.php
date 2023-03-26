@@ -19,8 +19,7 @@ class PlayerPropertiesTest extends TestCase{
     public function setup() : void {
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
         $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
-        $this->sut = PlayerProperties::create($this->mock);
-        $this->sut->setNotifyInterface($this->mockNotify);
+        $this->sut = PlayerProperties::create($this->mock)->setNotifyInterface($this->mockNotify);
     }
 
     private function arrangeCreate($number_players, $number_colors) {
@@ -101,16 +100,8 @@ class PlayerPropertiesTest extends TestCase{
 
     public function testProperties_2Players_SelectPlayersRobots() {
         // Arrange
-        $player_id = 2;
-        $player_position = 5;
-        $player_list = [0 => [PlayerProperties::KEY_ID => $player_id, PlayerProperties::KEY_POSITION => $player_position], 
-        1 => [PlayerProperties::KEY_ID => $player_id + 1, PlayerProperties::KEY_POSITION => 0]];
-        $robot_list = [0 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => $player_position], 
-        1 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]];
-        $expected_list = [$player_id => $player_list[0], $player_id + 1 => $player_list[1], $player_id + 2 => $robot_list[0], $player_id + 3 => $robot_list[1], ];
-        $this->mock->expects($this->exactly(2))->method('getObjectList')
-            ->withConsecutive([$this->equalTo(PlayerProperties::QUERY_PLAYER)], [$this->equalTo(PlayerProperties::QUERY_ROBOT)])
-            ->willReturnOnConsecutiveCalls($player_list, $robot_list);
+        $expected_list = $this->expectgetProperties2PlayersPlus2Robots();
+
         // Act
         $list = $this->sut->getPropertiesPlayersPlusRobots();
         // Assert
@@ -163,7 +154,10 @@ class PlayerPropertiesTest extends TestCase{
     public function testProperties_RobotSetOcean_SQLUpdate() {
         // Arrange
         $player_id = $this->createRobotID();
-        $property_value = 4;
+        $property_value = 5;
+
+        $expected_list = $this->expectgetProperties2PlayersPlus2Robots();
+        $this->mockNotify->expects($this->exactly(1))->method('notifyAllPlayers');
 
         $query = $this->createQueryUpdate(PlayerProperties::DATABASE_ROBOT, PlayerProperties::KEY_POSITION, $player_id, $property_value);
         $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
@@ -183,6 +177,24 @@ class PlayerPropertiesTest extends TestCase{
         $this->sut->setOceanPosition($player_id, $property_value);
         // Assert
     }
+
+    private function expectgetProperties2PlayersPlus2Robots() {
+        $player_id = $this->createRobotID();
+        $player_position = 5;
+
+        $player_list = [0 => [PlayerProperties::KEY_ID => $player_id, PlayerProperties::KEY_POSITION => $player_position], 
+        1 => [PlayerProperties::KEY_ID => $player_id + 1, PlayerProperties::KEY_POSITION => 0]];
+
+        $robot_list = [0 => [PlayerProperties::KEY_ID => $player_id + 2, PlayerProperties::KEY_POSITION => $player_position], 
+        1 => [PlayerProperties::KEY_ID => $player_id + 3, PlayerProperties::KEY_POSITION => 0]];
+
+        $this->mock->expects($this->exactly(2))->method('getObjectList')
+            ->withConsecutive([$this->equalTo(PlayerProperties::QUERY_PLAYER)], [$this->equalTo(PlayerProperties::QUERY_ROBOT)])
+            ->willReturnOnConsecutiveCalls($player_list, $robot_list);
+
+        return [$player_id => $player_list[0], $player_id + 1 => $player_list[1], $player_id + 2 => $robot_list[0], $player_id + 3 => $robot_list[1], ];
+    }
+
     private function createQueryUpdate($database, $property_key, $player_id, $property_value) {
         return "UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}";
     }

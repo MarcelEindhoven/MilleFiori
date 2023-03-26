@@ -98,7 +98,6 @@ class Game {
         $this->processReward($player_id, $this->ocean->getReward($player_id, $id_within_category));
 
         $this->ocean->setPlayerPosition($player_id, $id_within_category);
-        $this->notifyInterface->notifyAllPlayers('shipMoved', '', ['players' => $this->playerProperties->getPropertiesPlayersPlusRobots()]);
     }
 
     private function processReward($player_id, $reward) {

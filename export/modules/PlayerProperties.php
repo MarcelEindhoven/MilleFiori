@@ -37,8 +37,8 @@ class PlayerProperties {
         return $this;
     }
 
-    public function setNotifyInterface($notify) : PlayerProperties {
-        $this->notify = $notify;
+    public function setNotifyInterface($notifyInterface) : PlayerProperties {
+        $this->notifyInterface = $notifyInterface;
         return $this;
     }
 
@@ -66,8 +66,11 @@ class PlayerProperties {
     public function setOceanPosition(int $player_id, int $ocean_position) : PlayerProperties {
         $this->setProperty($player_id, PlayerProperties::KEY_POSITION, $ocean_position);
 
+        $this->notifyInterface->notifyAllPlayers('shipMoved', '', ['players' => $this->getPropertiesPlayersPlusRobots()]);
+
         return $this;
     }
+
     private function getDatabase(int $player_id) {
         if ($this->isPlayerARobot($player_id)) {
             return PlayerProperties::DATABASE_ROBOT;
