@@ -25,6 +25,7 @@ include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
+include_once(__DIR__.'/modules/CardsHandler.php');
 
 class MilleFiori extends Table
 {
@@ -125,8 +126,10 @@ class MilleFiori extends Table
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
 
-            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setNotifyInterface($this);
+            $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyInterface($this);
+
+            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
 
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
@@ -398,6 +401,8 @@ class MilleFiori extends Table
 
             $this->gamestate->nextState('turnBusy');
         } else if ($this->numberPlayerHandCard() > 1) {
+            $this->cardsHandler->swapHands(array_keys($this->playerProperties->getPropertiesPlayersPlusRobots()));
+
             $this->gamestate->nextState('turnEnded');
         } else {
             $this->gamestate->nextState('roundEnded');
