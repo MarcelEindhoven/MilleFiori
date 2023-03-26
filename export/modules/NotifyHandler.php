@@ -15,7 +15,7 @@ class NotifyHandler {
 
     static public function create($notifyInterface) : NotifyHandler {
         $handler = new NotifyHandler();
-        return $handler->setCards($notifyInterface);
+        return $handler->setNotifyInterface($notifyInterface);
     }
 
     public function setNotifyInterface($notifyInterface) : NotifyHandler {
