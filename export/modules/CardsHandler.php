@@ -30,6 +30,11 @@ class CardsHandler {
         return $this;
     }
 
+    public function setNotifyHandler($notifyHandler) : CardsHandler {
+        $this->notifyHandler = $notifyHandler;
+        return $this;
+    }
+
     public function swapHands(array $player_ids) : CardsHandler {
         if (count($player_ids) < 2) {
             return $this;

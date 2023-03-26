@@ -26,6 +26,7 @@ include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
+include_once(__DIR__.'/modules/NotifyHandler.php');
 
 class MilleFiori extends Table
 {
@@ -126,8 +127,9 @@ class MilleFiori extends Table
         if (!property_exists($this, 'ocean')) {
             self::trace( "Initialise helper classes" );
 
+            $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
             $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setNotifyInterface($this);
-            $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyInterface($this);
+            $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
 
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
