@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 require_once(__DIR__.'/BGA/CardsInterface.php');
+include_once(__DIR__.'/BGA/NotifyInterface.php');
 
 class CardsHandler {
     static public function create($cards) : CardsHandler {
@@ -23,6 +24,10 @@ class CardsHandler {
 
     public function setNotifyInterface($notifyInterface) : CardsHandler {
         $this->notifyInterface = $notifyInterface;
+        return $this;
+    }
+
+    public function swapHands(array $player_ids) : CardsHandler {
         return $this;
     }
 

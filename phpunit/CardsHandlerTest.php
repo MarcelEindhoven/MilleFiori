@@ -15,16 +15,17 @@ include_once(__DIR__.'/../export/modules/BGA/CardsInterface.php');
 include_once(__DIR__.'/../export/modules/BGA/NotifyInterface.php');
 
 class CardsHandlerTest extends TestCase{
-    const COLORS = ['green', 'red', 'blue', 'yellow'];
     public function setup() : void {
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
         $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
-        $this->sut = PlayerProperties::create($this->mockCards)->setNotifyInterface($this->mockNotify);
+        $this->sut = CardsHandler::create($this->mockCards)->setNotifyInterface($this->mockNotify);
     }
 
-    public function testCards() {
+    public function testswapHands_NoPlayers_NoAction() {
         // Arrange
+        $this->mockNotify->expects($this->exactly(0))->method('notifyPlayer');
         // Act
+        $this->sut->swapHands([]);
         // Assert
     }
 }
