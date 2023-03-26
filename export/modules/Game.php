@@ -94,7 +94,7 @@ class Game {
         $this->cards->moveCard($card_id, Game::CARDS_HAND, -2);
     }
 
-    private function processSelectedField($player_id, $id_within_category) {
+    public function processSelectedField($player_id, $id_within_category) {
         $this->processReward($player_id, $this->ocean->getReward($player_id, $id_within_category));
 
         $this->ocean->setPlayerPosition($player_id, $id_within_category);

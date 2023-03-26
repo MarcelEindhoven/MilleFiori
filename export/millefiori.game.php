@@ -272,32 +272,23 @@ class MilleFiori extends Table
 
         $this->gamestate->nextState();
     }
+
     function selectField($field_id) {
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
 
         $this->initialiseHelperClassesIfNeeded();
 
-        $this->processSelectedField(+$this->fields->getID($field_id));
-
-        $this->gamestate->nextState();
-    }
-    private function processSelectedField($id_within_category) {
         $active_player_id = self::getActivePlayerId();
 
-        $points = $this->ocean->getReward($active_player_id, $id_within_category)['points'];
-        if ($points != 0) {
-            $sql = "UPDATE player SET player_score=player_score+$points  WHERE player_id='$active_player_id'";
-            self::DbQuery($sql);
-            $newScore = self::getObjectFromDB("SELECT player_id, player_score FROM player  WHERE player_id='$active_player_id'", true )['player_score'];
-            self::notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $active_player_id]);
-        }
-        $this->ocean->setPlayerPosition($active_player_id, $id_within_category);
-        $this->notify_shipMoved();
+        $this->game->processSelectedField($active_player_id, +$this->fields->getID($field_id));
 
         $this->removeFromPlayedHand();
         self::notifyPlayer($active_player_id, 'selectableFields', '', []);
+
+        $this->gamestate->nextState();
     }
+
     function getSelectableFields($player_id) {
         $active_player_id = self::getActivePlayerId();
         self::trace("getSelectableFields active_player_id". $active_player_id);
