@@ -23,7 +23,7 @@ class NotifyHandlerTest extends TestCase{
         // Arrange
         $this->mockNotify->expects($this->exactly(0))->method('notifyPlayer');
         // Act
-        $this->sut->notifyPlayerHand($this->createRobotID(), []);
+        $this->sut->notifyPlayerHand($this->createRobotID(), [], '');
         // Assert
     }
 
@@ -31,7 +31,7 @@ class NotifyHandlerTest extends TestCase{
         // Arrange
         $this->mockNotify->expects($this->exactly(1))->method('notifyPlayer');
         // Act
-        $this->sut->notifyPlayerHand($this->createPlayerID(), []);
+        $this->sut->notifyPlayerHand($this->createPlayerID(), [], 'Pass hand to other player');
         // Assert
     }
     private function createRobotID() {

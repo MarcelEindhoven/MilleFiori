@@ -23,8 +23,8 @@ class NotifyHandler {
         return $this;
     }
 
-    public function notifyPlayerHand($player_id, $hand) {
-        $this->notifyPlayerIfNotRobot($player_id, 'playerHands', 'Pass hand to other player', [NotifyHandler::HAND => $hand]);
+    public function notifyPlayerHand($player_id, $hand, $message) {
+        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [NotifyHandler::HAND => $hand]);
     }
 
     public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
