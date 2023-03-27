@@ -25,7 +25,7 @@ class NotifyHandler {
 
     public function notifyPlayerHand($player_id, $hand) {
         if (! $this->isPlayerARobot($player_id)) {
-            $this->notifyInterface->notifyPlayer($current_player_id, 'playerHands', 'Pass hand to other player', [NotifyHandler::HAND => $hand]);
+            $this->notifyInterface->notifyPlayer($player_id, 'playerHands', 'Pass hand to other player', [NotifyHandler::HAND => $hand]);
         }
     }
 

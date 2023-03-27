@@ -25,11 +25,6 @@ class CardsHandler {
         return $this;
     }
 
-    public function setNotifyInterface($notifyInterface) : CardsHandler {
-        $this->notifyInterface = $notifyInterface;
-        return $this;
-    }
-
     public function setNotifyHandler($notifyHandler) : CardsHandler {
         $this->notifyHandler = $notifyHandler;
         return $this;
