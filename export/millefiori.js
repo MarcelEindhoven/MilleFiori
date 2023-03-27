@@ -312,6 +312,9 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
+            dojo.subscribe( 'newPlayerHand', this, "notif_newPlayerHand" );
+            this.notifqueue.setSynchronous( 'newPlayerHand', 500 );  
+
             dojo.subscribe( 'playerHands', this, "notif_playerHands" );
             this.notifqueue.setSynchronous( 'playerHands', 500 );  
 
@@ -327,6 +330,10 @@ function (dojo, declare) {
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
         }, 
+        notif_newPlayerHand: function(notif) {
+            console.log('notif_newPlayerHand');
+            this.fillHand(this.myhand, notif.args.myhand);
+        },
         notify_newScore : function(notif) {
             // Update players' score
             console.log('notify_newScore');
