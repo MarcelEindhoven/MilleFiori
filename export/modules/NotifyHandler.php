@@ -24,9 +24,14 @@ class NotifyHandler {
     }
 
     public function notifyPlayerHand($player_id, $hand) {
-        if (! $this->isPlayerARobot($player_id)) {
-            $this->notifyInterface->notifyPlayer($player_id, 'playerHands', 'Pass hand to other player', [NotifyHandler::HAND => $hand]);
+        $this->notifyPlayerIfNotRobot($player_id, 'playerHands', 'Pass hand to other player', [NotifyHandler::HAND => $hand]);
+    }
+
+    public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
+        if ($this->isPlayerARobot($player_id)) {
+            return;
         }
+        $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
     }
 
     public function isPlayerARobot(int $player_id) : bool {
