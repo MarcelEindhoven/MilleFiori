@@ -50,10 +50,12 @@ class Ocean {
 
     public function getReward($player, $chosen_id) : array {
         $points = 0;
+        $extra_card = false;
         if ($chosen_id != $this->getPlayerPosition($player)) {
             $points = Ocean::POINTS_PER_POSITION[$chosen_id];
+            $extra_card = true;
         }
-        return ['points' => $points];
+        return ['points' => $points, 'extra_card' => $extra_card];
     }
 
     public function initialiseFromDatabase() : Ocean {
