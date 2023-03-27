@@ -19,7 +19,7 @@ class CardsHandlerTest extends TestCase{
     public function setup() : void {
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
         $this->mockNotify = $this->createMock(NotifyHandler::class);
-        $this->sut = CardsHandler::create($this->mockCards)->setNotifyInterface($this->mockNotify);
+        $this->sut = CardsHandler::create($this->mockCards)->setNotifyHandler($this->mockNotify);
     }
 
     public function testswapHands_NoPlayers_NoAction() {
@@ -36,6 +36,14 @@ class CardsHandlerTest extends TestCase{
         $this->mockCards->expects($this->exactly(3))->method('moveAllCardsInLocation');
         // Act
         $this->sut->swapHands([11, 12]);
+        // Assert
+    }
+
+    public function testswapHands_2Players2Robots_4Notify() {
+        // Arrange
+        $this->mockNotify->expects($this->exactly(4))->method('notifyPlayerHand');
+        // Act
+        $this->sut->swapHands([2, 3, 11, 12]);
         // Assert
     }
 }
