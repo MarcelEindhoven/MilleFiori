@@ -286,7 +286,7 @@ class MilleFiori extends Table
 
         $active_player_id = self::getActivePlayerId();
 
-        $this->game->processSelectedField($active_player_id, +$this->fields->getID($field_id));
+        $gained_extra_card = $this->game->processSelectedField($active_player_id, +$this->fields->getID($field_id));
 
         $this->removeFromPlayedHand();
         self::notifyPlayer($active_player_id, 'selectableFields', '', []);
