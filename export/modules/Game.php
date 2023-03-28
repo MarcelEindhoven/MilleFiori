@@ -21,6 +21,7 @@ class Game {
     const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
     const CARDS_PLAYED_HAND = 'playedhand';
+    const CARDS_BOARD_HAND = 'boardhand';
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';
 
@@ -89,19 +90,27 @@ class Game {
 
         $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
         $id_within_category = $robot->selectField($fields);
-        $this->processSelectedField($robot->getPlayerID(), $id_within_category);
 
         $this->cards->moveCard($card_id, Game::CARDS_HAND, -2);
+
+        if ($this->processSelectedField($robot->getPlayerID(), $id_within_category)) {
+            // Extra card
+            $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, -1);
+            $card = array_shift($cards);
+            $this->robotPlayCard($robot, $card);
+        }
     }
 
     public function processSelectedField($player_id, $id_within_category) {
-        $this->processReward($player_id, $this->ocean->getReward($player_id, $id_within_category));
-
+        $reward = $this->ocean->getReward($player_id, $id_within_category);
         $this->ocean->setPlayerPosition($player_id, $id_within_category);
+
+        $this->processRewardPoints($player_id, $reward['points']);
+
+        return $reward['extra_card'];
     }
 
-    private function processReward($player_id, $reward) {
-        $points = $reward['points'];
+    private function processRewardPoints($player_id, $points) {
         if ($points != 0) {
             $this->playerProperties->addScore($player_id, $points);
         }

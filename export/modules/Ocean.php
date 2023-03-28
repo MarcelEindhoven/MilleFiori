@@ -31,6 +31,7 @@ class Ocean {
     , 1, 2, 2, 3, 4, 4, 5
     , 1, 1, 2, 2, 3, 3, 4, 4, 5];
     const POINTS_PER_POSITION = [0, 1, 1, 1, 3, 1, 10, 0, 1, 5, 1, 1, 10, 10, 1, 5, 0, 1, 1, 1, 10];
+    const EXTRA_CARD_PER_POSITION = [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false];
 
     protected array $playerPositions = array();
 
@@ -53,7 +54,7 @@ class Ocean {
         $extra_card = false;
         if ($chosen_id != $this->getPlayerPosition($player)) {
             $points = Ocean::POINTS_PER_POSITION[$chosen_id];
-            $extra_card = true;
+            $extra_card = Ocean::EXTRA_CARD_PER_POSITION[$chosen_id];
         }
         return ['points' => $points, 'extra_card' => $extra_card];
     }

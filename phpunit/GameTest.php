@@ -137,7 +137,7 @@ class GameTest extends TestCase{
         $this->mockOcean->expects($this->exactly(2))
         ->method('getReward')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
-        ->willReturnOnConsecutiveCalls(['points' => 3], ['points' => 5]);
+        ->willReturnOnConsecutiveCalls(['points' => 3, 'extra_card' => false], ['points' => 5, 'extra_card' => false]);
 
         $this->mockOcean->expects($this->exactly(2))
         ->method('setPlayerPosition')

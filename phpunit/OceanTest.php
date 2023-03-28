@@ -48,7 +48,7 @@ class OceanTest extends TestCase{
         // Act
         $reward = $this->sut->getReward(2, 0);
         // Assert
-        $this->assertEquals(['points' => 0], $reward);
+        $this->assertEquals(0, $reward['points']);
     }
 
     public function testReward_One_OnePoint() {
