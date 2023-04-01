@@ -34,6 +34,15 @@ class NotifyHandlerTest extends TestCase{
         $this->sut->notifyPlayerHand($this->createPlayerID(), [], 'Pass hand to other player');
         // Assert
     }
+
+    public function testnotifyPlayedHand_Remove_notifyAllPlayers() {
+        // Arrange
+        $this->mockNotify->expects($this->exactly(1))->method('notifyAllPlayers');
+        // Act
+        $this->sut->notifyEmptyPlayedHand();
+        // Assert
+    }
+
     private function createRobotID() {
         return 3;
     }

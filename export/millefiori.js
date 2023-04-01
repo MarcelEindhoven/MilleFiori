@@ -353,6 +353,9 @@ function (dojo, declare) {
 
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
+
+            dojo.subscribe( 'emptyPlayedHand', this, "notify_emptyPlayedHand" );
+            this.notifqueue.setSynchronous('emptyPlayedHand', 1100);
         }, 
         notif_newPlayerHand: function(notif) {
             console.log('notif_newPlayerHand');
@@ -377,6 +380,11 @@ function (dojo, declare) {
             if (undefined != notif.args.playedhand) {
                 this.fillHand(this.playedhand, notif.args.playedhand);
             }
+        },
+        notify_emptyPlayedHand: function(notif) {
+            console.log('notify_emptyPlayedHand');
+
+            this.playedhand.removeAll();
         },
         notify_shipMoved: function(notif) {
             console.log('notify_shipMoved ' + notif.args.players.length);

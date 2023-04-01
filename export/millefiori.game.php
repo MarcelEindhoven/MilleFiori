@@ -136,6 +136,7 @@ class MilleFiori extends Table
 
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
+            $this->game->setCardsHandler($this->cardsHandler);
             $this->game->setPlayerProperties($this->playerProperties);
             $this->game->setNotifyInterface($this);
             $this->game->setOcean($this->ocean);
@@ -216,16 +217,6 @@ class MilleFiori extends Table
         In this space, you can put any utility methods useful for your game logic
     */
 
-    function removeFromPlayedHand() {
-        self::trace("removeFromPlayedHand ");
-        foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
-            self::trace("removeFromPlayedHand " . $playedCard['id']);
-            $this->notifyAllPlayers('cardMoved', '', ['fromStock' => 'playedhand', 'card' => $playedCard]);
-            $this->cards->moveCard($playedCard['id'], 'hand', -2);
-        }
-
-        // $this->notify_playersHands();
-    }
     function isPlayerARobot($player_id) : bool {
         return $this->playerProperties->isPlayerARobot($player_id);
     }
@@ -300,7 +291,6 @@ class MilleFiori extends Table
 
         $gained_extra_card = $this->game->processSelectedField($active_player_id, +$this->fields->getID($field_id));
 
-        $this->removeFromPlayedHand();
         if ($gained_extra_card) {
             $this->gamestate->nextState("selectExtraCard");
         } else {

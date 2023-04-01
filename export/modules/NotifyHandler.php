@@ -34,6 +34,10 @@ class NotifyHandler {
         $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [NotifyHandler::HAND => $hand]);
     }
 
+    public function notifyEmptyPlayedHand() {
+        $this->notifyInterface->notifyAllPlayers('emptyPlayedHand', '', []);
+    }
+
     public function notifyCardMoved($card, $message, $from_stock, $to_stock) {
         $content = ['card' => $card];
         if ($from_stock) {

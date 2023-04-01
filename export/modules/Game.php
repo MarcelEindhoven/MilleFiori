@@ -50,6 +50,11 @@ class Game {
         return $this;
     }
 
+    public function setCardsHandler($cards_handler) : Game {
+        $this->cards_handler = $cards_handler;
+        return $this;
+    }
+
     public function setNotifyInterface($notifyInterface) : Game {
         $this->notifyInterface = $notifyInterface;
         return $this;
@@ -104,6 +109,8 @@ class Game {
     public function processSelectedField($player_id, $id_within_category) {
         $reward = $this->ocean->getReward($player_id, $id_within_category);
         $this->ocean->setPlayerPosition($player_id, $id_within_category);
+
+        $this->cards_handler->emptyPlayedHand();
 
         $this->processRewardPoints($player_id, $reward['points']);
 

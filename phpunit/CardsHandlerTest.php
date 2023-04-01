@@ -55,5 +55,14 @@ class CardsHandlerTest extends TestCase{
         $this->sut->selectExtraCard(5);
         // Assert
     }
+
+    public function testCardPlayed_Empty_Notify() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
+        $this->mockNotify->expects($this->exactly(1))->method('notifyEmptyPlayedHand');
+        // Act
+        $this->sut->emptyPlayedHand();
+        // Assert
+    }
 }
 ?>

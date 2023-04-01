@@ -15,7 +15,8 @@ class CardsHandler {
     const LOCATION_SWAP = -3;
     const HAND = 'hand';
     const PLAYED_HAND = 'playedhand';
-    const SIDEBOARD_HAND = 'boardhand';
+    const SIDEBOARD = 'boardhand';
+    const DISCARD_PILE = 'discard';
 
     static public function create($cards) : CardsHandler {
         $cardsHandler = new CardsHandler();
@@ -52,7 +53,13 @@ class CardsHandler {
 
     public function selectExtraCard($card_id) {
         $this->cards->moveCard($card_id, CardsHandler::PLAYED_HAND);
-        $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD_HAND, CardsHandler::PLAYED_HAND);
+        $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD, CardsHandler::PLAYED_HAND);
+    }
+
+    public function emptyPlayedHand() {
+        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, CardsHandler::DISCARD_PILE);
+
+        $this->notifyHandler->notifyEmptyPlayedHand();
     }
 
 }
