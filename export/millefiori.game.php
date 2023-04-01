@@ -245,14 +245,11 @@ class MilleFiori extends Table
         $this->initialiseHelperClassesIfNeeded();
 
         $active_player_id = self::getActivePlayerId();
-        foreach ($this->cards->getCardsInLocation('selectedhand', $active_player_id) as $selectedCard) {
-            $this->cards->moveCard($selectedCard['id'], 'playedhand');
-            self::notifyPlayer($active_player_id, 'selectableFields', '', 
-                $this->ocean->getSelectableFields($active_player_id, $selectedCard['type'])
-            );
-        }
-
-        $this->notify_playersHands();
+        $this->cardsHandler->playSelectedCard($active_player_id);
+        $selectedCard = $this->cardsHandler->getOnlyCardFromPlayingHand();
+        
+        self::notifyPlayer($active_player_id, 'selectableFields', '', 
+            $this->ocean->getSelectableFields($active_player_id, $selectedCard['type']));
     }
 
 //////////////////////////////////////////////////////////////////////////////

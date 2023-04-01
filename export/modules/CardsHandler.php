@@ -63,13 +63,21 @@ class CardsHandler {
         $this->notifyHandler->notifyEmptyPlayedHand();
     }
 
+    public function getOnlyCardFromPlayingHand() : array {
+        return $this->getOnlyCardFromLocation(CardsHandler::PLAYED_HAND);
+    }
+
+    public function getOnlyCardFromSelectedHand($player_id) : array {
+        return $this->getOnlyCardFromLocation(CardsHandler::SELECTED_HAND, $player_id);
+    }
+
     public function getOnlyCardFromLocation($location, $location_arg = null) : array {
         $cards = $this->cards->getCardsInLocation($location, $location_arg);
         return array_shift($cards);
     }
 
     public function playSelectedCard($player_id) {
-        $card = $this->getOnlyCardFromLocation(CardsHandler::SELECTED_HAND, $player_id);
+        $card = $this->getOnlyCardFromSelectedHand($player_id);
 
         $this->notifyHandler->notifyCardMoved($card, 'Playing selected card', CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
 
