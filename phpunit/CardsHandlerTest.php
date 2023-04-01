@@ -68,6 +68,9 @@ class CardsHandlerTest extends TestCase{
     public function testSelectedCard_Play_MoveNotify() {
         // Arrange
         $player_id = 3;
+        $cards = [[]];
+        $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue($cards));
+
         $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
         $this->mockNotify->expects($this->exactly(1))->method('notifyCardMoved');
         // Act
