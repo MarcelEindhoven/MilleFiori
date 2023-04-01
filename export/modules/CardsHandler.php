@@ -14,6 +14,7 @@ include_once(__DIR__.'/BGA/NotifyInterface.php');
 class CardsHandler {
     const LOCATION_SWAP = -3;
     const HAND = 'hand';
+    const SELECTED_HAND = 'selectedhand';
     const PLAYED_HAND = 'playedhand';
     const SIDEBOARD = 'boardhand';
     const DISCARD_PILE = 'discard';
@@ -60,6 +61,13 @@ class CardsHandler {
         $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, CardsHandler::DISCARD_PILE);
 
         $this->notifyHandler->notifyEmptyPlayedHand();
+    }
+    public function playSelectedCard($player_id) {
+        $cards = $this->cards->getCardsInLocation(CardsHandler::SELECTED_HAND, $player_id);
+        $card = array_shift($cards);
+        $this->notifyHandler->notifyCardMoved($card, 'Playing selected card', CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+        $this->cards->moveAllCardsInLocation(CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND, $player_id);
+
     }
 
 }

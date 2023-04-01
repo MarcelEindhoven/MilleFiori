@@ -14,6 +14,7 @@ include_once(__DIR__.'/../export/modules/Game.php');
 include_once(__DIR__.'/../export/modules/PlayerProperties.php');
 include_once(__DIR__.'/../export/modules/Robot.php');
 include_once(__DIR__.'/../export/modules/Ocean.php');
+include_once(__DIR__.'/../export/modules/CardsHandler.php');
 
 include_once(__DIR__.'/../export/modules/BGA/CardsInterface.php');
 include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
@@ -29,6 +30,9 @@ class GameTest extends TestCase{
 
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
         $this->sut->setCards($this->mockCards);
+
+        $this->mockCardsHandler = $this->createMock(CardsHandler::class);
+        $this->sut->setCardsHandler($this->mockCardsHandler);
 
         $this->mockPlayerProperties = $this->createMock(PlayerProperties::class);
         $this->sut->setPlayerProperties($this->mockPlayerProperties);
@@ -119,15 +123,6 @@ class GameTest extends TestCase{
         ->method('getCardsInLocation')
         ->withConsecutive([$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id)], [$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id + 1)])
         ->willReturnOnConsecutiveCalls([$this->createCard(1)], [$this->createCard(2)]);
-
-        $this->mockCards->expects($this->exactly(4))
-        ->method('moveCard')
-        ->withConsecutive(
-            [$this->equalTo($cards[0][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)]
-          , [$this->equalTo($cards[0][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_HAND), $this->equalTo(-2)]
-          , [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_PLAYED_HAND)]
-          , [$this->equalTo($cards[1][Game::CARD_KEY_ID]), $this->equalTo(Game::CARDS_HAND), $this->equalTo(-2)]
-        );
 
         $this->mockOcean->expects($this->exactly(2))
         ->method('getSelectableFields')

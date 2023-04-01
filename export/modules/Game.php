@@ -96,8 +96,6 @@ class Game {
         $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
         $id_within_category = $robot->selectField($fields);
 
-        $this->cards->moveCard($card_id, Game::CARDS_HAND, -2);
-
         if ($this->processSelectedField($robot->getPlayerID(), $id_within_category)) {
             // Extra card
             $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, -1);
