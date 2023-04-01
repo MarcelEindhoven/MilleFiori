@@ -23,15 +23,26 @@ class NotifyHandler {
         return $this;
     }
 
-    public function notifyPlayerHand($player_id, $hand, $message) {
-        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [NotifyHandler::HAND => $hand]);
-    }
-
     public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
         if ($this->isPlayerARobot($player_id)) {
             return;
         }
         $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
+    }
+
+    public function notifyPlayerHand($player_id, $hand, $message) {
+        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [NotifyHandler::HAND => $hand]);
+    }
+
+    public function notifyCardMoved($card, $message, $from_stock, $to_stock) {
+        $content = ['card' => $card];
+        if ($from_stock) {
+            $content['fromStock'] = $from_stock;
+        }
+        if ($to_stock) {
+            $content['toStock'] = $from_stock;
+        }
+        $this->notifyInterface->notifyAllPlayers('cardMoved', $message, $content);
     }
 
     public function isPlayerARobot(int $player_id) : bool {

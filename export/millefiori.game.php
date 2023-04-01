@@ -220,7 +220,7 @@ class MilleFiori extends Table
         self::trace("removeFromPlayedHand ");
         foreach ($this->cards->getCardsInLocation('playedhand') as $playedCard) {
             self::trace("removeFromPlayedHand " . $playedCard['id']);
-            $this->notifyAllPlayers('cardMoved', '', ['fromStock' => 'playedhand', 'cardID' => $playedCard]);
+            $this->notifyAllPlayers('cardMoved', '', ['fromStock' => 'playedhand', 'card' => $playedCard]);
             $this->cards->moveCard($playedCard['id'], 'hand', -2);
         }
 
@@ -274,6 +274,16 @@ class MilleFiori extends Table
         $this->initialiseHelperClassesIfNeeded();
 
         $this->game->moveFromHandToSelected($card_id, self::getCurrentPlayerId());
+
+        $this->gamestate->nextState();
+    }
+
+    function selectExtraCard($card_id) {
+        self::checkAction("selectExtraCard");
+
+        $this->initialiseHelperClassesIfNeeded();
+
+        $this->cardsHandler->selectExtraCard($card_id);
 
         $this->gamestate->nextState();
     }

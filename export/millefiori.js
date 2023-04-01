@@ -61,6 +61,7 @@ function (dojo, declare) {
             this.setupNotifications();
 
             dojo.connect( this.myhand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
+            dojo.connect( this.boardhand, 'onChangeSelection', this, 'onExtraHandSelectionChanged' );
             
             this.setSelectableFields(this.gamedatas.selectableFields);
 
@@ -175,6 +176,15 @@ function (dojo, declare) {
             }
             this.myhand.unselectAll();
         },
+        onExtraHandSelectionChanged: function() {
+            var items = this.boardhand.getSelectedItems();
+
+            if (items.length > 0) {
+                var card_id = items[0].id;
+                this.selectExtraCard(card_id);
+            }
+            this.boardhand.unselectAll();
+        },
         onSelectField: function( evt ) {
             dojo.stopEvent( evt );
             var elements = evt.currentTarget.id.split('_');
@@ -269,6 +279,20 @@ function (dojo, declare) {
                 });
             } else {
                 console.log("not allowed selectCard "+card_id);
+            }
+        },
+        selectExtraCard: function(card_id) {
+            if (this.checkAction('selectExtraCard')) {
+                console.log("on selectExtraCard "+card_id);
+
+                this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectExtraCard' + ".html", {
+                    card_id : card_id,
+                    lock : true
+                }, this, function(result) {
+                }, function(is_error) {
+                });
+            } else {
+                console.log("not allowed selectExtraCard "+card_id);
             }
         },
         selectField: function(field_id) {
@@ -374,12 +398,17 @@ function (dojo, declare) {
             }
         },
         notify_cardMoved: function(notif) {
-            console.log('notify_cardMoved ' + notif.args.cardID['type'] + ' ' + notif.args.cardID['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
+            console.log('notify_cardMoved ' + notif.args.card['type'] + ' ' + notif.args.card['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
+
+            from = notif.args.fromStock ? notif.args.fromStock + '_item_' + notif.args.card.id : null;
 
             if (notif.args.toStock) {
-                this.getHand(notif.args.toStock).addToStockWithId(notif.args.cardID.type, notif.args.cardID.id, notif.args.fromStock + '_item_' + notif.args.cardID.id);
+                this.getHand(notif.args.toStock).addToStockWithId(notif.args.card.type, notif.args.card.id, from);
             }
-            this.getHand(notif.args.fromStock).removeFromStockById(notif.args.cardID.id);
+
+            if (notif.args.fromStock) {
+                this.getHand(notif.args.fromStock).removeFromStockById(notif.args.card.id);
+            }
         },
         notify_selectableFields: function(notif) {
             console.log('notify_selectableFields');

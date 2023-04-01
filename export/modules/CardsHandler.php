@@ -14,6 +14,8 @@ include_once(__DIR__.'/BGA/NotifyInterface.php');
 class CardsHandler {
     const LOCATION_SWAP = -3;
     const HAND = 'hand';
+    const PLAYED_HAND = 'playedhand';
+    const SIDEBOARD_HAND = 'boardhand';
 
     static public function create($cards) : CardsHandler {
         $cardsHandler = new CardsHandler();
@@ -46,6 +48,11 @@ class CardsHandler {
         }
 
         return $this;
+    }
+
+    public function selectExtraCard($card_id) {
+        $this->cards->moveCard($card_id, CardsHandler::PLAYED_HAND);
+        $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD_HAND, CardsHandler::PLAYED_HAND);
     }
 
 }

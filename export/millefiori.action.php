@@ -71,6 +71,15 @@
       self::ajaxResponse( );
     }
 
+    function selectExtraCard() {
+      self::setAjaxMode();
+
+      $card_id = self::getArg( "card_id", AT_posint, true );
+
+      $this->game->selectExtraCard($card_id);
+      self::ajaxResponse( );
+    }
+
     function selectField() {
       self::setAjaxMode();
 

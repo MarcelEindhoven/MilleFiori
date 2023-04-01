@@ -117,8 +117,8 @@ $machinestates = array(
         "type" => "activeplayer",
         "action" => "stSelectExtraCard",
         "args" => "argumentHands",
-        "possibleactions" => array( "playExtraCard" ),
-        "transitions" => array( "playExtraCard" => 21 )
+        "possibleactions" => array( "selectExtraCard" ),
+        "transitions" => array( "selectExtraCard" => 21 )
     ),
 
 /*

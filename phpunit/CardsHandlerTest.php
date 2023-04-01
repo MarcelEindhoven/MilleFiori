@@ -50,7 +50,7 @@ class CardsHandlerTest extends TestCase{
     public function testExtraCard_Move_Notify() {
         // Arrange
         $this->mockCards->expects($this->exactly(1))->method('moveCard');
-        $this->mockNotify->expects($this->exactly(1))->method('notifyPlayerHand');
+        $this->mockNotify->expects($this->exactly(1))->method('notifyCardMoved');
         // Act
         $this->sut->selectExtraCard(5);
         // Assert
