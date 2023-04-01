@@ -30,7 +30,7 @@ interface CardsInterface {
     public function getCardsInLocation( $location, $location_arg = null, $order_by = null ) : array;
     public function countCardInLocation( $location, $location_arg=null ) : int;
     public function countCardsInLocations() : int;
-    public function countCardsByLocationArgs( $location ) : int;
+    public function countCardsByLocationArgs( $location ) : array;
     public function getPlayerHand( $player_id ) : array;
     public function getCardOnTop( $location );
     public function getCardsOnTop( $nbr, $location );

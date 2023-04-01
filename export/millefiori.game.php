@@ -373,20 +373,10 @@ class MilleFiori extends Table
         }
     }
     private function haveAllPlayersSelectedCard() : bool{
-        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
-            if (!$this->cards->getCardsInLocation('selectedhand', $player_id)) {
-                return false;
-            }
-        }
-        return true;
+        return $this->cardsHandler->getNumberSelectedCards() == 4;
     }
     private function hasAnyPlayerSelectedCard() : bool  {
-        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
-            if ($this->cards->getCardsInLocation('selectedhand', $player_id)) {
-                return true;
-            }
-        }
-        return false;
+        return $this->cardsHandler->getNumberSelectedCards() > 0;
     }
     private function numberPlayerHandCard() : int  {
         foreach (self::loadPlayersBasicInfos() as $player_id => $player) {

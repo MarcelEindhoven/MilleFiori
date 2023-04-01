@@ -65,6 +65,16 @@ class CardsHandlerTest extends TestCase{
         // Assert
     }
 
+    public function testSelectedCard_Number_countCardsByLocationArgs() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(1))->method('countCardsByLocationArgs')->will($this->returnValue([1 => 2, 2 =>0, 3 => 1]));
+        $expected_total = 2+1;
+        // Act
+        $total = $this->sut->getNumberSelectedCards();
+        // Assert
+        $this->assertEquals($expected_total, $total);
+    }
+
     public function testSelectedCard_Play_MoveNotify() {
         // Arrange
         $player_id = 3;

@@ -63,6 +63,14 @@ class CardsHandler {
         $this->notifyHandler->notifyEmptyPlayedHand();
     }
 
+    public function getNumberSelectedCards() {
+        $total_cards = 0;
+        foreach ($this->cards->countCardsByLocationArgs(CardsHandler::SELECTED_HAND) as $number_cards) {
+            $total_cards += $number_cards;
+        }
+        return $total_cards;
+    }
+
     public function getOnlyCardFromPlayingHand() : array {
         return $this->getOnlyCardFromLocation(CardsHandler::PLAYED_HAND);
     }
@@ -73,7 +81,7 @@ class CardsHandler {
 
     public function getOnlyCardFromLocation($location, $location_arg = null) : array {
         $cards = $this->cards->getCardsInLocation($location, $location_arg);
-        return array_shift($cards);
+        return $cards ? array_shift($cards) : null;
     }
 
     public function playSelectedCard($player_id) {
