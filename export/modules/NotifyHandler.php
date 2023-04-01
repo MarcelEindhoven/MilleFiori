@@ -44,7 +44,7 @@ class NotifyHandler {
             $content['fromStock'] = $from_stock;
         }
         if ($to_stock) {
-            $content['toStock'] = $from_stock;
+            $content['toStock'] = $to_stock;
         }
         $this->notifyInterface->notifyAllPlayers('cardMoved', $message, $content);
     }
