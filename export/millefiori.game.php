@@ -381,6 +381,8 @@ class MilleFiori extends Table
         return $this->cardsHandler->getNumberSelectedCards() > 0;
     }
     private function numberPlayerHandCard() : int  {
+        self::trace( "numberPlayerHandCard total " .  $this->cardsHandler->getNumberPlayerCards());
+        self::trace( "numberPlayerHandCard " .  $this->cardsHandler->getNumberPlayerCards() / 4);
         return $this->cardsHandler->getNumberPlayerCards() / 4;
     }
     function stSelectPlayer() {
