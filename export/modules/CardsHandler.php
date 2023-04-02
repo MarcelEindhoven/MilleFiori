@@ -87,7 +87,7 @@ class CardsHandler {
     public function playSelectedCard($player_id) {
         $card = $this->getOnlyCardFromSelectedHand($player_id);
 
-        $this->notifyHandler->notifyCardMoved($card, 'Playing selected card', CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+        $this->notifyHandler->notifyCardMoved($card, 'Playing selected card', null, CardsHandler::PLAYED_HAND);
 
         $this->cards->moveAllCardsInLocation(CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND, $player_id);
 
