@@ -114,7 +114,8 @@ class MilleFiori extends Table
 
         // Shuffle deck
         $this->cards->shuffle('deck');
-        $this->cards->pickCards(9, 'deck', -1);
+
+        $this->cardsHandler->initialiseSideboard(9);
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
 
@@ -184,7 +185,7 @@ class MilleFiori extends Table
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
-        $result['boardhand'] = $this->cards->getCardsInLocation('hand', -1);
+        $result['boardhand'] = $this->cardsHandler->getSideboard();
 
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
@@ -330,10 +331,11 @@ class MilleFiori extends Table
         // Return public information only
         // Get some values from the current game situation in database...
     
+        $this->initialiseHelperClassesIfNeeded();
         // return values:
         $current_player_id = self::getCurrentPlayerId();
         return array(
-            'boardhand' => $this->cards->getCardsInLocation('hand', -1),
+            'boardhand' => $this->cardsHandler->getSideboard(),
             'playedhand' => $this->cards->getCardsInLocation('playedhand'),
         );
         return array ();

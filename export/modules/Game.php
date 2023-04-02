@@ -98,7 +98,7 @@ class Game {
 
         if ($this->processSelectedField($robot->getPlayerID(), $id_within_category)) {
             // Extra card
-            $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, -1);
+            $cards = $this->cards_handler->getSideboard();
             $card = array_shift($cards);
             $this->robotPlayCard($robot, $card);
         }

@@ -100,10 +100,15 @@ class CardsHandler {
         $this->cards->moveAllCardsInLocation(CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND, $player_id);
 
     }
+
     public function initialiseSideboard($number_cards) {
-        $dummy_id = -1;
+        $dummy_id = CardsHandler::LOCATION_SWAP;
         $this->cards->pickCards($number_cards, 'deck', $dummy_id);
-        $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, $dummy_id);
+        $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::SIDEBOARD, $dummy_id);
+    }
+
+    public function getSideboard() {
+        return $this->cards->getCardsInLocation(CardsHandler::SIDEBOARD);
     }
 
 }
