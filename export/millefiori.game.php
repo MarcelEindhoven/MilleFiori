@@ -52,7 +52,7 @@ class MilleFiori extends Table
         $this->cards->init( "card" );
 
         // Limit game for integration testing
-        $this->handSize = 3;
+        $this->handSize = 2;
 	}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
@@ -381,10 +381,7 @@ class MilleFiori extends Table
         return $this->cardsHandler->getNumberSelectedCards() > 0;
     }
     private function numberPlayerHandCard() : int  {
-        foreach (self::loadPlayersBasicInfos() as $player_id => $player) {
-            self::trace( "count for player_id " .   $player_id . ' = ' . count($this->cards->getCardsInLocation('hand', $player_id)));
-            return count($this->cards->getCardsInLocation('hand', $player_id));
-        }
+        return $this->cardsHandler->getNumberPlayerCards() / 4;
     }
     function stSelectPlayer() {
         self::trace( "stSelectPlayer" );

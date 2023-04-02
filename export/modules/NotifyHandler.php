@@ -49,6 +49,18 @@ class NotifyHandler {
         $this->notifyInterface->notifyAllPlayers('cardMoved', $message, $content);
     }
 
+    public function notifyCardMovedFromPrivateToPublic($card, $message, $player_id, $from_stock, $to_stock) {
+        $content = ['card' => $card];
+        $content['player_id'] = $player_id;
+        if ($from_stock) {
+            $content['fromStock'] = $from_stock;
+        }
+        if ($to_stock) {
+            $content['toStock'] = $to_stock;
+        }
+        $this->notifyInterface->notifyAllPlayers('cardMoved', $message, $content);
+    }
+
     public function isPlayerARobot(int $player_id) : bool {
         return $player_id < 9;
     }

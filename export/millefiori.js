@@ -408,7 +408,12 @@ function (dojo, declare) {
         notify_cardMoved: function(notif) {
             console.log('notify_cardMoved ' + notif.args.card['type'] + ' ' + notif.args.card['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
 
-            from = notif.args.fromStock ? notif.args.fromStock + '_item_' + notif.args.card.id : notif.args.toStock;
+            from = notif.args.fromStock;
+            if (notif.args.player_id) {
+                if(this.isCurrentPlayerActive()) {
+                    from = notif.args.fromStock + '_item_' + notif.args.card.id;
+                }
+            }
 
             if (notif.args.toStock) {
                 this.getHand(notif.args.toStock).addToStockWithId(notif.args.card.type, notif.args.card.id, from);

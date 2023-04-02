@@ -82,10 +82,20 @@ class CardsHandlerTest extends TestCase{
         $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue($cards));
 
         $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
-        $this->mockNotify->expects($this->exactly(1))->method('notifyCardMoved');
+        $this->mockNotify->expects($this->exactly(1))->method('notifyCardMovedFromPrivateToPublic');
         // Act
         $this->sut->playSelectedCard($player_id);
         // Assert
+    }
+
+    public function testHandCard_Number_countCardsByLocationArgs() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(1))->method('countCardsByLocationArgs')->will($this->returnValue([1 => 2, 2 =>0, 3 => 1]));
+        $expected_total = 2+1;
+        // Act
+        $total = $this->sut->getNumberPlayerCards();
+        // Assert
+        $this->assertEquals($expected_total, $total);
     }
 }
 ?>

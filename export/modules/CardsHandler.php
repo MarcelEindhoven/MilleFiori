@@ -64,8 +64,16 @@ class CardsHandler {
     }
 
     public function getNumberSelectedCards() {
+        return $this->getNumberCards(CardsHandler::SELECTED_HAND);
+    }
+
+    public function getNumberPlayerCards() {
+        return $this->getNumberCards(CardsHandler::HAND);
+    }
+
+    public function getNumberCards($location) {
         $total_cards = 0;
-        foreach ($this->cards->countCardsByLocationArgs(CardsHandler::SELECTED_HAND) as $number_cards) {
+        foreach ($this->cards->countCardsByLocationArgs($location) as $number_cards) {
             $total_cards += $number_cards;
         }
         return $total_cards;
@@ -87,7 +95,7 @@ class CardsHandler {
     public function playSelectedCard($player_id) {
         $card = $this->getOnlyCardFromSelectedHand($player_id);
 
-        $this->notifyHandler->notifyCardMoved($card, 'Playing selected card', null, CardsHandler::PLAYED_HAND);
+        $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, 'Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
 
         $this->cards->moveAllCardsInLocation(CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND, $player_id);
 
