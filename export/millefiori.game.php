@@ -386,8 +386,8 @@ class MilleFiori extends Table
             return count($this->cards->getCardsInLocation('hand', $player_id));
         }
     }
-    function stSelectPlayCard() {
-        self::trace( "stSelectPlayCard" );
+    function stSelectPlayer() {
+        self::trace( "stSelectPlayer" );
 
         if ($this->hasAnyPlayerSelectedCard()) {
             $this->activeNextPlayer();
