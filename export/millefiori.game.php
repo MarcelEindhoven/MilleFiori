@@ -366,8 +366,10 @@ class MilleFiori extends Table
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
         if ($this->haveAllPlayersSelectedCard()) {
-            $this->gamestate->nextState('allPlayersReady');
+            // Execute this action before changing the game state to prevent parallel actions
             $this->game->allRobotsPlayCard();
+
+            $this->gamestate->nextState('allPlayersReady');
         } else {
             $this->gamestate->nextState('playersStillBusy');
         }
