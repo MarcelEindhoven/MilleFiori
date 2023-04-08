@@ -24,10 +24,10 @@
     
     Please REMOVE this comment before publishing your game on BGA
 -->
-<div id="myhand_wrap" class="whiteblock" style="display: inline-block">
+<div id="hand_wrap" class="whiteblock" style="display: inline-block">
 <div style="display: inline-block">
     <h3>My Hand</h3>
-    <div id="myhand" class="limited_hand">
+    <div id="hand" class="limited_hand">
     </div>
 </div>
 <div style="display: inline-block">
@@ -41,7 +41,7 @@
     </div>
 </div>
 </div>
-<div id="myhand_wrap" class="whiteblock">
+<div id="hand_wrap" class="whiteblock">
     <h3>Board cards</h3>
     <div id="boardhand">
     </div>

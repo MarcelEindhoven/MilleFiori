@@ -60,7 +60,7 @@ function (dojo, declare) {
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
-            dojo.connect( this.myhand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
+            dojo.connect( this.hand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
             dojo.connect( this.boardhand, 'onChangeSelection', this, 'onExtraHandSelectionChanged' );
             
             this.setSelectableFields(this.gamedatas.selectableFields);
@@ -74,7 +74,7 @@ function (dojo, declare) {
             }            
         },
         createAndFillHands: function( gamedatas ) {
-            this.myhand = this.createAndFillHand('myhand', this.gamedatas.myhand);
+            this.hand = this.createAndFillHand('hand', this.gamedatas.hand);
             this.boardhand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
             this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
             this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
@@ -168,13 +168,13 @@ function (dojo, declare) {
             }
         },        
         onMyHandSelectionChanged: function() {
-            var items = this.myhand.getSelectedItems();
+            var items = this.hand.getSelectedItems();
 
             if (items.length > 0) {
                 var card_id = items[0].id;
                 this.selectCard(card_id);
             }
-            this.myhand.unselectAll();
+            this.hand.unselectAll();
         },
         onExtraHandSelectionChanged: function() {
             var items = this.boardhand.getSelectedItems();
@@ -224,19 +224,19 @@ function (dojo, declare) {
             return this.fillHand(this.createHand(name), cards);
         },
         createHand: function(name) {
-            myhand = new ebg.stock(); // new stock object for hand
-            myhand.create( this, $(name), this.cardwidth, this.cardheight );
-            myhand.image_items_per_row = 9; // 9 images per row
-            myhand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
+            hand = new ebg.stock(); // new stock object for hand
+            hand.create( this, $(name), this.cardwidth, this.cardheight );
+            hand.image_items_per_row = 9; // 9 images per row
+            hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
 
             // Create cards types:
             for (var id = 0; id < 110; id++) {
                 if (id != 35) {
-                    myhand.addItemType(id, id, g_gamethemeurl + 'img/alle_kaarten.png', id);
+                    hand.addItemType(id, id, g_gamethemeurl + 'img/alle_kaarten.png', id);
                 }
             }
 
-            return myhand;
+            return hand;
         },
         setupNewCard: function( card_div, card_type_id, card_id )
         {
@@ -359,7 +359,7 @@ function (dojo, declare) {
         }, 
         notif_newPlayerHand: function(notif) {
             console.log('notif_newPlayerHand');
-            this.fillHand(this.myhand, notif.args.myhand);
+            this.fillHand(this.hand, notif.args.hand);
         },
         notify_newScore : function(notif) {
             // Update players' score
@@ -371,8 +371,8 @@ function (dojo, declare) {
             console.log('notif_playerHands');
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
-            if (undefined != notif.args.myhand) {
-                this.fillHand(this.myhand, notif.args.myhand);
+            if (undefined != notif.args.hand) {
+                this.fillHand(this.hand, notif.args.hand);
             }
             if (undefined != notif.args.selectedhand) {
                 this.fillHand(this.selectedhand, notif.args.selectedhand);
@@ -392,8 +392,8 @@ function (dojo, declare) {
             this.moveShips(notif.args);
         },
         getHand: function (id) {
-            if (id == 'myhand') {
-                return this.myhand;
+            if (id == 'hand') {
+                return this.hand;
             }
             if (id == 'selectedhand') {
                 return this.selectedhand;

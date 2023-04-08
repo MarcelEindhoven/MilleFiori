@@ -79,6 +79,10 @@ class CardsHandler {
         return $total_cards;
     }
 
+    public function getOnlyCardFromPlayerHand($player_id) : array {
+        return $this->getOnlyCardFromLocation(CardsHandler::HAND, $player_id);
+    }
+
     public function getOnlyCardFromPlayingHand() : array {
         return $this->getOnlyCardFromLocation(CardsHandler::PLAYED_HAND);
     }
@@ -93,12 +97,15 @@ class CardsHandler {
     }
 
     public function playSelectedCard($player_id) {
-        $card = $this->getOnlyCardFromSelectedHand($player_id);
+        $this->movePrivateToPublic('Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+    }
 
-        $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, 'Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+    public function movePrivateToPublic($message, $player_id, $from, $to) {
+        foreach ($this->cards->getCardsInLocation($from, $player_id) as $card) {
+            $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, $message . $player_id , $player_id, $from, $to);
+        }
 
-        $this->cards->moveAllCardsInLocation(CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND, $player_id);
-
+        $this->cards->moveAllCardsInLocation($from, $to, $player_id);
     }
 
     public function initialiseSideboard($number_cards) {
@@ -107,8 +114,17 @@ class CardsHandler {
         $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::SIDEBOARD, $dummy_id);
     }
 
+    public function dealNewHand($player_id, $number_cards) {
+        $this->cards->pickCards($number_cards, 'deck', $player_id);
+        $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Deal new hand');
+    }
+
     public function getSideboard() {
         return $this->cards->getCardsInLocation(CardsHandler::SIDEBOARD);
+    }
+
+    public function moveHandToSideboard($player_id) {
+        $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
     }
 
 }

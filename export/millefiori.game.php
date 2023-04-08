@@ -181,7 +181,7 @@ class MilleFiori extends Table
         return $this->playerProperties->getPropertiesPlayersPlusRobots();
     }
     protected function getHands($player_id) {
-        $result['myhand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
+        $result['hand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
@@ -353,9 +353,7 @@ class MilleFiori extends Table
     function stNewHand() {
         self::trace("stNewHand");
         // Deal 5 cards to each players
-        foreach (self::getPlayerDataIncludingRobots() as $player_id => $player) {
-            $cards = $this->cards->pickCards($this->handSize, 'deck', $player_id);
-        }
+        $this->game->dealNewHand($this->handSize);
 
         $this->gamestate->nextState( 'handDealt' );
     }  

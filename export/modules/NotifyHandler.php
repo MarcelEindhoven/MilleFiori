@@ -11,7 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/BGA/NotifyInterface.php');
 
 class NotifyHandler {
-    const HAND = 'myhand';
+    const HAND = 'hand';
 
     static public function create($notifyInterface) : NotifyHandler {
         $handler = new NotifyHandler();
@@ -51,7 +51,10 @@ class NotifyHandler {
 
     public function notifyCardMovedFromPrivateToPublic($card, $message, $player_id, $from_stock, $to_stock) {
         $content = ['card' => $card];
-        $content['player_id'] = $player_id;
+        if (! $this->isPlayerARobot($player_id)) {
+            $content['player_id'] = $player_id;
+        }
+        
         if ($from_stock) {
             $content['fromStock'] = $from_stock;
         }

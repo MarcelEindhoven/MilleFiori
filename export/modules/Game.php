@@ -79,6 +79,13 @@ class Game {
         $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
     }
 
+    public function dealNewHand($number_cards) {
+        foreach ($this->playerProperties->getPropertiesPlayersPlusRobots() as $player_id => $player) {
+            $this->cards_handler->moveHandToSideboard($player_id);
+            $this->cards_handler->dealNewHand($player_id, $number_cards);
+        }
+    }
+
     public function allRobotsPlayCard() {
         $this->sqlDatabase->trace( "allRobotsPlayCard" );
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
@@ -131,10 +138,10 @@ class Game {
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'myhand', 'card' => $selectedCard]);
+            $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'hand', 'card' => $selectedCard]);
             $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], 'hand', $current_player_id);
         }
-        $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'myhand', 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
+        $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'hand', 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 
