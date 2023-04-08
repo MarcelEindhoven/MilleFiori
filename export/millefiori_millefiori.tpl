@@ -43,7 +43,7 @@
 </div>
 <div id="hand_wrap" class="whiteblock">
     <h3>Board cards</h3>
-    <div id="boardhand">
+    <div id="sideboard">
     </div>
 </div>
 

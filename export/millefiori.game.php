@@ -185,7 +185,7 @@ class MilleFiori extends Table
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
         // Cards played beside the table
-        $result['boardhand'] = $this->cardsHandler->getSideboard();
+        $result['sideboard'] = $this->cardsHandler->getSideboard();
 
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
@@ -335,7 +335,7 @@ class MilleFiori extends Table
         // return values:
         $current_player_id = self::getCurrentPlayerId();
         return array(
-            'boardhand' => $this->cardsHandler->getSideboard(),
+            'sideboard' => $this->cardsHandler->getSideboard(),
             'playedhand' => $this->cards->getCardsInLocation('playedhand'),
         );
         return array ();

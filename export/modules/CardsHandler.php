@@ -16,7 +16,7 @@ class CardsHandler {
     const HAND = 'hand';
     const SELECTED_HAND = 'selectedhand';
     const PLAYED_HAND = 'playedhand';
-    const SIDEBOARD = 'boardhand';
+    const SIDEBOARD = 'sideboard';
     const DISCARD_PILE = 'discard';
 
     static public function create($cards) : CardsHandler {

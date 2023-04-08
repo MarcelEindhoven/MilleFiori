@@ -61,7 +61,7 @@ function (dojo, declare) {
             this.setupNotifications();
 
             dojo.connect( this.hand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
-            dojo.connect( this.boardhand, 'onChangeSelection', this, 'onExtraHandSelectionChanged' );
+            dojo.connect( this.sideboard, 'onChangeSelection', this, 'onExtraHandSelectionChanged' );
             
             this.setSelectableFields(this.gamedatas.selectableFields);
 
@@ -75,7 +75,7 @@ function (dojo, declare) {
         },
         createAndFillHands: function( gamedatas ) {
             this.hand = this.createAndFillHand('hand', this.gamedatas.hand);
-            this.boardhand = this.createAndFillHand('boardhand', this.gamedatas.boardhand);
+            this.sideboard = this.createAndFillHand('sideboard', this.gamedatas.sideboard);
             this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
             this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
         },
@@ -94,7 +94,7 @@ function (dojo, declare) {
             {
             case "selectedCard":
             case "playCard":
-                //this.fillHand(this.boardhand, args.args.boardhand);
+                //this.fillHand(this.sideboard, args.args.sideboard);
                 this.fillHand(this.playedhand, args.args.playedhand);
                     break;
                 /* Example:
@@ -177,13 +177,13 @@ function (dojo, declare) {
             this.hand.unselectAll();
         },
         onExtraHandSelectionChanged: function() {
-            var items = this.boardhand.getSelectedItems();
+            var items = this.sideboard.getSelectedItems();
 
             if (items.length > 0) {
                 var card_id = items[0].id;
                 this.selectExtraCard(card_id);
             }
-            this.boardhand.unselectAll();
+            this.sideboard.unselectAll();
         },
         onSelectField: function( evt ) {
             dojo.stopEvent( evt );
@@ -401,8 +401,8 @@ function (dojo, declare) {
             if (id == 'playedhand') {
                 return this.playedhand;
             }
-            if (id == 'boardhand') {
-                return this.boardhand;
+            if (id == 'sideboard') {
+                return this.sideboard;
             }
         },
         notify_cardMoved: function(notif) {

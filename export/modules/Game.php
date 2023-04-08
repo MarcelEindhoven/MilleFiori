@@ -21,7 +21,7 @@ class Game {
     const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
     const CARDS_PLAYED_HAND = 'playedhand';
-    const CARDS_BOARD_HAND = 'boardhand';
+    const CARDS_BOARD_HAND = 'sideboard';
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';
 
