@@ -25,6 +25,7 @@
  */
 include_once(__DIR__.'/modules/PageBuilder.php');
 include_once(__DIR__.'/modules/Ocean.php');
+include_once(__DIR__.'/modules/Houses.php');
 
 require_once( APP_BASE_PATH."view/common/game.view.php" );
   
@@ -42,7 +43,8 @@ class view_millefiori_millefiori extends game_view
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
         $page_builder = new NieuwenhovenGames\MilleFiori\PageBuilder();
-        $page_builder->setPage($this->page)->addFields(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY, NieuwenhovenGames\MilleFiori\Ocean::generateFields())->generateContent();
+        $page_builder->setPage($this->page)->addFields(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY, NieuwenhovenGames\MilleFiori\Ocean::generateFields())
+        ->addFields(NieuwenhovenGames\MilleFiori\Houses::KEY_CATEGORY, NieuwenhovenGames\MilleFiori\Houses::generateFields())->generateContent();
 
         /*********** Place your code below:  ************/
 

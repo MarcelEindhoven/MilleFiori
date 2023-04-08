@@ -18,9 +18,7 @@ class Ocean {
     const RIGHT_EDGE = 52;
     const NUMBER_FIELDS = 21;
     const LEFT_MARGIN = 0.7;
-    const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM player";
-    const QUERY_WHERE = " WHERE player_id=";
-    const UPDATE_OCEAN_POSITION = "UPDATE player SET ocean_position=";
+    
     const PLACES_PER_CARD = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5
     , 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 0
     , 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5
@@ -47,6 +45,10 @@ class Ocean {
     public function setDatabase($properties) : Ocean {
         $this->properties = $properties;
         return $this;
+    }
+
+    public function getCategory() {
+        return Houses::KEY_CATEGORY;
     }
 
     public function getReward($player, $chosen_id) : array {
