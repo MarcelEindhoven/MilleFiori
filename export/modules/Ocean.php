@@ -48,7 +48,7 @@ class Ocean {
     }
 
     public function getCategory() {
-        return Houses::KEY_CATEGORY;
+        return Ocean::KEY_CATEGORY;
     }
 
     public function getReward($player, $chosen_id) : array {
