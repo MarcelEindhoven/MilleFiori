@@ -24,11 +24,9 @@ class PageBuilder {
         return $this;
     }
 
-    public function addFields(string $category, array $fields) : PageBuilder {
-        foreach($fields as $field) {
-            $field[PageBuilder::KEY_CATEGORY] = $category;
-            $this->fields[] = $field;
-        }
+    public function addFields(array $fields) : PageBuilder {
+        $this->fields = $fields;
+
         return $this;
     }
 
