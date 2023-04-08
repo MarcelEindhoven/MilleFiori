@@ -51,11 +51,17 @@ class PlayerProperties {
     }
 
     public function getPropertiesPlayersPlusRobots() {
-        $properties_list = $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_PLAYER));
+        $properties_list = $this->getPropertiesPlayers();
+
         if (count($properties_list) < 4) {
             $properties_list += $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_ROBOT));
         }
+
         return $properties_list;
+    }
+
+    public function getPropertiesPlayers() {
+        return $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_PLAYER));
     }
 
     public function getProperty(int $player_id, string $property_key) {

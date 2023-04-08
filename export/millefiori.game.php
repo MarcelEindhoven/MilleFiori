@@ -175,7 +175,7 @@ class MilleFiori extends Table
         return $result;
     }
     protected function getPlayerData(): array {
-        return self::getCollectionFromDb(NieuwenhovenGames\MilleFiori\Ocean::QUERY_PLAYER);
+        return $this->playerProperties->getPropertiesPlayers();
     }
     protected function getPlayerDataIncludingRobots(): array {
         return $this->playerProperties->getPropertiesPlayersPlusRobots();
