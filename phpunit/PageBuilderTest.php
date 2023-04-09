@@ -43,6 +43,7 @@ class PageBuilderTest extends TestCase{
         $width_pixels = 954;
         $this->arrangeExpectHeader();
         $field_input = array (
+            'CATEGORY' => 'Harbour',
             'ID' => 10,
             'LEFT' => 15.1,
             'TOP' => 5);
@@ -55,7 +56,7 @@ class PageBuilderTest extends TestCase{
             [$this->equalTo(PageBuilder::FIELD_BLOCK), $this->equalTo($field_expected)]
         );
         // Act
-        $this->builder->addFields('Harbour', [$field_input])->generateContent();
+        $this->builder->addFields([$field_input])->generateContent();
         // Assert
     }
 }
