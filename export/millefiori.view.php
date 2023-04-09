@@ -42,7 +42,7 @@ class view_millefiori_millefiori extends game_view
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
         $page_builder = new NieuwenhovenGames\MilleFiori\PageBuilder();
-        $categories = NieuwenhovenGames\MilleFiori\Categories::create();
+        $categories = NieuwenhovenGames\MilleFiori\Categories::create(null);
         $page_builder->setPage($this->page)->addFields($categories->generateFields())->generateContent();
 
         /*********** Place your code below:  ************/

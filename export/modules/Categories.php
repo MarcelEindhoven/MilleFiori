@@ -14,10 +14,10 @@ include_once(__DIR__.'/Houses.php');
 class Categories {
     const KEY_CATEGORY = 'CATEGORY';
 
-    public static function create(): Categories {
+    public static function create($player_properties): Categories {
         $categories = new Categories();
 
-        $categories->setCategories([Ocean::KEY_CATEGORY => new Ocean(), Houses::KEY_CATEGORY => new Houses(), ]);
+        $categories->setCategories([Ocean::KEY_CATEGORY => Ocean::create($player_properties), Houses::KEY_CATEGORY => new Houses(), ]);
 
         return $categories;
     }

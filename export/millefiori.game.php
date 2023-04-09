@@ -23,6 +23,7 @@ require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
 
 include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');
+include_once(__DIR__.'/modules/Categories.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
@@ -134,6 +135,7 @@ class MilleFiori extends Table
 
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
             $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
+            $this->categories = NieuwenhovenGames\MilleFiori\Categories::create($this->playerProperties);
 
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
@@ -141,6 +143,7 @@ class MilleFiori extends Table
             $this->game->setPlayerProperties($this->playerProperties);
             $this->game->setNotifyInterface($this);
             $this->game->setOcean($this->ocean);
+            $this->game->setCategories($this->categories);
             $this->game->setFields($this->fields);
         }
     }

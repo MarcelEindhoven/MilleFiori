@@ -62,6 +62,8 @@ class Ocean {
     }
 
     public function initialiseFromDatabase() : Ocean {
+        if (! $this->properties) {return $this;}
+
         $list = $this->properties->getPropertiesPlayersPlusRobots();
         foreach ($list as $player_id => $player) {
             $this->playerPositions[$player[Ocean::KEY_PLAYER_ID]] = $player[Ocean::KEY_PLAYER_POSITION];
