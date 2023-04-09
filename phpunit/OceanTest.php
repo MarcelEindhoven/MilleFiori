@@ -102,7 +102,7 @@ class OceanTest extends TestCase{
         // Arrange
         $this->arrange(2, 0);
         // Act
-        $selectableFields = $this->sut->getSelectableFields(2, 4);
+        $selectableFields = $this->sut->getSelectableFieldIDs(2, 4);
         // Assert
         $this->assertCount(1, $selectableFields);
         $this->assertEquals('5', current($selectableFields));
@@ -112,7 +112,7 @@ class OceanTest extends TestCase{
         // Arrange
         $this->arrange(2, 17);
         // Act
-        $selectableFields = $this->sut->getSelectableFields(2, 109);
+        $selectableFields = $this->sut->getSelectableFieldIDs(2, 109);
         // Assert
         $this->assertCount(1, $selectableFields);
         $this->assertEquals(Ocean::NUMBER_FIELDS - 1, current($selectableFields));

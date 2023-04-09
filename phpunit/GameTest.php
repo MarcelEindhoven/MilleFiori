@@ -129,7 +129,7 @@ class GameTest extends TestCase{
         ->willReturnOnConsecutiveCalls([$this->createCard(1)], [$this->createCard(2)]);
 
         $this->mockCategories->expects($this->exactly(2))
-        ->method('getSelectableFields')
+        ->method('getSelectableFieldIDs')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
         ->willReturnOnConsecutiveCalls(['1'], ['2']);
 

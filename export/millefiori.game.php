@@ -171,7 +171,7 @@ class MilleFiori extends Table
         $result['players'] = $this->getPlayerData();
         $result['playersIncludingRobots'] = $this->getPlayerDataIncludingRobots();
 
-        $result['selectableFields'] = $this->getSelectableFields($current_player_id);
+        $result['selectableFields'] = $this->getSelectableFieldIDs($current_player_id);
         self::trace("selectableFields ". count($result['selectableFields']));
         $result['tooltipsCards'] = $this->game->getTooltips();
 
@@ -242,7 +242,7 @@ class MilleFiori extends Table
     function notify_selectableFields() {
         $active_player_id = self::getActivePlayerId();
         self::trace("notify_selectableFields ". $active_player_id);
-        self::notifyPlayer($active_player_id, 'selectableFields', '', ['selectableFields' => $this->getSelectableFields($active_player_id)]);
+        self::notifyPlayer($active_player_id, 'selectableFields', '', ['selectableFields' => $this->getSelectableFieldIDs($active_player_id)]);
     }
 
     function moveFromSelectedToPlayed() {
@@ -253,7 +253,7 @@ class MilleFiori extends Table
         $selectedCard = $this->cardsHandler->getOnlyCardFromPlayingHand();
         
         self::notifyPlayer($active_player_id, 'selectableFields', '', 
-            $this->ocean->getSelectableFields($active_player_id, $selectedCard['type']));
+            $this->categories->getSelectableFieldIDs($active_player_id, $selectedCard['type']));
     }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -299,24 +299,23 @@ class MilleFiori extends Table
         }
     }
 
-    function getSelectableFields($player_id) {
+    function getSelectableFieldIDs($player_id) {
         $active_player_id = self::getActivePlayerId();
-        self::trace("getSelectableFields active_player_id". $active_player_id);
+        self::trace("getSelectableFieldIDs active_player_id". $active_player_id);
 
         if ($player_id != $active_player_id) {
-            self::trace("getSelectableFields player_id ". $player_id);
+            self::trace("getSelectableFieldIDs player_id ". $player_id);
             return [];
         }
         $cardBeingPlayed = current($this->cards->getCardsInLocation('playedhand'));
         if (!$cardBeingPlayed) {
-            self::trace("getSelectableFields !cardBeingPlayed" );
+            self::trace("getSelectableFieldIDs !cardBeingPlayed" );
             return [];
         }
         self::trace("cardBeingPlayed".implode(',', $cardBeingPlayed));
-        self::trace("getSelectableFields ". $cardBeingPlayed['type']);
-        $f = $this->fields->completeIDs(NieuwenhovenGames\MilleFiori\Ocean::KEY_CATEGORY,
-        $this->ocean->getSelectableFields($active_player_id, $cardBeingPlayed['type']));
-        self::trace("getSelectableFields ". count($f));
+        self::trace("getSelectableFieldIDs ". $cardBeingPlayed['type']);
+        $f = $this->categories->getSelectableFieldIDs($active_player_id, $cardBeingPlayed['type']);
+        self::trace("getSelectableFieldIDs ". count($f));
         return $f;
     }
     

@@ -35,7 +35,7 @@ class Houses {
         return ['points' => $points, 'extra_card' => $extra_card];
     }
 
-    public function getSelectableFields($player, int $card_type) : array {
+    public function getSelectableFieldIDs($player, int $card_type) : array {
         return [];
     }
 

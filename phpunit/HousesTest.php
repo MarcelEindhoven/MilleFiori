@@ -48,7 +48,7 @@ class HousesTest extends TestCase{
     public function testSelectableFields_OtherCategory_Empty() {
         // Arrange
         // Act
-        $selectable_fields = $this->sut->getSelectableFields(2, 200);
+        $selectable_fields = $this->sut->getSelectableFieldIDs(2, 200);
         // Assert
         $this->assertEquals([], $selectable_fields);
     }

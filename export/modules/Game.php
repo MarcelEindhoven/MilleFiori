@@ -105,10 +105,10 @@ class Game {
         $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
         $this->sqlDatabase->trace('getPlayerPosition ' . $robot->getPlayerID() . ' ' . $card[Game::CARD_KEY_TYPE] . ' '. $this->ocean->getPlayerPosition($robot->getPlayerID()));
 
-        $fields = $this->categories->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
-        $id_within_category = $robot->selectField($fields);
+        $fields = $this->categories->getSelectableFieldIDs($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
+        $field_id = $robot->selectField($fields);
 
-        if ($this->processSelectedField($robot->getPlayerID(), $id_within_category)) {
+        if ($this->processSelectedField($robot->getPlayerID(), Fields::getID($field_id))) {
             // Extra card
             $cards = $this->cards_handler->getSideboard();
             $card = array_shift($cards);

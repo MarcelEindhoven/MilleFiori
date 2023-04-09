@@ -71,7 +71,7 @@ class Ocean {
         return $this;
     }
 
-    public function getSelectableFields($player, int $card_id) : array {
+    public function getSelectableFieldIDs($player, int $card_id) : array {
         return [$this->getNextPlayerPosition($player, $card_id)];
     }
 

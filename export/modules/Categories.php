@@ -10,6 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
 
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Houses.php');
+include_once(__DIR__.'/Fields.php');
 
 class Categories {
     const KEY_CATEGORY = 'CATEGORY';
@@ -49,11 +50,11 @@ class Categories {
         return $fields;
     }
 
-    public function getSelectableFields($player, int $card_type) : array {
+    public function getSelectableFieldIDs($player, int $card_type) : array {
         $fields = array();
 
         foreach ($this->categories as $category) {
-            $fields = array_merge($fields, $this->getFieldsIncludingCategory($category->getCategory(), $category->getSelectableFields($player, $card_type)));
+            $fields = array_merge($fields, Fields::completeIDs($category->getCategory(), $category->getSelectableFieldIDs($player, $card_type)));
         }
 
         return $fields;
