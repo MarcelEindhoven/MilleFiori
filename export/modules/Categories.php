@@ -48,6 +48,16 @@ class Categories {
 
         return $fields;
     }
+
+    public function getSelectableFields($player, int $card_type) : array {
+        $fields = array();
+
+        foreach ($this->categories as $category) {
+            $fields = array_merge($fields, $this->getFieldsIncludingCategory($category->getCategory(), $category->getSelectableFields($player, $card_type)));
+        }
+
+        return $fields;
+    }
 }
 
 ?>

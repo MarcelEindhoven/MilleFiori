@@ -15,6 +15,7 @@ include_once(__DIR__.'/../export/modules/PlayerProperties.php');
 include_once(__DIR__.'/../export/modules/Robot.php');
 include_once(__DIR__.'/../export/modules/Ocean.php');
 include_once(__DIR__.'/../export/modules/CardsHandler.php');
+include_once(__DIR__.'/../export/modules/Categories.php');
 
 include_once(__DIR__.'/../export/modules/BGA/CardsInterface.php');
 include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
@@ -39,6 +40,9 @@ class GameTest extends TestCase{
 
         $this->mockFields = $this->createMock(Fields::class);
         $this->sut->setFields($this->mockFields);
+
+        $this->mockCategories = $this->createMock(Categories::class);
+        $this->sut->setCategories($this->mockCategories);
 
         $this->mockOcean = $this->createMock(Ocean::class);
         $this->sut->setOcean($this->mockOcean);
@@ -124,7 +128,7 @@ class GameTest extends TestCase{
         ->withConsecutive([$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id)], [$this->equalTo(Game::CARDS_SELECTED_HAND), $this->equalTo($this->robot_id + 1)])
         ->willReturnOnConsecutiveCalls([$this->createCard(1)], [$this->createCard(2)]);
 
-        $this->mockOcean->expects($this->exactly(2))
+        $this->mockCategories->expects($this->exactly(2))
         ->method('getSelectableFields')
         ->withConsecutive([$this->equalTo($this->robot_id), $this->equalTo(1)], [$this->equalTo($this->robot_id + 1), $this->equalTo(2)])
         ->willReturnOnConsecutiveCalls(['1'], ['2']);

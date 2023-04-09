@@ -14,6 +14,7 @@ require_once(__DIR__.'/BGA/DatabaseInterface.php');
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Robot.php');
 include_once(__DIR__.'/PlayerProperties.php');
+include_once(__DIR__.'/Categories.php');
 
 class Game {
     const NUMBER_CARDS_INCLUDING_START = 110;
@@ -68,6 +69,10 @@ class Game {
         $this->fields = $fields;
     }
 
+    public function setCategories(Categories $categories) {
+        $this->categories = $categories;
+    }
+
     public function setOcean(Ocean $ocean) {
         $this->ocean = $ocean;
     }
@@ -100,7 +105,7 @@ class Game {
         $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
         $this->sqlDatabase->trace('getPlayerPosition ' . $robot->getPlayerID() . ' ' . $card[Game::CARD_KEY_TYPE] . ' '. $this->ocean->getPlayerPosition($robot->getPlayerID()));
 
-        $fields = $this->ocean->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
+        $fields = $this->categories->getSelectableFields($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
         $id_within_category = $robot->selectField($fields);
 
         if ($this->processSelectedField($robot->getPlayerID(), $id_within_category)) {
