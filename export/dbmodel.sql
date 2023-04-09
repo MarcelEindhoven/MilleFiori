@@ -38,5 +38,12 @@ CREATE TABLE IF NOT EXISTS `robot` (
   PRIMARY KEY (`robot_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `field` (
+  `field_number` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `field_id` varchar(32) NOT NULL,
+  `player_number` int(10) NOT NULL,
+  PRIMARY KEY (`field_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 -- Example 2: add a custom field to the standard "player" table
 ALTER TABLE `player` ADD `ocean_position` INT UNSIGNED NOT NULL DEFAULT '0';
