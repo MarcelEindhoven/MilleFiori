@@ -22,6 +22,12 @@ class Houses {
         return Houses::KEY_CATEGORY;
     }
 
+    public function getReward($player, $chosen_id) : array {
+        $points = 2;
+        $extra_card = false;
+        return ['points' => $points, 'extra_card' => $extra_card];
+    }
+
     public static function generateFields() {
         $fields = array();
         for ($i = 1; $i <= Houses::NUMBER_FIELDS; ++$i) {
