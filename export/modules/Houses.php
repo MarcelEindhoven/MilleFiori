@@ -18,6 +18,11 @@ class Houses {
     const NUMBER_FIELDS = 20;
     const TOP_MARGIN = 0.7;
 
+    public static function create($event_handler): Houses {
+        $object = new Houses();
+        return $object;
+    }
+
     public function getCategory() {
         return Houses::KEY_CATEGORY;
     }
