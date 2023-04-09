@@ -44,5 +44,13 @@ class HousesTest extends TestCase{
         // Assert
         $this->assertEquals(3, $reward['points']);
     }
+
+    public function testSelectableFields_OtherCategory_Empty() {
+        // Arrange
+        // Act
+        $selectable_fields = $this->sut->getSelectableFields(2, 200);
+        // Assert
+        $this->assertEquals([], $selectable_fields);
+    }
 }
 ?>

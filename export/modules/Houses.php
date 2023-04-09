@@ -35,6 +35,10 @@ class Houses {
         return ['points' => $points, 'extra_card' => $extra_card];
     }
 
+    public function getSelectableFields($player, int $card_type) : array {
+        return [];
+    }
+
     public static function generateFields() {
         $fields = array();
         for ($i = 1; $i <= Houses::NUMBER_FIELDS; ++$i) {
