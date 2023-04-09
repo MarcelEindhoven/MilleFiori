@@ -27,5 +27,22 @@ class HousesTest extends TestCase{
         // Assert
         $this->assertEquals(2, $reward['points']);
     }
+
+    public function testReward_SingleLast_3Points() {
+        // Arrange
+        // Act
+        $reward = $this->sut->getReward(2, 19);
+        // Assert
+        $this->assertEquals(3, $reward['points']);
+    }
+
+    public function testReward_Overflow_Exception() {
+        // Arrange
+        $this->expectWarning();
+        // Act
+        $reward = $this->sut->getReward(2, 20);
+        // Assert
+        $this->assertEquals(3, $reward['points']);
+    }
 }
 ?>

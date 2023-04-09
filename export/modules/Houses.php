@@ -18,6 +18,8 @@ class Houses {
     const NUMBER_FIELDS = 20;
     const TOP_MARGIN = 0.7;
 
+    const POINTS_PER_POSITION = [2, 4, 3, 5, 1, 4, 2, 3, 1, 5, 10, 2, 3, 4, 5, 10, 1, 5, 4, 3];
+
     public static function create($event_handler): Houses {
         $object = new Houses();
         return $object;
@@ -28,7 +30,7 @@ class Houses {
     }
 
     public function getReward($player, $chosen_id) : array {
-        $points = 2;
+        $points = Houses::POINTS_PER_POSITION[ $chosen_id];
         $extra_card = false;
         return ['points' => $points, 'extra_card' => $extra_card];
     }
