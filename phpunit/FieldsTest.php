@@ -10,12 +10,27 @@ include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Fields.php');
+include_once(__DIR__.'/../export/modules/BGA/Storage.php');
 
 class FieldsTest extends TestCase{
     protected Fields $sut;
 
     protected function setUp(): void {
-        $this->sut = new Fields();
+        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
+        $this->sut = Fields::create($this->mock_database);
+    }
+
+    public function testFields_Single_CreateBucket() {
+        // Arrange
+        $bucket_name = 'field';
+        $field_id = 'field_ocean_1';
+        $this->mock_database->expects($this->exactly(1))
+        ->method('createBucket')
+        ->with($this->equalTo($bucket_name), $this->equalTo([Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]), [[$field_id, Fields::NOT_OCCUPIED]]);
+
+        // Act
+        $this->sut->createFields([$field_id]);
+        // Assert
     }
 
     protected function arrangeDefault() {
