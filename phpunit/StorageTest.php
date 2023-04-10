@@ -19,6 +19,18 @@ class StorageTest extends TestCase{
         $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
         $this->sut = \NieuwenhovenGames\BGA\Storage::create($this->mock_database);
     }
+    public function testUpdate_Value_Query() {
+        // Arrange
+        $bucket_name = 'field';
+        $field_name_value = 'player_id';
+        $value = '3';
+        $field_name_selector = 'field_id';
+        $value_selector = 'field_ocean_3';
+        $this->arrangeQuery("UPDATE $bucket_name SET $field_name_value=$value WHERE $field_name_selector=$value_selector");
+        // Act
+        $this->sut->updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector);
+        // Assert
+    }
 
     public function testGet_2Fields_getObjectList() {
         // Arrange
@@ -35,7 +47,7 @@ class StorageTest extends TestCase{
         $this->assertEquals([], $object_list);
     }
 
-    protected function arrangeCreate($expected_query) {
+    protected function arrangeQuery($expected_query) {
         $this->mock_database->expects($this->exactly(1))
         ->method('query')
         ->with($this->equalTo($expected_query));
@@ -44,7 +56,7 @@ class StorageTest extends TestCase{
     public function testCreate_NoField_SimpleQuery() {
         // Arrange
         $bucket_name = 'fields';
-        $this->arrangeCreate("INSERT INTO $bucket_name () VALUES ");
+        $this->arrangeQuery("INSERT INTO $bucket_name () VALUES ");
         // Act
         $this->sut->createBucket($bucket_name, [], []);
         // Assert
@@ -54,7 +66,7 @@ class StorageTest extends TestCase{
         // Arrange
         $bucket_name = 'fields';
         $field_id = 'field';
-        $this->arrangeCreate("INSERT INTO $bucket_name ($field_id) VALUES ");
+        $this->arrangeQuery("INSERT INTO $bucket_name ($field_id) VALUES ");
         // Act
         $this->sut->createBucket($bucket_name, [$field_id], []);
         // Assert
@@ -69,7 +81,7 @@ class StorageTest extends TestCase{
         $value_1_field_id2 = 'b';
         $value_2_field_id = 'c';
         $value_2_field_id2 = 'd';
-        $this->arrangeCreate("INSERT INTO $bucket_name ($field_id,$field_id2) VALUES ('$value_1_field_id','$value_1_field_id2'),('$value_2_field_id','$value_2_field_id2')");
+        $this->arrangeQuery("INSERT INTO $bucket_name ($field_id,$field_id2) VALUES ('$value_1_field_id','$value_1_field_id2'),('$value_2_field_id','$value_2_field_id2')");
         // Act
         $this->sut->createBucket($bucket_name, [$field_id, $field_id2], [[$value_1_field_id, $value_1_field_id2], [$value_2_field_id, $value_2_field_id2]]);
         // Assert
