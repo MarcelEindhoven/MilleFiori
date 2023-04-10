@@ -27,6 +27,10 @@ class Fields {
         return $this;
     }
 
+    public function getFields() : array {
+        return $this->storage->getBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]);
+    }
+
     public function createFields(array $fields) {
         $initial_values = [];
         foreach ($fields as $field_id) {
