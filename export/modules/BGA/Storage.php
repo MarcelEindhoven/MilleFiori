@@ -45,5 +45,14 @@ class Storage {
         $sql = "INSERT INTO $bucket_name ($field_ids_query_string) VALUES $initial_values_query_string";
         $this->sql_database->query($sql);
     }
+
+    public function getBucket(string $bucket_name, array $bucket_fields) {
+        $field_names_query_strings = [];
+        foreach ($bucket_fields as $field_name) {
+            $field_names_query_strings[] = "$field_name $field_name";
+        }
+        $field_names_query = ''  . implode(', ', $field_names_query_strings);
+        return $this->sql_database->getObjectList("SELECT $field_names_query FROM $bucket_name");
+    }
 }
 ?>

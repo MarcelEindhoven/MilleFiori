@@ -20,6 +20,21 @@ class StorageTest extends TestCase{
         $this->sut = \NieuwenhovenGames\BGA\Storage::create($this->mock_database);
     }
 
+    public function testGet_2Fields_getObjectList() {
+        // Arrange
+        $bucket_name = 'fields';
+        $field_name_1 = 'field';
+        $field_name_2 = 'player';
+        $bucket_fields = [$field_name_1, $field_name_2];
+        $this->mock_database->expects($this->exactly(1))->method('getObjectList')
+            ->with($this->equalTo("SELECT $field_name_1 $field_name_1, $field_name_2 $field_name_2 FROM $bucket_name"))
+            ->will($this->returnValue([]));
+        // Act
+        $object_list = $this->sut->getBucket($bucket_name, $bucket_fields);
+        // Assert
+        $this->assertEquals([], $object_list);
+    }
+
     protected function arrangeCreate($expected_query) {
         $this->mock_database->expects($this->exactly(1))
         ->method('query')
