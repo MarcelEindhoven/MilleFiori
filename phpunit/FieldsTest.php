@@ -20,6 +20,20 @@ class FieldsTest extends TestCase{
         $this->sut = Fields::create($this->mock_database);
     }
 
+    public function testSet_Value_Update() {
+        // Arrange
+        $bucket_name = 'field';
+        $field_id = 'field_ocean_1';
+        $player_id = '3';
+        $this->mock_database->expects($this->exactly(1))
+        ->method('updateValueForField')
+        ->with($this->equalTo($bucket_name), $this->equalTo(Fields::PLAYER_ID_NAME), $this->equalTo($player_id), $this->equalTo(Fields::FIELD_ID_NAME), $this->equalTo($field_id));
+
+        // Act
+        $this->sut->occupyField($field_id, $player_id);
+        // Assert
+    }
+
     public function testFields_Single_CreateBucket() {
         // Arrange
         $bucket_name = 'field';

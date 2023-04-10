@@ -27,6 +27,10 @@ class Fields {
         return $this;
     }
 
+    public function occupyField($field_id, $player_id) {
+        $this->storage->updateValueForField(Fields::BUCKET_NAME, Fields::PLAYER_ID_NAME, $player_id, Fields::FIELD_ID_NAME, $field_id);
+    }
+
     public function getFields() : array {
         return $this->storage->getBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]);
     }
