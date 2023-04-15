@@ -28,14 +28,6 @@ class CategoriesSetup extends Categories {
 
         return $ids;
     }
-
-    static public function completeIDs(string $category, array $ids) : array {
-        $completeIDs = [];
-        foreach ($ids as $id) {
-            $completeIDs[] = Fields::completeID($category, $id);
-        }
-        return $completeIDs;
-    }
 }
 
 ?>

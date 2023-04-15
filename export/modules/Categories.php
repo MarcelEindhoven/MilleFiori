@@ -13,7 +13,12 @@ include_once(__DIR__.'/Houses.php');
 include_once(__DIR__.'/Fields.php');
 
 class Categories {
+    const FIELD_PREFIX = 'field_';
+    const FIELD_SEPARATOR = '_';
+
     const KEY_CATEGORY = 'CATEGORY';
+    const KEY_FIELD_ID = 'field_id';
+    const KEY_ID = 'ID';
 
     public static function create($player_properties): Categories {
         $categories = new Categories();
@@ -29,11 +34,24 @@ class Categories {
         return $this;
     }
 
-    public function getFieldsIncludingCategory(string $category, array $fields) : array {
+    public function completeIDs(string $category, array $ids) : array {
+        $completeIDs = [];
+        foreach ($ids as $id) {
+            $completeIDs[] = $this->completeID($category, $id);
+        }
+        return $completeIDs;
+    }
+
+    public function completeID(string $category, string $id) : string {
+        return Categories::FIELD_PREFIX . $category . Categories::FIELD_SEPARATOR . $id;
+    }
+
+    protected function getFieldsIncludingCategory(string $category, array $fields) : array {
         $updated_fields = array();
 
         foreach($fields as $field) {
             $field[Categories::KEY_CATEGORY] = $category;
+            $field[Categories::KEY_FIELD_ID] = Fields::completeID($category, $field[Categories::KEY_ID]);
             $updated_fields[] = $field;
         }
 
