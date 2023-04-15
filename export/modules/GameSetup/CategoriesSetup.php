@@ -21,7 +21,9 @@ class CategoriesSetup extends Categories {
     public function getAllCompleteFieldIDsForOccupation() : array {
         $ids = array();
         foreach ($this->categories as $category) {
-            $ids = $category->getAllFieldIDsForOccupation();
+            if (method_exists($category, 'getAllFieldIDsForOccupation')) {
+                $ids = $category->getAllFieldIDsForOccupation();
+            }
         }
 
         return $ids;

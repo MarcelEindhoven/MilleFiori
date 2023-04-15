@@ -43,5 +43,17 @@ class CategoriesSetupTest extends TestCase{
         // Assert
         $this->assertCount(1, $field_ids);
     }
+
+    public function testGet_OneCategoriesNoOccupation_NoFields() {
+        // Arrange
+        $this->mockCategory = $this->createMock(CategoriesSetup::class);
+        $this->sut->setCategories([$this]);
+        $expected_list = ['a'];
+
+        // Act
+        $field_ids = $this->sut->getAllCompleteFieldIDsForOccupation();
+        // Assert
+        $this->assertCount(0, $field_ids);
+    }
 }
 ?>
