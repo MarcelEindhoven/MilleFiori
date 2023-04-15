@@ -12,12 +12,6 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../Categories.php');
 
 class CategoriesSetup extends Categories {
-    public function setCategories(array $categories) : CategoriesSetup {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
     public function getAllCompleteFieldIDsForOccupation() : array {
         $ids = array();
         foreach ($this->categories as $category) {
