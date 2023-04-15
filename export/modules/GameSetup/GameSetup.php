@@ -10,6 +10,9 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 require_once(__DIR__.'/../BGA/Storage.php');
+include_once(__DIR__.'/CategoriesSetup.php');
+include_once(__DIR__.'/HousesSetup.php');
+include_once(__DIR__.'/FieldsSetup.php');
 
 class GameSetup {
     const NOT_OCCUPIED = -1;
@@ -20,15 +23,24 @@ class GameSetup {
     public static function create($sqlDatabase) : GameSetup {
         $object = new GameSetup();
         $storage = \NieuwenhovenGames\BGA\Storage::create($sqlDatabase);
-        return $object->setDatabase($sqlDatabase);
+        $fields_setup = FieldsSetup::create($storage);
+        $categories_setup = new CategoriesSetup();
+        $categories_setup->setCategories([new HousesSetup()]);
+        return $object->setFieldsSetup($fields_setup)->setCategoriesSetup($categories_setup);
     }
 
-    public function setDatabase($storage) : GameSetup {
-        $this->storage = $storage;
+    public function setFieldsSetup($fields_setup) : GameSetup {
+        $this->fields_setup = $fields_setup;
+        return $this;
+    }
+
+    public function setCategoriesSetup($categories_setup) : GameSetup {
+        $this->categories_setup = $categories_setup;
         return $this;
     }
 
     public function setup() {
+        $this->fields_setup->setup($this->categories_setup->getAllCompleteFieldIDsForOccupation());
     }
 }
 

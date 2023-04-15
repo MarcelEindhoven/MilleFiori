@@ -22,6 +22,8 @@ class GameSetupTest extends TestCase{
 
     public function testFields_Integration_CreateBucket() {
         // Arrange
+        $this->mock_database->expects($this->exactly(1))
+        ->method('query');
 
         // Act
         $this->sut->setup();
