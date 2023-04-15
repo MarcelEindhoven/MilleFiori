@@ -46,7 +46,7 @@ class CategoriesSetupTest extends TestCase{
 
     public function testGet_OneCategoriesNoOccupation_NoFields() {
         // Arrange
-        $this->mockCategory = $this->createMock(CategoriesSetup::class);
+        $this->mockCategoryNoOccupation = $this->createMock(CategoriesSetup::class);
         $this->sut->setCategories([$this]);
         $expected_list = ['a'];
 
@@ -54,6 +54,23 @@ class CategoriesSetupTest extends TestCase{
         $field_ids = $this->sut->getAllCompleteFieldIDsForOccupation();
         // Assert
         $this->assertCount(0, $field_ids);
+    }
+
+    public function testGet_3Categories2Occupation_4Fields() {
+        // Arrange
+        $this->mockCategoryNoOccupation = $this->createMock(CategoriesSetup::class);
+        $this->mockCategory = $this->createMock(CategorySetupInterface::class);
+        $this->sut->setCategories([$this->mockCategory, $this->mockCategoryNoOccupation, $this->mockCategory]);
+
+        $single_category_list = ['a', 'b'];
+        $this->mockCategory->expects($this->exactly(2))
+        ->method('getAllFieldIDsForOccupation')
+        ->will($this->returnValue($single_category_list));
+
+        // Act
+        $field_ids = $this->sut->getAllCompleteFieldIDsForOccupation();
+        // Assert
+        $this->assertCount(4, $field_ids);
     }
 }
 ?>

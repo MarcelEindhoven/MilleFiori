@@ -22,7 +22,7 @@ class CategoriesSetup extends Categories {
         $ids = array();
         foreach ($this->categories as $category) {
             if (method_exists($category, 'getAllFieldIDsForOccupation')) {
-                $ids = $category->getAllFieldIDsForOccupation();
+                $ids = array_merge($ids,$category->getAllFieldIDsForOccupation());
             }
         }
 
