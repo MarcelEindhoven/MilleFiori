@@ -29,6 +29,10 @@ class Houses {
         return Houses::KEY_CATEGORY;
     }
 
+    public function getCategoryID() {
+        return Houses::KEY_CATEGORY;
+    }
+
     public function getReward($player, $chosen_id) : array {
         $points = Houses::POINTS_PER_POSITION[ $chosen_id];
         $extra_card = false;

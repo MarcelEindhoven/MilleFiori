@@ -51,6 +51,10 @@ class Ocean {
         return Ocean::KEY_CATEGORY;
     }
 
+    public function getCategoryID() {
+        return Ocean::KEY_CATEGORY;
+    }
+
     public function getReward($player, $chosen_id) : array {
         $points = 0;
         $extra_card = false;

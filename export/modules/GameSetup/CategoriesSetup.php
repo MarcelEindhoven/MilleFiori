@@ -22,11 +22,19 @@ class CategoriesSetup extends Categories {
         $ids = array();
         foreach ($this->categories as $category) {
             if (method_exists($category, 'getAllFieldIDsForOccupation')) {
-                $ids = array_merge($ids,$category->getAllFieldIDsForOccupation());
+                $ids = array_merge($ids, $this->completeIDs($category->getCategoryID(), $category->getAllFieldIDsForOccupation()));
             }
         }
 
         return $ids;
+    }
+
+    static public function completeIDs(string $category, array $ids) : array {
+        $completeIDs = [];
+        foreach ($ids as $id) {
+            $completeIDs[] = Fields::completeID($category, $id);
+        }
+        return $completeIDs;
     }
 }
 

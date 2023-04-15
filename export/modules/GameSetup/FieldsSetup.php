@@ -12,9 +12,6 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/../BGA/Storage.php');
 
 class FieldsSetup {
-    const FIELD_PREFIX = 'field_';
-    const FIELD_SEPARATOR = '_';
-
     const NOT_OCCUPIED = -1;
     const BUCKET_NAME = 'field';
     const FIELD_ID_NAME = 'field_id';

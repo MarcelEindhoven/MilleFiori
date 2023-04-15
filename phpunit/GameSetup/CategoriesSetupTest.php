@@ -29,26 +29,33 @@ class CategoriesSetupTest extends TestCase{
         $this->assertCount(0, $field_ids);
     }
 
-    public function testGet_OneCategories_1Fields() {
+    public function testGet_OneCategories_FieldIncludesCategory() {
         // Arrange
         $this->mockCategory = $this->createMock(CategorySetupInterface::class);
         $this->sut->setCategories([$this->mockCategory]);
-        $expected_list = ['a'];
+        $id_list = ['a'];
+        $category_id = 'houses';
+
         $this->mockCategory->expects($this->exactly(1))
         ->method('getAllFieldIDsForOccupation')
-        ->will($this->returnValue($expected_list));
+        ->will($this->returnValue($id_list));
+
+        $this->mockCategory->expects($this->exactly(1))
+        ->method('getCategoryID')
+        ->will($this->returnValue($category_id));
 
         // Act
         $field_ids = $this->sut->getAllCompleteFieldIDsForOccupation();
         // Assert
         $this->assertCount(1, $field_ids);
+        $this->assertEquals('field_houses_a', array_shift($field_ids));
     }
 
     public function testGet_OneCategoriesNoOccupation_NoFields() {
         // Arrange
         $this->mockCategoryNoOccupation = $this->createMock(CategoriesSetup::class);
         $this->sut->setCategories([$this]);
-        $expected_list = ['a'];
+        $id_list = ['a'];
 
         // Act
         $field_ids = $this->sut->getAllCompleteFieldIDsForOccupation();

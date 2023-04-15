@@ -11,6 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
 
 interface CategorySetupInterface {
     public function getAllFieldIDsForOccupation() : array;
+    public function getCategoryID(): string;
 }
 
 ?>
