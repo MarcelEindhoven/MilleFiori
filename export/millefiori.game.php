@@ -30,6 +30,7 @@ include_once(__DIR__.'/modules/CardsHandler.php');
 include_once(__DIR__.'/modules/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
+include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
 
 class MilleFiori extends Table
 {
@@ -160,7 +161,7 @@ class MilleFiori extends Table
 
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 
-        $result = $this->getHands($current_player_id);
+        $result = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards)->getAllData($player_id);
 
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
