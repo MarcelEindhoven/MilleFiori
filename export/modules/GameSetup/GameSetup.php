@@ -49,12 +49,14 @@ class GameSetup {
         return $this;
     }
 
-    public function setupPlayers(array $players, array $default_colors) {
+    public function setupPlayers(array $players, array $default_colors) : GameSetup {
         $this->player_robot_setup->setup($players, $default_colors);
+        return $this;
     }
 
-    public function setup() {
+    public function setupBoard() : GameSetup {
         $this->fields_setup->setup($this->categories_setup->getAllCompleteFieldIDsForOccupation());
+        return $this;
     }
 }
 

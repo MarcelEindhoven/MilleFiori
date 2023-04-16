@@ -26,7 +26,7 @@ class GameSetupTest extends TestCase{
         ->method('query');
 
         // Act
-        $this->sut->setup();
+        $this->sut->setupBoard();
         // Assert
     }
 }
