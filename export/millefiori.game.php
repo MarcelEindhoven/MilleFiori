@@ -93,7 +93,7 @@ class MilleFiori extends Table
         $default_colors = $gameinfos['player_colors'];
  
         // Create players
-        NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setupNewGame($players, $default_colors);
+        NieuwenhovenGames\MilleFiori\GameSetup::create($this)->setupPlayers($players, $default_colors);
         $this->initialiseHelperClassesIfNeeded();
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );

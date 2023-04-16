@@ -15,9 +15,6 @@ class PlayerProperties {
     const DATABASE_PLAYER = 'player';
     const DATABASE_ROBOT = 'robot';
 
-    const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
-    const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_no, player_color, player_name, ocean_position) VALUES ";
-
     const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
     const QUERY_ROBOT = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM robot";
@@ -120,41 +117,6 @@ class PlayerProperties {
     public function getRobotProperties() : array {
         return $this->mapIDToDataContainingID($this->sqlDatabase->getObjectList(PlayerProperties::QUERY_ROBOT));
     }
-
-    private function setupRobots(int $player_number_offset, int $robot_count, array $colors) {
-        if ($robot_count <= 0) {
-            return;
-        }
-
-        $values = array();
-
-        for ($robot_index = 0; $robot_index < $robot_count; $robot_index++) {
-            $color = array_shift($colors);
-            $player_number = $player_number_offset + $robot_index;
-            $values[] = "('$robot_index','$player_number','$color','robot_$robot_index','0')";
-        }
-
-        $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
-        $this->sqlDatabase->query($sql);
-    }
-
-    private function setupPlayers(array $players, array &$default_colors)
-    {
-        $sql = PlayerProperties::CREATE_PLAYERS;
-        $values = array();
-        
-        foreach ($players as $player_id => $player)
-        {
-            $color = array_shift($default_colors);
-            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."','0"."')";
-        }
-        
-        $sql = PlayerProperties::CREATE_PLAYERS . implode(',', $values);
-        $this->sqlDatabase->query($sql);
-
-        return $default_colors;
-    }
-
 }
 
 ?>
