@@ -1,6 +1,8 @@
 <?php
 namespace NieuwenhovenGames\MilleFiori;
 /**
+ * Update card database
+ * Notify of database changes
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
