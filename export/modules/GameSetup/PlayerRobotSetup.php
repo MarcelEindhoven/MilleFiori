@@ -22,9 +22,6 @@ class PlayerRobotSetup {
     const FIELDS_PLAYER = [PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::CANAL, PlayerRobotSetup::NAME, PlayerRobotSetup::AVATAR, PlayerRobotSetup::OCEAN];
     const FIELDS_ROBOT = [PlayerRobotSetup::NUMBER, PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::NAME, PlayerRobotSetup::OCEAN];
 
-    const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
-    const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_number, player_color, player_name, ocean_position) VALUES ";
-
     static public function create($storage) : PlayerRobotSetup {
         $object = new PlayerRobotSetup();
         return $object->setDatabase($storage);

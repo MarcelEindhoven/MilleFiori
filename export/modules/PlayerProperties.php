@@ -16,11 +16,11 @@ class PlayerProperties {
     const DATABASE_ROBOT = 'robot';
 
     const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
-    const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_number, player_color, player_name, ocean_position) VALUES ";
+    const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_no, player_color, player_name, ocean_position) VALUES ";
 
     const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
-    const QUERY_ROBOT = "SELECT player_id id, player_number number, player_score score, player_color color, ocean_position ocean_position FROM robot";
+    const QUERY_ROBOT = "SELECT player_id id, player_no number, player_score score, player_color color, ocean_position ocean_position FROM robot";
 
     const KEY_POSITION = 'ocean_position';
     const KEY_PLAYER_SCORE = 'player_score';
