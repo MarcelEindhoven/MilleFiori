@@ -9,6 +9,8 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 class CardsSetup extends CardsHandler {
+    const NUMBER_CARDS_INCLUDING_START = 110;
+    const INDEX_START_CARD = 35;
 
     static public function create($cards) : CardsSetup {
         $object = new CardsSetup();
@@ -24,6 +26,24 @@ class CardsSetup extends CardsHandler {
         $dummy_id = CardsHandler::LOCATION_SWAP;
         $this->cards->pickCards($number_cards, 'deck', $dummy_id);
         $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::SIDEBOARD, $dummy_id);
+    }
+
+    public function createAndShuffle() : CardsSetup {
+        $this->cards->createCards($this->getCardDefinitions(), CardsHandler::DECK);
+
+        $this->cards->shuffle(CardsHandler::DECK);
+
+        return $this;
+    }
+
+    public function getCardDefinitions(): array {
+        $cards = array ();
+        for ($i = 0;  $i < CardsSetup::NUMBER_CARDS_INCLUDING_START; $i++ ) {
+            if ($i != CardsSetup::INDEX_START_CARD) {
+                $cards [] = array ('type' => $i,'type_arg' => 0,'nbr' => 1 );
+            }
+        }
+        return $cards;
     }
 }
 

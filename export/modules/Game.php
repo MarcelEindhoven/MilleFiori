@@ -17,24 +17,12 @@ include_once(__DIR__.'/PlayerProperties.php');
 include_once(__DIR__.'/Categories.php');
 
 class Game {
-    const NUMBER_CARDS_INCLUDING_START = 110;
-    const INDEX_START_CARD = 35;
     const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
     const CARDS_PLAYED_HAND = 'playedhand';
     const CARDS_BOARD_HAND = 'sideboard';
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';
-
-    static public function getCardDefinitions(): array {
-        $cards = array ();
-        for ($id = 0;  $id < Game::NUMBER_CARDS_INCLUDING_START; $id++ ) {
-            if ($id != Game::INDEX_START_CARD) {
-                $cards [] = array ('type' => $id,'type_arg' => 0,'nbr' => 1 );
-            }
-        }
-        return $cards;
-    }
 
     public static function create($sqlDatabase) : Game {
         $game = new Game();

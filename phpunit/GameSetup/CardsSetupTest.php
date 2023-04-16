@@ -10,6 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/CardsSetup.php');
+include_once(__DIR__.'/../../export/modules/CardsHandler.php');
 include_once(__DIR__.'/../../export/modules/BGA/CardsInterface.php');
 
 class CardsSetupTest extends TestCase{
@@ -28,6 +29,15 @@ class CardsSetupTest extends TestCase{
         $this->mock_cards->expects($this->exactly(1))->method('moveAllCardsInLocation');
         // Act
         $total = $this->sut->initialiseSideboard(9);
+        // Assert
+    }
+
+    public function testCreate_Default_CreateShuffle() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(1))->method('createCards');
+        $this->mock_cards->expects($this->exactly(1))->method('shuffle')->with(CardsHandler::DECK);
+        // Act
+        $total = $this->sut->createAndShuffle();
         // Assert
     }
 }

@@ -96,7 +96,7 @@ class MilleFiori extends Table
         // Create players
         NieuwenhovenGames\MilleFiori\GameSetup::create($this)->setupPlayers($players, $default_colors)->setupBoard();
 
-        self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
+        self::reattributeColorsBasedOnPreferences($players, $default_colors);
         self::reloadPlayersBasicInfos();
         
         /************ Start the game initialization *****/
@@ -110,14 +110,8 @@ class MilleFiori extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
-        // Create cards
-        
-        $this->cards->createCards($this->game->getCardDefinitions(), 'deck');       
-
-        // Shuffle deck
-        $this->cards->shuffle('deck');
-
-        NieuwenhovenGames\MilleFiori\CardsSetup::create($this->cards)->initialiseSideboard(9);
+        // Create cards        
+        NieuwenhovenGames\MilleFiori\CardsSetup::create($this->cards)->createAndShuffle()->initialiseSideboard(9);
 
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );

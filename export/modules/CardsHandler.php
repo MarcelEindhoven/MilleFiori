@@ -14,6 +14,7 @@ require_once(__DIR__.'/BGA/CardsInterface.php');
 include_once(__DIR__.'/BGA/NotifyInterface.php');
 
 class CardsHandler {
+    const DECK = 'deck';
     const LOCATION_SWAP = -3;
     const HAND = 'hand';
     const SELECTED_HAND = 'selectedhand';
