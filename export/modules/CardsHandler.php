@@ -110,12 +110,6 @@ class CardsHandler {
         $this->cards->moveAllCardsInLocation($from, $to, $player_id);
     }
 
-    public function initialiseSideboard($number_cards) {
-        $dummy_id = CardsHandler::LOCATION_SWAP;
-        $this->cards->pickCards($number_cards, 'deck', $dummy_id);
-        $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::SIDEBOARD, $dummy_id);
-    }
-
     public function dealNewHand($player_id, $number_cards) {
         $this->cards->pickCards($number_cards, 'deck', $player_id);
         $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Deal new hand');

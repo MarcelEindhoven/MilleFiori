@@ -18,19 +18,16 @@ class CardsSetupTest extends TestCase{
     protected CardsSetup $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
-        $this->sut = CardsSetup::create($this->mock_database);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
+        $this->sut = CardsSetup::create($this->mock_cards);
     }
 
-    protected function actSetup() {
-//        $this->sut->setup($this->players, PlayerPropertiesTest::COLORS);
-    }
-
-    public function testSetup_2Players2Robots_CreatePlayerBucketRobotBucket() {
+    public function testInitialisation_Sideboard_PickAndMove() {
         // Arrange
-
+        $this->mock_cards->expects($this->exactly(1))->method('pickCards');
+        $this->mock_cards->expects($this->exactly(1))->method('moveAllCardsInLocation');
         // Act
-        $this->actSetup();
+        $total = $this->sut->initialiseSideboard(9);
         // Assert
     }
 }

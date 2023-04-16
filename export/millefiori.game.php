@@ -29,6 +29,7 @@ include_once(__DIR__.'/modules/PlayerProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
 include_once(__DIR__.'/modules/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
+include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 
 class MilleFiori extends Table
 {
@@ -94,7 +95,6 @@ class MilleFiori extends Table
  
         // Create players
         NieuwenhovenGames\MilleFiori\GameSetup::create($this)->setupPlayers($players, $default_colors)->setupBoard();
-        $this->initialiseHelperClassesIfNeeded();
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
@@ -117,7 +117,8 @@ class MilleFiori extends Table
         // Shuffle deck
         $this->cards->shuffle('deck');
 
-        $this->cardsHandler->initialiseSideboard(9);
+        NieuwenhovenGames\MilleFiori\CardsSetup::create($this->cards)->initialiseSideboard(9);
+
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
 

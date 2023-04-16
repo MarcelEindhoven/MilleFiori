@@ -97,14 +97,5 @@ class CardsHandlerTest extends TestCase{
         // Assert
         $this->assertEquals($expected_total, $total);
     }
-
-    public function testInitialisation_Sideboard_PickAndMove() {
-        // Arrange
-        $this->mockCards->expects($this->exactly(1))->method('pickCards');
-        $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
-        // Act
-        $total = $this->sut->initialiseSideboard(9);
-        // Assert
-    }
 }
 ?>
