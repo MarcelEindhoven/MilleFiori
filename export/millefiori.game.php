@@ -28,6 +28,7 @@ include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
 include_once(__DIR__.'/modules/NotifyHandler.php');
+include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 
 class MilleFiori extends Table
 {
@@ -97,6 +98,8 @@ class MilleFiori extends Table
 
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
+
+        NieuwenhovenGames\MilleFiori\GameSetup::create($this)->setup();
         
         /************ Start the game initialization *****/
 

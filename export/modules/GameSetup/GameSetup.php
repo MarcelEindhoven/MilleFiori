@@ -21,11 +21,13 @@ class GameSetup {
     const PLAYER_ID_NAME = 'player_id';
 
     public static function create($sqlDatabase) : GameSetup {
-        $object = new GameSetup();
         $storage = \NieuwenhovenGames\BGA\Storage::create($sqlDatabase);
         $fields_setup = FieldsSetup::create($storage);
+
         $categories_setup = new CategoriesSetup();
         $categories_setup->setCategories([new HousesSetup()]);
+
+        $object = new GameSetup();
         return $object->setFieldsSetup($fields_setup)->setCategoriesSetup($categories_setup);
     }
 

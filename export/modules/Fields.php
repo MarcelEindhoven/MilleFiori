@@ -35,9 +35,9 @@ class Fields {
         return $this->storage->getBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]);
     }
 
-    public function createFields(array $fields) {
+    public function createFields(array $field_ids) {
         $initial_values = [];
-        foreach ($fields as $field_id) {
+        foreach ($field_ids as $field_id) {
             $initial_values[] = [$field_id, Fields::NOT_OCCUPIED];
         }
         $this->storage->createBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME], $initial_values);

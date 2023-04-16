@@ -42,7 +42,9 @@ class Storage {
     public function createBucket(string $bucket_name, array $bucket_fields, array $initial_values) {
         $field_ids_query_string = '' . implode(',', $bucket_fields);
         $initial_values_query_string = $this->getQueryStringAllValues($initial_values);
+
         $sql = "INSERT INTO $bucket_name ($field_ids_query_string) VALUES $initial_values_query_string";
+
         $this->sql_database->query($sql);
     }
 
