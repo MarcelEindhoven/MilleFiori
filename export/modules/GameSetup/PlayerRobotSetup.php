@@ -11,15 +11,16 @@ namespace NieuwenhovenGames\MilleFiori;
 class PlayerRobotSetup {
     const DATABASE_PLAYER = 'player';
     const DATABASE_ROBOT = 'robot';
-    const ID = '';
-    const COLOR = '';
-    const CANAL = '';
-    const NAME = '';
-    const AVATAR = '';
-    const OCEAN = '';
+    const ID = 'player_id';
+    const NUMBER = 'player_no';
+    const COLOR = 'player_color';
+    const CANAL = 'player_canal';
+    const NAME = 'player_name';
+    const AVATAR = 'player_avatar';
+    const OCEAN = 'ocean_position';
 
     const FIELDS_PLAYER = [PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::CANAL, PlayerRobotSetup::NAME, PlayerRobotSetup::AVATAR, PlayerRobotSetup::OCEAN];
-    const FIELDS_ROBOT = [PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::NAME, PlayerRobotSetup::OCEAN];
+    const FIELDS_ROBOT = [PlayerRobotSetup::NUMBER, PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::NAME, PlayerRobotSetup::OCEAN];
 
     const CREATE_PLAYERS = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, ocean_position) VALUES ";
     const CREATE_ROBOTS = "INSERT INTO robot (player_id, player_number, player_color, player_name, ocean_position) VALUES ";
@@ -49,14 +50,13 @@ class PlayerRobotSetup {
 
         $values = array();
 
-        for ($robot_index = 0; $robot_index < $robot_count; $robot_index++) {
+        for ($robot_index = 1; $robot_index <= $robot_count; $robot_index++) {
             $color = array_shift($colors);
-            $player_number = $player_number_offset + $robot_index;
-            $values[] = "('$robot_index','$player_number','$color','robot_$robot_index','0')";
+            $player_number = $player_number_offset + $robot_index - 1;
+            $values[] = [$player_number, $robot_index, $color, "robot_$robot_index", 0];
         }
 
-        $sql = PlayerProperties::CREATE_ROBOTS . implode(',', $values);
-        $this->sqlDatabase->query($sql);
+        $this->storage->createBucket(PlayerRobotSetup::DATABASE_ROBOT, PlayerRobotSetup::FIELDS_ROBOT, $values);
     }
 
     private function setupPlayers(array $players, array &$default_colors)
