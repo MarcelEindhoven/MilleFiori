@@ -47,6 +47,25 @@ class StorageTest extends TestCase{
         $this->assertEquals([], $object_list);
     }
 
+    public function testGet_Prefix_FieldsWithAndWithoutPrefix() {
+        // Arrange
+        $bucket_name = 'player';
+        $prefix = 'player_';
+
+        $field_name_without_prefix = 'no';
+        $field_name_with_prefix = $prefix . $field_name_without_prefix;
+
+        $bucket_fields = [$field_name_without_prefix];
+
+        $this->mock_database->expects($this->exactly(1))->method('getObjectList')
+            ->with($this->equalTo("SELECT $field_name_with_prefix $field_name_without_prefix FROM $bucket_name"))
+            ->will($this->returnValue([]));
+        // Act
+        $object_list = $this->sut->getBucket($bucket_name, $bucket_fields, $prefix);
+        // Assert
+        $this->assertEquals([], $object_list);
+    }
+
     protected function arrangeQuery($expected_query) {
         $this->mock_database->expects($this->exactly(1))
         ->method('query')

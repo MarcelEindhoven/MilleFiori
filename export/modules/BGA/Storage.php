@@ -48,12 +48,16 @@ class Storage {
         $this->sql_database->query($sql);
     }
 
-    public function getBucket(string $bucket_name, array $bucket_fields) {
+    public function getBucket(string $bucket_name, array $bucket_fields, string $prefix = '') {
+        // Why a prefix is needed: https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $field_names_query_strings = [];
         foreach ($bucket_fields as $field_name) {
-            $field_names_query_strings[] = "$field_name $field_name";
+            $field_name_with_optional_prefix = $prefix . $field_name;
+            $field_names_query_strings[] = "$field_name_with_optional_prefix $field_name";
         }
+
         $field_names_query = ''  . implode(', ', $field_names_query_strings);
+
         return $this->sql_database->getObjectList("SELECT $field_names_query FROM $bucket_name");
     }
 
