@@ -73,6 +73,10 @@ class MilleFiori extends Table
         return self::getObjectListFromDB($query);
     }
 
+    public function getCollection(string $query) : array {
+        return self::getCollectionFromDb($query);
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.

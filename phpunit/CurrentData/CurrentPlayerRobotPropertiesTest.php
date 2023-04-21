@@ -13,6 +13,12 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentPlayerRobotProper
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentPlayerRobotPropertiesTest extends TestCase{
+    const FIELDS = ['id', 'score', 'no', 'color', 'ocean_position'];
+    const PLAYER_DATA = [55 => 'TEST'];
+    const ROBOT_DATA = [5 => 'TESTR'];
+    const PLAYER_BUCKET_INPUT_DATA = ['player', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
+    const ROBOT_BUCKET_INPUT_DATA = ['robot', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
+
     protected CurrentPlayerRobotProperties $sut;
 
     protected function setUp(): void {
@@ -25,11 +31,26 @@ class CurrentPlayerRobotPropertiesTest extends TestCase{
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $this->mock_storage->expects($this->exactly(1))
         ->method('getBucket')
-        ->with('player', ['id', 'score', 'no', 'color', 'ocean_position'], 'player_')
-        ->will($this->returnValue([5 => 'TEST']));
+        ->with('player', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_')
+        ->will($this->returnValue(CurrentPlayerRobotPropertiesTest::PLAYER_DATA));
         // Act
-        $this->sut->getPlayerData();
+        $data = $this->sut->getPlayerData();
         // Assert
+        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_DATA, $data);
+    }
+
+    public function testProperties_GetPlayerRobot_GetBucket() {
+        // Arrange
+
+        // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
+        $this->mock_storage->expects($this->exactly(2))
+        ->method('getBucket')
+        ->withConsecutive(CurrentPlayerRobotPropertiesTest::PLAYER_BUCKET_INPUT_DATA, CurrentPlayerRobotPropertiesTest::ROBOT_BUCKET_INPUT_DATA)
+        ->willReturnOnConsecutiveCalls(CurrentPlayerRobotPropertiesTest::PLAYER_DATA, CurrentPlayerRobotPropertiesTest::ROBOT_DATA);
+        // Act
+        $data = $this->sut->getPlayerDataIncludingRobots();
+        // Assert
+        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_DATA + CurrentPlayerRobotPropertiesTest::ROBOT_DATA, $data);
     }
 }
 ?>

@@ -32,13 +32,13 @@ class StorageTest extends TestCase{
         // Assert
     }
 
-    public function testGet_2Fields_getObjectList() {
+    public function testGet_2Fields_getCollection() {
         // Arrange
         $bucket_name = 'fields';
         $field_name_1 = 'field';
         $field_name_2 = 'player';
         $bucket_fields = [$field_name_1, $field_name_2];
-        $this->mock_database->expects($this->exactly(1))->method('getObjectList')
+        $this->mock_database->expects($this->exactly(1))->method('getCollection')
             ->with($this->equalTo("SELECT $field_name_1 $field_name_1, $field_name_2 $field_name_2 FROM $bucket_name"))
             ->will($this->returnValue([]));
         // Act
@@ -57,7 +57,7 @@ class StorageTest extends TestCase{
 
         $bucket_fields = [$field_name_without_prefix];
 
-        $this->mock_database->expects($this->exactly(1))->method('getObjectList')
+        $this->mock_database->expects($this->exactly(1))->method('getCollection')
             ->with($this->equalTo("SELECT $field_name_with_prefix $field_name_without_prefix FROM $bucket_name"))
             ->will($this->returnValue([]));
         // Act
@@ -103,6 +103,18 @@ class StorageTest extends TestCase{
         $this->arrangeQuery("INSERT INTO $bucket_name ($field_id,$field_id2) VALUES ('$value_1_field_id','$value_1_field_id2'),('$value_2_field_id','$value_2_field_id2')");
         // Act
         $this->sut->createBucket($bucket_name, [$field_id, $field_id2], [[$value_1_field_id, $value_1_field_id2], [$value_2_field_id, $value_2_field_id2]]);
+        // Assert
+    }
+
+    public function testCreate_Prefix_UpdatedFields() {
+        // Arrange
+        $bucket_name = 'fields';
+        $field_id = 'field';
+        $prefix = 'player_';
+        $field_id_with_prefix = $prefix . 'field';
+        $this->arrangeQuery("INSERT INTO $bucket_name ($field_id_with_prefix) VALUES ");
+        // Act
+        $this->sut->createBucket($bucket_name, [$field_id], [], $prefix);
         // Assert
     }
 }

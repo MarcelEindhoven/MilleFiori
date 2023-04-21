@@ -14,6 +14,7 @@ class PlayerRobotProperties {
     const PROPERTY_KEYS = [PlayerRobotProperties::KEY_ID, PlayerRobotProperties::KEY_SCORE, PlayerRobotProperties::KEY_NUMBER, PlayerRobotProperties::KEY_COLOR, PlayerRobotProperties::KEY_POSITION];
     const PLAYER_BUCKET_NAME = 'player';
     const PLAYER_KEY_PREFIX = 'player_';
+    const ROBOT_BUCKET_NAME = 'robot';
 
     const UPDATE_OCEAN_POSITION = "UPDATE player SET player_ocean_position=";
     const DATABASE_PLAYER = 'player';

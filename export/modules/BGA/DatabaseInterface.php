@@ -12,6 +12,8 @@ interface DatabaseInterface {
     public function query(string $query) : void;
     public function getObject(string $query) : array;
     public function getObjectList(string $query) : array;
+    public function getCollection(string $query) : array;
+    
     public function trace(string $trace) : void;
 
     /*

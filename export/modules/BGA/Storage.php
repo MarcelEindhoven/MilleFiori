@@ -39,8 +39,13 @@ class Storage {
         return '' . implode(',', $values_query_strings);
     }
 
-    public function createBucket(string $bucket_name, array $bucket_fields, array $initial_values) {
-        $field_ids_query_string = '' . implode(',', $bucket_fields);
+    public function createBucket(string $bucket_name, array $bucket_fields, array $initial_values, string $prefix = '') {
+        $field_names_query_strings = [];
+        foreach ($bucket_fields as $field_name) {
+            $field_name_with_optional_prefix = $prefix . $field_name;
+            $field_names_query_strings[] = "$field_name_with_optional_prefix";
+        }
+        $field_ids_query_string = '' . implode(',', $field_names_query_strings);
         $initial_values_query_string = $this->getQueryStringAllValues($initial_values);
 
         $sql = "INSERT INTO $bucket_name ($field_ids_query_string) VALUES $initial_values_query_string";
@@ -58,7 +63,7 @@ class Storage {
 
         $field_names_query = ''  . implode(', ', $field_names_query_strings);
 
-        return $this->sql_database->getObjectList("SELECT $field_names_query FROM $bucket_name");
+        return $this->sql_database->getCollection("SELECT $field_names_query FROM $bucket_name");
     }
 
     public function updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector) {
