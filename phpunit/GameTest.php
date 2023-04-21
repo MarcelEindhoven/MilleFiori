@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Fields.php');
 include_once(__DIR__.'/../export/modules/Game.php');
-include_once(__DIR__.'/../export/modules/PlayerProperties.php');
+include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
 include_once(__DIR__.'/../export/modules/Robot.php');
 include_once(__DIR__.'/../export/modules/Ocean.php');
 include_once(__DIR__.'/../export/modules/CardsHandler.php');
@@ -35,8 +35,8 @@ class GameTest extends TestCase{
         $this->mockCardsHandler = $this->createMock(CardsHandler::class);
         $this->sut->setCardsHandler($this->mockCardsHandler);
 
-        $this->mockPlayerProperties = $this->createMock(PlayerProperties::class);
-        $this->sut->setPlayerProperties($this->mockPlayerProperties);
+        $this->mockPlayerRobotProperties = $this->createMock(PlayerRobotProperties::class);
+        $this->sut->setPlayerRobotProperties($this->mockPlayerRobotProperties);
 
         $this->mockFields = $this->createMock(Fields::class);
         $this->sut->setFields($this->mockFields);
@@ -50,7 +50,7 @@ class GameTest extends TestCase{
 
     public function testNotify_Robot_NoNotify() {
         // Arrange
-        $this->mockPlayerProperties->expects($this->exactly(1))->method('isPlayerARobot')->will($this->returnValue(true));
+        $this->mockPlayerRobotProperties->expects($this->exactly(1))->method('isPlayerARobot')->will($this->returnValue(true));
         $this->mockNotifyInterface->expects($this->exactly(0))->method('notifyPlayer');
         // Act
         $this->sut->notifyPlayerIfNotRobot(2, '', '', []);
@@ -59,7 +59,7 @@ class GameTest extends TestCase{
 
     public function testNotify_Player_Notify() {
         // Arrange
-        $this->mockPlayerProperties->expects($this->exactly(1))->method('isPlayerARobot')->will($this->returnValue(false));
+        $this->mockPlayerRobotProperties->expects($this->exactly(1))->method('isPlayerARobot')->will($this->returnValue(false));
 
         $player_id = 11;
         $notification_type = 'notification_type';
@@ -73,7 +73,7 @@ class GameTest extends TestCase{
 
     public function testRobotsSelectCard_NoRobots_NoSelection() {
         // Arrange
-        $this->mockPlayerProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue([]));
+        $this->mockPlayerRobotProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue([]));
         // Act
         $this->sut->allRobotsSelectCard();
         // Assert
@@ -104,14 +104,14 @@ class GameTest extends TestCase{
 
     private function arrange2Robots() {
         $this->robot_id = 2;
-        $robot_list = [0 => [PlayerProperties::KEY_ID => $this->robot_id, PlayerProperties::KEY_POSITION => 0], 
-        1 => [PlayerProperties::KEY_ID => $this->robot_id + 1, PlayerProperties::KEY_POSITION => 0]];
-        $this->mockPlayerProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue($robot_list));
+        $robot_list = [0 => [PlayerRobotProperties::KEY_ID => $this->robot_id, PlayerRobotProperties::KEY_POSITION => 0], 
+        1 => [PlayerRobotProperties::KEY_ID => $this->robot_id + 1, PlayerRobotProperties::KEY_POSITION => 0]];
+        $this->mockPlayerRobotProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue($robot_list));
     }
 
     public function testRobotsPlayCard_NoRobots_NoPlay() {
         // Arrange
-        $this->mockPlayerProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue([]));
+        $this->mockPlayerRobotProperties->expects($this->exactly(1))->method('getRobotProperties')->will($this->returnValue([]));
         $this->mockCards->expects($this->exactly(0))->method('getCardsInLocation');
         // Act
         $this->sut->allRobotsPlayCard();

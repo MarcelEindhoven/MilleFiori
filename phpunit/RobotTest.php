@@ -10,7 +10,7 @@ include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Robot.php');
-include_once(__DIR__.'/../export/modules/PlayerProperties.php');
+include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
 
 class RobotTest extends TestCase{
     public function setup() : void {
@@ -28,8 +28,8 @@ class RobotTest extends TestCase{
     public function testCreate_2Properties_Robots() {
         // Arrange
         $robot_id = 2;
-        $robot_list = [0 => [PlayerProperties::KEY_ID => $robot_id, PlayerProperties::KEY_POSITION => 0], 
-        1 => [PlayerProperties::KEY_ID => $robot_id + 1, PlayerProperties::KEY_POSITION => 0]];
+        $robot_list = [0 => [PlayerRobotProperties::KEY_ID => $robot_id, PlayerRobotProperties::KEY_POSITION => 0], 
+        1 => [PlayerRobotProperties::KEY_ID => $robot_id + 1, PlayerRobotProperties::KEY_POSITION => 0]];
         // Act
         $robots = Robot::create($robot_list);
         // Assert

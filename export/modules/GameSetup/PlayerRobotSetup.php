@@ -17,7 +17,7 @@ class PlayerRobotSetup {
     const CANAL = 'player_canal';
     const NAME = 'player_name';
     const AVATAR = 'player_avatar';
-    const OCEAN = 'ocean_position';
+    const OCEAN = 'player_ocean_position';
 
     const FIELDS_PLAYER = [PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::CANAL, PlayerRobotSetup::NAME, PlayerRobotSetup::AVATAR, PlayerRobotSetup::OCEAN];
     const FIELDS_ROBOT = [PlayerRobotSetup::NUMBER, PlayerRobotSetup::ID, PlayerRobotSetup::COLOR, PlayerRobotSetup::NAME, PlayerRobotSetup::OCEAN];

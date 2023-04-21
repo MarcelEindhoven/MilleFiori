@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/PlayerProperties.php');
+include_once(__DIR__.'/PlayerRobotProperties.php');
 
 class Robot {
     static public function create(array $robotsProperties): array {
@@ -21,7 +21,7 @@ class Robot {
     }
 
     public function getPlayerID(): int {
-        return $this->robotProperties[PlayerProperties::KEY_ID];
+        return $this->robotProperties[PlayerRobotProperties::KEY_ID];
     }
 
     public function setProperties($robotProperties): Robot {

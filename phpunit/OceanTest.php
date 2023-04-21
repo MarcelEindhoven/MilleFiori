@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Ocean.php');
 
-include_once(__DIR__.'/../export/modules/PlayerProperties.php');
+include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
 
 class OceanTest extends TestCase{
     public function setup() : void {
-        $this->mock = $this->createMock(PlayerProperties::class);
+        $this->mock = $this->createMock(PlayerRobotProperties::class);
     }
 
     private function arrange($player_id, $player_position) {

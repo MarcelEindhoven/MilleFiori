@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Houses.php');
 
-include_once(__DIR__.'/../export/modules/PlayerProperties.php');
 include_once(__DIR__.'/../export/modules/Categories.php');
 
 class HousesTest extends TestCase{

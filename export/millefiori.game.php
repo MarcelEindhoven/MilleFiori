@@ -25,7 +25,7 @@ include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');
 include_once(__DIR__.'/modules/Categories.php');
 include_once(__DIR__.'/modules/Fields.php');
-include_once(__DIR__.'/modules/PlayerProperties.php');
+include_once(__DIR__.'/modules/PlayerRobotProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
 include_once(__DIR__.'/modules/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
@@ -127,7 +127,7 @@ class MilleFiori extends Table
             self::trace( "Initialise helper classes" );
 
             $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
-            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerProperties::create($this)->setNotifyInterface($this);
+            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifyInterface($this);
             $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
 
             $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
@@ -137,7 +137,7 @@ class MilleFiori extends Table
             $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
             $this->game->setCards($this->cards);
             $this->game->setCardsHandler($this->cardsHandler);
-            $this->game->setPlayerProperties($this->playerProperties);
+            $this->game->setPlayerRobotProperties($this->playerProperties);
             $this->game->setNotifyInterface($this);
             $this->game->setOcean($this->ocean);
             $this->game->setCategories($this->categories);

@@ -13,7 +13,7 @@ require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 
 include_once(__DIR__.'/../Ocean.php');
 include_once(__DIR__.'/../Robot.php');
-include_once(__DIR__.'/../PlayerProperties.php');
+include_once(__DIR__.'/../PlayerRobotProperties.php');
 include_once(__DIR__.'/../Categories.php');
 include_once(__DIR__.'/CurrentCards.php');
 
@@ -46,7 +46,7 @@ class CurrentData {
         return $result;
     }
 
-    public function setPlayerProperties(PlayerProperties $properties) {
+    public function setPlayerRobotProperties(PlayerRobotProperties $properties) {
         $this->playerProperties = $properties;
     }
 
@@ -79,7 +79,7 @@ class CurrentData {
     public function allRobotsPlayCard() {
         $this->sqlDatabase->trace( "allRobotsPlayCard" );
         foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            // $this->sqlDatabase->trace( "allRobotsPlayCard " . PlayerProperties::KEY_ID." ". $this->playerProperties->getRobotProperties()[0][PlayerProperties::KEY_ID]);
+            // $this->sqlDatabase->trace( "allRobotsPlayCard " . PlayerRobotProperties::KEY_ID." ". $this->playerProperties->getRobotProperties()[0][PlayerRobotProperties::KEY_ID]);
             $cards = $this->cards->getCardsInLocation(Game::CARDS_SELECTED_HAND, $robot->getPlayerID());
             $card = array_shift($cards);
             $this->robotPlayCard($robot, $card);

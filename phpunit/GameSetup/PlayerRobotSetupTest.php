@@ -26,7 +26,7 @@ class PlayerRobotSetupTest extends TestCase{
         $values = [];
         for ($i = 1; $i <= $number_robots; $i++) {
             $player_number = 4 - 1 - $number_robots + $i;
-            $values[] = [$player_number + 1, $i, PlayerPropertiesTest::COLORS[$player_number], 'robot_' . $i, 0];
+            $values[] = [$player_number + 1, $i, PlayerRobotPropertiesTest::COLORS[$player_number], 'robot_' . $i, 0];
         }
         return $values;
     }
@@ -40,7 +40,7 @@ class PlayerRobotSetupTest extends TestCase{
         $this->values = [];
         for ($i=0; $i<$number_players; $i++) {
             $this->players[$i] = ['player_canal' => 0, 'player_name' => 'player_' . $i, 'player_avatar' => ''];
-            $this->values[] = [$i, PlayerPropertiesTest::COLORS[$i], 0, 'player_' . $i, '', 0];
+            $this->values[] = [$i, PlayerRobotPropertiesTest::COLORS[$i], 0, 'player_' . $i, '', 0];
         }
         $expected_player_bucket = ['player', PlayerRobotSetup::FIELDS_PLAYER, $this->values];
 
@@ -56,7 +56,7 @@ class PlayerRobotSetupTest extends TestCase{
     }
 
     protected function actSetup() {
-        $this->sut->setup($this->players, PlayerPropertiesTest::COLORS);
+        $this->sut->setup($this->players, PlayerRobotPropertiesTest::COLORS);
     }
 
     public function testSetup_4Players_CreatePlayerBucket() {
