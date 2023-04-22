@@ -49,5 +49,14 @@ class CurrentDataTest extends TestCase{
         $this->sut->getAllData($player_id);
         // Assert
     }
+
+    public function testGet_IntegrationActivePlayer_Collection() {
+        // Arrange
+        $player_id = 7;
+        $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([1 => 'x']));
+        // Act
+        $this->sut->getAllDataActivePlayerPlayingCard($player_id);
+        // Assert
+    }
 }
 ?>

@@ -28,6 +28,7 @@ class CurrentData {
 
     const RESULT_KEY_PLAYERS = 'players';
     const RESULT_KEY_PLAYERSROBOTS = 'playersIncludingRobots';
+    const RESULT_KEY_SELECTABLE_FIELDS = 'selectableFields';
 
     public static function create($sqlDatabase) : CurrentData {
         $object = new CurrentData();
@@ -57,6 +58,14 @@ class CurrentData {
 
         $result[CurrentData::RESULT_KEY_PLAYERS] = $this->playerProperties->getPlayerData();
         $result[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $result[CurrentData::RESULT_KEY_PLAYERS] + $this->playerProperties->getRobotData();
+        $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = [];
+
+        return $result;
+    }
+
+    public function getAllDataActivePlayerPlayingCard($player_id) : array {
+        $result = $this->getAllData($player_id);
+        $cardBeingPlayed = $this->current_cards->getOnlyCardFromPlayingHand();
 
         return $result;
     }
