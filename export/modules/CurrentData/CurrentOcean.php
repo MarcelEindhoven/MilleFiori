@@ -25,6 +25,10 @@ class CurrentOcean extends Ocean {
     public function getSelectableFields() : array {
         return [];
     }
+
+    public function getPlayerPosition($player) {
+        return $this->position_data[$player][Ocean::KEY_PLAYER_POSITION];
+    }
 }
 
 ?>

@@ -13,13 +13,14 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentOcean.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentOceanTest extends TestCase{
-    const SELECTABLE_FIELDS = [];
+    const DEFAULT_SELECTABLE_FIELD_IDS = [];
+    const DEFAULT_POSITION_DATA = [3 => [Ocean::KEY_PLAYER_POSITION => 5]];
 
     protected CurrentOcean $sut;
 
     protected function setUp(): void {
-        $this->mock_storage = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
-        $this->sut = CurrentOcean::create($this->mock_storage);
+        $this->position_data = CurrentOceanTest::DEFAULT_POSITION_DATA;
+        $this->sut = CurrentOcean::create($this->position_data);
     }
 
     public function testProperties_GetPlayer_GetBucket() {
@@ -28,7 +29,7 @@ class CurrentOceanTest extends TestCase{
         // Act
         $data = $this->sut->getSelectableFields();
         // Assert
-        $this->assertEquals(CurrentOceanTest::SELECTABLE_FIELDS, $data);
+        $this->assertEquals(CurrentOceanTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
     }
 }
 ?>
