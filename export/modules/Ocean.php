@@ -111,7 +111,7 @@ class Ocean {
         return $this;
     }
 
-    private function getNextPlayerPosition($player, int $card_id) : int {
+    protected function getNextPlayerPosition($player, int $card_id) : int {
         $position = $this->getPlayerPosition($player);
 
         $position += Ocean::PLACES_PER_CARD[$card_id];

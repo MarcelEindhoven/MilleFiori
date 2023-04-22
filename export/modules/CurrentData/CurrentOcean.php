@@ -22,8 +22,8 @@ class CurrentOcean extends Ocean {
         return $this;
     }
 
-    public function getSelectableFields() : array {
-        return [];
+    public function getSelectableFieldIDs($player, int $card_id) : array {
+        return [$this->getNextPlayerPosition($player, $card_id)];
     }
 
     public function getPlayerPosition($player) {

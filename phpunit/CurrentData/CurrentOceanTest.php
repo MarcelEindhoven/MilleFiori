@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentOcean.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentOceanTest extends TestCase{
-    const DEFAULT_SELECTABLE_FIELD_IDS = [];
+    const DEFAULT_SELECTABLE_FIELD_IDS = [5 + 3];
     const DEFAULT_POSITION_DATA = [3 => [Ocean::KEY_PLAYER_POSITION => 5]];
 
     protected CurrentOcean $sut;
@@ -25,9 +25,11 @@ class CurrentOceanTest extends TestCase{
 
     public function testProperties_GetPlayer_GetBucket() {
         // Arrange
+        $player_id = 3;
+        $card_id = 7;
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         // Act
-        $data = $this->sut->getSelectableFields();
+        $data = $this->sut->getSelectableFieldIDs($player_id, $card_id);
         // Assert
         $this->assertEquals(CurrentOceanTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
     }
