@@ -29,7 +29,6 @@ class CurrentDataTest extends TestCase{
 
         $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
         $this->sut->setCards($this->mock_cards);
-
     }
 
     public function testGet_Integration_CardsInLocation() {
@@ -45,15 +44,17 @@ class CurrentDataTest extends TestCase{
         // Arrange
         $player_id = 7;
         $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([1 => 'x']));
+        $this->mock_cards->expects($this->exactly(4))->method('getCardsInLocation')->will($this->returnValue(['x']));
         // Act
         $this->sut->getAllData($player_id);
         // Assert
     }
 
-    public function testGet_IntegrationActivePlayer_Collection() {
+    public function testGet_IntegrationActivePlayer_CollectionAndCards() {
         // Arrange
         $player_id = 7;
         $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([1 => 'x']));
+        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue([['x']]));
         // Act
         $this->sut->getAllDataActivePlayerPlayingCard($player_id);
         // Assert

@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 class Fields {
+    const BUCKET_KEYS = [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME];
     const FIELD_PREFIX = 'field_';
     const FIELD_SEPARATOR = '_';
 
@@ -29,18 +30,6 @@ class Fields {
 
     public function occupyField($field_id, $player_id) {
         $this->storage->updateValueForField(Fields::BUCKET_NAME, Fields::PLAYER_ID_NAME, $player_id, Fields::FIELD_ID_NAME, $field_id);
-    }
-
-    public function getFields() : array {
-        return $this->storage->getBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]);
-    }
-
-    public function createFields(array $field_ids) {
-        $initial_values = [];
-        foreach ($field_ids as $field_id) {
-            $initial_values[] = [$field_id, Fields::NOT_OCCUPIED];
-        }
-        $this->storage->createBucket(Fields::BUCKET_NAME, [Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME], $initial_values);
     }
 
     static public function completeIDs(string $category, array $ids) : array {

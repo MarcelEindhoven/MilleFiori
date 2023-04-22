@@ -11,7 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 
 class PlayerRobotProperties {
-    const PROPERTY_KEYS = [PlayerRobotProperties::KEY_ID, PlayerRobotProperties::KEY_SCORE, PlayerRobotProperties::KEY_NUMBER, PlayerRobotProperties::KEY_COLOR, PlayerRobotProperties::KEY_POSITION];
+    const BUCKET_KEYS = [PlayerRobotProperties::KEY_ID, PlayerRobotProperties::KEY_SCORE, PlayerRobotProperties::KEY_NUMBER, PlayerRobotProperties::KEY_COLOR, PlayerRobotProperties::KEY_POSITION];
     const PLAYER_BUCKET_NAME = 'player';
     const PLAYER_KEY_PREFIX = 'player_';
     const ROBOT_BUCKET_NAME = 'robot';

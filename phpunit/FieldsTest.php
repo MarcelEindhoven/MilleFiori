@@ -34,35 +34,6 @@ class FieldsTest extends TestCase{
         // Assert
     }
 
-    public function testFields_Single_CreateBucket() {
-        // Arrange
-        $bucket_name = 'field';
-        $field_id = 'field_ocean_1';
-        $this->mock_database->expects($this->exactly(1))
-        ->method('createBucket')
-        ->with($this->equalTo($bucket_name), $this->equalTo([Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]), [[$field_id, Fields::NOT_OCCUPIED]]);
-
-        // Act
-        $this->sut->createFields([$field_id]);
-        // Assert
-    }
-
-    public function testGet_SingleField_ReturnSingleField() {
-        // Arrange
-        $bucket_name = 'field';
-        $field_id = 'field_ocean_1';
-        $expected_list = [$field_id];
-        $this->mock_database->expects($this->exactly(1))
-        ->method('getBucket')
-        ->with($this->equalTo($bucket_name), $this->equalTo([Fields::FIELD_ID_NAME, Fields::PLAYER_ID_NAME]))
-        ->will($this->returnValue($expected_list));
-
-        // Act
-        $fields = $this->sut->getFields();
-        // Assert
-        $this->assertEquals($expected_list, $fields);
-    }
-
     protected function arrangeDefault() {
         $this->category = 'Category';
     }
