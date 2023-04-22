@@ -10,6 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
 
 include_once(__DIR__.'/../BGA/CardsInterface.php');
 require_once(__DIR__.'/../BGA/DatabaseInterface.php');
+require_once(__DIR__.'/../BGA/Storage.php');
 
 include_once(__DIR__.'/../Ocean.php');
 include_once(__DIR__.'/../Robot.php');
@@ -25,13 +26,19 @@ class CurrentData {
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';
 
+    const RESULT_KEY_PLAYERS = 'players';
+    const RESULT_KEY_PLAYERSROBOTS = 'playersIncludingRobots';
+
     public static function create($sqlDatabase) : CurrentData {
         $object = new CurrentData();
         return $object->setDatabase($sqlDatabase);
     }
 
     public function setDatabase($sqlDatabase) : CurrentData {
-        $this->sqlDatabase = $sqlDatabase;
+        $this->storage = \NieuwenhovenGames\BGA\Storage::create($sqlDatabase);
+
+        $this->playerProperties = CurrentPlayerRobotProperties::create($this->storage);
+
         return $this;
     }
 
@@ -40,14 +47,18 @@ class CurrentData {
         return $this;
     }
 
-    public function getAllData($player_id) {
-        $result = $this->current_cards->getHands($player_id);
-
-        return $result;
+    public function setPlayerRobotProperties(PlayerRobotProperties $properties) : CurrentData {
+        $this->playerProperties = $properties;
+        return $this;
     }
 
-    public function setPlayerRobotProperties(PlayerRobotProperties $properties) {
-        $this->playerProperties = $properties;
+    public function getAllData($player_id) : array {
+        $result = $this->current_cards->getHands($player_id);
+
+        $result[CurrentData::RESULT_KEY_PLAYERS] = $this->playerProperties->getPlayerData();
+        $result[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $result[CurrentData::RESULT_KEY_PLAYERS] + $this->playerProperties->getRobotData();
+
+        return $result;
     }
 
     public function setFields(Fields $fields) {

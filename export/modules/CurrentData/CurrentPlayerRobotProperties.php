@@ -33,8 +33,12 @@ class CurrentPlayerRobotProperties extends PlayerRobotProperties {
         return $this->storage->getBucket(PlayerRobotProperties::PLAYER_BUCKET_NAME, PlayerRobotProperties::PROPERTY_KEYS, PlayerRobotProperties::PLAYER_KEY_PREFIX);
     }
 
+    public function getRobotData(): array {
+        return $this->storage->getBucket(PlayerRobotProperties::ROBOT_BUCKET_NAME, PlayerRobotProperties::PROPERTY_KEYS, PlayerRobotProperties::PLAYER_KEY_PREFIX);
+    }
+
     public function getPlayerDataIncludingRobots(): array {
-        return $this->getPlayerData() + $this->storage->getBucket(PlayerRobotProperties::ROBOT_BUCKET_NAME, PlayerRobotProperties::PROPERTY_KEYS, PlayerRobotProperties::PLAYER_KEY_PREFIX);
+        return $this->getPlayerData() + $this->getRobotData();
     }
 
 
