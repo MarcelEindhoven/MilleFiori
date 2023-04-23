@@ -87,7 +87,7 @@ class PlayerRobotProperties {
     public function setOceanPosition(int $player_id, int $player_ocean_position) : PlayerRobotProperties {
         $this->setProperty($player_id, PlayerRobotProperties::KEY_POSITION, $player_ocean_position);
 
-        $this->notifyInterface->notifyAllPlayers('shipMoved', '', ['players' => $this->getPropertiesPlayersPlusRobots()]);
+        $this->notifyInterface->notifyAllPlayers('shipMoved', '', ['playersIncludingRobots' => $this->getPropertiesPlayersPlusRobots()]);
 
         return $this;
     }
