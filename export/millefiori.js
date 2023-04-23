@@ -70,7 +70,7 @@ function (dojo, declare) {
         createShips: function( gamedatas ) {
             for( var player_id in gamedatas.playersIncludingRobots ) {
                 var player = gamedatas.playersIncludingRobots[player_id];
-                this.addTokenOnBoard(player.id, player.number, player.color, 'ocean', 0);
+                this.addTokenOnBoard(player.id, player.no, player.color, 'ocean', 0);
             }            
         },
         createAndFillHands: function( gamedatas ) {
