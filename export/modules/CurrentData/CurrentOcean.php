@@ -12,13 +12,13 @@ include_once(__DIR__.'/../Ocean.php');
 
 class CurrentOcean extends Ocean {
 
-    public static function create($position_data) : CurrentOcean {
+    public static function create($player_robot_data) : CurrentOcean {
         $object = new CurrentOcean();
-        return $object->setData($position_data);
+        return $object->setData($player_robot_data);
     }
 
-    public function setData($position_data) : CurrentOcean {
-        $this->position_data = $position_data;
+    public function setData($player_robot_data) : CurrentOcean {
+        $this->player_robot_data = $player_robot_data;
         return $this;
     }
 
@@ -27,7 +27,11 @@ class CurrentOcean extends Ocean {
     }
 
     public function getPlayerPosition($player) {
-        return $this->position_data[$player][Ocean::KEY_PLAYER_POSITION];
+        return $this->player_robot_data[$player][Ocean::KEY_PLAYER_POSITION];
+    }
+
+    public static function getTooltipsCards() {
+        return Ocean::PLACES_PER_CARD;
     }
 }
 

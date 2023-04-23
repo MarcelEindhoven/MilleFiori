@@ -38,10 +38,6 @@ class Ocean {
         return $ocean->setDatabase($properties)->initialiseFromDatabase();
     }
 
-    public static function getTooltips() {
-        return Ocean::PLACES_PER_CARD;
-    }
-
     public function setDatabase($properties) : Ocean {
         $this->properties = $properties;
         return $this;

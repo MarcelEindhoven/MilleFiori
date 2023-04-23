@@ -29,6 +29,7 @@ class CurrentData {
     const RESULT_KEY_PLAYERS = 'players';
     const RESULT_KEY_PLAYERSROBOTS = 'playersIncludingRobots';
     const RESULT_KEY_SELECTABLE_FIELDS = 'selectableFields';
+    const RESULT_KEY_TOOLTIPS_CARDS = 'tooltipsCards';
 
     public static function create($sqlDatabase) : CurrentData {
         $object = new CurrentData();
@@ -59,13 +60,19 @@ class CurrentData {
         $result[CurrentData::RESULT_KEY_PLAYERS] = $this->playerProperties->getPlayerData();
         $result[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $result[CurrentData::RESULT_KEY_PLAYERS] + $this->playerProperties->getRobotData();
         $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = [];
+        $result[CurrentData::RESULT_KEY_TOOLTIPS_CARDS] = CurrentOcean::getTooltipsCards();
 
         return $result;
     }
 
     public function getAllDataActivePlayerPlayingCard($player_id) : array {
         $result = $this->getAllData($player_id);
-        $cardBeingPlayed = $this->current_cards->getOnlyCardFromPlayingHand();
+
+        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
+
+        $ocean = CurrentOcean::create($result[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
+
+        $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = $ocean->getSelectableFieldIDs($player_id, $card_type_being_played);
 
         return $result;
     }

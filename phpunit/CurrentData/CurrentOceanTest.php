@@ -33,5 +33,13 @@ class CurrentOceanTest extends TestCase{
         // Assert
         $this->assertEquals(CurrentOceanTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
     }
+
+    public function testTooltips_Get_Array() {
+        // Arrange
+        // Act
+        $tooltips = $this->sut->getTooltipsCards();
+        // Assert
+        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
+    }
 }
 ?>

@@ -33,15 +33,6 @@ class OceanTest extends TestCase{
         $this->mock->expects($this->exactly(1))->method('setOceanPosition')->with($this->equalTo($player_id), $this->equalTo($position));
     }
 
-    public function testTooltips_Get_Array() {
-        // Arrange
-        $this->arrange(2, 0);
-        // Act
-        $tooltips = $this->sut->getTooltips();
-        // Assert
-        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
-    }
-
     public function testReward_Zero_NoReward() {
         // Arrange
         $this->arrange(2, 0);

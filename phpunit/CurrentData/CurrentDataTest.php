@@ -53,11 +53,21 @@ class CurrentDataTest extends TestCase{
     public function testGet_IntegrationActivePlayer_CollectionAndCards() {
         // Arrange
         $player_id = 7;
-        $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([1 => 'x']));
-        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue([['x']]));
+        $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([$player_id => [Ocean::KEY_PLAYER_POSITION => 5]]));
+        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue([[Game::CARD_KEY_TYPE => 9]]));
         // Act
-        $this->sut->getAllDataActivePlayerPlayingCard($player_id);
+        $selectable_fieldids = $this->sut->getAllDataActivePlayerPlayingCard($player_id)[CurrentData::RESULT_KEY_SELECTABLE_FIELDS];
         // Assert
+        $this->assertCount(1, $selectable_fieldids);
+        $this->assertEquals(10, current($selectable_fieldids));
+    }
+
+    public function testTooltips_Integration_Array() {
+        $player_id = 7;
+        // Act
+        $tooltips = $this->sut->getAllData($player_id)[CurrentData::RESULT_KEY_TOOLTIPS_CARDS];
+        // Assert
+        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
     }
 }
 ?>
