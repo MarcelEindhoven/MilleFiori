@@ -18,6 +18,7 @@ include_once(__DIR__.'/../Categories.php');
 include_once(__DIR__.'/CurrentCards.php');
 include_once(__DIR__.'/CurrentOcean.php');
 include_once(__DIR__.'/CurrentPlayerRobotProperties.php');
+include_once(__DIR__.'/CurrentCategories.php');
 
 class CurrentData {
     const CARDS_HAND = 'hand';
@@ -77,9 +78,9 @@ class CurrentData {
     public function getSelectableFieldIDsActivePlayerPlayingCard($player_id, $player_robot_data) : array {
         $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
 
-        $ocean = CurrentOcean::create($player_robot_data);
+        $categories = CurrentCategories::create($player_robot_data);
 
-        return $ocean->getSelectableFieldIDs($player_id, $card_type_being_played);
+        return $categories->getSelectableFieldIDs($player_id, $card_type_being_played);
     }
 
     public function setFields(Fields $fields) {

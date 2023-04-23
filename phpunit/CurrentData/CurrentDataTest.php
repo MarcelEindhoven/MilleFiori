@@ -59,7 +59,7 @@ class CurrentDataTest extends TestCase{
         $selectable_fieldids = $this->sut->getAllDataActivePlayerPlayingCard($player_id)[CurrentData::RESULT_KEY_SELECTABLE_FIELDS];
         // Assert
         $this->assertCount(1, $selectable_fieldids);
-        $this->assertEquals(10, current($selectable_fieldids));
+        $this->assertEquals('field_ocean_10', current($selectable_fieldids));
     }
 
     public function testTooltips_Integration_Array() {
