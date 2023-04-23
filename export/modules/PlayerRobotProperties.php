@@ -20,9 +20,9 @@ class PlayerRobotProperties {
     const DATABASE_PLAYER = 'player';
     const DATABASE_ROBOT = 'robot';
 
-    const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, player_ocean_position player_ocean_position FROM player";
+    const QUERY_PLAYER = "SELECT player_id id, player_no number, player_score score, player_color color, player_ocean_position ocean_position FROM player";
     const QUERY_WHERE = " WHERE player_id=";
-    const QUERY_ROBOT = "SELECT player_id id, player_no number, player_score score, player_color color, player_ocean_position player_ocean_position FROM robot";
+    const QUERY_ROBOT = "SELECT player_id id, player_no number, player_score score, player_color color, player_ocean_position ocean_position FROM robot";
 
     const KEY_POSITION = 'ocean_position';
     const KEY_SCORE = 'score';

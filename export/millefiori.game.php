@@ -127,7 +127,7 @@ class MilleFiori extends Table
     }
 
     protected function initialiseHelperClassesIfNeeded() {
-        if (!property_exists($this, 'ocean')) {
+        if (!property_exists($this, 'game')) {
             self::trace( "Initialise helper classes" );
 
             $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
@@ -161,20 +161,21 @@ class MilleFiori extends Table
     protected function getAllDatas() {
         self::trace( "getAllDatas your message here" );
 
+        $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
+
         $data_handler = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards);
 
         if ($this->checkAction('playCard', false)) {
-            return $data_handler->getAllDataActivePlayerPlayingCard($player_id);
+            return $data_handler->getAllDataActivePlayerPlayingCard($current_player_id);
         } else {
-            return $data_handler->getAllData($player_id);
+            return $data_handler->getAllData($current_player_id);
         }
     }
+
     protected function getPlayerData(): array {
         return $this->playerProperties->getPropertiesPlayers();
     }
-    protected function getPlayerDataIncludingRobots(): array {
-        return $this->playerProperties->getPropertiesPlayersPlusRobots();
-    }
+
     protected function getHands($player_id) {
         $result['hand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
@@ -347,18 +348,21 @@ class MilleFiori extends Table
     function stNewHand() {
         self::trace("stNewHand");
         // Deal 5 cards to each players
+        $this->initialiseHelperClassesIfNeeded();
         $this->game->dealNewHand($this->handSize);
 
         $this->gamestate->nextState( 'handDealt' );
     }  
     function stSelectCard() {
         self::trace( "stSelectCard" );
+        $this->initialiseHelperClassesIfNeeded();
         $this->gamestate->setAllPlayersMultiactive();
 
         $this->game->allRobotsSelectCard();
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
+        $this->initialiseHelperClassesIfNeeded();
         if ($this->haveAllPlayersSelectedCard()) {
             // Execute this action before changing the game state to prevent parallel actions
             $this->game->allRobotsPlayCard();

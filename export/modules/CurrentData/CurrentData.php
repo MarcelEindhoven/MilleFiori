@@ -12,11 +12,12 @@ include_once(__DIR__.'/../BGA/CardsInterface.php');
 require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 require_once(__DIR__.'/../BGA/Storage.php');
 
-include_once(__DIR__.'/../Ocean.php');
 include_once(__DIR__.'/../Robot.php');
 include_once(__DIR__.'/../PlayerRobotProperties.php');
 include_once(__DIR__.'/../Categories.php');
 include_once(__DIR__.'/CurrentCards.php');
+include_once(__DIR__.'/CurrentOcean.php');
+include_once(__DIR__.'/CurrentPlayerRobotProperties.php');
 
 class CurrentData {
     const CARDS_HAND = 'hand';
@@ -87,10 +88,6 @@ class CurrentData {
 
     public function setCategories(Categories $categories) {
         $this->categories = $categories;
-    }
-
-    public function setOcean(Ocean $ocean) {
-        $this->ocean = $ocean;
     }
 
     public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
