@@ -322,20 +322,6 @@ class MilleFiori extends Table
         game state.
     */
 
-    function argumentHands() {
-        // Return public information only
-        // Get some values from the current game situation in database...
-    
-        $this->initialiseHelperClassesIfNeeded();
-        // return values:
-        $current_player_id = self::getCurrentPlayerId();
-        return array(
-            'sideboard' => $this->cardsHandler->getSideboard(),
-            'playedhand' => $this->cards->getCardsInLocation('playedhand'),
-        );
-        return array ();
-    }
-
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state actions
 ////////////

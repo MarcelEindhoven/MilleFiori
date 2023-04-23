@@ -89,7 +89,6 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
-        "args" => "argumentHands",
         "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 20 )
     ),
     20 => array(
@@ -106,17 +105,15 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('${you} must play the card'),
         "type" => "activeplayer",
         "action" => "stPlayCard",
-        "args" => "argumentHands",
         "possibleactions" => array( "playCard", "selectExtraCard" ),
-        "transitions" => array( "playCard" => 20, "selectExtraCard" => 30 )
+        "transitions" => array( "playCard" => 20, "selectExtraCard" => 22 )
     ),
-    30 => array(
+    22 => array(
         "name" => "selectExtraCard",
         "description" => clienttranslate('${actplayer} must select an extra card'),
         "descriptionmyturn" => clienttranslate('${you} must select an extra card'),
         "type" => "activeplayer",
         "action" => "stSelectExtraCard",
-        "args" => "argumentHands",
         "possibleactions" => array( "selectExtraCard" ),
         "transitions" => array( "selectExtraCard" => 21 )
     ),
