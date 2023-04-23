@@ -161,22 +161,13 @@ class MilleFiori extends Table
     protected function getAllDatas() {
         self::trace( "getAllDatas your message here" );
 
-        $this->initialiseHelperClassesIfNeeded();
+        $data_handler = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards);
 
-        $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
-
-        $result = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards)->getAllData($player_id);
-
-        // Get information about players
-        // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $result['players'] = $this->getPlayerData();
-        $result['playersIncludingRobots'] = $this->getPlayerDataIncludingRobots();
-
-        $result['selectableFields'] = $this->getSelectableFieldIDs($current_player_id);
-        self::trace("selectableFields ". count($result['selectableFields']));
-        $result['tooltipsCards'] = $this->game->getTooltips();
-
-        return $result;
+        if ($this->checkAction('playCard', false)) {
+            return $data_handler->getAllDataActivePlayerPlayingCard($player_id);
+        } else {
+            return $data_handler->getAllData($player_id);
+        }
     }
     protected function getPlayerData(): array {
         return $this->playerProperties->getPropertiesPlayers();

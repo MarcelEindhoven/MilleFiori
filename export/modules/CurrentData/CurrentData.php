@@ -68,13 +68,17 @@ class CurrentData {
     public function getAllDataActivePlayerPlayingCard($player_id) : array {
         $result = $this->getAllData($player_id);
 
-        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
-
-        $ocean = CurrentOcean::create($result[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
-
-        $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = $ocean->getSelectableFieldIDs($player_id, $card_type_being_played);
+        $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = $this->getSelectableFieldIDsActivePlayerPlayingCard($player_id, $result[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
 
         return $result;
+    }
+
+    public function getSelectableFieldIDsActivePlayerPlayingCard($player_id, $player_robot_data) : array {
+        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
+
+        $ocean = CurrentOcean::create($player_robot_data);
+
+        return $ocean->getSelectableFieldIDs($player_id, $card_type_being_played);
     }
 
     public function setFields(Fields $fields) {
