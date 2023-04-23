@@ -24,9 +24,11 @@ class CurrentCategoriesTest extends TestCase{
 
     public function testProperties_GetPlayer_GetBucket() {
         // Arrange
+        $player_id = 7;
+        $card_type = 5;
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         // Act
-        $data = $this->sut->getSelectableFields();
+        $data = $this->sut->getSelectableFieldIDs($player_id, $card_type);
         // Assert
         $this->assertEquals(CurrentCategoriesTest::SELECTABLE_FIELDS, $data);
     }

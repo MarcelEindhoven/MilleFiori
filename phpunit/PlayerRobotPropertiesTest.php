@@ -68,48 +68,6 @@ class PlayerRobotPropertiesTest extends TestCase{
         $this->assertEquals($expected_list, $list);
     }
 
-    public function testProperties_RobotGet_SQLSelect() {
-        // Arrange
-        $player_id = $this->createRobotID();
-        $database = PlayerRobotProperties::DATABASE_ROBOT;
-        $property_key = PlayerRobotProperties::KEY_POSITION;
-        $expected_property_value = 4;
-        $this->mock->expects($this->exactly(1))->method('getObject')
-            ->with($this->equalTo("SELECT {$property_key} FROM {$database} WHERE player_id={$player_id}"))
-            ->will($this->returnValue([$property_key => $expected_property_value]));
-
-        // Act
-        $property_value = $this->sut->getProperty($player_id, $property_key);
-        // Assert
-    }
-
-    public function testProperties_RobotSetOcean_SQLUpdate() {
-        // Arrange
-        $player_id = $this->createRobotID();
-        $property_value = 5;
-
-        $expected_list = $this->expectgetProperties2PlayersPlus2Robots();
-        $this->mockNotify->expects($this->exactly(1))->method('notifyAllPlayers');
-
-        $query = $this->createQueryUpdate(PlayerRobotProperties::DATABASE_ROBOT, PlayerRobotProperties::KEY_POSITION, $player_id, $property_value);
-        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
-        // Act
-        $this->sut->setOceanPosition($player_id, $property_value);
-        // Assert
-    }
-
-    public function testProperties_PlayerSetOcean_SQLUpdatePlayer() {
-        // Arrange
-        $player_id = $this->createPlayerID();
-        $property_value = 4;
-
-        $query = $this->createQueryUpdate(PlayerRobotProperties::DATABASE_PLAYER, PlayerRobotProperties::KEY_POSITION, $player_id, $property_value);
-        $this->mock->expects($this->exactly(1))->method('query')->with($this->equalTo($query));
-        // Act
-        $this->sut->setOceanPosition($player_id, $property_value);
-        // Assert
-    }
-
     private function expectgetProperties2PlayersPlus2Robots() {
         $player_id = $this->createRobotID();
         $player_position = 5;

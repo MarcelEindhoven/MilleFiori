@@ -22,7 +22,7 @@ class CurrentCategories extends Categories {
         return $this;
     }
 
-    public function getSelectableFields() : array {
+    public function getSelectableFieldIDs($player, int $card_type) : array {
         return [];
     }
 }
