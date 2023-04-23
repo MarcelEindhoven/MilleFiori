@@ -53,7 +53,7 @@ function (dojo, declare) {
             // TODO: Setting up players boards if needed
 
             this.createShips(gamedatas);
-            this.moveShips(gamedatas.players);
+            this.moveShips(gamedatas);
             
             this.createAndFillHands(gamedatas);
 
@@ -214,8 +214,8 @@ function (dojo, declare) {
             this.slideToObject(token_id, destination).play();
         },
         moveShips: function(gamedatas) {
-            for( var player_id in gamedatas.players ) {
-                var player = gamedatas.players[player_id];
+            for( var player_id in gamedatas.playersIncludingRobots ) {
+                var player = gamedatas.playersIncludingRobots[player_id];
                 console.log('moveShips player_id ' + player_id + ' ocean_position ' + player.ocean_position);
                 this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
             }
@@ -387,7 +387,7 @@ function (dojo, declare) {
             this.playedhand.removeAll();
         },
         notify_shipMoved: function(notif) {
-            console.log('notify_shipMoved ' + notif.args.players.length);
+            console.log('notify_shipMoved ' + notif.args.playersIncludingRobots.length);
 
             this.moveShips(notif.args);
         },
