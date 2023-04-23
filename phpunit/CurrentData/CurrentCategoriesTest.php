@@ -13,24 +13,22 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentCategories.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentCategoriesTest extends TestCase{
-    const SELECTABLE_FIELDS = [];
+    const DEFAULT_SELECTABLE_FIELD_IDS = ['field_ocean_6'];
 
     protected CurrentCategories $sut;
 
     protected function setUp(): void {
-        $this->mock_storage = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
-        $this->sut = CurrentCategories::create($this->mock_storage);
+        $this->player_id = 7;
+        $this->sut = CurrentCategories::create([$this->player_id => [Ocean::KEY_PLAYER_POSITION => 5]]);
     }
 
-    public function testProperties_GetPlayer_GetBucket() {
+    public function testSelectableFieldIDs() {
         // Arrange
-        $player_id = 7;
         $card_type = 5;
-        // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         // Act
-        $data = $this->sut->getSelectableFieldIDs($player_id, $card_type);
+        $data = $this->sut->getSelectableFieldIDs($this->player_id, $card_type);
         // Assert
-        $this->assertEquals(CurrentCategoriesTest::SELECTABLE_FIELDS, $data);
+        $this->assertEquals(CurrentCategoriesTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
     }
 }
 ?>

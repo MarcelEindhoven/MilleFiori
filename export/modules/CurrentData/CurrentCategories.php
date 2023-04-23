@@ -9,21 +9,31 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../Categories.php');
+include_once(__DIR__.'/CurrentOcean.php');
 
 class CurrentCategories extends Categories {
 
-    public static function create($all_data) : CurrentCategories {
+    public static function create($player_robot_data) : CurrentCategories {
         $object = new CurrentCategories();
-        return $object->setData($all_data);
+        return $object->setData($player_robot_data);
     }
 
-    public function setData($all_data) : CurrentCategories {
-        $this->all_data = $all_data;
+    public function setData($player_robot_data) : CurrentCategories {
+        $this->player_robot_data = $player_robot_data;
+
+        $this->setCategories([Ocean::KEY_CATEGORY => CurrentOcean::create($player_robot_data), Houses::KEY_CATEGORY => new Houses(), ]);
+
         return $this;
     }
 
     public function getSelectableFieldIDs($player, int $card_type) : array {
-        return [];
+        $fields = array();
+
+        foreach ($this->categories as $category) {
+            $fields = array_merge($fields, Fields::completeIDs($category->getCategory(), $category->getSelectableFieldIDs($player, $card_type)));
+        }
+
+        return $fields;
     }
 }
 
