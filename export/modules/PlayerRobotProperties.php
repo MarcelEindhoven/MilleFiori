@@ -70,13 +70,16 @@ class PlayerRobotProperties {
     public function getProperty(int $player_id, string $property_key) {
         $database = $this->getDatabase($player_id);
 
-        return $this->sqlDatabase->getObject("SELECT {$property_key} FROM {$database} WHERE player_id={$player_id}")[$property_key];
+        $property_key_with_prefix = 'player_' . $property_key;
+
+        return $this->sqlDatabase->getObject("SELECT {$property_key_with_prefix} FROM {$database} WHERE player_id={$player_id}")[$property_key_with_prefix];
     }
 
     public function setProperty(int $player_id, string $property_key, $property_value) : PlayerRobotProperties {
         $database = $this->getDatabase($player_id);
+        $property_key_with_prefix = 'player_' . $property_key;
 
-        $this->sqlDatabase->query("UPDATE {$database} SET {$property_key}={$property_value} WHERE player_id={$player_id}");
+        $this->sqlDatabase->query("UPDATE {$database} SET {$property_key_with_prefix}={$property_value} WHERE player_id={$player_id}");
 
         return $this;
     }
@@ -90,8 +93,8 @@ class PlayerRobotProperties {
     }
 
     public function addScore(int $player_id, int $delta_score) : PlayerRobotProperties {
-        $newScore = $delta_score + $this->getProperty($player_id, PlayerRobotProperties::KEY_PLAYER_SCORE);
-        $this->setProperty($player_id, PlayerRobotProperties::KEY_PLAYER_SCORE, $newScore);
+        $newScore = $delta_score + $this->getProperty($player_id, PlayerRobotProperties::KEY_SCORE);
+        $this->setProperty($player_id, PlayerRobotProperties::KEY_SCORE, $newScore);
 
         if (! $this->isPlayerARobot($player_id)) {
             $this->notifyInterface->notifyAllPlayers('newScore', '', ['newScore' => $newScore, 'player_id' => $player_id]);
