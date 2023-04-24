@@ -58,6 +58,7 @@ class MilleFiori extends Table
         // Limit game for integration testing
         $this->handSize = 2;
 	}
+    function isCardSelectionSimultaneous(): bool {return false;}
 
     // NieuwenhovenGames\BGA\DatabaseInterface
     public function query(string $query) : void  {
@@ -337,8 +338,8 @@ class MilleFiori extends Table
         $this->initialiseHelperClassesIfNeeded();
         $this->game->dealNewHand($this->handSize);
 
-        $this->gamestate->nextState( 'handDealt' );
-    }  
+        $this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
+    }
     function stSelectCard() {
         self::trace( "stSelectCard" );
         $this->initialiseHelperClassesIfNeeded();

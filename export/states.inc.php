@@ -70,11 +70,11 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array( "endGame" => 99, "handDealt" => 12 )
+        "transitions" => array("selectCardMultipleActivePlayers" => 12, "selectPlayerToSelectCard" => 20 )
     ),
 
     12 => array(
-        "name" => "selectCard",
+        "name" => "selectCardMultipleActivePlayers",
         "description" => clienttranslate('everyone must select a card'),
         "descriptionmyturn" => clienttranslate('everyone must select a card'),
         "type" => "multipleactiveplayer",
@@ -89,33 +89,50 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
-        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 20 )
+        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 15 )
     ),
-    20 => array(
-        "name" => "selectPlayer",
-        "description" => clienttranslate('everyone selected a card'),
-        "descriptionmyturn" => clienttranslate('everyone selected a card'),
+    15 => array(
+        "name" => "selectPlayerToPlayCardIfApplicable",
+        "description" => clienttranslate('Who will play next'),
+        "descriptionmyturn" => clienttranslate('Who will play next'),
         "type" => "game",
         "action" => "stSelectPlayer",
-        "transitions" => array( "turnBusy" => 21, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
+        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
     ),
-    21 => array(
+    20 => array(
+        "name" => "selectPlayerToSelectCardIfApplicable",
+        "description" => clienttranslate('Who will play next'),
+        "descriptionmyturn" => clienttranslate('Who will play next'),
+        "type" => "game",
+        "action" => "stSelectPlayer",
+        "transitions" => array( "turnBusy" => 22, "turnEnded" => 22, "roundEnded" => 10, "gameEnded" => 99 )
+    ),
+    22 => array(
+        "name" => "selectCardSingleActivePlayer",
+        "description" => clienttranslate('${actplayer} must select a card'),
+        "descriptionmyturn" => clienttranslate('${you} must select a card'),
+        "type" => "activeplayer",
+        "action" => "stSelectCard",
+        "possibleactions" => array( "selectCard" ),
+        "transitions" => array( "" => 30),
+    ),
+    30 => array(
         "name" => "playCard",
         "description" => clienttranslate('${actplayer} must play the card'),
         "descriptionmyturn" => clienttranslate('${you} must play the card'),
         "type" => "activeplayer",
         "action" => "stPlayCard",
-        "possibleactions" => array( "playCard", "selectExtraCard" ),
-        "transitions" => array( "playCard" => 20, "selectExtraCard" => 22 )
+        "possibleactions" => array( "playCard"),
+        "transitions" => array( "playCard" => 15, "selectExtraCard" => 31 )
     ),
-    22 => array(
+    31 => array(
         "name" => "selectExtraCard",
         "description" => clienttranslate('${actplayer} must select an extra card'),
         "descriptionmyturn" => clienttranslate('${you} must select an extra card'),
         "type" => "activeplayer",
         "action" => "stSelectExtraCard",
         "possibleactions" => array( "selectExtraCard" ),
-        "transitions" => array( "selectExtraCard" => 21 )
+        "transitions" => array( "selectExtraCard" => 30 )
     ),
 
 /*
