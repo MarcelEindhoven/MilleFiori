@@ -388,8 +388,14 @@ class MilleFiori extends Table
     }
     function stPlayCard() {
         self::trace( "stPlayCard" );
-        $this->notify_selectableFields();
+
+        $active_player_id = self::getActivePlayerId();
+
+        $selectable_fields = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards)->getAllDataActivePlayerPlayingCard($active_player_id)[NieuwenhovenGames\MilleFiori\CurrentData::RESULT_KEY_SELECTABLE_FIELDS];
+
+        self::notifyPlayer($active_player_id, 'selectableFields', '', ['selectableFields' => $selectable_fields]);
     }
+
     function stSelectExtraCard() {
         self::trace( "stSelectExtraCard" );
         // Allow selection of extra card
