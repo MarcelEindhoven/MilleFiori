@@ -69,5 +69,14 @@ class CurrentDataTest extends TestCase{
         // Assert
         $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
     }
+
+    public function testPlayerIDs_Integration_Array() {
+        $player_id = 7;
+        $this->mock_storage->expects($this->exactly(2))->method('getCollection')->will($this->returnValue([$player_id => [Ocean::KEY_PLAYER_POSITION => 5]]));
+        // Act
+        $ids = $this->sut->getPlayerIDs();
+        // Assert
+        $this->assertEquals([$player_id], $ids);
+    }
 }
 ?>

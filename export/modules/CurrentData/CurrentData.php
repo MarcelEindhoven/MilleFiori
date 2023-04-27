@@ -56,6 +56,10 @@ class CurrentData {
         return $this;
     }
 
+    public function getPlayerIDs(): array {
+        return array_keys($this->playerProperties->getPlayerDataIncludingRobots());
+    }
+
     public function getAllData($player_id) : array {
         $result = $this->current_cards->getHands($player_id);
 
