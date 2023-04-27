@@ -8,11 +8,6 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/CardsInterface.php');
-require_once(__DIR__.'/../BGA/Storage.php');
-
-include_once(__DIR__.'/../Robot.php');
-
 
 class ActionNewHand {
 
@@ -41,11 +36,19 @@ class ActionNewHand {
         return $this;
     }
 
+    public function setCardSelectionSimultaneous($is_card_selection_simultaneous) : ActionNewHand {
+        $this->is_card_selection_simultaneous = $is_card_selection_simultaneous;
+        return $this;
+    }
+
     public function execute() {
         foreach ($this->data->getPlayerIDs() as $player_id) {
             $this->cards_handler->moveHandToSideboard($player_id);
             $this->cards_handler->dealNewHand($player_id, $this->number_cards);
         }
+    }
+
+    public function nextState() {
         $this->gamestate->nextState('selectCardMultipleActivePlayers');
     }
 }
