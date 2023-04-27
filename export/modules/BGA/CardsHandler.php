@@ -109,10 +109,6 @@ class CardsHandler {
         return $this->cards->getCardsInLocation(CardsHandler::SIDEBOARD);
     }
 
-    public function moveHandToSideboard($player_id) {
-        $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
-    }
-
 }
 
 ?>
