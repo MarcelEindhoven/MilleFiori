@@ -61,6 +61,8 @@ class MilleFiori extends Table
         // Limit game for integration testing
         $this->handSize = 2;
 	}
+
+    // Game options
     function isCardSelectionSimultaneous(): bool {
         return $this->getGameStateValue('card_selection') == 1;
     }
@@ -120,21 +122,20 @@ class MilleFiori extends Table
         //self::initStat( 'table', 'table_teststat1', 0 );    // Init a table statistics
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
-        // TODO: setup the initial game situation here
         // Create cards        
         NieuwenhovenGames\MilleFiori\CardsSetup::create($this->cards)->createAndShuffle()->initialiseSideboard(9);
 
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
 
-        $this->initialiseHelperClassesIfNeeded();
+        $this->initialiseHelperClasses();
         $this->activeNextPlayer();
         $this->setGameStateInitialValue('start_player_id', $this->getActivePlayerId());
 
         /************ End of the game initialization *****/
     }
 
-    protected function initialiseHelperClassesIfNeeded() {
+    protected function initialiseHelperClasses() {
         if (!property_exists($this, 'game')) {
             self::trace( "Initialise helper classes" );
 
@@ -262,7 +263,7 @@ class MilleFiori extends Table
     function selectCard($card_id) {
         self::checkAction("selectCard");
 
-        $this->initialiseHelperClassesIfNeeded();
+        $this->initialiseHelperClasses();
 
         $this->game->moveFromHandToSelected($card_id, self::getCurrentPlayerId());
 
@@ -272,7 +273,7 @@ class MilleFiori extends Table
     function selectExtraCard($card_id) {
         self::checkAction("selectExtraCard");
 
-        $this->initialiseHelperClassesIfNeeded();
+        $this->initialiseHelperClasses();
 
         $this->cardsHandler->selectExtraCard($card_id);
 
@@ -283,7 +284,7 @@ class MilleFiori extends Table
         self::checkAction("playCard");
         self::trace("selectField ". $field_id);
 
-        $this->initialiseHelperClassesIfNeeded();
+        $this->initialiseHelperClasses();
 
         $active_player_id = self::getActivePlayerId();
 
