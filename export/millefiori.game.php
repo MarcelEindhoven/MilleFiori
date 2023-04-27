@@ -31,6 +31,7 @@ include_once(__DIR__.'/modules/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
+include_once(__DIR__.'/modules/ActionsAndStates/PlayerActionLifetime.php');
 
 class MilleFiori extends Table
 {
@@ -48,17 +49,21 @@ class MilleFiori extends Table
             //    "my_first_global_variable" => 10,
             //    "my_second_global_variable" => 11,
             //      ...
-            //    "my_first_game_variant" => 100,
+            'start_player_id' => 10,
+            "card_selection" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
-        ) );        
+        ) );
+
         $this->cards = self::getNew( "module.common.deck" );
         $this->cards->init( "card" );
 
         // Limit game for integration testing
         $this->handSize = 2;
 	}
-    function isCardSelectionSimultaneous(): bool {return false;}
+    function isCardSelectionSimultaneous(): bool {
+        return $this->getGameStateValue('card_selection') == 1;
+    }
 
     // NieuwenhovenGames\BGA\DatabaseInterface
     public function query(string $query) : void  {
@@ -122,7 +127,9 @@ class MilleFiori extends Table
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
 
+        $this->initialiseHelperClassesIfNeeded();
         $this->activeNextPlayer();
+        $this->setGameStateInitialValue('start_player_id', $this->getActivePlayerId());
 
         /************ End of the game initialization *****/
     }
@@ -240,8 +247,6 @@ class MilleFiori extends Table
     }
 
     function moveFromSelectedToPlayed() {
-        $this->initialiseHelperClassesIfNeeded();
-
         $active_player_id = self::getActivePlayerId();
         $this->cardsHandler->playSelectedCard($active_player_id);
         $selectedCard = $this->cardsHandler->getOnlyCardFromPlayingHand();
@@ -335,21 +340,18 @@ class MilleFiori extends Table
     function stNewHand() {
         self::trace("stNewHand");
         // Deal 5 cards to each players
-        $this->initialiseHelperClassesIfNeeded();
         $this->game->dealNewHand($this->handSize);
 
         $this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
     }
     function stSelectCard() {
         self::trace( "stSelectCard" );
-        $this->initialiseHelperClassesIfNeeded();
         $this->gamestate->setAllPlayersMultiactive();
 
         $this->game->allRobotsSelectCard();
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
-        $this->initialiseHelperClassesIfNeeded();
         if ($this->haveAllPlayersSelectedCard()) {
             // Execute this action before changing the game state to prevent parallel actions
             $this->game->allRobotsPlayCard();

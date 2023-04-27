@@ -52,6 +52,15 @@ $game_options = array(
             ),
 
     */
+    100 => array(
+        'name' => totranslate('Card selection'),    
+        'values' => array(
+                    1 => array( 'name' => totranslate('Players select card simultaneously') ),
+
+                    2 => array( 'name' => totranslate('Players select card and play') ),
+                ),
+        'default' => 2
+    ),
 
 );
 
