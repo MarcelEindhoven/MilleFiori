@@ -9,7 +9,6 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../BGA/CardsInterface.php');
-require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 require_once(__DIR__.'/../BGA/Storage.php');
 
 include_once(__DIR__.'/../Robot.php');
@@ -17,14 +16,31 @@ include_once(__DIR__.'/../Robot.php');
 
 class ActionNewHand {
 
-    public static function create($sqlDatabase) : ActionNewHand {
+    public static function create($data) : ActionNewHand {
         $object = new ActionNewHand();
-        return $object->setDatabase($sqlDatabase);
+        return $object->setData($data)->setNumberCardsNewHand(2);
     }
 
-    public function setDatabase($sqlDatabase) : ActionNewHand {
-
+    public function setData($data) : ActionNewHand {
+        $this->data = $data;
         return $this;
+    }
+
+    public function setCardsHandler($cards_handler) : ActionNewHand {
+        $this->cards_handler = $cards_handler;
+        return $this;
+    }
+
+    public function setNumberCardsNewHand($number_cards) : ActionNewHand {
+        $this->number_cards = $number_cards;
+        return $this;
+    }
+
+    public function execute() {
+        foreach ($this->data->getPlayerIDs() as $player_id) {
+            $this->cards_handler->moveHandToSideboard($player_id);
+            $this->cards_handler->dealNewHand($player_id, $this->number_cards);
+        }
     }
 }
 
