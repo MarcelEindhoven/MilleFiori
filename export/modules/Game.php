@@ -57,6 +57,11 @@ class Game {
         return $this;
     }
 
+    public function setGameState($gamestate) : Game {
+        $this->gamestate = $gamestate;
+        return $this;
+    }
+
     public function setPlayerRobotProperties(PlayerRobotProperties $properties) {
         $this->playerProperties = $properties;
     }
@@ -81,7 +86,7 @@ class Game {
     }
 
     public function stNewHand() {
-        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->execute();
+        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute();
     }
 
     public function allRobotsPlayCard() {

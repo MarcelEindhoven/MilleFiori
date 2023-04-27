@@ -14,6 +14,8 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentPlayerRobotProperties.php');
 
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
+include_once(__DIR__.'/../../export/modules/Game.php');
+
 include_once(__DIR__.'/../../export/modules/BGA/CardsInterface.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');

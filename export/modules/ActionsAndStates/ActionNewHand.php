@@ -21,6 +21,11 @@ class ActionNewHand {
         return $object->setData($data)->setNumberCardsNewHand(2);
     }
 
+    public function setGameState($gamestate) : ActionNewHand {
+        $this->gamestate = $gamestate;
+        return $this;
+    }
+
     public function setData($data) : ActionNewHand {
         $this->data = $data;
         return $this;

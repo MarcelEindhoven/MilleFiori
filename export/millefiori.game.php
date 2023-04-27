@@ -148,6 +148,7 @@ class MilleFiori extends Table
 
         $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
         $this->game->setCards($this->cards);
+        $this->game->setGameState($this->gamestate);
         $this->game->setCardsHandler($this->cardsHandler);
         $this->game->setPlayerRobotProperties($this->playerProperties);
         $this->game->setNotifyInterface($this);
