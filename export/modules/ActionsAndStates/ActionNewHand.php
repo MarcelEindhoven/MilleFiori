@@ -46,6 +46,7 @@ class ActionNewHand {
             $this->cards_handler->moveHandToSideboard($player_id);
             $this->cards_handler->dealNewHand($player_id, $this->number_cards);
         }
+        $this->gamestate->nextState('selectCardMultipleActivePlayers');
     }
 }
 
