@@ -32,7 +32,7 @@ class ActionNewHandTest extends TestCase{
     public function testExecute_2Players_DataCards() {
         // Arrange
         $player_ids = [5, 55];
-        $this->mock_data->expects($this->exactly(1))->method('getPlayerIDs')->willReturnOnConsecutiveCalls($player_ids);
+        $this->mock_data->expects($this->exactly(1))->method('getPlayerRobotIDs')->willReturnOnConsecutiveCalls($player_ids);
 
         $this->mock_cards->expects($this->exactly(2))->method('moveHandToSideboard')->withConsecutive([$player_ids[0]], [$player_ids[1]]);
         $this->mock_cards->expects($this->exactly(2))->method('dealNewHand')->withConsecutive();
@@ -44,7 +44,11 @@ class ActionNewHandTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousNoRobot_selectCardMultipleActivePlayers() {
         // Arrange
-        $player_ids = [5, 55];
+        $player_ids = [51, 52, 53, 55];
+        $this->sut->setCardSelectionSimultaneous(true);
+
+        $this->mock_data->expects($this->exactly(1))->method('getPlayerIDs')->willReturnOnConsecutiveCalls($player_ids);
+
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->withConsecutive(['selectCardMultipleActivePlayers']);
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         // Act

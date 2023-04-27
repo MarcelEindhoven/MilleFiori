@@ -42,14 +42,16 @@ class ActionNewHand {
     }
 
     public function execute() {
-        foreach ($this->data->getPlayerIDs() as $player_id) {
+        foreach ($this->data->getPlayerRobotIDs() as $player_id) {
             $this->cards_handler->moveHandToSideboard($player_id);
             $this->cards_handler->dealNewHand($player_id, $this->number_cards);
         }
     }
 
     public function nextState() {
-        $this->gamestate->nextState('selectCardMultipleActivePlayers');
+        if (4 == count ($this->data->getPlayerIDs())) {
+            $this->gamestate->nextState('selectCardMultipleActivePlayers');
+        }
     }
 }
 

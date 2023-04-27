@@ -56,8 +56,12 @@ class CurrentData {
         return $this;
     }
 
-    public function getPlayerIDs(): array {
+    public function getPlayerRobotIDs(): array {
         return array_keys($this->playerProperties->getPlayerDataIncludingRobots());
+    }
+
+    public function getPlayerIDs(): array {
+        return array_keys($this->playerProperties->getPlayerData());
     }
 
     public function getAllData($player_id) : array {
