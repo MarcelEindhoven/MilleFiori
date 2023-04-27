@@ -343,7 +343,8 @@ class MilleFiori extends Table
         // Deal 5 cards to each players
         $this->game->dealNewHand($this->handSize);
 
-        $this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
+        //$this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
+        $this->gamestate->nextState();
     }
     function stSelectCard() {
         self::trace( "stSelectCard" );

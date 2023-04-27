@@ -70,9 +70,17 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array("selectCardMultipleActivePlayers" => 12, "selectPlayerToSelectCard" => 20 )
+        "transitions" => array("" => 11)
     ),
 
+    11 => array(
+        "name" => "selectPlayerToPlayCardIfApplicable",
+        "description" => clienttranslate('Who will play next'),
+        "descriptionmyturn" => clienttranslate('Who will play next'),
+        "type" => "game",
+        "action" => "stSelectPlayer",
+        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
+    ),
     12 => array(
         "name" => "selectCardMultipleActivePlayers",
         "description" => clienttranslate('everyone must select a card'),
@@ -89,15 +97,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
-        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 15 )
-    ),
-    15 => array(
-        "name" => "selectPlayerToPlayCardIfApplicable",
-        "description" => clienttranslate('Who will play next'),
-        "descriptionmyturn" => clienttranslate('Who will play next'),
-        "type" => "game",
-        "action" => "stSelectPlayer",
-        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
+        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 11 )
     ),
     20 => array(
         "name" => "selectPlayerToSelectCardIfApplicable",
@@ -123,7 +123,7 @@ $machinestates = array(
         "type" => "activeplayer",
         "action" => "stPlayCard",
         "possibleactions" => array( "playCard"),
-        "transitions" => array( "playCard" => 15, "selectExtraCard" => 31 )
+        "transitions" => array( "playCard" => 11, "selectExtraCard" => 31 )
     ),
     31 => array(
         "name" => "selectExtraCard",
