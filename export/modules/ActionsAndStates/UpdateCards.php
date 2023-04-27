@@ -61,6 +61,10 @@ class UpdateCards extends CardsHandler {
         $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Deal new hand');
     }
 
+    public function moveHandToSideboard($player_id) {
+        $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
+    }
+
 }
 
 ?>
