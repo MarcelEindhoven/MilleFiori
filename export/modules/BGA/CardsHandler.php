@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\MilleFiori;
+namespace NieuwenhovenGames\BGA;
 /**
  * Update card database
  * Notify of database changes
@@ -10,8 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/BGA/CardsInterface.php');
-include_once(__DIR__.'/BGA/NotifyInterface.php');
+require_once(__DIR__.'/CardsInterface.php');
 
 class CardsHandler {
     const DECK = 'deck';
@@ -29,11 +28,6 @@ class CardsHandler {
 
     public function setCards($cards) : CardsHandler {
         $this->cards = $cards;
-        return $this;
-    }
-
-    public function setNotifyHandler($notifyHandler) : CardsHandler {
-        $this->notifyHandler = $notifyHandler;
         return $this;
     }
 
@@ -109,10 +103,6 @@ class CardsHandler {
         }
 
         $this->cards->moveAllCardsInLocation($from, $to, $player_id);
-    }
-
-    public function dealNewHand($player_id, $number_cards) {
-        $this->cards->pickCards($number_cards, CardsHandler::DECK, $player_id);
     }
 
     public function getSideboard() {

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/../../export/modules/CardsHandler.php');
+include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 
 class ActionNewHandTest extends TestCase{
 
@@ -21,7 +21,7 @@ class ActionNewHandTest extends TestCase{
         $this->mock_data = $this->createMock(CurrentData::class);
         $this->sut = ActionNewHand::create($this->mock_data);
 
-        $this->mock_cards = $this->createMock(CardsHandler::class);
+        $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
     }
 
