@@ -15,6 +15,8 @@ include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Robot.php');
 include_once(__DIR__.'/PlayerRobotProperties.php');
 include_once(__DIR__.'/Categories.php');
+include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
+include_once(__DIR__.'/CurrentData/CurrentData.php');
 
 class Game {
     const CARDS_HAND = 'hand';
@@ -31,11 +33,13 @@ class Game {
 
     public function setDatabase($sqlDatabase) : Game {
         $this->sqlDatabase = $sqlDatabase;
+        $this->data_handler = CurrentData::create($this->sqlDatabase);
         return $this;
     }
 
     public function setCards($cards) : Game {
         $this->cards = $cards;
+        $this->data_handler->setCards($this->cards);
         return $this;
     }
 
@@ -72,11 +76,8 @@ class Game {
         $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
     }
 
-    public function dealNewHand($number_cards) {
-        foreach ($this->playerProperties->getPropertiesPlayersPlusRobots() as $player_id => $player) {
-            $this->cards_handler->moveHandToSideboard($player_id);
-            $this->cards_handler->dealNewHand($player_id, $number_cards);
-        }
+    public function stNewHand() {
+        ActionNewHand::create($this->data_handler)->execute();
     }
 
     public function allRobotsPlayCard() {
