@@ -70,7 +70,7 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array("" => 11)
+        "transitions" => array("robotSelectsCard" => 40, "selectCardMultipleActivePlayers" => 12, "selectCardSingleActivePlayer" => 22)
     ),
 
     11 => array(
@@ -133,6 +133,30 @@ $machinestates = array(
         "action" => "stSelectExtraCard",
         "possibleactions" => array( "selectExtraCard" ),
         "transitions" => array( "selectExtraCard" => 30 )
+    ),
+    40 => array(
+        "name" => "robotSelectsCard",
+        "description" => clienttranslate('Robot selects card'),
+        "descriptionmyturn" => clienttranslate('Robot selects card'),
+        "type" => "game",
+        "action" => "stRobotSelectsCard",
+        "transitions" => array("playCard" => 41, "nextRobotSelectsCard" => 40, "selectCardMultipleActivePlayers" => 12)
+    ),
+    41 => array(
+        "name" => "robotPlaysCard",
+        "description" => clienttranslate('Robot plays card'),
+        "descriptionmyturn" => clienttranslate('Robot plays card'),
+        "type" => "game",
+        "action" => "stRobotPlaysCard",
+        "transitions" => array("selectExtraCard" => 42, "nextRobotOrPlayer" => 22)
+    ),
+    42 => array(
+        "name" => "robotSelectsExtraCard",
+        "description" => clienttranslate('Robot selects extra card'),
+        "descriptionmyturn" => clienttranslate('Robot selects extra card'),
+        "type" => "game",
+        "action" => "stRobotSelectsExtraCard",
+        "transitions" => array("playCard" => 41)
     ),
 
 /*

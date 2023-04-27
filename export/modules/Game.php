@@ -16,6 +16,7 @@ include_once(__DIR__.'/Robot.php');
 include_once(__DIR__.'/PlayerRobotProperties.php');
 include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
+include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/CurrentData/CurrentData.php');
 
 class Game {
@@ -40,6 +41,7 @@ class Game {
     public function setCards($cards) : Game {
         $this->cards = $cards;
         $this->data_handler->setCards($this->cards);
+        $this->update_cards = UpdateCards::create($this->cards);
         return $this;
     }
 
@@ -50,6 +52,8 @@ class Game {
 
     public function setNotifyInterface($notifyInterface) : Game {
         $this->notifyInterface = $notifyInterface;
+        $this->notifyHandler = NotifyHandler::create($notifyInterface);
+        $this->update_cards->setNotifyHandler($this->notifyHandler);
         return $this;
     }
 
@@ -77,7 +81,7 @@ class Game {
     }
 
     public function stNewHand() {
-        ActionNewHand::create($this->data_handler)->execute();
+        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->execute();
     }
 
     public function allRobotsPlayCard() {

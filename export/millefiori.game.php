@@ -136,26 +136,24 @@ class MilleFiori extends Table
     }
 
     protected function initialiseHelperClasses() {
-        if (!property_exists($this, 'game')) {
-            self::trace( "Initialise helper classes" );
+        self::trace( "Initialise helper classes" );
 
-            $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
-            $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifyInterface($this);
-            $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
+        $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
+        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifyInterface($this);
+        $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
 
-            $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
-            $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
-            $this->categories = NieuwenhovenGames\MilleFiori\Categories::create($this->playerProperties);
+        $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
+        $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
+        $this->categories = NieuwenhovenGames\MilleFiori\Categories::create($this->playerProperties);
 
-            $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
-            $this->game->setCards($this->cards);
-            $this->game->setCardsHandler($this->cardsHandler);
-            $this->game->setPlayerRobotProperties($this->playerProperties);
-            $this->game->setNotifyInterface($this);
-            $this->game->setOcean($this->ocean);
-            $this->game->setCategories($this->categories);
-            $this->game->setFields($this->fields);
-        }
+        $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
+        $this->game->setCards($this->cards);
+        $this->game->setCardsHandler($this->cardsHandler);
+        $this->game->setPlayerRobotProperties($this->playerProperties);
+        $this->game->setNotifyInterface($this);
+        $this->game->setOcean($this->ocean);
+        $this->game->setCategories($this->categories);
+        $this->game->setFields($this->fields);
     }
 
     /*
@@ -340,11 +338,11 @@ class MilleFiori extends Table
     
     function stNewHand() {
         self::trace("stNewHand");
-        // Deal 5 cards to each players
-        $this->game->stNewHand($this->handSize);
+        // Deal cards to each player
+        $this->game->stNewHand();
 
         //$this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
-        $this->gamestate->nextState();
+        $this->gamestate->nextState('selectCardMultipleActivePlayers');
     }
     function stSelectCard() {
         self::trace( "stSelectCard" );
