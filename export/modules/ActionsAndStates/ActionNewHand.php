@@ -53,6 +53,8 @@ class ActionNewHand {
     public function nextState() : ActionNewHand {
         if ($this->is_card_selection_simultaneous) {
             $this->gamestate->nextState('selectCardMultipleActivePlayers');
+        } else {
+            $this->gamestate->nextState('selectCardSingleActivePlayer');
         }
 
         return $this;

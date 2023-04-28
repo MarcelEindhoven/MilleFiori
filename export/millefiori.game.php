@@ -357,9 +357,9 @@ class MilleFiori extends Table
             // Execute this action before changing the game state to prevent parallel actions
             $this->game->allRobotsPlayCard();
 
-            $this->gamestate->nextState('allPlayersReady');
+            $this->gamestate->nextState('allPlayersSelectedCard');
         } else {
-            $this->gamestate->nextState('playersStillBusy');
+            $this->gamestate->nextState('playersStillSelectingCard');
         }
     }
     private function haveAllPlayersSelectedCard() : bool{

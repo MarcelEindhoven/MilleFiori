@@ -70,7 +70,7 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array("robotSelectsCard" => 40, "selectCardMultipleActivePlayers" => 11, "selectCardSingleActivePlayer" => 22)
+        "transitions" => array("selectCardSingleActivePlayer" => 20, "selectCardMultipleActivePlayers" => 11)
     ),
     11 => array(
         "name" => "allRobotsSelectCard",
@@ -96,7 +96,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
-        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 15 )
+        "transitions" => array( "playersStillSelectingCard" => 12, "allPlayersSelectedCard" => 15 )
     ),
     15 => array(
         "name" => "selectPlayerToPlayCardIfApplicable",
@@ -107,11 +107,11 @@ $machinestates = array(
         "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
     ),
     20 => array(
-        "name" => "selectPlayerToSelectCardIfApplicable",
+        "name" => "selectPlayerOrRobotToSelectCardIfApplicable",
         "description" => clienttranslate('Who will play next'),
         "descriptionmyturn" => clienttranslate('Who will play next'),
         "type" => "game",
-        "action" => "stSelectPlayer",
+        "action" => "stSelectPlayerToSelectCard",
         "transitions" => array( "turnBusy" => 22, "turnEnded" => 22, "roundEnded" => 10, "gameEnded" => 99 )
     ),
     22 => array(
