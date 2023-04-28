@@ -31,7 +31,6 @@ include_once(__DIR__.'/modules/ActionsAndStates/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/modules/ActionsAndStates/PlayerActionLifetime.php');
 
 class MilleFiori extends Table
 {

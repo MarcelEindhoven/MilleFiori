@@ -40,7 +40,7 @@ class Game {
 
         $this->robot_handler = RobotHandler::create();
         foreach ($this->data_handler->getRobotIDs() as $robot_id) {
-            $this->robot_handler->createRobot($robot_id, $this->data);
+            $this->robot_handler->createRobot($robot_id, $this->data_handler);
         }
 
         return $this;
