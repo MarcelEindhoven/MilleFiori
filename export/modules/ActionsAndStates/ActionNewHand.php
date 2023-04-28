@@ -51,7 +51,7 @@ class ActionNewHand {
     }
 
     public function nextState() : ActionNewHand {
-        if (4 == count ($this->data->getPlayerIDs())) {
+        if ($this->is_card_selection_simultaneous) {
             $this->gamestate->nextState('selectCardMultipleActivePlayers');
         }
 

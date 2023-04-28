@@ -47,7 +47,7 @@ class ActionNewHandTest extends TestCase{
         $player_ids = [51, 52, 53, 55];
         $this->sut->setCardSelectionSimultaneous(true);
 
-        $this->mock_data->expects($this->exactly(1))->method('getPlayerIDs')->willReturnOnConsecutiveCalls($player_ids);
+        // $this->mock_data->expects($this->exactly(1))->method('getPlayerIDs')->willReturnOnConsecutiveCalls($player_ids);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->withConsecutive(['selectCardMultipleActivePlayers']);
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php

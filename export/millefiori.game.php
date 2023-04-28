@@ -155,6 +155,7 @@ class MilleFiori extends Table
         $this->game->setOcean($this->ocean);
         $this->game->setCategories($this->categories);
         $this->game->setFields($this->fields);
+        $this->game->setCardSelectionSimultaneous($this->isCardSelectionSimultaneous());
     }
 
     /*

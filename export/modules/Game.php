@@ -79,8 +79,13 @@ class Game {
         $this->ocean = $ocean;
     }
 
+    public function setCardSelectionSimultaneous($is_card_selection_simultaneous) : Game {
+        $this->is_card_selection_simultaneous = $is_card_selection_simultaneous;
+        return $this;
+    }
+
     public function stNewHand() {
-        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute()->nextState();
+        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function stRobotsSelectCard() {
