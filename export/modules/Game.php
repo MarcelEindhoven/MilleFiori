@@ -78,13 +78,6 @@ class Game {
         $this->ocean = $ocean;
     }
 
-    public function notifyPlayerIfNotRobot($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
-        if ($this->playerProperties->isPlayerARobot($player_id)) {
-            return;
-        }
-        $this->notifyInterface->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args);
-    }
-
     public function stNewHand() {
         ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute();
     }
@@ -129,23 +122,6 @@ class Game {
         if ($points != 0) {
             $this->playerProperties->addScore($player_id, $points);
         }
-    }
-
-    public function allRobotsSelectCard() {
-        foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            $cards = $this->cards->getCardsInLocation(Game::CARDS_HAND, $robot->getPlayerID());
-            $card_id = $robot->selectCard(array_column($cards, Game::CARD_KEY_ID));
-            $this->moveFromHandToSelected($card_id, $robot->getPlayerID());
-        }
-    }
-
-    public function moveFromHandToSelected($card_id, $current_player_id) {
-        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'hand', 'card' => $selectedCard]);
-            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], 'hand', $current_player_id);
-        }
-        $this->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'hand', 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
-        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 
     public function getTooltips() {
