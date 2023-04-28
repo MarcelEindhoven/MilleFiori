@@ -65,7 +65,7 @@ class CurrentData {
     }
 
     public function getRobotIDs(): array {
-        return $this->getPlayerRobotIDs() - $this->getPlayerIDs();
+        return array_diff($this->getPlayerRobotIDs(), $this->getPlayerIDs());
     }
 
     public function getHand($player_id) {

@@ -89,5 +89,14 @@ class CurrentDataTest extends TestCase{
         // Assert
         $this->assertEquals([$player_id], $ids);
     }
+
+    public function testRobotIDs_Integration_ArrayEmpty() {
+        $player_id = 7;
+        $this->mock_storage->expects($this->exactly(3))->method('getCollection')->will($this->returnValue([$player_id => [Ocean::KEY_PLAYER_POSITION => 5]]));
+        // Act
+        $ids = $this->sut->getRobotIDs();
+        // Assert
+        $this->assertEquals([], $ids);
+    }
 }
 ?>

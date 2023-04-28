@@ -349,11 +349,9 @@ class MilleFiori extends Table
 
         $this->game->stRobotsSelectCard();
     }
-    function stSelectCard() {
-        self::trace( "stSelectCard" );
+    function stSelectCardMultipleActivePlayers() {
+        self::trace( "stSelectCardMultipleActivePlayers" );
         $this->gamestate->setAllPlayersMultiactive();
-
-        $this->game->allRobotsSelectCard();
     }
     function stSelectedCard() {
         self::trace( "stSelectedCard" );
