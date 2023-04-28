@@ -8,14 +8,9 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/CardsInterface.php');
 require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 
-include_once(__DIR__.'/../Ocean.php');
-include_once(__DIR__.'/../Robot.php');
 include_once(__DIR__.'/../PlayerRobotProperties.php');
-include_once(__DIR__.'/../Categories.php');
-include_once(__DIR__.'/CurrentCards.php');
 
 class CurrentPlayerRobotProperties extends PlayerRobotProperties {
 
@@ -39,15 +34,6 @@ class CurrentPlayerRobotProperties extends PlayerRobotProperties {
 
     public function getPlayerDataIncludingRobots(): array {
         return $this->getPlayerData() + $this->getRobotData();
-    }
-
-
-    private function mapIDToDataContainingID(array $list): array {
-        $mapped_list = [];
-        foreach ($list as $element) {
-            $mapped_list[$element['id']] = $element;
-        }
-        return $mapped_list;
     }
 }
 

@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/CurrentData/CurrentData.php');
+include_once(__DIR__.'/../CurrentData/CurrentData.php');
 
 class Robot {
     static public function create($player_id, $data): Robot {

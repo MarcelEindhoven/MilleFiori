@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../Robot.php');
+include_once(__DIR__.'/../ActionsAndStates/Robot.php');
 
 class ActionRobotsSelectCard {
 

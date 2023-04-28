@@ -9,8 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../export/modules/Robot.php');
-include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
+include_once(__DIR__.'/../export/modules/ActionsAndStates/Robot.php');
 
 class RobotTest extends TestCase{
     public function setup() : void {
