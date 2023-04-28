@@ -8,28 +8,27 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/PlayerRobotProperties.php');
+include_once(__DIR__.'/CurrentData/CurrentData.php');
 
 class Robot {
-    static public function create(array $robotsProperties): array {
-        $robots = [];
-        foreach($robotsProperties as $robotProperties) {
-            $robot = new Robot();
-            $robots[] = $robot->setProperties($robotProperties);
-        }
-        return $robots;
+    static public function create($player_id, $data): Robot {
+        $object = new Robot();
+        $object->player_id = $player_id;
+        return $object->setData($data);
     }
 
-    public function getPlayerID(): int {
-        return $this->robotProperties[PlayerRobotProperties::KEY_ID];
-    }
-
-    public function setProperties($robotProperties): Robot {
-        $this->robotProperties = $robotProperties;
+    public function setData($data) : Robot {
+        $this->data = $data;
         return $this;
     }
 
-    public function selectCard(array $IDs) {
+    public function getPlayerID(): int {
+        return $this->player_id;
+    }
+
+    public function selectCard() {
+        $cards = $this->data->getHand($this->player_id);
+        $IDs = array_column($cards, CurrentData::CARD_KEY_ID);
         if (! $IDs) {
             return;
         }

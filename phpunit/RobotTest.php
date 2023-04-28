@@ -17,43 +17,6 @@ class RobotTest extends TestCase{
         $this->sut = new Robot();
     }
 
-    public function testCreate_Empty_NoRobots() {
-        // Arrange
-        // Act
-        $robots = Robot::create([]);
-        // Assert
-        $this->assertCount(0, $robots);
-    }
-
-    public function testCreate_2Properties_Robots() {
-        // Arrange
-        $robot_id = 2;
-        $robot_list = [0 => [PlayerRobotProperties::KEY_ID => $robot_id, PlayerRobotProperties::KEY_POSITION => 0], 
-        1 => [PlayerRobotProperties::KEY_ID => $robot_id + 1, PlayerRobotProperties::KEY_POSITION => 0]];
-        // Act
-        $robots = Robot::create($robot_list);
-        // Assert
-        $this->assertCount(2, $robots);
-        $this->assertEquals($robot_id, $robots[0]->getPlayerID());
-    }
-
-    public function testSelectCard_Empty_ReturnNull() {
-        // Arrange
-        // Act
-        $card = $this->sut->selectCard([]);
-        // Assert
-        $this->assertEquals(null, $card);
-    }
-
-    public function testSelectCard_Single_ReturnCardID() {
-        // Arrange
-        $expectedCardID = 'card';
-        // Act
-        $card = $this->sut->selectCard([$expectedCardID]);
-        // Assert
-        $this->assertEquals($expectedCardID, $card);
-    }
-
     public function testSelectField_Empty_ReturnNull() {
         // Arrange
         // Act

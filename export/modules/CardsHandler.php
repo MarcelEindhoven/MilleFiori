@@ -119,6 +119,10 @@ class CardsHandler {
         return $this->cards->getCardsInLocation(CardsHandler::SIDEBOARD);
     }
 
+    public function getHand($player_id) {
+        return $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id);
+    }
+
 }
 
 ?>

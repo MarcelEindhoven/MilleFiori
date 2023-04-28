@@ -65,6 +65,15 @@ class UpdateCards extends CardsHandler {
         $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
     }
 
+    public function moveFromHandToSelected($card_id, $current_player_id) {
+        foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
+            $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => 'hand', 'card' => $selectedCard]);
+            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], 'hand', $current_player_id);
+        }
+        $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'hand', 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
+        $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
+    }
+
 }
 
 ?>

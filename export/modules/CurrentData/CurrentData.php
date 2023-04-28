@@ -64,6 +64,14 @@ class CurrentData {
         return array_keys($this->playerProperties->getPlayerData());
     }
 
+    public function getRobotIDs(): array {
+        return $this->getPlayerRobotIDs() - $this->getPlayerIDs();
+    }
+
+    public function getHand($player_id) {
+        return $this->current_cards->getHand($player_id);
+    }
+
     public function getAllData($player_id) : array {
         $result = $this->current_cards->getHands($player_id);
 

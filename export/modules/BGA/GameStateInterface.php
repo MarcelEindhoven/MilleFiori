@@ -17,7 +17,7 @@ interface GameStateInterface {
     public function getActivePlayerList();
     public function updateMultiactiveOrNextState( $next_state_if_none );
     public function isPlayerActive($player_id);
-    public function nextState( $transition );
+    public function nextState($transition = '');
     public function checkPossibleAction( $action );
     public function state();
     public function state_id();

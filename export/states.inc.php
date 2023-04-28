@@ -70,16 +70,15 @@ $machinestates = array(
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array("robotSelectsCard" => 40, "selectCardMultipleActivePlayers" => 12, "selectCardSingleActivePlayer" => 22)
+        "transitions" => array("robotSelectsCard" => 40, "selectCardMultipleActivePlayers" => 11, "selectCardSingleActivePlayer" => 22)
     ),
-
     11 => array(
-        "name" => "selectPlayerToPlayCardIfApplicable",
-        "description" => clienttranslate('Who will play next'),
-        "descriptionmyturn" => clienttranslate('Who will play next'),
+        "name" => "allRobotsSelectCard",
+        "description" => clienttranslate('Robots select a card'),
+        "descriptionmyturn" => clienttranslate('Robots select a card'),
         "type" => "game",
-        "action" => "stSelectPlayer",
-        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
+        "action" => "stRobotsSelectCard",
+        "transitions" => array("" => 12)
     ),
     12 => array(
         "name" => "selectCardMultipleActivePlayers",
@@ -97,7 +96,15 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('selected a card'),
         "type" => "game",
         "action" => "stSelectedCard",
-        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 11 )
+        "transitions" => array( "playersStillBusy" => 12, "allPlayersReady" => 15 )
+    ),
+    15 => array(
+        "name" => "selectPlayerToPlayCardIfApplicable",
+        "description" => clienttranslate('Who will play next'),
+        "descriptionmyturn" => clienttranslate('Who will play next'),
+        "type" => "game",
+        "action" => "stSelectPlayer",
+        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
     ),
     20 => array(
         "name" => "selectPlayerToSelectCardIfApplicable",
@@ -123,7 +130,7 @@ $machinestates = array(
         "type" => "activeplayer",
         "action" => "stPlayCard",
         "possibleactions" => array( "playCard"),
-        "transitions" => array( "playCard" => 11, "selectExtraCard" => 31 )
+        "transitions" => array( "playCard" => 15, "selectExtraCard" => 31 )
     ),
     31 => array(
         "name" => "selectExtraCard",
