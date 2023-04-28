@@ -32,11 +32,14 @@ class ActionRobotsSelectCard {
         return $this;
     }
 
-    public function execute() {
+    public function execute() : ActionRobotsSelectCard {
         foreach ($this->data->getRobotIDs() as $robot_id) {
+            // Introduce robot handler
             $card_id = Robot::create($robot_id, $this->data)->selectCard();
             $this->cards_handler->moveFromHandToSelected($card_id, $robot_id);
         }
+
+        return $this;
     }
 
     public function nextState() {

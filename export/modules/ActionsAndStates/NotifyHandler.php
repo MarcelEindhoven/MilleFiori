@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../BGA/NotifyInterface.php');
 
 class NotifyHandler {
     const HAND = 'hand';

@@ -27,7 +27,7 @@ include_once(__DIR__.'/modules/Categories.php');
 include_once(__DIR__.'/modules/Fields.php');
 include_once(__DIR__.'/modules/PlayerRobotProperties.php');
 include_once(__DIR__.'/modules/CardsHandler.php');
-include_once(__DIR__.'/modules/NotifyHandler.php');
+include_once(__DIR__.'/modules/ActionsAndStates/NotifyHandler.php');
 include_once(__DIR__.'/modules/GameSetup/GameSetup.php');
 include_once(__DIR__.'/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/modules/CurrentData/CurrentData.php');
@@ -341,8 +341,12 @@ class MilleFiori extends Table
         self::trace("stNewHand");
         // Deal cards to each player
         $this->game->stNewHand();
+    }
+    
+    function stRobotsSelectCard() {
+        self::trace("stRobotsSelectCard");
 
-        //$this->gamestate->nextState($this->isCardSelectionSimultaneous() ? 'selectCardMultipleActivePlayers' : 'selectPlayerToSelectCard');
+        $this->game->stRobotsSelectCard();
     }
     function stSelectCard() {
         self::trace( "stSelectCard" );

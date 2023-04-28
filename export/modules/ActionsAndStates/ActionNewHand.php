@@ -41,17 +41,21 @@ class ActionNewHand {
         return $this;
     }
 
-    public function execute() {
+    public function execute() : ActionNewHand {
         foreach ($this->data->getPlayerRobotIDs() as $player_id) {
             $this->cards_handler->moveHandToSideboard($player_id);
             $this->cards_handler->dealNewHand($player_id, $this->number_cards);
         }
+
+        return $this;
     }
 
-    public function nextState() {
+    public function nextState() : ActionNewHand {
         if (4 == count ($this->data->getPlayerIDs())) {
             $this->gamestate->nextState('selectCardMultipleActivePlayers');
         }
+
+        return $this;
     }
 }
 

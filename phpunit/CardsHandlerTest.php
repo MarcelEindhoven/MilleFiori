@@ -10,7 +10,7 @@ include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/CardsHandler.php');
-include_once(__DIR__.'/../export/modules/NotifyHandler.php');
+include_once(__DIR__.'/../export/modules/ActionsAndStates/NotifyHandler.php');
 
 include_once(__DIR__.'/../export/modules/BGA/CardsInterface.php');
 include_once(__DIR__.'/../export/modules/BGA/NotifyInterface.php');
