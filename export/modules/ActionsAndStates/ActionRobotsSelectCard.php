@@ -9,21 +9,17 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../ActionsAndStates/Robot.php');
+include_once(__DIR__.'/../CurrentData/CurrentData.php');
 
 class ActionRobotsSelectCard {
 
-    public static function create($data) : ActionRobotsSelectCard {
+    public static function create($gamestate) : ActionRobotsSelectCard {
         $object = new ActionRobotsSelectCard();
-        return $object->setData($data);
+        return $object->setGameState($gamestate);
     }
 
     public function setGameState($gamestate) : ActionRobotsSelectCard {
         $this->gamestate = $gamestate;
-        return $this;
-    }
-
-    public function setData($data) : ActionRobotsSelectCard {
-        $this->data = $data;
         return $this;
     }
 
@@ -32,11 +28,15 @@ class ActionRobotsSelectCard {
         return $this;
     }
 
+    public function setRobotHandler($robot_handler) : ActionRobotsSelectCard {
+        $this->robot_handler = $robot_handler;
+        return $this;
+    }
+
     public function execute() : ActionRobotsSelectCard {
-        foreach ($this->data->getRobotIDs() as $robot_id) {
-            // Introduce robot handler
-            $card_id = Robot::create($robot_id, $this->data)->selectCard();
-            $this->cards_handler->moveFromHandToSelected($card_id, $robot_id);
+        foreach ($this->robot_handler->getRobots() as $robot) {
+            $card = $robot->selectCard();
+            $this->cards_handler->moveFromHandToSelected($card[CurrentData::CARD_KEY_ID], $robot->getPlayerID());
         }
 
         return $this;

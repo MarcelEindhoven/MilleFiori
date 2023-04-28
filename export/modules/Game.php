@@ -18,6 +18,7 @@ include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
 include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
+include_once(__DIR__.'/ActionsAndStates/RobotHandler.php');
 include_once(__DIR__.'/CurrentData/CurrentData.php');
 
 class Game {
@@ -29,13 +30,19 @@ class Game {
     const CARD_KEY_TYPE = 'type';
 
     public static function create($sqlDatabase) : Game {
-        $game = new Game();
-        return $game->setDatabase($sqlDatabase);
+        $object = new Game();
+        return $object->setDatabase($sqlDatabase);
     }
 
     public function setDatabase($sqlDatabase) : Game {
         $this->sqlDatabase = $sqlDatabase;
         $this->data_handler = CurrentData::create($this->sqlDatabase);
+
+        $this->robot_handler = RobotHandler::create();
+        foreach ($this->data_handler->getRobotIDs() as $robot_id) {
+            $this->robot_handler->createRobot($robot_id, $this->data);
+        }
+
         return $this;
     }
 
@@ -89,7 +96,7 @@ class Game {
     }
 
     public function stRobotsSelectCard() {
-        ActionRobotsSelectCard::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute()->nextState();
+        ActionRobotsSelectCard::create($this->gamestate)->setRobotHandler($this->robot_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute()->nextState();
     }
 
     function playerSelectsCard($player_id, $card_id) {

@@ -28,12 +28,11 @@ class Robot {
 
     public function selectCard() {
         $cards = $this->data->getHand($this->player_id);
-        $IDs = array_column($cards, CurrentData::CARD_KEY_ID);
-        if (! $IDs) {
+        if (! $cards) {
             return;
         }
         // For now, any will do
-        return array_shift($IDs);
+        return array_shift($cards);
     }
 
     public function selectField(array $IDs) {
