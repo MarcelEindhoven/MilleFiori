@@ -17,6 +17,7 @@ include_once(__DIR__.'/PlayerRobotProperties.php');
 include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
+include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/CurrentData/CurrentData.php');
 
@@ -90,6 +91,10 @@ class Game {
 
     public function stRobotsSelectCard() {
         ActionRobotsSelectCard::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute()->nextState();
+    }
+
+    function playerSelectsCard($player_id, $card_id) {
+        PlayerSelectsCard::create()->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
     }
 
     public function allRobotsPlayCard() {

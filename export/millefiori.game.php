@@ -265,9 +265,7 @@ class MilleFiori extends Table
 
         $this->initialiseHelperClasses();
 
-        $this->game->moveFromHandToSelected($card_id, self::getCurrentPlayerId());
-
-        $this->gamestate->nextState();
+        $this->game->playerSelectsCard(self::getCurrentPlayerId(), $card_id);
     }
 
     function selectExtraCard($card_id) {
