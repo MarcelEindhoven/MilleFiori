@@ -21,5 +21,8 @@ class CurrentPlayerOrRobot {
         $this->properties = $properties;
         return $this;
     }
+
+    public function getCurrentPlayerOrRobotID(): int {return $this->player_id;}
+    public function setCurrentPlayerOrRobotID($player_id) {$this->player_id = $player_id;}
 }
 ?>

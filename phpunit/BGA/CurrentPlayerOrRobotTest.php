@@ -17,10 +17,14 @@ class CurrentPlayerOrRobotTest extends TestCase{
     protected function setUp(): void {
         $this->sut = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create();
     }
-    public function testUpdate_Value_Query() {
+    public function testID_NoChange_GetEqualsSet() {
         // Arrange
+        $player_id = 55;
+        $this->sut->setCurrentPlayerOrRobotID($player_id);
         // Act
+        $id = $this->sut->getCurrentPlayerOrRobotID();
         // Assert
+        $this->assertEquals($player_id, $id);
     }
 }
 ?>
