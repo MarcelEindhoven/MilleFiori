@@ -27,10 +27,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousNoRobot_PlayerPlays() {
         // Arrange
-        $player_id = 5;
-        $this->mock_player_or_robot->expects($this->exactly(1))->method('getCurrentPlayerOrRobotID')->will($this->returnValue($player_id));
-        $this->mock_player_or_robot->expects($this->exactly(1))->method('isIDRobot')->with($player_id)->will($this->returnValue(false));
-
+        $this->arrangePlayerOrRobot(false);
         $this->sut->setCardSelectionSimultaneous(true);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activatePlayerToPlayCard');
@@ -38,5 +35,24 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
         $this->sut->nextState();
         // Assert
     }
+
+    public function testNextState_SelectionSimultaneousRobot_RobotPlays() {
+        // Arrange
+        $this->arrangePlayerOrRobot(true);
+        $this->sut->setCardSelectionSimultaneous(true);
+
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activateRobotToPlayCard');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    private function arrangePlayerOrRobot($is_robot)
+    {
+        $player_id = 5;
+        $this->mock_player_or_robot->expects($this->exactly(1))->method('getCurrentPlayerOrRobotID')->will($this->returnValue($player_id));
+        $this->mock_player_or_robot->expects($this->exactly(1))->method('isIDRobot')->with($player_id)->will($this->returnValue($is_robot));
+    }
 }
 ?>
+
