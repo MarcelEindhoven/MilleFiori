@@ -17,6 +17,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
     protected function setUp(): void {
         $this->sut = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create();
     }
+
     public function testID_NoChange_GetEqualsSet() {
         // Arrange
         $player_id = 55;
@@ -25,6 +26,24 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $id = $this->sut->getCurrentPlayerOrRobotID();
         // Assert
         $this->assertEquals($player_id, $id);
+    }
+
+    public function testIsRobotID_Small_IsRobot() {
+        // Arrange
+        $player_id = 5;
+        // Act
+        $is_robot = $this->sut->isIDRobot($player_id);
+        // Assert
+        $this->assertTrue($is_robot);
+    }
+
+    public function testIsRobotID_Large_IsPlayer() {
+        // Arrange
+        $player_id = 55;
+        // Act
+        $is_robot = $this->sut->isIDRobot($player_id);
+        // Assert
+        $this->assertFalse($is_robot);
     }
 }
 ?>

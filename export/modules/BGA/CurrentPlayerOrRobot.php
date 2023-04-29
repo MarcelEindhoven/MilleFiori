@@ -24,5 +24,6 @@ class CurrentPlayerOrRobot {
 
     public function getCurrentPlayerOrRobotID(): int {return $this->player_id;}
     public function setCurrentPlayerOrRobotID($player_id) {$this->player_id = $player_id;}
+    public function isIDRobot($player_id) {return $player_id <10;}
 }
 ?>
