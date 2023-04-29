@@ -39,19 +39,11 @@ class ActionActivatePlayerOrRobot {
 
     public function nextState() {
         $id = $this->current_player_or_robot->getCurrentPlayerOrRobotID();
-        if ($this->current_player_or_robot->isIDRobot($id)) {
-            if ($this->is_card_selection_simultaneous) {
-                $this->gamestate->nextState('activateRobotToPlayCard');
-            } else {
-                $this->gamestate->nextState('activateRobotToSelectCard');
-            }
-        } else {
-            if ($this->is_card_selection_simultaneous) {
-                $this->gamestate->nextState('activatePlayerToPlayCard');
-            } else {
-                $this->gamestate->nextState('activatePlayerToSelectCard');
-            }
-        }
+        $who = $this->current_player_or_robot->isIDRobot($id) ? 'Robot' : 'Player';
+
+        $what = $this->is_card_selection_simultaneous ? 'Play' : 'Select';
+
+        $this->gamestate->nextState('activate' . $who . 'To' . $what . 'Card');
     }
 }
 
