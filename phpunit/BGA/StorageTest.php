@@ -6,11 +6,11 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../vendor/autoload.php');
+include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../export/modules/BGA/Storage.php');
-include_once(__DIR__.'/../export/modules/BGA/DatabaseInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
+include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
 
 class StorageTest extends TestCase{
     protected \NieuwenhovenGames\BGA\Storage $sut;
