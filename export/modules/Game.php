@@ -10,6 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
 
 include_once(__DIR__.'/BGA/CardsInterface.php');
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
+require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
 
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Categories.php');
@@ -54,6 +55,11 @@ class Game {
 
     public function setCardsHandler($cards_handler) : Game {
         $this->cards_handler = $cards_handler;
+        return $this;
+    }
+
+    public function setCurrentPlayerID($current_player_or_robot_id) : Game {
+        $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_or_robot_id);
         return $this;
     }
 

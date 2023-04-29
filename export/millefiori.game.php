@@ -49,6 +49,7 @@ class MilleFiori extends Table
             //    "my_second_global_variable" => 11,
             //      ...
             'start_player_id' => 10,
+            'current_player_or_robot_id' => 11,
             "card_selection" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
@@ -127,9 +128,11 @@ class MilleFiori extends Table
         // Activate first player (which is in general a good idea :) )
         self::trace( "setupNewGame your message here" );
 
-        $this->initialiseHelperClasses();
         $this->activeNextPlayer();
         $this->setGameStateInitialValue('start_player_id', $this->getActivePlayerId());
+        $this->setGameStateInitialValue('current_player_or_robot_id', $this->getActivePlayerId());
+
+        $this->initialiseHelperClasses();
 
         /************ End of the game initialization *****/
     }
@@ -153,6 +156,8 @@ class MilleFiori extends Table
         $this->game->setOcean($this->ocean);
         $this->game->setCategories($this->categories);
         $this->game->setFields($this->fields);
+
+        $this->game->setCurrentPlayerID($this->getGameStateValue('current_player_or_robot_id'));
         $this->game->setCardSelectionSimultaneous($this->isCardSelectionSimultaneous());
     }
 
