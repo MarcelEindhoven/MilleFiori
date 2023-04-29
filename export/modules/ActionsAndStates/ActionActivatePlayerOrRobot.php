@@ -28,7 +28,7 @@ class ActionActivatePlayerOrRobot {
         return $this;
     }
 
-    public function setCardSelectionSimultaneous($is_card_selection_simultaneous) : ActionNewHand {
+    public function setCardSelectionSimultaneous($is_card_selection_simultaneous) : ActionActivatePlayerOrRobot {
         $this->is_card_selection_simultaneous = $is_card_selection_simultaneous;
         return $this;
     }
@@ -39,7 +39,13 @@ class ActionActivatePlayerOrRobot {
 
     public function nextState() {
         $id = $this->current_player_or_robot->getCurrentPlayerOrRobotID();
-        $this->gamestate->nextState();
+        if ($this->current_player_or_robot->isIDRobot($id)) {
+            if ($this->is_card_selection_simultaneous) {} else {}
+        } else {
+            if ($this->is_card_selection_simultaneous) {
+                $this->gamestate->nextState('activatePlayerToPlayCard');
+            } else {}
+        }
     }
 }
 
