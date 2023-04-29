@@ -149,7 +149,6 @@ class MilleFiori extends Table
         $this->game->setCards($this->cards);
         $this->game->setGameState($this->gamestate);
         $this->game->setCardsHandler($this->cardsHandler);
-        $this->game->setPlayerRobotProperties($this->playerProperties);
         $this->game->setNotifyInterface($this);
         $this->game->setOcean($this->ocean);
         $this->game->setCategories($this->categories);

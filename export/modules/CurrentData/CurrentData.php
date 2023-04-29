@@ -12,7 +12,6 @@ include_once(__DIR__.'/../BGA/CardsInterface.php');
 require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 require_once(__DIR__.'/../BGA/Storage.php');
 
-include_once(__DIR__.'/../PlayerRobotProperties.php');
 include_once(__DIR__.'/../Categories.php');
 include_once(__DIR__.'/CurrentCards.php');
 include_once(__DIR__.'/CurrentOcean.php');
@@ -47,11 +46,6 @@ class CurrentData {
 
     public function setCards($cards) : CurrentData {
         $this->current_cards = CurrentCards::create($cards);
-        return $this;
-    }
-
-    public function setPlayerRobotProperties(PlayerRobotProperties $properties) : CurrentData {
-        $this->playerProperties = $properties;
         return $this;
     }
 
