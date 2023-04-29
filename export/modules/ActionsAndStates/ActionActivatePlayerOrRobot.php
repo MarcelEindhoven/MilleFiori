@@ -42,7 +42,9 @@ class ActionActivatePlayerOrRobot {
         if ($this->current_player_or_robot->isIDRobot($id)) {
             if ($this->is_card_selection_simultaneous) {
                 $this->gamestate->nextState('activateRobotToPlayCard');
-            } else {}
+            } else {
+                $this->gamestate->nextState('activateRobotToSelectCard');
+            }
         } else {
             if ($this->is_card_selection_simultaneous) {
                 $this->gamestate->nextState('activatePlayerToPlayCard');

@@ -47,6 +47,28 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
         // Assert
     }
 
+    public function testNextState_SelectionSimultaneousNoRobot_PlayerSelects() {
+        // Arrange
+        $this->arrangePlayerOrRobot(false);
+        $this->sut->setCardSelectionSimultaneous(false);
+
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activatePlayerToSelectCard');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    public function testNextState_SelectionSimultaneousRobot_RobotSelects() {
+        // Arrange
+        $this->arrangePlayerOrRobot(true);
+        $this->sut->setCardSelectionSimultaneous(false);
+
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activateRobotToSelectCard');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
     private function arrangePlayerOrRobot($is_robot)
     {
         $player_id = 5;
