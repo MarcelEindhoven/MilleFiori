@@ -114,6 +114,14 @@ $machinestates = array(
         "action" => "stActivatePlayerOrRobot",
         "transitions" => array( "activatePlayerToSelectCard" => 30, "activatePlayerToPlayCard" => 31, "activateRobotToSelectCard" => 40, "activateRobotToPlayCard" => 41 )
     ),
+    22 => array(
+        "name" => "endOfPlayerTurn",
+        "description" => clienttranslate('Who will play next'),
+        "descriptionmyturn" => clienttranslate('Who will play next'),
+        "type" => "game",
+        "action" => "stEndOfTurn",
+        "transitions" => array( "turnBusy" => 20, "turnEnded" => 12, "roundEnded" => 5, "gameEnded" => 99 )
+    ),
     30 => array(
         "name" => "selectCardSingleActivePlayer",
         "description" => clienttranslate('${actplayer} must select a card'),
