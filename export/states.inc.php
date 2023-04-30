@@ -127,7 +127,7 @@ $machinestates = array(
         "description" => clienttranslate('${actplayer} must select a card'),
         "descriptionmyturn" => clienttranslate('${you} must select a card'),
         "type" => "activeplayer",
-        "action" => "stSelectCard",
+        "action" => "stPlayerSelectsCard",
         "possibleactions" => array( "selectCard" ),
         "transitions" => array( "" => 31),
     ),
@@ -136,7 +136,7 @@ $machinestates = array(
         "description" => clienttranslate('${actplayer} must play the card'),
         "descriptionmyturn" => clienttranslate('${you} must play the card'),
         "type" => "activeplayer",
-        "action" => "stPlayCard",
+        "action" => "stPlayerPlaysCard",
         "possibleactions" => array( "playCard"),
         "transitions" => array( "playCard" => 20, "selectExtraCard" => 32 )
     ),
@@ -145,7 +145,7 @@ $machinestates = array(
         "description" => clienttranslate('${actplayer} must select an extra card'),
         "descriptionmyturn" => clienttranslate('${you} must select an extra card'),
         "type" => "activeplayer",
-        "action" => "stSelectExtraCard",
+        "action" => "stPlayerSelectsExtraCard",
         "possibleactions" => array( "selectExtraCard" ),
         "transitions" => array( "selectExtraCard" => 31 )
     ),

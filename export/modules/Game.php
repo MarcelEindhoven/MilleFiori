@@ -15,6 +15,7 @@ require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionActivatePlayerOrRobot.php');
+include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
 include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
@@ -103,6 +104,10 @@ class Game {
 
     public function stActivatePlayerOrRobot() {
         ActionActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+    }
+
+    public function stPlayerPlaysCard() {
+        ActionPlayerPlaysCard::create($this->gamestate)->setCardsHandler($this->update_cards)->setCurrentPlayerID($this->current_player_or_robot)->execute()->nextState();
     }
 
     function playerSelectsCard($player_id, $card_id) {

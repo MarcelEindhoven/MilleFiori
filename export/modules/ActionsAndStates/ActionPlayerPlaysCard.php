@@ -8,37 +8,34 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../ActionsAndStates/Data.php');
-include_once(__DIR__.'/../CurrentData/CurrentData.php');
+class ActionPlayerPlaysCard {
 
-class ActionPlayerWillPlayCard {
-
-    public static function create($gamestate) : ActionPlayerWillPlayCard {
-        $object = new ActionPlayerWillPlayCard();
+    public static function create($gamestate) : ActionPlayerPlaysCard {
+        $object = new ActionPlayerPlaysCard();
         return $object->setGameState($gamestate);
     }
 
-    public function setGameState($gamestate) : ActionPlayerWillPlayCard {
+    public function setGameState($gamestate) : ActionPlayerPlaysCard {
         $this->gamestate = $gamestate;
         return $this;
     }
 
-    public function setCardsHandler($cards_handler) : ActionPlayerWillPlayCard {
+    public function setCardsHandler($cards_handler) : ActionPlayerPlaysCard {
         $this->cards_handler = $cards_handler;
         return $this;
     }
 
-    public function setDataHandler($data_handler) : ActionPlayerWillPlayCard {
+    public function setDataHandler($data_handler) : ActionPlayerPlaysCard {
         $this->data_handler = $data_handler;
         return $this;
     }
 
-    public function setCurrentPlayerID($player_id) : ActionPlayerWillPlayCard {
+    public function setCurrentPlayerID($player_id) : ActionPlayerPlaysCard {
         $this->player_id = $player_id;
         return $this;
     }
 
-    public function execute() : ActionPlayerWillPlayCard {
+    public function execute() : ActionPlayerPlaysCard {
         // Move from selected to played
         $this->cards_handler->playSelectedCard($this->player_id);
 

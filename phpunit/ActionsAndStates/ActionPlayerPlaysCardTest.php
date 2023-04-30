@@ -9,18 +9,18 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerWillPlayCard.php');
+include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
 
-class ActionPlayerWillPlayCardTest extends TestCase{
+class ActionPlayerPlaysCardTest extends TestCase{
 
-    protected ActionPlayerWillPlayCard $sut;
+    protected ActionPlayerPlaysCard $sut;
 
     protected function setUp(): void {
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
-        $this->sut = ActionPlayerWillPlayCard::create($this->mock_gamestate);
+        $this->sut = ActionPlayerPlaysCard::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
