@@ -12,8 +12,9 @@ include_once(__DIR__.'/DatabaseInterface.php');
 
 class CurrentPlayerOrRobot {
 
-    static public function create() : CurrentPlayerOrRobot {
+    static public function create($current_player_or_robot_id) : CurrentPlayerOrRobot {
         $object = new CurrentPlayerOrRobot();
+        $object->setCurrentPlayerOrRobotID($current_player_or_robot_id);
         return $object;
     }
 

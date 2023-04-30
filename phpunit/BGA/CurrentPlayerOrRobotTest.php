@@ -15,7 +15,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
     protected \NieuwenhovenGames\BGA\CurrentPlayerOrRobot $sut;
 
     protected function setUp(): void {
-        $this->sut = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create();
+        $this->sut = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create(0);
     }
 
     public function testID_NoChange_GetEqualsSet() {
