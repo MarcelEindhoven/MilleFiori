@@ -58,21 +58,21 @@ $machinestates = array(
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 10 )
+        "transitions" => array( "" => 5 )
     ),
     
     // Note: ID=2 => your first state
 
 
-    10 => array(
+    5 => array(
         "name" => "newHand",
         "description" => '',
         "type" => "game",
         "action" => "stNewHand",
         "updateGameProgression" => true,   
-        "transitions" => array("selectCardSingleActivePlayer" => 20, "selectCardMultipleActivePlayers" => 11)
+        "transitions" => array("selectCardSingleActivePlayer" => 20, "selectCardMultipleActivePlayers" => 10)
     ),
-    11 => array(
+    10 => array(
         "name" => "allRobotsSelectCard",
         "description" => clienttranslate('Robots select a card'),
         "descriptionmyturn" => clienttranslate('Robots select a card'),
@@ -104,7 +104,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('Who will play next'),
         "type" => "game",
         "action" => "stSelectPlayer",
-        "transitions" => array( "turnBusy" => 30, "turnEnded" => 12, "roundEnded" => 10, "gameEnded" => 99 )
+        "transitions" => array( "turnBusy" => 31, "turnEnded" => 12, "roundEnded" => 5, "gameEnded" => 99 )
     ),
     20 => array(
         "name" => "activatePlayerOrRobot",
@@ -112,34 +112,34 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('Who will play next'),
         "type" => "game",
         "action" => "stActivatePlayerOrRobot",
-        "transitions" => array( "activatePlayerToSelectCard" => 22, "activatePlayerToPlayCard" => 30, "activateRobotToSelectCard" => 40, "activateRobotToPlayCard" => 41 )
+        "transitions" => array( "activatePlayerToSelectCard" => 30, "activatePlayerToPlayCard" => 31, "activateRobotToSelectCard" => 40, "activateRobotToPlayCard" => 41 )
     ),
-    22 => array(
+    30 => array(
         "name" => "selectCardSingleActivePlayer",
         "description" => clienttranslate('${actplayer} must select a card'),
         "descriptionmyturn" => clienttranslate('${you} must select a card'),
         "type" => "activeplayer",
         "action" => "stSelectCard",
         "possibleactions" => array( "selectCard" ),
-        "transitions" => array( "" => 30),
+        "transitions" => array( "" => 31),
     ),
-    30 => array(
+    31 => array(
         "name" => "playCard",
         "description" => clienttranslate('${actplayer} must play the card'),
         "descriptionmyturn" => clienttranslate('${you} must play the card'),
         "type" => "activeplayer",
         "action" => "stPlayCard",
         "possibleactions" => array( "playCard"),
-        "transitions" => array( "playCard" => 20, "selectExtraCard" => 31 )
+        "transitions" => array( "playCard" => 20, "selectExtraCard" => 32 )
     ),
-    31 => array(
+    32 => array(
         "name" => "selectExtraCard",
         "description" => clienttranslate('${actplayer} must select an extra card'),
         "descriptionmyturn" => clienttranslate('${you} must select an extra card'),
         "type" => "activeplayer",
         "action" => "stSelectExtraCard",
         "possibleactions" => array( "selectExtraCard" ),
-        "transitions" => array( "selectExtraCard" => 30 )
+        "transitions" => array( "selectExtraCard" => 31 )
     ),
     40 => array(
         "name" => "robotSelectsCard",
@@ -155,7 +155,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('Robot plays card'),
         "type" => "game",
         "action" => "stRobotPlaysCard",
-        "transitions" => array("selectExtraCard" => 42, "nextRobotOrPlayer" => 22)
+        "transitions" => array("selectExtraCard" => 42, "nextRobotOrPlayer" => 30)
     ),
     42 => array(
         "name" => "robotSelectsExtraCard",
@@ -170,7 +170,7 @@ $machinestates = array(
     Examples:
     
     
-    10 => array(
+    5 => array(
         "name" => "playerTurn",
         "description" => clienttranslate('${actplayer} must play a card or pass'),
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
