@@ -43,10 +43,6 @@ class ActionPlayerPlaysCard {
 
         return $this;
     }
-
-    public function nextState() {
-        $this->gamestate->nextState();
-    }
 }
 
 ?>

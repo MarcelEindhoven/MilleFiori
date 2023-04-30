@@ -39,13 +39,5 @@ class ActionPlayerPlaysCardTest extends TestCase{
         $this->sut->execute();
         // Assert
     }
-
-    public function testNextState_SelectionSimultaneousNoData_selectCardMultipleActivePlayers() {
-        // Arrange
-        $this->mock_gamestate->expects($this->exactly(1))->method('nextState');
-        // Act
-        $this->sut->nextState();
-        // Assert
-    }
 }
 ?>
