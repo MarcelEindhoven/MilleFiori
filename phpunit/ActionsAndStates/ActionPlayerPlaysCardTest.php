@@ -40,9 +40,9 @@ class ActionPlayerPlaysCardTest extends TestCase{
         // Assert
     }
 
-    public function testExecute_PlayerID_PlaySelectedCard() {
+    public function testExecute_PlayerID_SelectableFieldIDs() {
         // Arrange
-        $this->mock_data_handler->expects($this->exactly(1))->method('playSelectedCard')->with($this->player_id);
+        $this->mock_data_handler->expects($this->exactly(1))->method('getSelectableFieldIDs')->with($this->player_id);
         // Act
         $this->sut->execute();
         // Assert

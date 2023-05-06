@@ -40,6 +40,7 @@ class ActionPlayerPlaysCard {
         $this->cards_handler->playSelectedCard($this->player_id);
 
         // Activate selectable fields
+        $this->data_handler->getSelectableFieldIDs($this->player_id);
 
         return $this;
     }

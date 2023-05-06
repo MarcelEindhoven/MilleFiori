@@ -105,6 +105,14 @@ class CurrentData {
         return $categories->getSelectableFieldIDs($player_id, $card_type_being_played);
     }
 
+    public function getSelectableFieldIDs($player_id) : array {
+        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
+
+        $categories = CurrentCategories::create($this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
+
+        return $categories->getSelectableFieldIDs($player_id, $card_type_being_played);
+    }
+
     public function setFields(Fields $fields) {
         $this->fields = $fields;
     }
