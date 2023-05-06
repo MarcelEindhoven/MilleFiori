@@ -33,11 +33,6 @@ class Ocean {
 
     protected array $playerPositions = array();
 
-    public static function create($properties) : Ocean {
-        $ocean = new Ocean();
-        return $ocean->setDatabase($properties)->initialiseFromDatabase();
-    }
-
     public function setDatabase($properties) : Ocean {
         $this->properties = $properties;
         return $this;

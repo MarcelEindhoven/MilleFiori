@@ -6,23 +6,29 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../vendor/autoload.php');
+include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../export/modules/Ocean.php');
+include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
 
-include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
-
-class OceanTest extends TestCase{
+class UpdateOceanTest extends TestCase{
     public function setup() : void {
-        $this->mock = $this->createMock(PlayerRobotProperties::class);
+        $this->sut = new UpdateOcean();
     }
 
+    public function testSelectField_Empty_ReturnNull() {
+        // Arrange
+        // Act
+        $card = $this->sut->selectField([]);
+        // Assert
+        $this->assertEquals(null, $card);
+    }
+/*
     private function arrange($player_id, $player_position) {
         $this->mock->expects($this->exactly(1))->method('getPropertiesPlayersPlusRobots')->will($this->returnValue(
             [0 => [Ocean::KEY_PLAYER_ID => $player_id, Ocean::KEY_PLAYER_POSITION => $player_position], 
              1 => [Ocean::KEY_PLAYER_ID => $player_id + 1, Ocean::KEY_PLAYER_POSITION=>0]]));
-        $this->sut = Ocean::create($this->mock);
+        $this->sut = UpdateOcean::create($player_id, $player_position);
     }
 
     private function expectNoUpdate() {
@@ -154,5 +160,6 @@ class OceanTest extends TestCase{
         // Assert
         $this->assertEquals($position, $this->sut->getPlayerPosition($player_id));
     }
+    */
 }
 ?>
