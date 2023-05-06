@@ -43,6 +43,8 @@ class ActionPlayerSelectsField {
     public function execute() : ActionPlayerSelectsField {
         $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
 
+        $this->cards_handler->emptyPlayedHand();
+
         return $this;
     }
 }

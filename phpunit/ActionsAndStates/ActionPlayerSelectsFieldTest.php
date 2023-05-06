@@ -43,5 +43,13 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->sut->execute();
         // Assert
     }
+
+    public function testExecute_PlayerID_EmptyPlayedHand() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(1))->method('emptyPlayedHand');
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
 }
 ?>
