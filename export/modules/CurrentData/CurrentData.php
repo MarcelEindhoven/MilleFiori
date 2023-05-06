@@ -31,15 +31,35 @@ class CurrentData {
     const RESULT_KEY_SELECTABLE_FIELDS = 'selectableFields';
     const RESULT_KEY_TOOLTIPS_CARDS = 'tooltipsCards';
 
-    public static function create($sqlDatabase) : CurrentData {
+    public static function create($sql_database) : CurrentData {
         $object = new CurrentData();
-        return $object->setDatabase($sqlDatabase);
+        return $object->setDatabase($sql_database);
     }
 
-    public function setDatabase($sqlDatabase) : CurrentData {
-        $this->storage = \NieuwenhovenGames\BGA\Storage::create($sqlDatabase);
+    public function setDatabase($sql_database) : CurrentData {
+        $storage = \NieuwenhovenGames\BGA\Storage::create($sql_database);
+        $this->setStorage($storage);
 
-        $this->playerProperties = CurrentPlayerRobotProperties::create($this->storage);
+        return $this;
+    }
+
+    public function setStorage($storage) : CurrentData {
+        $this->storage = $storage;
+
+        $player_robot_properties = CurrentPlayerRobotProperties::create($this->storage);
+        $this->setPlayerRobotProperties($player_robot_properties);
+ 
+        return $this;
+    }
+
+    public function setPlayerRobotProperties($player_robot_properties) : CurrentData {
+        $this->player_robot_properties = $player_robot_properties;
+
+        $this->all_data_common = [];
+        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] = $this->player_robot_properties->getPlayerData();
+        $this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $this->all_data_common[CurrentData::RESULT_KEY_PLAYERS] + $this->player_robot_properties->getRobotData();
+        $this->all_data_common[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = [];
+        $this->all_data_common[CurrentData::RESULT_KEY_TOOLTIPS_CARDS] = CurrentOcean::getTooltipsCards();
 
         return $this;
     }
@@ -50,11 +70,11 @@ class CurrentData {
     }
 
     public function getPlayerRobotIDs(): array {
-        return array_keys($this->playerProperties->getPlayerDataIncludingRobots());
+        return array_keys($this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
     }
 
     public function getPlayerIDs(): array {
-        return array_keys($this->playerProperties->getPlayerData());
+        return array_keys($this->all_data_common[CurrentData::RESULT_KEY_PLAYERS]);
     }
 
     public function getRobotIDs(): array {
@@ -66,14 +86,7 @@ class CurrentData {
     }
 
     public function getAllData($player_id) : array {
-        $result = $this->current_cards->getHands($player_id);
-
-        $result[CurrentData::RESULT_KEY_PLAYERS] = $this->playerProperties->getPlayerData();
-        $result[CurrentData::RESULT_KEY_PLAYERSROBOTS] = $result[CurrentData::RESULT_KEY_PLAYERS] + $this->playerProperties->getRobotData();
-        $result[CurrentData::RESULT_KEY_SELECTABLE_FIELDS] = [];
-        $result[CurrentData::RESULT_KEY_TOOLTIPS_CARDS] = CurrentOcean::getTooltipsCards();
-
-        return $result;
+        return $this->all_data_common + $this->current_cards->getHands($player_id);
     }
 
     public function getAllDataActivePlayerPlayingCard($player_id) : array {
