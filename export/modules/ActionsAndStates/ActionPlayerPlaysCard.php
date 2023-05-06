@@ -30,6 +30,11 @@ class ActionPlayerPlaysCard {
         return $this;
     }
 
+    public function setNotifyHandler($notify_handler) : ActionPlayerPlaysCard {
+        $this->notify_handler = $notify_handler;
+        return $this;
+    }
+
     public function setCurrentPlayerID($player_id) : ActionPlayerPlaysCard {
         $this->player_id = $player_id;
         return $this;
@@ -40,7 +45,7 @@ class ActionPlayerPlaysCard {
         $this->cards_handler->playSelectedCard($this->player_id);
 
         // Activate selectable fields
-        $this->data_handler->getSelectableFieldIDs($this->player_id);
+        $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => $this->data_handler->getSelectableFieldIDs($this->player_id)]);
 
         return $this;
     }

@@ -107,7 +107,7 @@ class Game {
     }
 
     public function stPlayerPlaysCard() {
-        ActionPlayerPlaysCard::create($this->gamestate)->setDataHandler($this->data_handler)->setCardsHandler($this->update_cards)->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->execute();
+        ActionPlayerPlaysCard::create($this->gamestate)->setDataHandler($this->data_handler)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->execute();
     }
 
     function playerSelectsCard($player_id, $card_id) {

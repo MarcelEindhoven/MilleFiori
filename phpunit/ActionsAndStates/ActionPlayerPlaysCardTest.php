@@ -13,6 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerPlaysCa
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
 
 class ActionPlayerPlaysCardTest extends TestCase{
 
@@ -28,6 +29,9 @@ class ActionPlayerPlaysCardTest extends TestCase{
         $this->mock_data_handler = $this->createMock(CurrentData::class);
         $this->sut->setDataHandler($this->mock_data_handler);
 
+        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
+        $this->sut->setNotifyHandler($this->mock_notify_handler);
+
         $this->player_id = 55;
         $this->sut->setCurrentPlayerID($this->player_id);
     }
@@ -42,7 +46,9 @@ class ActionPlayerPlaysCardTest extends TestCase{
 
     public function testExecute_PlayerID_SelectableFieldIDs() {
         // Arrange
-        $this->mock_data_handler->expects($this->exactly(1))->method('getSelectableFieldIDs')->with($this->player_id);
+        $expected_field_ids = ['field_ocean_10'];
+        $this->mock_data_handler->expects($this->exactly(1))->method('getSelectableFieldIDs')->with($this->player_id)->will($this->returnValue($expected_field_ids));
+        $this->mock_notify_handler->expects($this->exactly(1))->method('notifyPlayer')->with($this->player_id, 'selectableFields', '', ['selectableFields' => $expected_field_ids]);
         // Act
         $this->sut->execute();
         // Assert
