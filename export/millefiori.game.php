@@ -145,7 +145,6 @@ class MilleFiori extends Table
         $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
 
         $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
-        $this->ocean = NieuwenhovenGames\MilleFiori\Ocean::create($this->playerProperties);
         $this->categories = NieuwenhovenGames\MilleFiori\Categories::create($this->playerProperties);
 
         $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
@@ -153,7 +152,6 @@ class MilleFiori extends Table
         $this->game->setGameState($this->gamestate);
         $this->game->setCardsHandler($this->cardsHandler);
         $this->game->setNotifyInterface($this);
-        $this->game->setOcean($this->ocean);
         $this->game->setCategories($this->categories);
         $this->game->setFields($this->fields);
 
