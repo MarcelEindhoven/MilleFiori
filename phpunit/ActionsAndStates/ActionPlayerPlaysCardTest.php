@@ -32,9 +32,17 @@ class ActionPlayerPlaysCardTest extends TestCase{
         $this->sut->setCurrentPlayerID($this->player_id);
     }
 
-    public function testExecute_2Players_DataCards() {
+    public function testExecute_PlayerID_PlaySelectedCard() {
         // Arrange
         $this->mock_cards->expects($this->exactly(1))->method('playSelectedCard')->with($this->player_id);
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
+    public function testExecute_PlayerID_PlaySelectedCard() {
+        // Arrange
+        $this->mock_data_handler->expects($this->exactly(1))->method('playSelectedCard')->with($this->player_id);
         // Act
         $this->sut->execute();
         // Assert
