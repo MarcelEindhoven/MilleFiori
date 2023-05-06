@@ -291,7 +291,7 @@ function (dojo, declare) {
             }
         },
         selectField: function(field_id) {
-            if (this.checkAction('playCard')) {
+            if (this.checkAction('selectField')) {
                 console.log("on selectField "+field_id);
 
                 this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + 'selectField' + ".html", {
