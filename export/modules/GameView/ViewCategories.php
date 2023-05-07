@@ -61,7 +61,7 @@ class ViewCategories {
         $fields = array();
 
         foreach ($this->categories as $category) {
-            $fields = array_merge($fields, $this->getFieldsIncludingCategory($category->getCategory(), $category->generateFields()));
+            $fields = array_merge($fields, $this->getFieldsIncludingCategory($category->getCategoryID(), $category->generateFields()));
         }
 
         return $fields;

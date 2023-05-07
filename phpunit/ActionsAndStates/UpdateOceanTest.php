@@ -83,17 +83,6 @@ class UpdateOceanTest extends TestCase{
         // Assert
         $this->assertEquals(0, $reward['points']);
     }
-    
-    public function testGenerateFields() {
-        // Arrange
-        // Act
-        $this->arrange(2, 0);
-        $fields = $this->sut->generateFields();
-        // Assert
-        $this->assertCount(21, $fields);
-        $this->assertFalse(min(array_column($fields, 'LEFT')) < 0);
-        //$this->assertEqualsCanonicalizing();
-    }
 
     public function testSelectableFieldsPlus5ReturnField5() {
         // Arrange

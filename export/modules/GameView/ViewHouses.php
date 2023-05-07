@@ -20,18 +20,18 @@ class ViewHouses extends Houses {
 
     public static function generateFields() {
         $fields = array();
-        for ($i = 1; $i <= Houses::NUMBER_FIELDS; ++$i) {
+        for ($i = 1; $i <= ViewHouses::NUMBER_FIELDS; ++$i) {
             $fields[] = array (
-                'ID' => Houses::NUMBER_FIELDS - $i,
-                'LEFT' => Houses::RIGHT_EDGE - Houses::FIELD_HEIGHT,
-                'TOP' => Houses::BOTTOM - Houses::FIELD_WIDTH * $i
+                'ID' => ViewHouses::NUMBER_FIELDS - $i,
+                'LEFT' => ViewHouses::RIGHT_EDGE - ViewHouses::FIELD_HEIGHT,
+                'TOP' => ViewHouses::BOTTOM - ViewHouses::FIELD_WIDTH * $i
             );
         }
         foreach($fields as & $field) {
             $margin = $field['TOP'];
-            if ($margin < Houses::TOP_MARGIN) {
-                $field['LEFT'] -= (Houses::TOP_MARGIN - $margin) * 1.1;
-                $field['TOP'] = Houses::TOP_MARGIN;
+            if ($margin < ViewHouses::TOP_MARGIN) {
+                $field['LEFT'] -= (ViewHouses::TOP_MARGIN - $margin) * 1.1;
+                $field['TOP'] = ViewHouses::TOP_MARGIN;
             }
         }
         return $fields;

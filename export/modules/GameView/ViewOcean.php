@@ -19,10 +19,6 @@ class ViewOcean {
     const NUMBER_FIELDS = 21;
     const LEFT_MARGIN = 0.7;
 
-    public function getCategory() {
-        return ViewOcean::KEY_CATEGORY;
-    }
-
     public function getCategoryID() {
         return ViewOcean::KEY_CATEGORY;
     }

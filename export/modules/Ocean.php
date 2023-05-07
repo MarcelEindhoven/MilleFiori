@@ -38,10 +38,6 @@ class Ocean {
         return $this;
     }
 
-    public function getCategory() {
-        return Ocean::KEY_CATEGORY;
-    }
-
     public function getCategoryID() {
         return Ocean::KEY_CATEGORY;
     }
@@ -68,25 +64,6 @@ class Ocean {
 
     public function getSelectableFieldIDs($player, int $card_id) : array {
         return [$this->getNextPlayerPosition($player, $card_id)];
-    }
-
-    public static function generateFields() {
-        $fields = array();
-        for ($i = 1; $i <= Ocean::NUMBER_FIELDS; ++$i) {
-            $fields[] = array (
-                'ID' => Ocean::NUMBER_FIELDS - $i,
-                'LEFT' => Ocean::RIGHT_EDGE - Ocean::FIELD_WIDTH * $i,
-                'TOP' => Ocean::BOTTOM_TOP
-            );
-        }
-        foreach($fields as & $field) {
-            $margin = $field['LEFT'];
-            if ($margin < Ocean::LEFT_MARGIN) {
-                $field['LEFT'] = Ocean::LEFT_MARGIN;
-                $field['TOP'] -= (Ocean::LEFT_MARGIN - $margin) * 1.1;
-            }
-        }
-        return $fields;
     }
 
     public function getPlayerPosition($player) {

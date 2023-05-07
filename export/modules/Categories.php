@@ -58,21 +58,11 @@ class Categories {
         return $updated_fields;
     }
 
-    public function generateFields() : array {
-        $fields = array();
-
-        foreach ($this->categories as $category) {
-            $fields = array_merge($fields, $this->getFieldsIncludingCategory($category->getCategory(), $category->generateFields()));
-        }
-
-        return $fields;
-    }
-
     public function getSelectableFieldIDs($player, int $card_type) : array {
         $fields = array();
 
         foreach ($this->categories as $category) {
-            $fields = array_merge($fields, Fields::completeIDs($category->getCategory(), $category->getSelectableFieldIDs($player, $card_type)));
+            $fields = array_merge($fields, Fields::completeIDs($category->getCategoryID(), $category->getSelectableFieldIDs($player, $card_type)));
         }
 
         return $fields;
