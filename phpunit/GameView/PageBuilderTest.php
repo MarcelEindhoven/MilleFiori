@@ -6,12 +6,12 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../vendor/autoload.php');
+include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../export/modules/PageBuilder.php');
+include_once(__DIR__.'/../../export/modules/GameView/PageBuilder.php');
 
-include_once(__DIR__.'/../export/modules/BGA/PageInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/PageInterface.php');
 
 class PageBuilderTest extends TestCase{
     protected PageBuilder $builder;
