@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/PlayerRobotSetup.php');
-include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
+include_once(__DIR__.'/../../export/modules/BGA/StorageSetup.php');
 
 class PlayerRobotSetupTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];
@@ -18,7 +18,7 @@ class PlayerRobotSetupTest extends TestCase{
     protected PlayerRobotSetup $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
+        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\StorageSetup::class);
         $this->sut = PlayerRobotSetup::create($this->mock_database);
     }
 

@@ -10,13 +10,13 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/FieldsSetup.php');
-include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
+include_once(__DIR__.'/../../export/modules/BGA/StorageSetup.php');
 
 class FieldsSetupTest extends TestCase{
     protected FieldsSetup $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
+        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\StorageSetup::class);
         $this->sut = FieldsSetup::create($this->mock_database);
     }
 

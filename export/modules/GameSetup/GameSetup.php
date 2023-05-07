@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Storage.php');
+require_once(__DIR__.'/../BGA/StorageSetup.php');
 include_once(__DIR__.'/CategoriesSetup.php');
 include_once(__DIR__.'/HousesSetup.php');
 include_once(__DIR__.'/FieldsSetup.php');
@@ -22,7 +22,7 @@ class GameSetup {
     const PLAYER_ID_NAME = 'player_id';
 
     public static function create($sqlDatabase) : GameSetup {
-        $storage = \NieuwenhovenGames\BGA\Storage::create($sqlDatabase);
+        $storage = \NieuwenhovenGames\BGA\StorageSetup::create($sqlDatabase);
         $fields_setup = FieldsSetup::create($storage);
 
         $categories_setup = new CategoriesSetup();

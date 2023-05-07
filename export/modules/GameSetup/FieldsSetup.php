@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Storage.php');
+require_once(__DIR__.'/../BGA/StorageSetup.php');
 
 class FieldsSetup {
     const NOT_OCCUPIED = -1;
