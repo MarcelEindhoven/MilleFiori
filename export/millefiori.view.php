@@ -23,8 +23,8 @@
  * Note: if the HTML of your game interface is always the same, you don't have to place anything here.
  *
  */
-include_once(__DIR__.'/modules/PageBuilder.php');
-include_once(__DIR__.'/modules/Categories.php');
+include_once(__DIR__.'/modules/GameView/PageBuilder.php');
+include_once(__DIR__.'/modules/GameView/ViewCategories.php');
 
 require_once( APP_BASE_PATH."view/common/game.view.php" );
   
@@ -42,7 +42,7 @@ class view_millefiori_millefiori extends game_view
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
         $page_builder = new NieuwenhovenGames\MilleFiori\PageBuilder();
-        $categories = NieuwenhovenGames\MilleFiori\Categories::create(null);
+        $categories = NieuwenhovenGames\MilleFiori\ViewCategories::create(null);
         $page_builder->setPage($this->page)->addFields($categories->generateFields())->generateContent();
 
         /*********** Place your code below:  ************/
