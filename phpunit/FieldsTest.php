@@ -10,13 +10,13 @@ include_once(__DIR__.'/../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/Fields.php');
-include_once(__DIR__.'/../export/modules/BGA/Storage.php');
+include_once(__DIR__.'/../export/modules/BGA/UpdateStorage.php');
 
 class FieldsTest extends TestCase{
     protected Fields $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\Storage::class);
+        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\UpdateStorage::class);
         $this->sut = Fields::create($this->mock_database);
     }
 
