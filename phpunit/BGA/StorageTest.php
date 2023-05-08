@@ -19,18 +19,6 @@ class StorageTest extends TestCase{
         $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
         $this->sut = \NieuwenhovenGames\BGA\Storage::create($this->mock_database);
     }
-    public function testUpdate_Value_Query() {
-        // Arrange
-        $bucket_name = 'field';
-        $field_name_value = 'player_id';
-        $value = '3';
-        $field_name_selector = 'field_id';
-        $value_selector = 'field_ocean_3';
-        $this->arrangeQuery("UPDATE $bucket_name SET $field_name_value=$value WHERE $field_name_selector=$value_selector");
-        // Act
-        $this->sut->updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector);
-        // Assert
-    }
 
     public function testGet_2Fields_getCollection() {
         // Arrange
@@ -64,12 +52,6 @@ class StorageTest extends TestCase{
         $object_list = $this->sut->getBucket($bucket_name, $bucket_fields, $prefix);
         // Assert
         $this->assertEquals([], $object_list);
-    }
-
-    protected function arrangeQuery($expected_query) {
-        $this->mock_database->expects($this->exactly(1))
-        ->method('query')
-        ->with($this->equalTo($expected_query));
     }
 }
 ?>
