@@ -34,9 +34,5 @@ class Storage {
 
         return $this->sql_database->getCollection("SELECT $field_names_query FROM $bucket_name");
     }
-
-    public function updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector) {
-        $this->sql_database->query("UPDATE $bucket_name SET $field_name_value=$value WHERE $field_name_selector=$value_selector");
-    }
 }
 ?>
