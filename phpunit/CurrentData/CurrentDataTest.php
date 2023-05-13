@@ -59,17 +59,6 @@ class CurrentDataTest extends TestCase{
         $this->assertEquals($expected_player_data, $result[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
     }
 
-    public function testGet_IntegrationActivePlayer_CollectionAndCards() {
-        // Arrange
-        $this->mock_properties->expects($this->exactly(1))->method('getPlayerData')->will($this->returnValue([$this->player_id => [Ocean::KEY_PLAYER_POSITION => 5]]));
-        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue([[Game::CARD_KEY_TYPE => 9]]));
-        // Act
-        $selectable_fieldids = $this->sut->setPlayerRobotProperties($this->mock_properties)->getAllDataActivePlayerPlayingCard($this->player_id)[CurrentData::RESULT_KEY_SELECTABLE_FIELDS];
-        // Assert
-        $this->assertCount(1, $selectable_fieldids);
-        $this->assertEquals('field_ocean_10', current($selectable_fieldids));
-    }
-
     public function testTooltips_Integration_Array() {
         // Act
         $result = $this->actDefault();
@@ -103,15 +92,6 @@ class CurrentDataTest extends TestCase{
         $ids = $this->sut->setPlayerRobotProperties($this->mock_properties)->getRobotIDs();
         // Assert
         $this->assertEquals([$this->robot_id], array_values($ids));
-    }
-
-    public function testFieldIDs_Integration_ArrayEmpty() {
-        $this->mock_cards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue([[Game::CARD_KEY_TYPE => 9]]));
-        $this->mock_properties->expects($this->exactly(1))->method('getPlayerData')->will($this->returnValue([$this->player_id => [Ocean::KEY_PLAYER_POSITION => 5]]));
-        // Act
-        $ids = $this->sut->setPlayerRobotProperties($this->mock_properties)->getSelectableFieldIDs($this->player_id);
-        // Assert
-        $this->assertEquals(['field_ocean_10'], array_values($ids));
     }
 }
 ?>

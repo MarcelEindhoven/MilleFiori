@@ -26,13 +26,14 @@ class CurrentCategoriesTest extends TestCase{
         $this->sut->setCategories([$this->mock_category1, $this->mock_category2]);
     }
 
-    public function testSelectableFieldIDs() {
+    public function testSelectableFieldIDs_AllCategoriesEmpty_ReturnsEmptyArray() {
         // Arrange
         $card_type = 5;
+        $this->mock_category1->expects($this->exactly(1))->method('getSelectableFieldIDs')->will($this->returnValue([]));
         // Act
-        //$data = $this->sut->getSelectableFieldIDs($this->player_id, $card_type);
+        $data = $this->sut->getSelectableFieldIDs($this->player_id, $card_type);
         // Assert
-        //$this->assertEquals(CurrentCategoriesTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
+        $this->assertEquals([], $data);
     }
 }
 ?>

@@ -57,16 +57,6 @@ class Categories {
 
         return $updated_fields;
     }
-
-    public function getSelectableFieldIDs($player, int $card_type) : array {
-        $fields = array();
-
-        foreach ($this->categories as $category) {
-            $fields = array_merge($fields, Fields::completeIDs($category->getCategoryID(), $category->getSelectableFieldIDs($player, $card_type)));
-        }
-
-        return $fields;
-    }
 }
 
 ?>
