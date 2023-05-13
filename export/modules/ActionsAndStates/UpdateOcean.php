@@ -25,23 +25,6 @@ class UpdateOcean extends Ocean {
     public function getPlayerID(): int {
         return $this->player_id;
     }
-
-    public function selectCard() {
-        $cards = $this->data->getHand($this->player_id);
-        if (! $cards) {
-            return;
-        }
-        // For now, any will do
-        return array_shift($cards);
-    }
-
-    public function selectField(array $IDs) {
-        if (! $IDs) {
-            return;
-        }
-        // For now, any will do
-        return array_shift($IDs);
-    }
 }
 
 ?>

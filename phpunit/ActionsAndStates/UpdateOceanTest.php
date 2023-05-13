@@ -15,14 +15,6 @@ class UpdateOceanTest extends TestCase{
     public function setup() : void {
         $this->sut = new UpdateOcean();
     }
-
-    public function testSelectField_Empty_ReturnNull() {
-        // Arrange
-        // Act
-        $card = $this->sut->selectField([]);
-        // Assert
-        $this->assertEquals(null, $card);
-    }
 /*
     private function arrange($player_id, $player_position) {
         $this->mock->expects($this->exactly(1))->method('getPropertiesPlayersPlusRobots')->will($this->returnValue(

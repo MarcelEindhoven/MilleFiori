@@ -45,6 +45,11 @@ class ActionPlayerSelectsField {
 
         $this->cards_handler->emptyPlayedHand();
 
+        // Get reward
+        // Execute effect on data handler?
+        // Process points
+        // Process extra card
+
         return $this;
     }
 }
