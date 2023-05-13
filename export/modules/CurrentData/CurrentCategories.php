@@ -30,7 +30,7 @@ class CurrentCategories extends Categories {
         $fields = array();
 
         foreach ($this->categories as $category) {
-            $fields = array_merge($category->getSelectableFieldIDs($player, $card_type));
+            $fields = array_merge($fields, $category->getSelectableFieldIDs($player, $card_type));
         }
 
         return $fields;

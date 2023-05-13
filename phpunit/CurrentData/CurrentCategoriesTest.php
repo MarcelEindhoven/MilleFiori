@@ -35,5 +35,20 @@ class CurrentCategoriesTest extends TestCase{
         // Assert
         $this->assertEquals([], $data);
     }
+
+    public function testSelectableFieldIDs_BothCategoriesTwo_ReturnsArray4() {
+        // Arrange
+        $card_type = 5;
+        $field1 = '1';
+        $field2 = '2';
+        $field3 = '3';
+        $field4 = '4';
+        $this->mock_category1->expects($this->exactly(1))->method('getSelectableFieldIDs')->with($this->player_id, $card_type)->will($this->returnValue([$field4, $field1]));
+        $this->mock_category2->expects($this->exactly(1))->method('getSelectableFieldIDs')->with($this->player_id, $card_type)->will($this->returnValue([$field3, $field2]));
+        // Act
+        $data = $this->sut->getSelectableFieldIDs($this->player_id, $card_type);
+        // Assert
+        $this->assertEqualsCanonicalizing([$field1, $field2, $field3, $field4], $data);
+    }
 }
 ?>
