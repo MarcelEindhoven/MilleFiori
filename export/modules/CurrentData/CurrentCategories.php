@@ -35,6 +35,16 @@ class CurrentCategories extends Categories {
 
         return $fields;
     }
+
+    public function getReward($player, int $field) : array {
+        $reward = array();
+
+        foreach ($this->categories as $category) {
+            $reward = array_merge($reward, $category->getReward($player, $field));
+        }
+
+        return $reward;
+    }
 }
 
 ?>

@@ -50,5 +50,15 @@ class CurrentCategoriesTest extends TestCase{
         // Assert
         $this->assertEqualsCanonicalizing([$field1, $field2, $field3, $field4], $data);
     }
+
+    public function testReward_AllCategoriesEmpty_ReturnsEmptyArray() {
+        // Arrange
+        $field = 5;
+        $this->mock_category1->expects($this->exactly(1))->method('getReward')->with($this->player_id, $field)->will($this->returnValue([]));
+        // Act
+        $data = $this->sut->getReward($this->player_id, $field);
+        // Assert
+        $this->assertEquals([], $data);
+    }
 }
 ?>
