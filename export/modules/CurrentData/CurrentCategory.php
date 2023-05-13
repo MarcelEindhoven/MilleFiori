@@ -9,7 +9,6 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 interface CurrentCategory {
-    public function getCategoryID();
     public function getSelectableFieldIDs($player, int $card_id) : array;
     public function getReward($player, $chosen_id) : array;
 }

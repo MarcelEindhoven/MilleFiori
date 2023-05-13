@@ -60,5 +60,16 @@ class CurrentCategoriesTest extends TestCase{
         // Assert
         $this->assertEquals([], $data);
     }
+
+    public function testReward_1CategoriesReward_ReturnsReward() {
+        // Arrange
+        $field = 5;
+        $reward = ['points' => 5, 'extra_card' => true];
+        $this->mock_category1->expects($this->exactly(1))->method('getReward')->with($this->player_id, $field)->will($this->returnValue($reward));
+        // Act
+        $data = $this->sut->getReward($this->player_id, $field);
+        // Assert
+        $this->assertEquals($reward, $data);
+    }
 }
 ?>
