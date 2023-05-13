@@ -23,7 +23,11 @@ class CurrentOcean extends Ocean {
     }
 
     public function getSelectableFieldIDs($player, int $card_id) : array {
-        return [$this->getNextPlayerPosition($player, $card_id)];
+        return [$this->getFieldIDForPosition($this->getNextPlayerPosition($player, $card_id))];
+    }
+
+    public function getFieldIDForPosition($position) {
+        return Fields::completeID($this->getCategoryID(), $position);
     }
 
     public function getPlayerPosition($player) {
