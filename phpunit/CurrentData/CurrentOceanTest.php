@@ -19,18 +19,43 @@ class CurrentOceanTest extends TestCase{
     protected CurrentOcean $sut;
 
     protected function setUp(): void {
+        $this->player_id = 3;
         $this->position_data = CurrentOceanTest::DEFAULT_POSITION_DATA;
         $this->sut = CurrentOcean::create($this->position_data);
     }
 
-    public function testProperties_GetPlayer_GetBucket() {
+    protected function arrangeForPosition($position) {
+        $this->sut = CurrentOcean::create([$this->player_id => [Ocean::KEY_PLAYER_POSITION => $position]]);
+    }
+    protected function actSelectableFieldIDs($card_id) {
+        $this->data = $this->sut->getSelectableFieldIDs($this->player_id, $card_id);
+    }
+
+    public function testSelectableFieldIDs_Position0_Field3() {
         // Arrange
-        $player_id = 3;
-        $card_id = 7;
+        $this->arrangeForPosition(0);
         // Act
-        $data = $this->sut->getSelectableFieldIDs($player_id, $card_id);
+        $this->actSelectableFieldIDs(7);
         // Assert
-        $this->assertEquals(CurrentOceanTest::DEFAULT_SELECTABLE_FIELD_IDS, $data);
+        $this->assertFieldID(3);
+    }
+
+    public function testSelectableFieldIDs_Position5_Field8() {
+        // Arrange
+        $this->arrangeForPosition(5);
+        // Act
+        $this->actSelectableFieldIDs(7);
+        // Assert
+        $this->assertFieldID(8);
+    }
+
+    public function testSelectableFieldIDs_PositionMax_FieldMax() {
+        // Arrange
+        $this->arrangeForPosition(20);
+        // Act
+        $this->actSelectableFieldIDs(7);
+        // Assert
+        $this->assertFieldID(20);
     }
 
     public function testTooltips_Get_Array() {
@@ -39,6 +64,13 @@ class CurrentOceanTest extends TestCase{
         $tooltips = $this->sut->getTooltipsCards();
         // Assert
         $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
+    }
+
+    protected function getFieldIDForPosition($position): string {
+        return 'field_ocean_'. $position;
+    }
+    protected function assertFieldID($expected_position) {
+        $this->assertEquals([$this->getFieldIDForPosition($expected_position)], $this->data);
     }
 }
 ?>
