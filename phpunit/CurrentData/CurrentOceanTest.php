@@ -119,8 +119,8 @@ class CurrentOceanTest extends TestCase{
     }
 
     private function assertNoReward($reward) {
-        $this->assertFalse(array_key_exists('points', $reward));
-        $this->assertFalse(array_key_exists('extra_card', $reward));
+        $this->assertPoints($reward, 0);
+        $this->assertFalse($reward['extra_card']);
     }
 
     private function assertPoints($reward, $expected_points) {

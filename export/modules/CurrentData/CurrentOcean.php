@@ -32,7 +32,7 @@ class CurrentOcean extends Ocean {
 
     public function getReward($player, $chosen_field_id) : array {
         $position = Fields::getID($chosen_field_id);
-        $reward = [];
+        $reward = ['points' => 0, 'extra_card' => false];
         if ($position != $this->getPlayerPosition($player)) {
             $reward['points'] = Ocean::POINTS_PER_POSITION[$position];
             $reward['extra_card'] = Ocean::EXTRA_CARD_PER_POSITION[$position];
