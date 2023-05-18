@@ -24,9 +24,11 @@ class CurrentOceanTest extends TestCase{
         $this->sut = CurrentOcean::create($this->position_data);
     }
 
+    // getSelectableFieldIDs
     protected function arrangeForPosition($position) {
         $this->sut = CurrentOcean::create([$this->player_id => [Ocean::KEY_PLAYER_POSITION => $position]]);
     }
+
     protected function actSelectableFieldIDs($card_id) {
         $this->data = $this->sut->getSelectableFieldIDs($this->player_id, $card_id);
     }
@@ -35,7 +37,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $this->actSelectableFieldIDs(7);
+        $this->actSelectableFieldIDs(card_id: 7);
         // Assert
         $this->assertFieldID(3);
     }
@@ -44,7 +46,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(5);
         // Act
-        $this->actSelectableFieldIDs(7);
+        $this->actSelectableFieldIDs(card_id: 7);
         // Assert
         $this->assertFieldID(8);
     }
@@ -53,17 +55,9 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(20);
         // Act
-        $this->actSelectableFieldIDs(7);
+        $this->actSelectableFieldIDs(card_id: 7);
         // Assert
         $this->assertFieldID(20);
-    }
-
-    public function testTooltips_Get_Array() {
-        // Arrange
-        // Act
-        $tooltips = $this->sut->getTooltipsCards();
-        // Assert
-        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
     }
 
     protected function getFieldIDForPosition($position): string {
@@ -71,6 +65,75 @@ class CurrentOceanTest extends TestCase{
     }
     protected function assertFieldID($expected_position) {
         $this->assertEquals([$this->getFieldIDForPosition($expected_position)], $this->data);
+    }
+
+    // Rewards
+
+    public function testReward_Zero_NoReward() {
+        // Arrange
+        $this->arrangeForPosition(0);
+        // Act
+        $reward = $this->actReward(new_position: 0);
+        // Assert
+        $this->assertNoReward($reward);
+    }
+
+    public function testReward_One_OnePoint() {
+        // Arrange
+        $this->arrangeForPosition(0);
+        // Act
+        $reward = $this->actReward(new_position: 1);
+        // Assert
+        $this->assertPoints($reward, 1);
+    }
+
+    public function testReward_OneTooMuch_Exception() {
+        // Arrange
+        $this->arrangeForPosition(0);
+        $this->expectWarning();
+        // Act
+        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS);
+        // Assert
+    }
+
+    public function testReward_MaximumID_Points() {
+        // Arrange
+        $this->arrangeForPosition(0);
+        // Act
+        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS - 1);
+        // Assert
+        $this->assertPoints($reward, 10);
+    }
+
+    public function testReward_MaximumIDNoMove_NoReward() {
+        // Arrange
+        $this->arrangeForPosition(Ocean::NUMBER_FIELDS - 1);
+        // Act
+        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS - 1);
+        // Assert
+        $this->assertNoReward($reward);
+    }
+
+    private function actReward($new_position) {
+        return $this->sut->getReward($this->player_id, $this->getFieldIDForPosition($new_position));
+    }
+
+    private function assertNoReward($reward) {
+        $this->assertFalse(array_key_exists('points', $reward));
+        $this->assertFalse(array_key_exists('extra_card', $reward));
+    }
+
+    private function assertPoints($reward, $expected_points) {
+        $this->assertEquals($expected_points, $reward['points']);
+    }
+
+    // Tooltips
+    public function testTooltips_Get_Array() {
+        // Arrange
+        // Act
+        $tooltips = $this->sut->getTooltipsCards();
+        // Assert
+        $this->assertCount(count(Ocean::PLACES_PER_CARD), $tooltips);
     }
 }
 ?>
