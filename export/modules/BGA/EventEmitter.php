@@ -9,7 +9,18 @@ namespace NieuwenhovenGames\BGA;
  */
 
 class EventEmitter {
-    public function on($channel, callable $callable) {}
-    public function emit($channel, $event) {}
+    protected array $subscriptions = [];
+
+    public function on($channel, callable $callable) {
+        $this->subscriptions[] = [$channel, $callable];
+    }
+
+    public function emit($channel, $event) {
+        foreach($this->subscriptions as [$subscription_channel, $callable]) {
+            if ($channel == $subscription_channel) {
+                $callable($event);
+            }
+        }
+    }
 }
 ?>

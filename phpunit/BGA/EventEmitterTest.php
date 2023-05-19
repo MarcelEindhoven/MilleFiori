@@ -41,5 +41,24 @@ class EventEmitterTest extends TestCase{
         $this->sut->emit($this->channel, $this->event);
         // Assert
     }
+
+    public function testEmit_1SubscribersSameChannel_1Receive() {
+        // Arrange
+        $this->mock_receiver->expects($this->exactly(1))->method('receive');
+        $this->sut->on($this->channel, [$this->mock_receiver, 'receive']);
+        // Act
+        $this->sut->emit($this->channel, $this->event);
+        // Assert
+    }
+
+    public function testEmit_2SubscribersSameChannel_2Receive() {
+        // Arrange
+        $this->mock_receiver->expects($this->exactly(2))->method('receive');
+        $this->sut->on($this->channel, [$this->mock_receiver, 'receive']);
+        $this->sut->on($this->channel, [$this->mock_receiver, 'receive']);
+        // Act
+        $this->sut->emit($this->channel, $this->event);
+        // Assert
+    }
 }
 ?>
