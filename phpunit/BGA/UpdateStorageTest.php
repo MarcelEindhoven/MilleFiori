@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\MilleFiori;
+namespace NieuwenhovenGames\BGA;
 /**
  *------
  * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -14,13 +14,13 @@ include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class UpdateStorageTest extends TestCase{
-    protected \NieuwenhovenGames\BGA\UpdateStorage $sut;
+    protected UpdateStorage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
-        $this->sut = \NieuwenhovenGames\BGA\UpdateStorage::create($this->mock_database);
+        $this->mock_database = $this->createMock(DatabaseInterface::class);
+        $this->sut = UpdateStorage::create($this->mock_database);
 
-        $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
+        $this->mock_emitter = $this->createMock(EventEmitter::class);
         $this->sut->setEventEmitter($this->mock_emitter);
     }
 

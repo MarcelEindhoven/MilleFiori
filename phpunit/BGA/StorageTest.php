@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\MilleFiori;
+namespace NieuwenhovenGames\BGA;
 /**
  *------
  * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -13,11 +13,11 @@ include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
 
 class StorageTest extends TestCase{
-    protected \NieuwenhovenGames\BGA\Storage $sut;
+    protected Storage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\DatabaseInterface::class);
-        $this->sut = \NieuwenhovenGames\BGA\Storage::create($this->mock_database);
+        $this->mock_database = $this->createMock(DatabaseInterface::class);
+        $this->sut = Storage::create($this->mock_database);
     }
 
     public function testGet_2Fields_getCollection() {

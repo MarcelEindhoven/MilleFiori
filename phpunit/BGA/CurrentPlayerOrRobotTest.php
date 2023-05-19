@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
 
 class CurrentPlayerOrRobotTest extends TestCase{
-    protected \NieuwenhovenGames\BGA\CurrentPlayerOrRobot $sut;
+    protected CurrentPlayerOrRobot $sut;
 
     protected function setUp(): void {
-        $this->sut = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create(0);
+        $this->sut = CurrentPlayerOrRobot::create(0);
     }
 
     public function testID_NoChange_GetEqualsSet() {
