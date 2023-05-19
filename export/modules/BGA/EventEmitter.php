@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\BGA;
  */
 
 class EventEmitter {
+    public function on($channel, callable $callable) {}
     public function emit($channel, $event) {}
 }
 ?>
