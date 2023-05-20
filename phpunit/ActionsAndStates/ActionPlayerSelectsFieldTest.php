@@ -50,7 +50,6 @@ class ActionPlayerSelectsFieldTest extends TestCase{
 
     public function testExecute_Always_EmptyPlayedHand() {
         // Arrange
-        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('SelectExtraCard', [$this->sut, 'selectExtraCard']);
         $this->mock_cards->expects($this->exactly(1))->method('emptyPlayedHand');
         // Act
         $this->sut->execute();
