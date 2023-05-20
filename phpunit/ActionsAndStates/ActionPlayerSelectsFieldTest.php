@@ -14,6 +14,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
 include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class ActionPlayerSelectsFieldTest extends TestCase{
 
@@ -31,6 +32,9 @@ class ActionPlayerSelectsFieldTest extends TestCase{
 
         $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
+
+        $this->mock_event_handler = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
+        $this->sut->setEventEmitter($this->mock_event_handler);
 
         $this->player_id = 55;
         $this->sut->setCurrentPlayerID($this->player_id);

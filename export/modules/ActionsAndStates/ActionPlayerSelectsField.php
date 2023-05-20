@@ -35,6 +35,11 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
+    public function setEventEmitter($event_handler) : ActionPlayerSelectsField {
+        $this->event_handler = $event_handler;
+        return $this;
+    }
+
     public function setCurrentPlayerID($player_id) : ActionPlayerSelectsField {
         $this->player_id = $player_id;
         return $this;
