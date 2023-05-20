@@ -138,7 +138,7 @@ $machinestates = array(
         "type" => "activeplayer",
         "action" => "stPlayerPlaysCard",
         "possibleactions" => array( "selectField"),
-        "transitions" => array( "playCard" => 20, "selectExtraCard" => 32 )
+        "transitions" => array( "turnEnded" => 20, "selectExtraCard" => 32 )
     ),
     32 => array(
         "name" => "selectExtraCard",

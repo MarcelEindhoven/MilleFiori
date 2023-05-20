@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 class ActionPlayerSelectsField {
+    protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionPlayerSelectsField {
         $object = new ActionPlayerSelectsField();
@@ -45,10 +46,16 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
+    public function selectExtraCard($event) {
+        $this->select_extra_card = true;
+    }
+
     public function execute() : ActionPlayerSelectsField {
         $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
 
         $this->cards_handler->emptyPlayedHand();
+
+        $this->event_handler->on('SelectExtraCard', [$this, 'selectExtraCard']);
 
         // Get reward
         // Execute effect on data handler?
@@ -56,6 +63,9 @@ class ActionPlayerSelectsField {
         // Process extra card
 
         return $this;
+    }
+    public function nextState() {
+        $this->gamestate->nextState($this->select_extra_card ? 'selectExtraCard' : 'turnEnded');
     }
 }
 

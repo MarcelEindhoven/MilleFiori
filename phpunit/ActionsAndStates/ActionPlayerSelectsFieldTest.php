@@ -40,7 +40,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->sut->setCurrentPlayerID($this->player_id);
     }
 
-    public function testExecute_PlayerID_SelectableFieldIDs() {
+    public function testExecute_Always_SelectableFieldIDsEmpty() {
         // Arrange
         $this->mock_notify_handler->expects($this->exactly(1))->method('notifyPlayer')->with($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
         // Act
@@ -48,11 +48,37 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         // Assert
     }
 
-    public function testExecute_PlayerID_EmptyPlayedHand() {
+    public function testExecute_Always_EmptyPlayedHand() {
         // Arrange
+        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('SelectExtraCard', [$this->sut, 'selectExtraCard']);
         $this->mock_cards->expects($this->exactly(1))->method('emptyPlayedHand');
         // Act
         $this->sut->execute();
+        // Assert
+    }
+
+    public function testExecute_Always_Subscription() {
+        // Arrange
+        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('SelectExtraCard', [$this->sut, 'selectExtraCard']);
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
+    public function testState_NoExtraCard_TurnEnded() {
+        // Arrange
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('turnEnded');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    public function testState_ExtraCard_TurnEnded() {
+        // Arrange
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('selectExtraCard');
+        $this->sut->selectExtraCard([]);
+        // Act
+        $this->sut->nextState();
         // Assert
     }
 }
