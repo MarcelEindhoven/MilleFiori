@@ -154,7 +154,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->chosen_field_id = $this->getFieldIDForPosition(7);
         $event_position = ['player_id' => $this->player_id, 'position' => 7];
-        $this->mock_event_handler->expects($this->exactly(1))->method('emit')->with('Position', $event_position);
+        $this->mock_event_handler->expects($this->exactly(2))->method('emit')->withConsecutive(['Position', $event_position], ['SelectExtraCard', []]);
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert

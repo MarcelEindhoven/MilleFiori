@@ -49,6 +49,10 @@ class CurrentOcean extends Ocean {
         $position = Fields::getID($chosen_field_id);
         if ($position != $this->getPlayerPosition($player_id)) {
             $this->event_handler->emit('Position', ['player_id' => $player_id, 'position' => $position]);
+            $reward = $this->getReward($player_id, $chosen_field_id);
+            if ($reward['extra_card']) {
+                $this->event_handler->emit('SelectExtraCard', []);
+            }
         }
     }
 
