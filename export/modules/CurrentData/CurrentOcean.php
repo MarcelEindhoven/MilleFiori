@@ -22,22 +22,34 @@ class CurrentOcean extends Ocean {
         return $this;
     }
 
-    public function getSelectableFieldIDs($player, int $card_id) : array {
-        return [$this->getFieldIDForPosition($this->getNextPlayerPosition($player, $card_id))];
+    public function setEventEmitter($event_handler) : CurrentOcean {
+        $this->event_handler = $event_handler;
+        return $this;
+    }
+
+    public function getSelectableFieldIDs($player_id, int $card_id) : array {
+        return [$this->getFieldIDForPosition($this->getNextPlayerPosition($player_id, $card_id))];
     }
 
     public function getFieldIDForPosition($position) {
         return Fields::completeID($this->getCategoryID(), $position);
     }
 
-    public function getReward($player, $chosen_field_id) : array {
+    public function getReward($player_id, $chosen_field_id) : array {
         $position = Fields::getID($chosen_field_id);
         $reward = ['points' => 0, 'extra_card' => false];
-        if ($position != $this->getPlayerPosition($player)) {
+        if ($position != $this->getPlayerPosition($player_id)) {
             $reward['points'] = Ocean::POINTS_PER_POSITION[$position];
             $reward['extra_card'] = Ocean::EXTRA_CARD_PER_POSITION[$position];
         }
         return $reward;
+    }
+
+    public function PlayerSelectsField($player_id, $chosen_field_id) {
+        $position = Fields::getID($chosen_field_id);
+        if ($position != $this->getPlayerPosition($player_id)) {
+            $this->event_handler->emit('Position', ['player_id' => $player_id, 'position' => $position]);
+        }
     }
 
     public function getPlayerPosition($player) {
