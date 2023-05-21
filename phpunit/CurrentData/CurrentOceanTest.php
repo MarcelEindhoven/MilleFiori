@@ -103,16 +103,16 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS - 1);
+        $reward = $this->actReward(new_position: $this->getMaxPosition());
         // Assert
         $this->assertPoints($reward, 10);
     }
 
     public function testReward_MaximumIDNoMove_NoReward() {
         // Arrange
-        $this->arrangeForPosition(Ocean::NUMBER_FIELDS - 1);
+        $this->arrangeForPosition($this->getMaxPosition());
         // Act
-        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS - 1);
+        $reward = $this->actReward(new_position: $this->getMaxPosition());
         // Assert
         $this->assertNoReward($reward);
     }
@@ -149,7 +149,6 @@ class CurrentOceanTest extends TestCase{
         // Assert
     }
 
-    // Update
     public function testUpdate_Select7_EmitPositionAndExtraCard() {
         // Arrange
         $this->chosen_field_id = $this->getFieldIDForPosition(7);
@@ -158,6 +157,21 @@ class CurrentOceanTest extends TestCase{
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
+    }
+
+    public function testUpdate_SelectMax_EmitPositionAndPointsAndExtraCard() {
+        // Arrange
+        $this->chosen_field_id = $this->getFieldIDForPosition($this->getMaxPosition());
+        $event_position = ['player_id' => $this->player_id, 'position' => $this->getMaxPosition()];
+        $event_points = ['player_id' => $this->player_id, 'points' => 10];
+        $this->mock_event_handler->expects($this->exactly(3))->method('emit')->withConsecutive(['Position', $event_position], ['Points', $event_points], ['SelectExtraCard', []]);
+        // Act
+        $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
+        // Assert
+    }
+
+    private function getMaxPosition() {
+        return Ocean::NUMBER_FIELDS - 1;
     }
 }
 ?>
