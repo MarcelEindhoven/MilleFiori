@@ -56,19 +56,6 @@ class Ocean {
         return [$this->getNextPlayerPosition($player, $card_id)];
     }
 
-    public function getPlayerPosition($player) {
-        return $this->playerPositions[$player];
-    }
-
-    public function setPlayerPosition($player, int $places) : Ocean {
-        if ($places > $this->getPlayerPosition($player)) {
-            $this->playerPositions[$player] = $places;
-            $this->properties->setOceanPosition($player, $places);
-        }
-
-        return $this;
-    }
-
     protected function getNextPlayerPosition($player, int $card_id) : int {
         $position = $this->getPlayerPosition($player);
 

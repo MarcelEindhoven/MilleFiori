@@ -36,11 +36,11 @@ class CurrentOcean extends Ocean {
         return [$this->getFieldIDForPosition($this->getNextPlayerPosition($player_id, $card_id))];
     }
 
-    public function getFieldIDForPosition($position) {
+    protected function getFieldIDForPosition($position) {
         return Fields::completeID($this->getCategoryID(), $position);
     }
 
-    public function getPlayerPosition($player) {
+    protected function getPlayerPosition($player) {
         return $this->player_robot_data[$player][Ocean::KEY_PLAYER_POSITION];
     }
 

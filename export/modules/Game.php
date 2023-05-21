@@ -125,7 +125,6 @@ class Game {
     private function robotPlayCard($robot, $card) {
         $card_id = $card[Game::CARD_KEY_ID];
         $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
-        $this->sqlDatabase->trace('getPlayerPosition ' . $robot->getPlayerID() . ' ' . $card[Game::CARD_KEY_TYPE] . ' '. $this->ocean->getPlayerPosition($robot->getPlayerID()));
 
         $fields = $this->categories->getSelectableFieldIDs($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
         $field_id = $robot->selectField($fields);
@@ -140,7 +139,6 @@ class Game {
 
     public function processSelectedField($player_id, $id_within_category) {
         $reward = $this->ocean->getReward($player_id, $id_within_category);
-        $this->ocean->setPlayerPosition($player_id, $id_within_category);
 
         $this->cards_handler->emptyPlayedHand();
 

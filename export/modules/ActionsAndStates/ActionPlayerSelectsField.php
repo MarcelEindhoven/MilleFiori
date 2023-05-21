@@ -1,6 +1,11 @@
 <?php
 namespace NieuwenhovenGames\MilleFiori;
 /**
+ * Responsible for, when player selects a field
+ * - Cleanup played card
+ * - Cleanup selectable field IDs
+ * - Activate game object
+ * - Choose next state depending on whether extra card was earned
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -26,8 +31,8 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
-    public function setDataHandler($data_handler) : ActionPlayerSelectsField {
-        $this->data_handler = $data_handler;
+    public function setFieldSelectionHandler($field_selection_handler) : ActionPlayerSelectsField {
+        $this->field_selection_handler = $field_selection_handler;
         return $this;
     }
 

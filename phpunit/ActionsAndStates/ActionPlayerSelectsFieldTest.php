@@ -28,7 +28,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->sut->setCardsHandler($this->mock_cards);
 
         $this->mock_data_handler = $this->createMock(CurrentData::class);
-        $this->sut->setDataHandler($this->mock_data_handler);
+        $this->sut->setFieldSelectionHandler($this->mock_data_handler);
 
         $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
