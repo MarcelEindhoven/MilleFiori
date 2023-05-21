@@ -31,6 +31,16 @@ class Ocean {
     const POINTS_PER_POSITION = [0, 1, 1, 1, 3, 1, 10, 0, 1, 5, 1, 1, 10, 10, 1, 5, 0, 1, 1, 1, 10];
     const EXTRA_CARD_PER_POSITION = [false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, true];
 
+    public function setData($player_robot_data) : Ocean {
+        $this->player_robot_data = $player_robot_data;
+        return $this;
+    }
+
+    protected function getPlayerPosition($player) {
+        return $this->player_robot_data[$player][Ocean::KEY_PLAYER_POSITION];
+    }
+
+    // Deprecated
     protected array $playerPositions = array();
 
     public function setDatabase($properties) : Ocean {

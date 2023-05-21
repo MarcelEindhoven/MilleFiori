@@ -21,16 +21,6 @@ class CurrentOcean extends Ocean {
         return $object->setData($player_robot_data);
     }
 
-    public function setData($player_robot_data) : CurrentOcean {
-        $this->player_robot_data = $player_robot_data;
-        return $this;
-    }
-
-    public function setEventEmitter($event_handler) : CurrentOcean {
-        $this->event_handler = $event_handler;
-        return $this;
-    }
-
     // Selectable field IDs
     public function getSelectableFieldIDs($player_id, int $card_id) : array {
         return [$this->getFieldIDForPosition($this->getNextPlayerPosition($player_id, $card_id))];
@@ -40,16 +30,11 @@ class CurrentOcean extends Ocean {
         return Fields::completeID($this->getCategoryID(), $position);
     }
 
-    protected function getPlayerPosition($player) {
-        return $this->player_robot_data[$player][Ocean::KEY_PLAYER_POSITION];
-    }
-
     // Tooltips
     public static function getTooltipsCards() {
         return Ocean::PLACES_PER_CARD;
     }
 
-    // Update
     public function getReward($player_id, $chosen_field_id) : array {
         $position = Fields::getID($chosen_field_id);
         $reward = ['points' => 0, 'extra_card' => false];
@@ -58,23 +43,6 @@ class CurrentOcean extends Ocean {
             $reward['extra_card'] = Ocean::EXTRA_CARD_PER_POSITION[$position];
         }
         return $reward;
-    }
-
-    public function PlayerSelectsField($player_id, $chosen_field_id) {
-        $position = Fields::getID($chosen_field_id);
-        if ($position != $this->getPlayerPosition($player_id)) {
-            $this->PlayerSelectsNewPosition($player_id, $position);
-        }
-    }
-
-    private function PlayerSelectsNewPosition($player_id, $position) {
-        $this->event_handler->emit('Position', ['player_id' => $player_id, 'position' => $position]);
-        if (Ocean::POINTS_PER_POSITION[$position] > 0) {
-            $this->event_handler->emit('Points', ['player_id' => $player_id, 'points' => Ocean::POINTS_PER_POSITION[$position]]);
-        }
-        if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
-            $this->event_handler->emit('SelectExtraCard', []);
-        }
     }
 }
 
