@@ -1,9 +1,8 @@
 <?php
 namespace NieuwenhovenGames\MilleFiori;
 /**
- * Responsible for Ocean category current data plus update
+ * Responsible for Ocean category current data
  * - Selectable field IDs within ocean
- * - Reward for selecting a new ship position
  * - Tooltips for ocean movement of each card
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -35,6 +34,7 @@ class CurrentOcean extends Ocean {
         return Ocean::PLACES_PER_CARD;
     }
 
+    // Deprecated
     public function getReward($player_id, $chosen_field_id) : array {
         $position = Fields::getID($chosen_field_id);
         $reward = ['points' => 0, 'extra_card' => false];

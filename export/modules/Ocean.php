@@ -12,13 +12,8 @@ class Ocean {
     const KEY_CATEGORY = 'ocean';
     const KEY_PLAYER_POSITION = 'ocean_position';
     const KEY_PLAYER_ID = 'id';
-    const FIELD_WIDTH = 2.72;
-    const FIELD_HEIGHT = 4;
-    const BOTTOM_TOP = 52-4;
-    const RIGHT_EDGE = 52;
     const NUMBER_FIELDS = 21;
-    const LEFT_MARGIN = 0.7;
-    
+
     const PLACES_PER_CARD = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5
     , 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 0
     , 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5
@@ -38,6 +33,18 @@ class Ocean {
 
     protected function getPlayerPosition($player) {
         return $this->player_robot_data[$player][Ocean::KEY_PLAYER_POSITION];
+    }
+
+    protected function getNextPlayerPosition($player, int $card_type) : int {
+        $position = $this->getPlayerPosition($player);
+
+        $position += Ocean::PLACES_PER_CARD[$card_type];
+
+        if ($position >= Ocean::NUMBER_FIELDS) {
+            $position = Ocean::NUMBER_FIELDS - 1;
+        }
+        
+        return $position;
     }
 
     // Deprecated
@@ -64,18 +71,6 @@ class Ocean {
 
     public function getSelectableFieldIDs($player, int $card_id) : array {
         return [$this->getNextPlayerPosition($player, $card_id)];
-    }
-
-    protected function getNextPlayerPosition($player, int $card_id) : int {
-        $position = $this->getPlayerPosition($player);
-
-        $position += Ocean::PLACES_PER_CARD[$card_id];
-
-        if ($position >= Ocean::NUMBER_FIELDS) {
-            $position = Ocean::NUMBER_FIELDS - 1;
-        }
-        
-        return $position;
     }
 }
 

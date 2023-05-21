@@ -1,6 +1,8 @@
 <?php
 namespace NieuwenhovenGames\MilleFiori;
 /**
+ * Responsible for Ocean category
+ * - Reward for selecting a new ship position
  *------
  * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -41,6 +43,9 @@ class UpdateOcean extends Ocean {
         if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
             $this->event_handler->emit('SelectExtraCard', []);
         }
+
+        // Current data is no longer valid, trigger exception if reuse is attempted
+        $this->setData(null);
     }
 }
 

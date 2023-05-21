@@ -10,8 +10,6 @@ namespace NieuwenhovenGames\MilleFiori;
 
 class ViewOcean {
     const KEY_CATEGORY = 'ocean';
-    const KEY_PLAYER_POSITION = 'ocean_position';
-    const KEY_PLAYER_ID = 'id';
     const FIELD_WIDTH = 2.72;
     const FIELD_HEIGHT = 4;
     const BOTTOM_TOP = 52-4;
