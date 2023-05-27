@@ -14,7 +14,7 @@ include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class UpdateOceanTest extends TestCase{
     const DEFAULT_SELECTABLE_FIELD_IDS = ['field_ocean_8'];
-    const DEFAULT_POSITION_DATA = [3 => [Ocean::KEY_PLAYER_POSITION => 5]];
+    const DEFAULT_POSITION_DATA = [3 => 5];
 
     protected UpdateOcean $sut;
 
@@ -50,8 +50,7 @@ class UpdateOceanTest extends TestCase{
     public function testUpdate_Select7_EmitPositionAndExtraCard() {
         // Arrange
         $this->chosen_field_id = $this->getFieldIDForPosition(7);
-        $event_position = ['player_id' => $this->player_id, 'position' => 7];
-        $this->mock_event_handler->expects($this->exactly(2))->method('emit')->withConsecutive(['Position', $event_position], ['SelectExtraCard', []]);
+        $this->mock_event_handler->expects($this->exactly(1))->method('emit')->withConsecutive(['SelectExtraCard', []]);
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
@@ -60,9 +59,8 @@ class UpdateOceanTest extends TestCase{
     public function testUpdate_SelectMax_EmitPositionAndPointsAndExtraCard() {
         // Arrange
         $this->chosen_field_id = $this->getFieldIDForPosition($this->getMaxPosition());
-        $event_position = ['player_id' => $this->player_id, 'position' => $this->getMaxPosition()];
         $event_points = ['player_id' => $this->player_id, 'points' => 10];
-        $this->mock_event_handler->expects($this->exactly(3))->method('emit')->withConsecutive(['Position', $event_position], ['Points', $event_points], ['SelectExtraCard', []]);
+        $this->mock_event_handler->expects($this->exactly(2))->method('emit')->withConsecutive(['Points', $event_points], ['SelectExtraCard', []]);
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert

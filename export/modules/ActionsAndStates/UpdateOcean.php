@@ -16,7 +16,8 @@ class UpdateOcean extends Ocean {
     static public function create($player_id, $data): UpdateOcean {
         $object = new UpdateOcean();
         $object->player_id = $player_id;
-        return $object->setData($data);
+        $object->ocean_positions = $data;
+        return $object;
     }
 
     public function setEventEmitter($event_handler) : UpdateOcean {
@@ -28,6 +29,10 @@ class UpdateOcean extends Ocean {
         return $this->player_id;
     }
 
+    protected function getPlayerPosition($player) {
+        return $this->ocean_positions[$player];
+    }
+
     public function PlayerSelectsField($player_id, $chosen_field_id) {
         $position = Fields::getID($chosen_field_id);
         if ($position != $this->getPlayerPosition($player_id)) {
@@ -36,16 +41,12 @@ class UpdateOcean extends Ocean {
     }
 
     private function PlayerSelectsNewPosition($player_id, $position) {
-        $this->event_handler->emit('Position', ['player_id' => $player_id, 'position' => $position]);
         if (Ocean::POINTS_PER_POSITION[$position] > 0) {
             $this->event_handler->emit('Points', ['player_id' => $player_id, 'points' => Ocean::POINTS_PER_POSITION[$position]]);
         }
         if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
             $this->event_handler->emit('SelectExtraCard', []);
         }
-
-        // Current data is no longer valid, trigger exception if reuse is attempted
-        $this->setData(null);
     }
 }
 
