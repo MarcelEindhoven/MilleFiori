@@ -13,9 +13,8 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../Ocean.php');
 
 class UpdateOcean extends Ocean {
-    static public function create($player_id, $data): UpdateOcean {
+    static public function create($data): UpdateOcean {
         $object = new UpdateOcean();
-        $object->player_id = $player_id;
         $object->ocean_positions = $data;
         return $object;
     }
@@ -25,12 +24,13 @@ class UpdateOcean extends Ocean {
         return $this;
     }
 
-    public function getPlayerID(): int {
-        return $this->player_id;
+    public function setOceanPositions($properties) : UpdateOcean {
+        $this->ocean_positions = $properties;
+        return $this;
     }
 
-    protected function getPlayerPosition($player) {
-        return $this->ocean_positions[$player];
+    protected function getPlayerPosition($player_id) {
+        return $this->ocean_positions[$player_id];
     }
 
     public function PlayerSelectsField($player_id, $chosen_field_id) {
@@ -41,9 +41,12 @@ class UpdateOcean extends Ocean {
     }
 
     private function PlayerSelectsNewPosition($player_id, $position) {
+        $this->ocean_positions[$player_id] = $position;
+
         if (Ocean::POINTS_PER_POSITION[$position] > 0) {
             $this->event_handler->emit('Points', ['player_id' => $player_id, 'points' => Ocean::POINTS_PER_POSITION[$position]]);
         }
+
         if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
             $this->event_handler->emit('SelectExtraCard', []);
         }

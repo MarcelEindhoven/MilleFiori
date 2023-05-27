@@ -21,14 +21,22 @@ class UpdateOceanTest extends TestCase{
     protected function setUp(): void {
         $this->player_id = 3;
         $this->position_data = UpdateOceanTest::DEFAULT_POSITION_DATA;
-        $this->sut = UpdateOcean::create($this->player_id, $this->position_data);
+        $this->sut = UpdateOcean::create($this->position_data);
 
         $this->mock_event_handler = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
         $this->sut->setEventEmitter($this->mock_event_handler);
+
+        $this->mock_array = $this->createMock(\ArrayAccess::class);
     }
 
-    protected function arrangeForPosition($position) {
-        $this->sut = UpdateOcean::create([$this->player_id => [Ocean::KEY_PLAYER_POSITION => $position]]);
+    protected function arrangeForInitialPosition($position) {
+        $this->mock_array->expects($this->exactly(1))->method('offsetGet')->withConsecutive([$this->player_id])->will($this->returnValue($position));
+        $this->sut->setOceanPositions($this->mock_array);
+    }
+
+    protected function arrangeForNewPosition($position) {
+        $this->mock_array->expects($this->exactly(1))->method('offsetSet')->with($this->player_id, $position);
+        $this->chosen_field_id = $this->getFieldIDForPosition($position);
     }
 
     protected function getFieldIDForPosition($position): string {
@@ -49,7 +57,8 @@ class UpdateOceanTest extends TestCase{
 
     public function testUpdate_Select7_EmitPositionAndExtraCard() {
         // Arrange
-        $this->chosen_field_id = $this->getFieldIDForPosition(7);
+        $this->arrangeForInitialPosition(5);
+        $this->arrangeForNewPosition(7);
         $this->mock_event_handler->expects($this->exactly(1))->method('emit')->withConsecutive(['SelectExtraCard', []]);
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
@@ -58,7 +67,8 @@ class UpdateOceanTest extends TestCase{
 
     public function testUpdate_SelectMax_EmitPositionAndPointsAndExtraCard() {
         // Arrange
-        $this->chosen_field_id = $this->getFieldIDForPosition($this->getMaxPosition());
+        $this->arrangeForInitialPosition(11);
+        $this->arrangeForNewPosition($this->getMaxPosition());
         $event_points = ['player_id' => $this->player_id, 'points' => 10];
         $this->mock_event_handler->expects($this->exactly(2))->method('emit')->withConsecutive(['Points', $event_points], ['SelectExtraCard', []]);
         // Act
