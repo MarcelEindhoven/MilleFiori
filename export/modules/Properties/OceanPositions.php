@@ -21,6 +21,12 @@ class OceanPositions extends \ArrayObject {
         $this->event_handler = $event_handler;
         return $this;
     }
+
+    public function offsetSet(mixed $key, mixed $value): void {
+        parent::offsetSet($key, $value);
+        $event_position = ['player_id' => $key, 'property_name' => Ocean::KEY_PLAYER_POSITION, 'property_value' => $value];
+        $this->event_handler->emit('PlayerPropertyUpdated', $event_position);
+    }
 }
 
 ?>
