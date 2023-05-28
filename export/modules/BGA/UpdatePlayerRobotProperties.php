@@ -14,14 +14,30 @@ class UpdateSpecificProperty extends \ArrayObject {
         return $this;
     }
 
+    public function setPlayerID($player_id) : UpdateSpecificProperty {
+        $this->player_id = $player_id;
+        return $this;
+    }
+
     public function offsetSet(mixed $property_name, mixed $property_value): void {
         parent::offsetSet($property_name, $property_value);
         $event_position = [];
-        $this->event_handler->emit('PlayerPropertyUpdated', $event_position);
+        $event = [
+            UpdateStorage::EVENT_KEY_BUCKET => UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_ROBOT,
+            UpdateStorage::EVENT_KEY_NAME_VALUE => $property_name,
+            UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
+            UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::EVENT_KEY_NAME_SELECTOR,
+            UpdateStorage::EVENT_KEY_SELECTED => $this->player_id
+        ];
+        $this->event_handler->emit(UpdateStorage::EVENT_NAME, $event);
     }
 }
 
 class UpdatePlayerRobotProperties extends \ArrayObject {
+    const EVENT_KEY_BUCKET_ROBOT = 'robot';
+    const EVENT_KEY_BUCKET_PLAYER = 'player';
+    const EVENT_KEY_NAME_SELECTOR = 'player_id';
+
     public function __construct(array|object $array = [], int $flags = 0, string $iteratorClass = ArrayIterator::class) {
         parent::__construct([]);
         foreach($array as $player_id => $player_properties) {
@@ -31,6 +47,7 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
 
     public function setEventEmitter($event_handler) : UpdatePlayerRobotProperties {
         foreach($this->getIterator() as $player_id => $player_properties) {
+            $player_properties->setPlayerID($player_id);
             $player_properties->setEventEmitter($event_handler);
         }
 

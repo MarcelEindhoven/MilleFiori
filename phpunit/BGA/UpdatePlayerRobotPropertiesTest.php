@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/UpdatePlayerRobotProperties.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
+include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
 
 class UpdatePlayerRobotPropertiesTest extends TestCase{
     const DEFAULT_PLAYER_ID = 3;
@@ -45,10 +46,17 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
         $this->assertEquals($new_value, $value);
     }
 
-    public function testSet_NewValue_EmitBucketUpdated() {
+    public function testSet_NewRobotValue_EmitRobotBucketUpdated() {
         // Arrange
         $new_value = 9;
-        $this->mock_emitter->expects($this->exactly(1))->method('emit');
+        $this->event = [
+            UpdateStorage::EVENT_KEY_BUCKET => 'robot',
+            UpdateStorage::EVENT_KEY_NAME_VALUE => UpdatePlayerRobotPropertiesTest::DEFAULT_KEY,
+            UpdateStorage::EVENT_KEY_UPDATED_VALUE => $new_value,
+            UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id',
+            UpdateStorage::EVENT_KEY_SELECTED => UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID
+        ];
+        $this->mock_emitter->expects($this->exactly(1))->method('emit')->with(UpdateStorage::EVENT_NAME, $this->event);
         // Act
         $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
         // Assert
