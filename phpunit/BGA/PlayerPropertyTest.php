@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\MilleFiori;
+namespace NieuwenhovenGames\BGA;
 /**
  *------
  * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
@@ -9,20 +9,22 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/Properties/OceanPositions.php');
+include_once(__DIR__.'/../../export/modules/BGA/PlayerProperty.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
-class OceanPositionsTest extends TestCase{
+class PlayerPropertyTest extends TestCase{
     const DEFAULT_PLAYER_ID = 3;
     const DEFAULT_POSITION = 5;
-    const DEFAULT_POSITION_DATA = [OceanPositionsTest::DEFAULT_PLAYER_ID => [Ocean::KEY_PLAYER_POSITION => OceanPositionsTest::DEFAULT_POSITION]];
+    const DEFAULT_PROPERTY_NAME = 'name';
+    const DEFAULT_POSITION_DATA = [PlayerPropertyTest::DEFAULT_PLAYER_ID => [PlayerPropertyTest::DEFAULT_PROPERTY_NAME => PlayerPropertyTest::DEFAULT_POSITION]];
     
 
     public function setup() : void {
-        $this->player_id = OceanPositionsTest::DEFAULT_PLAYER_ID;
+        $this->player_id = PlayerPropertyTest::DEFAULT_PLAYER_ID;
+
         $this->mock_array = $this->createMock(\ArrayAccess::class);
-        //$this->mock_array->expects($this->exactly(1))->method('offsetGet')->withConsecutive([$this->player_id])->will($this->returnValue(OceanPositionsTest::DEFAULT_POSITION));
-        $this->sut = OceanPositions::CreateFromPlayerProperties(OceanPositionsTest::DEFAULT_POSITION_DATA);
+        //$this->mock_array->expects($this->exactly(1))->method('offsetGet')->withConsecutive([$this->player_id])->will($this->returnValue(PlayerPropertyTest::DEFAULT_POSITION));
+        $this->sut = PlayerProperty::CreateFromPlayerProperties(PlayerPropertyTest::DEFAULT_PROPERTY_NAME, PlayerPropertyTest::DEFAULT_POSITION_DATA);
     }
 
     public function testGet_UnknownPlayer_Exception() {
@@ -38,7 +40,7 @@ class OceanPositionsTest extends TestCase{
         // Act
         $position = $this->sut[$this->player_id];
         // Assert
-        $this->assertEquals(OceanPositionsTest::DEFAULT_POSITION, $position);
+        $this->assertEquals(PlayerPropertyTest::DEFAULT_POSITION, $position);
     }
 
     public function testSet_KnownPlayer_ReturnSetValue() {
