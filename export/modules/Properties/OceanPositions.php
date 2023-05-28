@@ -8,25 +8,27 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-class OceanPositions extends \ArrayObject {
+class OceanPositions implements \ArrayAccess {
     static public function CreateFromPlayerProperties($data) : OceanPositions {
-        $positions = [];
-        foreach($data as $player_id => $array) {
-            $positions[$player_id] = $array[Ocean::KEY_PLAYER_POSITION];
-        }
-        return new OceanPositions($positions);
+        $object = new OceanPositions();
+        return $object->setData($data);
     }
 
-    public function setEventEmitter($event_handler) : OceanPositions {
-        $this->event_handler = $event_handler;
+    public function setData($data) : OceanPositions {
+        $this->data = $data;
         return $this;
     }
 
-    public function offsetSet(mixed $key, mixed $value): void {
-        parent::offsetSet($key, $value);
-        $event_position = ['player_id' => $key, 'property_name' => Ocean::KEY_PLAYER_POSITION, 'property_value' => $value];
-        $this->event_handler->emit('PlayerPropertyUpdated', $event_position);
+    public function offsetSet(mixed $player_id, mixed $position): void {
+        $this->data[$player_id][Ocean::KEY_PLAYER_POSITION] = $position;
     }
+
+    public function offsetGet(mixed $player_id): mixed {
+        return $this->data[$player_id][Ocean::KEY_PLAYER_POSITION];
+    }
+
+    public function offsetExists(mixed $player_id): bool {return $this->data->offsetExists($player_id);}
+    public function offsetUnset(mixed $player_id): void { $this->data->offsetUnset($player_id);}
 }
 
 ?>

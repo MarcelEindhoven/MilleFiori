@@ -20,10 +20,9 @@ class OceanPositionsTest extends TestCase{
 
     public function setup() : void {
         $this->player_id = OceanPositionsTest::DEFAULT_PLAYER_ID;
+        $this->mock_array = $this->createMock(\ArrayAccess::class);
+        //$this->mock_array->expects($this->exactly(1))->method('offsetGet')->withConsecutive([$this->player_id])->will($this->returnValue(OceanPositionsTest::DEFAULT_POSITION));
         $this->sut = OceanPositions::CreateFromPlayerProperties(OceanPositionsTest::DEFAULT_POSITION_DATA);
-
-        $this->mock_event_handler = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
-        $this->sut->setEventEmitter($this->mock_event_handler);
     }
 
     public function testGet_UnknownPlayer_Exception() {
@@ -36,18 +35,15 @@ class OceanPositionsTest extends TestCase{
 
     public function testGet_KnownPlayer_Position5() {
         // Arrange
-        $this->mock_event_handler->expects($this->exactly(0))->method('emit');
         // Act
         $position = $this->sut[$this->player_id];
         // Assert
         $this->assertEquals(OceanPositionsTest::DEFAULT_POSITION, $position);
     }
 
-    public function testSet_KnownPlayer_Emit() {
+    public function testSet_KnownPlayer_ReturnSetValue() {
         // Arrange
         $value = 7;
-        $event_position = ['player_id' => $this->player_id, 'property_name' => Ocean::KEY_PLAYER_POSITION, 'property_value' => $value];
-        $this->mock_event_handler->expects($this->exactly(1))->method('emit')->withConsecutive(['PlayerPropertyUpdated', $event_position]);
         // Act
         $this->sut[$this->player_id] = $value;
         // Assert
