@@ -27,9 +27,19 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
     public function testGet_InitialValue_DefaultReturned() {
         // Arrange
         // Act
-        $position = $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY];
+        $value = $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY];
         // Assert
-        $this->assertEquals(UpdatePlayerRobotPropertiesTest::DEFAULT_POSITION, $position);
+        $this->assertEquals(UpdatePlayerRobotPropertiesTest::DEFAULT_POSITION, $value);
+    }
+
+    public function testSet_NewValue_NewReturned() {
+        // Arrange
+        $new_value = 9;
+        // Act
+        $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
+        // Assert
+        $value = $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY];
+        $this->assertEquals($new_value, $value);
     }
 }
 ?>
