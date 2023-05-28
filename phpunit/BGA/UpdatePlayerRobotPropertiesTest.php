@@ -22,6 +22,9 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
 
     protected function setUp(): void {
         $this->sut = new UpdatePlayerRobotProperties(UpdatePlayerRobotPropertiesTest::DEFAULT_DATA);
+
+        $this->mock_emitter = $this->createMock(EventEmitter::class);
+        $this->sut->setEventEmitter($this->mock_emitter);
     }
 
     public function testGet_InitialValue_DefaultReturned() {
@@ -40,6 +43,15 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
         // Assert
         $value = $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY];
         $this->assertEquals($new_value, $value);
+    }
+
+    public function testSet_NewValue_EmitBucketUpdated() {
+        // Arrange
+        $new_value = 9;
+        $this->mock_emitter->expects($this->exactly(1))->method('emit');
+        // Act
+        $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
+        // Assert
     }
 }
 ?>
