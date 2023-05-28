@@ -19,11 +19,15 @@ class UpdateSpecificProperty extends \ArrayObject {
         return $this;
     }
 
+    public function isRobotProperty() : bool {
+        return $this->player_id < 10;
+    }
+
     public function offsetSet(mixed $property_name, mixed $property_value): void {
         parent::offsetSet($property_name, $property_value);
-        $event_position = [];
+
         $event = [
-            UpdateStorage::EVENT_KEY_BUCKET => UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_ROBOT,
+            UpdateStorage::EVENT_KEY_BUCKET => $this->isRobotProperty() ? UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_ROBOT : UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_PLAYER,
             UpdateStorage::EVENT_KEY_NAME_VALUE => $property_name,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::EVENT_KEY_NAME_SELECTOR,
