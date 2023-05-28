@@ -11,11 +11,12 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/DatabaseInterface.php');
 
 class UpdateStorage {
-    const EVENT_KEY_BUCKET = 'channel';
+    const EVENT_KEY_BUCKET = 'bucket_name';
     const EVENT_KEY_NAME_VALUE = 'field_name_value';
     const EVENT_KEY_UPDATED_VALUE = 'new_value';
     const EVENT_KEY_NAME_SELECTOR = 'field_name_selector';
     const EVENT_KEY_SELECTED = 'selected_field';
+    const EVENT_NAME = 'bucket_updated';
 
     static public function create($sql_database) : UpdateStorage {
         $object = new UpdateStorage();
@@ -27,9 +28,18 @@ class UpdateStorage {
         return $this;
     }
 
-    public function setEventEmitter($event_emitter) : UpdateStorage {
-        $this->event_emitter = $event_emitter;
+    public function setEventEmitter($event_handler) : UpdateStorage {
+        $this->event_handler = $event_handler;
+        $this->event_handler->on(UpdateStorage::EVENT_NAME, [$this, 'bucketUpdated']);
         return $this;
+    }
+    public function bucketUpdated($event) {
+        $this->updateValueForField(
+            $event[UpdateStorage::EVENT_KEY_BUCKET],
+            $event[UpdateStorage::EVENT_KEY_NAME_VALUE],
+            $event[UpdateStorage::EVENT_KEY_UPDATED_VALUE],
+            $event[UpdateStorage::EVENT_KEY_NAME_SELECTOR],
+            $event[UpdateStorage::EVENT_KEY_SELECTED]);
     }
 
     public function updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector) {
@@ -40,7 +50,9 @@ class UpdateStorage {
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => $field_name_selector,
             UpdateStorage::EVENT_KEY_SELECTED => $value_selector];
-        $this->event_emitter->emit($bucket_name, $event);
+
+            // Deprecated?
+            $this->event_handler->emit($bucket_name, $event);
     }
 }
 ?>

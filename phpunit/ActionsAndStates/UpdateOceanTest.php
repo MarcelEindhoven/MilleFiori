@@ -48,7 +48,9 @@ class UpdateOceanTest extends TestCase{
     // Update
     public function testUpdate_NoMovement_EmitNothing() {
         // Arrange
+        $this->arrangeForInitialPosition(5);
         $this->chosen_field_id = $this->getFieldIDForPosition(5);
+        $this->mock_array->expects($this->exactly(0))->method('offsetSet');
         $this->mock_event_handler->expects($this->exactly(0))->method('emit');
         // Act
         $tooltips = $this->sut->PlayerSelectsField($this->player_id, $this->chosen_field_id);
