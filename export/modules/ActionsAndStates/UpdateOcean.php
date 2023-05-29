@@ -33,14 +33,14 @@ class UpdateOcean extends Ocean {
         return $this->ocean_positions[$player_id];
     }
 
-    public function PlayerSelectsField($player_id, $chosen_field_id) {
+    public function playerSelectsField($player_id, $chosen_field_id) {
         $position = Fields::getID($chosen_field_id);
         if ($position != $this->getPlayerPosition($player_id)) {
-            $this->PlayerSelectsNewPosition($player_id, $position);
+            $this->playerSelectsNewPosition($player_id, $position);
         }
     }
 
-    private function PlayerSelectsNewPosition($player_id, $position) {
+    private function playerSelectsNewPosition($player_id, $position) {
         $this->ocean_positions[$player_id] = $position;
 
         if (Ocean::POINTS_PER_POSITION[$position] > 0) {

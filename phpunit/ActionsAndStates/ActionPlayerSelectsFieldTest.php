@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerSelectsField.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
+include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
 include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
@@ -27,7 +28,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
 
-        $this->mock_data_handler = $this->createMock(CurrentData::class);
+        $this->mock_data_handler = $this->createMock(UpdateOcean::class);
         $this->sut->setFieldSelectionHandler($this->mock_data_handler);
 
         $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
