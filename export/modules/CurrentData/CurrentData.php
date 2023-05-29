@@ -81,6 +81,10 @@ class CurrentData {
         return array_diff($this->getPlayerRobotIDs(), $this->getPlayerIDs());
     }
 
+    public function getPlayerDataIncludingRobots(): array {
+        return $this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS];
+    }
+
     public function getHand($player_id) {
         return $this->current_cards->getHand($player_id);
     }

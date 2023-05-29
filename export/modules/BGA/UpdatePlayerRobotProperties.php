@@ -6,6 +6,10 @@ namespace NieuwenhovenGames\BGA;
  * without affecting state.
  * After the properties are set during object creation
  * this object is the single source of truth for player/robot properties
+ * 
+ * // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
+ * Who is responsible for the "player_" prefix?
+ * The object is initialised with keys that do not contain the prefix
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.

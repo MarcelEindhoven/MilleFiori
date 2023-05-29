@@ -11,6 +11,10 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/BGA/CardsInterface.php');
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
+include_once(__DIR__.'/BGA/EventEmitter.php');
+include_once(__DIR__.'/BGA/PlayerProperty.php');
+include_once(__DIR__.'/BGA/UpdatePlayerRobotProperties.php');
+include_once(__DIR__.'/BGA/UpdateStorage.php');
 
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Categories.php');
@@ -20,6 +24,7 @@ include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
 include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
+include_once(__DIR__.'/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/ActionsAndStates/RobotHandler.php');
 include_once(__DIR__.'/CurrentData/CurrentData.php');
 
@@ -39,6 +44,16 @@ class Game {
     public function setDatabase($sqlDatabase) : Game {
         $this->sqlDatabase = $sqlDatabase;
         $this->data_handler = CurrentData::create($this->sqlDatabase);
+
+        $this->event_emitter = new EventEmitter();
+        $this->update_storage = UpdateStorage::create($this->sqlDatabase);
+        $this->update_storage->setEventEmitter($this->event_emitter);
+
+        $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
+        $this->player_properties->setEventEmitter($this->event_emitter);
+
+        $this->ocean_positions = \NieuwenhovenGames\BGA\PlayerProperty::CreateFromPlayerProperties(Ocean::KEY_PLAYER_POSITION, $this->player_properties);
+        $this->update_ocean = UpdateOcean::create($this->ocean_positions);
 
         $this->robot_handler = RobotHandler::create();
         foreach ($this->data_handler->getRobotIDs() as $robot_id) {

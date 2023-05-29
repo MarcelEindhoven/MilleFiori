@@ -79,6 +79,7 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
 
     private function arrangeSet($bucket_name, $player_id, $new_value)
     {
+        // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $this->event = [
             // Event info for updating the database
             UpdateStorage::EVENT_KEY_BUCKET => $bucket_name,
