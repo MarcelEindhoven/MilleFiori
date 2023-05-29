@@ -27,6 +27,10 @@ class RewardHandler {
     public function gainedPoints($player_id, $points) {
         $this->data[$player_id][UpdatePlayerRobotProperties::KEY_SCORE] += $points;
     }
+
+    public function gainedAdditionalReward($player_id, $additional_reward) {
+        $this->event_handler->emit($additional_reward, []);
+    }
 }
 
 ?>

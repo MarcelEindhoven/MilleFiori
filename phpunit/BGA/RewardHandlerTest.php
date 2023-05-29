@@ -23,19 +23,30 @@ class RewardHandlerTest extends TestCase{
 
         $this->mock_array = $this->createMock(\ArrayAccess::class);
         $this->mock_properties_array = $this->createMock(\ArrayAccess::class);
-        $this->mock_array->expects($this->exactly(1))->method('offsetGet')->with($this->player_id)->will($this->returnValue($this->mock_properties_array));
         $this->sut = RewardHandler::createFromPlayerProperties($this->mock_array);
+
+        $this->mock_emitter = $this->createMock(EventEmitter::class);
+        $this->sut->setEventEmitter($this->mock_emitter);
     }
 
     public function testPoints_5_Score9() {
         // Arrange
         $this->points = 5;
+        $this->mock_array->expects($this->exactly(1))->method('offsetGet')->with($this->player_id)->will($this->returnValue($this->mock_properties_array));
         $this->mock_properties_array->expects($this->exactly(1))->method('offsetGet')->with(UpdatePlayerRobotProperties::KEY_SCORE)->will($this->returnValue(RewardHandlerTest::DEFAULT_SCORE));
         $this->mock_properties_array->expects($this->exactly(1))->method('offsetSet')->with(UpdatePlayerRobotProperties::KEY_SCORE, RewardHandlerTest::DEFAULT_SCORE + $this->points);
         // Act
         $this->sut->gainedPoints($this->player_id, $this->points);
         // Assert
-        
+    }
+
+    public function testAdditionalReward_Gained_Emit() {
+        // Arrange
+        $this->additional_reward = 'select_extra_card';
+        $this->mock_emitter->expects($this->exactly(1))->method('emit')->with($this->additional_reward, []);
+        // Act
+        $this->sut->gainedAdditionalReward($this->player_id, $this->additional_reward);
+        // Assert
     }
 }
 ?>
