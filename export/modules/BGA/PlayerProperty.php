@@ -32,6 +32,7 @@ class PlayerProperty implements \ArrayAccess {
         return $this->data[$player_id][$this->property_name];
     }
 
+    // Unused
     public function offsetExists(mixed $player_id): bool {return $this->data->offsetExists($player_id);}
     public function offsetUnset(mixed $player_id): void { $this->data->offsetUnset($player_id);}
 }

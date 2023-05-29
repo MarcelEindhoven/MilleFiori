@@ -1,6 +1,11 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Design decision: the database is not directly called.
+ * Decoupling using an event handler allows usage in simulation
+ * without affecting state.
+ * After the properties are set during object creation
+ * this object is the single source of truth for player/robot properties
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -14,33 +19,39 @@ class UpdateSpecificProperty extends \ArrayObject {
         return $this;
     }
 
-    public function setPlayerID($player_id) : UpdateSpecificProperty {
-        $this->player_id = $player_id;
-        return $this;
-    }
-
     public function isRobotProperty() : bool {
-        return $this->player_id < 10;
+        return $this->offsetGet(UpdatePlayerRobotProperties::KEY_ID) < 10;
     }
 
     public function offsetSet(mixed $property_name, mixed $property_value): void {
         parent::offsetSet($property_name, $property_value);
 
         $event = [
-            UpdateStorage::EVENT_KEY_BUCKET => $this->isRobotProperty() ? UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_ROBOT : UpdatePlayerRobotProperties::EVENT_KEY_BUCKET_PLAYER,
-            UpdateStorage::EVENT_KEY_NAME_VALUE => $property_name,
+            // Event info for updating the database
+            UpdateStorage::EVENT_KEY_BUCKET => $this->isRobotProperty() ? UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME : UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
+            UpdateStorage::EVENT_KEY_NAME_VALUE => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . $property_name,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
-            UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::EVENT_KEY_NAME_SELECTOR,
-            UpdateStorage::EVENT_KEY_SELECTED => $this->player_id
+            UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,
+            UpdateStorage::EVENT_KEY_SELECTED => $this->offsetGet(UpdatePlayerRobotProperties::KEY_ID),
+            // Event info to inform the players
+            UpdatePlayerRobotProperties::EVENT_KEY_NAME => $this->offsetGet(UpdatePlayerRobotProperties::KEY_NAME),
         ];
         $this->event_handler->emit(UpdateStorage::EVENT_NAME, $event);
     }
 }
 
 class UpdatePlayerRobotProperties extends \ArrayObject {
-    const EVENT_KEY_BUCKET_ROBOT = 'robot';
-    const EVENT_KEY_BUCKET_PLAYER = 'player';
-    const EVENT_KEY_NAME_SELECTOR = 'player_id';
+    const EVENT_KEY_NAME = 'player_name';
+
+    const PLAYER_BUCKET_NAME = 'player';
+    const PLAYER_KEY_PREFIX = 'player_';
+    const ROBOT_BUCKET_NAME = 'robot';
+
+    const KEY_SCORE = 'score';
+    const KEY_ID = 'id';
+    const KEY_NUMBER = 'no';
+    const KEY_COLOR = 'color';
+    const KEY_NAME = 'name';
 
     public function __construct(array|object $array = [], int $flags = 0, string $iteratorClass = ArrayIterator::class) {
         parent::__construct([]);
@@ -51,7 +62,6 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
 
     public function setEventEmitter($event_handler) : UpdatePlayerRobotProperties {
         foreach($this->getIterator() as $player_id => $player_properties) {
-            $player_properties->setPlayerID($player_id);
             $player_properties->setEventEmitter($event_handler);
         }
 

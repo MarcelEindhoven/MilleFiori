@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentPlayerRobotProper
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentPlayerRobotPropertiesTest extends TestCase{
-    const FIELDS = ['id', 'score', 'no', 'color', 'ocean_position'];
+    const FIELDS = ['id', 'score', 'no', 'name', 'color', 'ocean_position'];
     const PLAYER_DATA = [55 => 'TEST'];
     const ROBOT_DATA = [5 => 'TESTR'];
     const PLAYER_BUCKET_INPUT_DATA = ['player', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
