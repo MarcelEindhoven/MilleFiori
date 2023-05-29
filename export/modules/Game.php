@@ -46,8 +46,8 @@ class Game {
         $this->sqlDatabase = $sqlDatabase;
         $this->data_handler = CurrentData::create($this->sqlDatabase);
 
-        $this->event_emitter = new EventEmitter();
-        $this->update_storage = UpdateStorage::create($this->sqlDatabase);
+        $this->event_emitter = new \NieuwenhovenGames\BGA\EventEmitter();
+        $this->update_storage = \NieuwenhovenGames\BGA\UpdateStorage::create($this->sqlDatabase);
         $this->update_storage->setEventEmitter($this->event_emitter);
 
         $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->data_handler->getPlayerDataIncludingRobots());

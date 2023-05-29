@@ -278,12 +278,12 @@ class MilleFiori extends Table
     }
 
     function selectField($field_id) {
-        self::checkAction("playCard");
+        self::checkAction("selectField");
         self::trace("selectField ". $field_id);
 
         $this->initialiseHelperClasses();
 
-        $this->game->playerSelectsCard(self::getActivePlayerId(), $field_id);
+        $this->game->playerSelectsField(self::getActivePlayerId(), $field_id);
     }
 
     function getSelectableFieldIDs($player_id) {
