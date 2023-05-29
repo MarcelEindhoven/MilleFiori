@@ -19,6 +19,14 @@ class RewardHandler {
         return $this;
     }
 
+    public function setEventEmitter($event_handler) : RewardHandler {
+        $this->event_handler = $event_handler;
+        return $this;
+    }
+
+    public function gainedPoints($player_id, $points) {
+        $this->data[$player_id][UpdatePlayerRobotProperties::KEY_SCORE] += $points;
+    }
 }
 
 ?>

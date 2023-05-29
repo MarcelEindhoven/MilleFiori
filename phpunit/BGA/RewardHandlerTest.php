@@ -9,26 +9,31 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/RewardHandler.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
+include_once(__DIR__.'/../../export/modules/BGA/RewardHandler.php');
+include_once(__DIR__.'/../../export/modules/BGA/UpdatePlayerRobotProperties.php');
 
 class RewardHandlerTest extends TestCase{
     const DEFAULT_PLAYER_ID = 3;
-    const DEFAULT_POSITION = 5;
-    const DEFAULT_PROPERTY_NAME = 'name';
-    const DEFAULT_POSITION_DATA = [RewardHandlerTest::DEFAULT_PLAYER_ID => [RewardHandlerTest::DEFAULT_PROPERTY_NAME => RewardHandlerTest::DEFAULT_POSITION]];
-    
+    const DEFAULT_SCORE = 4;
+    const DEFAULT_PROPERTY_NAME = 'name';    
 
     public function setup() : void {
         $this->player_id = RewardHandlerTest::DEFAULT_PLAYER_ID;
 
-        $this->sut = RewardHandler::createFromPlayerProperties(RewardHandlerTest::DEFAULT_POSITION_DATA);
+        $this->mock_array = $this->createMock(\ArrayAccess::class);
+        $this->mock_properties_array = $this->createMock(\ArrayAccess::class);
+        $this->mock_array->expects($this->exactly(1))->method('offsetGet')->with($this->player_id)->will($this->returnValue($this->mock_properties_array));
+        $this->sut = RewardHandler::createFromPlayerProperties($this->mock_array);
     }
 
-    public function testGet_KnownPlayer_Position5() {
+    public function testPoints_5_Score9() {
         // Arrange
+        $this->points = 5;
+        $this->mock_properties_array->expects($this->exactly(1))->method('offsetGet')->with(UpdatePlayerRobotProperties::KEY_SCORE)->will($this->returnValue(RewardHandlerTest::DEFAULT_SCORE));
+        $this->mock_properties_array->expects($this->exactly(1))->method('offsetSet')->with(UpdatePlayerRobotProperties::KEY_SCORE, RewardHandlerTest::DEFAULT_SCORE + $this->points);
         // Act
-        // $position = $this->sut[$this->player_id];
+        $this->sut->gainedPoints($this->player_id, $this->points);
         // Assert
         
     }
