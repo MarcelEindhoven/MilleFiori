@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
-include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
+include_once(__DIR__.'/../../export/modules/BGA/RewardHandler.php');
 
 class UpdateOceanTest extends TestCase{
     const DEFAULT_SELECTABLE_FIELD_IDS = ['field_ocean_8'];
@@ -23,8 +23,8 @@ class UpdateOceanTest extends TestCase{
         $this->position_data = UpdateOceanTest::DEFAULT_POSITION_DATA;
         $this->sut = UpdateOcean::create($this->position_data);
 
-        $this->mock_event_handler = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
-        $this->sut->setEventEmitter($this->mock_event_handler);
+        $this->mock_reward_handler = $this->createMock(\NieuwenhovenGames\BGA\RewardHandler::class);
+        $this->sut->setRewardHandler($this->mock_reward_handler);
 
         $this->mock_array = $this->createMock(\ArrayAccess::class);
     }
@@ -51,7 +51,7 @@ class UpdateOceanTest extends TestCase{
         $this->arrangeForInitialPosition(5);
         $this->chosen_field_id = $this->getFieldIDForPosition(5);
         $this->mock_array->expects($this->exactly(0))->method('offsetSet');
-        $this->mock_event_handler->expects($this->exactly(0))->method('emit');
+        $this->mock_reward_handler->expects($this->exactly(0))->method('gainedAdditionalReward');
         // Act
         $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
@@ -61,7 +61,7 @@ class UpdateOceanTest extends TestCase{
         // Arrange
         $this->arrangeForInitialPosition(5);
         $this->arrangeForNewPosition(7);
-        $this->mock_event_handler->expects($this->exactly(1))->method('emit')->withConsecutive(['SelectExtraCard', []]);
+        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedAdditionalReward')->withConsecutive(['select_extra_card', []]);
         // Act
         $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
@@ -72,7 +72,7 @@ class UpdateOceanTest extends TestCase{
         $this->arrangeForInitialPosition(11);
         $this->arrangeForNewPosition($this->getMaxPosition());
         $event_points = ['player_id' => $this->player_id, 'points' => 10];
-        $this->mock_event_handler->expects($this->exactly(2))->method('emit')->withConsecutive(['Points', $event_points], ['SelectExtraCard', []]);
+        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 10]);
         // Act
         $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert

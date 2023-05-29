@@ -43,6 +43,7 @@ class RewardHandlerTest extends TestCase{
     public function testAdditionalReward_Gained_Emit() {
         // Arrange
         $this->additional_reward = 'select_extra_card';
+        // Event content to be decided
         $this->mock_emitter->expects($this->exactly(1))->method('emit')->with($this->additional_reward, []);
         // Act
         $this->sut->gainedAdditionalReward($this->player_id, $this->additional_reward);

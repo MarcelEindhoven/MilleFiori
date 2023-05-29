@@ -19,8 +19,8 @@ class UpdateOcean extends Ocean {
         return $object;
     }
 
-    public function setEventEmitter($event_handler) : UpdateOcean {
-        $this->event_handler = $event_handler;
+    public function setRewardHandler($reward_handler) : UpdateOcean {
+        $this->reward_handler = $reward_handler;
         return $this;
     }
 
@@ -44,11 +44,11 @@ class UpdateOcean extends Ocean {
         $this->ocean_positions[$player_id] = $position;
 
         if (Ocean::POINTS_PER_POSITION[$position] > 0) {
-            $this->event_handler->emit('Points', ['player_id' => $player_id, 'points' => Ocean::POINTS_PER_POSITION[$position]]);
+            $this->reward_handler->gainedPoints($player_id, Ocean::POINTS_PER_POSITION[$position]);
         }
 
         if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
-            $this->event_handler->emit('SelectExtraCard', []);
+            $this->reward_handler->gainedAdditionalReward('select_extra_card', []);
         }
     }
 }
