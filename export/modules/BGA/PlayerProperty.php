@@ -28,7 +28,7 @@ class PlayerProperty implements \ArrayAccess {
         $this->data[$player_id][$this->property_name] = $position;
     }
 
-    public function offsetGet($player_id) {
+    public function offsetGet($player_id) : string {
         return $this->data[$player_id][$this->property_name];
     }
 

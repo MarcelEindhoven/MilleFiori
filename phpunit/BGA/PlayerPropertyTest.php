@@ -22,8 +22,6 @@ class PlayerPropertyTest extends TestCase{
     public function setup() : void {
         $this->player_id = PlayerPropertyTest::DEFAULT_PLAYER_ID;
 
-        $this->mock_array = $this->createMock(\ArrayAccess::class);
-        //$this->mock_array->expects($this->exactly(1))->method('offsetGet')->withConsecutive([$this->player_id])->will($this->returnValue(PlayerPropertyTest::DEFAULT_POSITION));
         $this->sut = PlayerProperty::CreateFromPlayerProperties(PlayerPropertyTest::DEFAULT_PROPERTY_NAME, PlayerPropertyTest::DEFAULT_POSITION_DATA);
     }
 
