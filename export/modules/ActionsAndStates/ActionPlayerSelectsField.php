@@ -46,8 +46,9 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
-    public function setCurrentPlayerID($player_id) : ActionPlayerSelectsField {
+    public function setPlayerAndField($player_id, $field_id) : ActionPlayerSelectsField {
         $this->player_id = $player_id;
+        $this->field_id = $field_id;
         return $this;
     }
 
@@ -56,6 +57,7 @@ class ActionPlayerSelectsField {
     }
 
     public function execute() : ActionPlayerSelectsField {
+        // Note: this is a side-effect of empty played hand
         $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
 
         $this->cards_handler->emptyPlayedHand();

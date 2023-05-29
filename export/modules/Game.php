@@ -21,6 +21,7 @@ include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionActivatePlayerOrRobot.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
+include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsField.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
 include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
@@ -52,6 +53,7 @@ class Game {
         $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
         $this->player_properties->setEventEmitter($this->event_emitter);
 
+        // To be transformed into update categories
         $this->ocean_positions = \NieuwenhovenGames\BGA\PlayerProperty::CreateFromPlayerProperties(Ocean::KEY_PLAYER_POSITION, $this->player_properties);
         $this->update_ocean = UpdateOcean::create($this->ocean_positions);
 
@@ -127,6 +129,10 @@ class Game {
 
     public function playerSelectsCard($player_id, $card_id) {
         PlayerSelectsCard::create()->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
+    }
+
+    public function playerSelectsField($player_id, $field_id) {
+        ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setEventEmitter($this->event_emitter)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();
     }
 
     public function allRobotsPlayCard() {

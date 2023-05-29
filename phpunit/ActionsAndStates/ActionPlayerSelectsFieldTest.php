@@ -37,7 +37,8 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->sut->setEventEmitter($this->mock_event_handler);
 
         $this->player_id = 55;
-        $this->sut->setCurrentPlayerID($this->player_id);
+        $this->field_id = 'field_ocean_5';
+        $this->sut->setPlayerAndField($this->player_id, $this->field_id);
     }
 
     public function testExecute_Always_SelectableFieldIDsEmpty() {
