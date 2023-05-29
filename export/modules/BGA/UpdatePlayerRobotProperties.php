@@ -27,7 +27,7 @@ class UpdateSpecificProperty extends \ArrayObject {
         return $this->offsetGet(UpdatePlayerRobotProperties::KEY_ID) < 10;
     }
 
-    public function offsetSet(mixed $property_name, mixed $property_value): void {
+    public function offsetSet($property_name, $property_value): void {
         parent::offsetSet($property_name, $property_value);
 
         $event = [
@@ -57,7 +57,7 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
     const KEY_COLOR = 'color';
     const KEY_NAME = 'name';
 
-    public function __construct(array|object $array = [], int $flags = 0, string $iteratorClass = ArrayIterator::class) {
+    public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);
         foreach($array as $player_id => $player_properties) {
             $this[$player_id] = new UpdateSpecificProperty($player_properties);

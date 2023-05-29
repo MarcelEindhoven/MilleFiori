@@ -283,17 +283,7 @@ class MilleFiori extends Table
 
         $this->initialiseHelperClasses();
 
-        $active_player_id = self::getActivePlayerId();
-
-        self::notifyPlayer($active_player_id, 'selectableFields', '', []);
-
-        $gained_extra_card = $this->game->processSelectedField($active_player_id, +$this->fields->getID($field_id));
-
-        if ($gained_extra_card) {
-            $this->gamestate->nextState("selectExtraCard");
-        } else {
-            $this->gamestate->nextState("playCard");
-        }
+        $this->game->playerSelectsCard(self::getActivePlayerId(), $field_id);
     }
 
     function getSelectableFieldIDs($player_id) {

@@ -24,17 +24,17 @@ class PlayerProperty implements \ArrayAccess {
         return $this;
     }
 
-    public function offsetSet(mixed $player_id, mixed $position): void {
+    public function offsetSet($player_id, $position) : void {
         $this->data[$player_id][$this->property_name] = $position;
     }
 
-    public function offsetGet(mixed $player_id): mixed {
+    public function offsetGet($player_id) {
         return $this->data[$player_id][$this->property_name];
     }
 
     // Unused
-    public function offsetExists(mixed $player_id): bool {return $this->data->offsetExists($player_id);}
-    public function offsetUnset(mixed $player_id): void { $this->data->offsetUnset($player_id);}
+    public function offsetExists($player_id): bool {return $this->data->offsetExists($player_id);}
+    public function offsetUnset($player_id): void { $this->data->offsetUnset($player_id);}
 }
 
 ?>
