@@ -1,0 +1,24 @@
+<?php
+namespace NieuwenhovenGames\BGA;
+/**
+ *------
+ * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
+ * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
+ * See http://en.doc.boardgamearena.com/Studio for more information.
+ *
+ */
+
+class RewardHandler {
+    static public function createFromPlayerProperties($data) : RewardHandler {
+        $object = new RewardHandler();
+        return $object->setData($data);
+    }
+
+    public function setData($data) : RewardHandler {
+        $this->data = $data;
+        return $this;
+    }
+
+}
+
+?>

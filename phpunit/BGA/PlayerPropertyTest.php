@@ -22,7 +22,7 @@ class PlayerPropertyTest extends TestCase{
     public function setup() : void {
         $this->player_id = PlayerPropertyTest::DEFAULT_PLAYER_ID;
 
-        $this->sut = PlayerProperty::CreateFromPlayerProperties(PlayerPropertyTest::DEFAULT_PROPERTY_NAME, PlayerPropertyTest::DEFAULT_POSITION_DATA);
+        $this->sut = PlayerProperty::createFromPlayerProperties(PlayerPropertyTest::DEFAULT_PROPERTY_NAME, PlayerPropertyTest::DEFAULT_POSITION_DATA);
     }
 
     public function testGet_UnknownPlayer_Exception() {

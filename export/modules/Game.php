@@ -54,7 +54,7 @@ class Game {
         $this->player_properties->setEventEmitter($this->event_emitter);
 
         // To be transformed into update categories
-        $this->ocean_positions = \NieuwenhovenGames\BGA\PlayerProperty::CreateFromPlayerProperties(Ocean::KEY_PLAYER_POSITION, $this->player_properties);
+        $this->ocean_positions = \NieuwenhovenGames\BGA\PlayerProperty::createFromPlayerProperties(Ocean::KEY_PLAYER_POSITION, $this->player_properties);
         $this->update_ocean = UpdateOcean::create($this->ocean_positions);
 
         $this->robot_handler = RobotHandler::create();

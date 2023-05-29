@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\BGA;
  */
 
 class PlayerProperty implements \ArrayAccess {
-    static public function CreateFromPlayerProperties($property_name, $data) : PlayerProperty {
+    static public function createFromPlayerProperties($property_name, $data) : PlayerProperty {
         $object = new PlayerProperty();
         return $object->setData($data)->setPropertyName($property_name);
     }
