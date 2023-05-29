@@ -60,7 +60,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
 
     public function testExecute_Always_Subscription() {
         // Arrange
-        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('SelectExtraCard', [$this->sut, 'selectExtraCard']);
+        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('select_extra_card', [$this->sut, 'selectExtraCard']);
         // Act
         $this->sut->execute();
         // Assert

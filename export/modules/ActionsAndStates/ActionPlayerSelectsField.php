@@ -62,7 +62,7 @@ class ActionPlayerSelectsField {
 
         $this->cards_handler->emptyPlayedHand();
 
-        $this->event_handler->on('SelectExtraCard', [$this, 'selectExtraCard']);
+        $this->event_handler->on('select_extra_card', [$this, 'selectExtraCard']);
 
         $this->field_selection_handler->playerSelectsField($this->player_id, $this->field_id);
 

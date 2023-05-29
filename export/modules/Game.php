@@ -13,6 +13,7 @@ require_once(__DIR__.'/BGA/DatabaseInterface.php');
 require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
 include_once(__DIR__.'/BGA/EventEmitter.php');
 include_once(__DIR__.'/BGA/PlayerProperty.php');
+include_once(__DIR__.'/BGA/RewardHandler.php');
 include_once(__DIR__.'/BGA/UpdatePlayerRobotProperties.php');
 include_once(__DIR__.'/BGA/UpdateStorage.php');
 
@@ -53,9 +54,13 @@ class Game {
         $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
         $this->player_properties->setEventEmitter($this->event_emitter);
 
+        $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);;
+        $this->reward_handler->setEventEmitter($this->event_emitter);
+
         // To be transformed into update categories
         $this->ocean_positions = \NieuwenhovenGames\BGA\PlayerProperty::createFromPlayerProperties(Ocean::KEY_PLAYER_POSITION, $this->player_properties);
         $this->update_ocean = UpdateOcean::create($this->ocean_positions);
+        $this->update_ocean->setRewardHandler($this->reward_handler);
 
         $this->robot_handler = RobotHandler::create();
         foreach ($this->data_handler->getRobotIDs() as $robot_id) {
