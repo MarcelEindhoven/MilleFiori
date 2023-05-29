@@ -66,6 +66,14 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         // Assert
     }
 
+    public function testExecute_Always_playerSelectsField() {
+        // Arrange
+        $this->mock_data_handler->expects($this->exactly(1))->method('playerSelectsField')->with($this->player_id, $this->field_id);
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
     public function testState_NoExtraCard_TurnEnded() {
         // Arrange
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('turnEnded');

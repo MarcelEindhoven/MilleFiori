@@ -64,12 +64,7 @@ class ActionPlayerSelectsField {
 
         $this->event_handler->on('SelectExtraCard', [$this, 'selectExtraCard']);
 
-        // $this->field_selection_handler->playerSelectsField($this->player_id, $this->field_id);
-
-        // Get reward
-        // Execute effect on data handler?
-        // Process points
-        // Process extra card
+        $this->field_selection_handler->playerSelectsField($this->player_id, $this->field_id);
 
         return $this;
     }
