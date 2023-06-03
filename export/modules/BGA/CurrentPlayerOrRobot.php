@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Choose the next player or robot
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -8,7 +9,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/DatabaseInterface.php');
+include_once(__DIR__.'/UpdatePlayerRobotProperties.php');
 
 class CurrentPlayerOrRobot {
 
@@ -20,6 +21,17 @@ class CurrentPlayerOrRobot {
 
     public function setPlayerAndRobotProperties($properties) : CurrentPlayerOrRobot {
         $this->properties = $properties;
+        return $this;
+    }
+
+    public function next() : CurrentPlayerOrRobot {
+        $new_number = $this->properties[$this->player_id][UpdatePlayerRobotProperties::KEY_NUMBER] + 1;
+        //if ($new_number > UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER + count($this->properties)) {$new_number = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;}
+        foreach($this->properties as $player_id => $player_properties) {
+            if ($new_number == $player_properties[UpdatePlayerRobotProperties::KEY_NUMBER]) {
+                $this->player_id = $player_id;
+            }
+        }
         return $this;
     }
 

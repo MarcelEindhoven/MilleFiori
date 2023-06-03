@@ -67,5 +67,17 @@ class CurrentPlayerOrRobotTest extends TestCase{
         // Assert
         $this->assertFalse($is_robot);
     }
+
+    // Next robot or player
+    public function testNext_First_Second() {
+        // Arrange
+        $player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID;
+        $this->sut->setCurrentPlayerOrRobotID($player_id);
+        $expected_player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID;
+        // Act
+        $this->sut->next();
+        // Assert
+        $this->assertEquals($expected_player_id, $this->sut->getCurrentPlayerOrRobotID());
+    }
 }
 ?>
