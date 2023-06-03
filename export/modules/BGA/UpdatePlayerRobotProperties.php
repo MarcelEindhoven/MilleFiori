@@ -56,6 +56,7 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
     const KEY_NUMBER = 'no';
     const KEY_COLOR = 'color';
     const KEY_NAME = 'name';
+    const FIRST_PLAYER_NUMBER = 1;
 
     public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);

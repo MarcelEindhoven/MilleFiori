@@ -10,12 +10,33 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
+include_once(__DIR__.'/../../export/modules/BGA/UpdatePlayerRobotProperties.php');
+
+include_once(__DIR__.'/UpdatePlayerRobotPropertiesTest.php');
 
 class CurrentPlayerOrRobotTest extends TestCase{
+    const DEFAULT_ROBOT_NUMBER = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;
+    const DEFAULT_PLAYER_NUMBER = 2;
+    const DEFAULT_DATA = [
+        UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID => [
+            UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID,
+            UpdatePlayerRobotProperties::KEY_NUMBER => CurrentPlayerOrRobotTest::DEFAULT_ROBOT_NUMBER,
+            UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+        ],
+        UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID => [
+            UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID,
+            UpdatePlayerRobotProperties::KEY_NUMBER => CurrentPlayerOrRobotTest::DEFAULT_PLAYER_NUMBER,
+            UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+        ]
+    ];
+
     protected CurrentPlayerOrRobot $sut;
 
     protected function setUp(): void {
         $this->sut = CurrentPlayerOrRobot::create(0);
+        $this->sut->setPlayerAndRobotProperties(CurrentPlayerOrRobotTest::DEFAULT_DATA);
     }
 
     public function testID_NoChange_GetEqualsSet() {
@@ -28,6 +49,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $this->assertEquals($player_id, $id);
     }
 
+    // Is robot or player
     public function testIsRobotID_Small_IsRobot() {
         // Arrange
         $player_id = 5;

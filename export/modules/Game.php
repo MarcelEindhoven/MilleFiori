@@ -84,6 +84,7 @@ class Game {
 
     public function setCurrentPlayerID($current_player_or_robot_id) : Game {
         $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_or_robot_id);
+        $this->current_player_or_robot->setPlayerAndRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
         return $this;
     }
 
@@ -125,7 +126,8 @@ class Game {
     }
 
     public function stActivatePlayerOrRobot() {
-        ActionActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+        
+        onActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function stPlayerPlaysCard() {
