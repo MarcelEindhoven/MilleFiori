@@ -25,14 +25,31 @@ class CurrentPlayerOrRobot {
     }
 
     public function next() : CurrentPlayerOrRobot {
-        $new_number = $this->properties[$this->player_id][UpdatePlayerRobotProperties::KEY_NUMBER] + 1;
-        //if ($new_number > UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER + count($this->properties)) {$new_number = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;}
+        $new_number = $this->getNextPlayerOrRobotNumber();
+
+        $this->setCurrentPlayerOrRobotNumber($new_number);
+
+        return $this;
+    }
+
+    protected function isNumberOutOfBounds($number) {
+        return $number >= UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER + count($this->properties);
+    }
+
+    protected function setCurrentPlayerOrRobotNumber($new_number) {
         foreach($this->properties as $player_id => $player_properties) {
             if ($new_number == $player_properties[UpdatePlayerRobotProperties::KEY_NUMBER]) {
                 $this->player_id = $player_id;
             }
         }
-        return $this;
+    }
+
+    protected function getNextPlayerOrRobotNumber(): int {
+        $new_number = $this->properties[$this->player_id][UpdatePlayerRobotProperties::KEY_NUMBER] + 1;
+        if ($this->isNumberOutOfBounds($new_number)) {
+            $new_number = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;
+        }
+        return $new_number;
     }
 
     public function getCurrentPlayerOrRobotID(): int {return $this->player_id;}
