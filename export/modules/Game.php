@@ -20,6 +20,7 @@ include_once(__DIR__.'/BGA/UpdateStorage.php');
 include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionActivatePlayerOrRobot.php');
+include_once(__DIR__.'/ActionsAndStates/ActionEndPlayerTurn.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsField.php');
@@ -127,7 +128,7 @@ class Game {
 
     public function stActivatePlayerOrRobot() {
         
-        onActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+        ActionActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function stPlayerPlaysCard() {
@@ -136,6 +137,10 @@ class Game {
 
     public function playerSelectsCard($player_id, $card_id) {
         PlayerSelectsCard::create()->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
+    }
+
+    public function stEndOfTurn() {
+        ActionEndPlayerTurn::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function playerSelectsField($player_id, $field_id) {
