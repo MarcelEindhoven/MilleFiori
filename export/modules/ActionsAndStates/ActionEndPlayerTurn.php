@@ -35,7 +35,9 @@ class ActionEndPlayerTurn {
     }
 
     public function nextState() {
-        $this->gamestate->nextState('turn' . 'Ended');
+        if ($this->cards_handler->getNumberPlayerCards() % 4) {
+            $this->gamestate->nextState('turn' . 'Ended');
+        }
     }
 }
 
