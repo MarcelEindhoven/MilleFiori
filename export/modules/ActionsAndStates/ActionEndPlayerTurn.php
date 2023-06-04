@@ -47,17 +47,19 @@ class ActionEndPlayerTurn {
     }
 
     public function nextState() {
+        $postfix = '';
 
         if (! $this->hasRoundEnded()) {
             $what = 'turn';
         } else if (! $this->hasHandEnded()) {
             $what = 'round';
+            $postfix = 'MultipleActivePlayers';
         } else if (! $this->hasGameEnded()) {
             $what = 'hand';
         } else {
             $what = 'game';
         }
-        $this->gamestate->nextState($what . 'Ended');
+        $this->gamestate->nextState($what . 'Ended' . $postfix);
     }
 }
 
