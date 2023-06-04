@@ -43,6 +43,15 @@ class ActionEndPlayerTurnTest extends TestCase{
         $this->sut->nextState();
         // Assert
     }
+
+    public function testNextState_SufficientCards_RoundEnded() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(8));
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('roundEnded');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
 }
 ?>
 

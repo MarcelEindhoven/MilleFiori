@@ -33,14 +33,23 @@ class ActionEndPlayerTurn {
     public function execute() : ActionEndPlayerTurn {
         return $this;
     }
+
     protected function hasRoundEnded(): bool {
         return !(($this->cards_handler->getNumberPlayerCards() + $this->cards_handler->getNumberSelectedCards()) % 4);
     }
 
+    protected function hasHandEnded(): bool {
+        return $this->cards_handler->getNumberPlayerCards() <= 4;
+    }
+
     public function nextState() {
+
         if (! $this->hasRoundEnded()) {
-            $this->gamestate->nextState('turn' . 'Ended');
+            $what = 'turn';
+        } else if (! $this->hasHandEnded()) {
+            $what = 'round';
         }
+        $this->gamestate->nextState($what . 'Ended');
     }
 }
 
