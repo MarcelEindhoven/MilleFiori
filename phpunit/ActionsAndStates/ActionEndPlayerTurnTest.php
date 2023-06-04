@@ -44,10 +44,30 @@ class ActionEndPlayerTurnTest extends TestCase{
         // Assert
     }
 
-    public function testNextState_SufficientCards_RoundEnded() {
+    public function testNextState_SufficientPlayerCards_RoundEnded() {
         // Arrange
         $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(8));
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('roundEnded');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    public function testNextState_SufficientDeckCards_HandEnded() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(4));
+        $this->mock_cards->expects($this->exactly(1))->method('getNumberDeckCards')->will($this->returnValue(20));
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('handEnded');
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
+    public function testNextState_DeckEmpty_GameEnded() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(4));
+        $this->mock_cards->expects($this->exactly(1))->method('getNumberDeckCards')->will($this->returnValue(10));
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('gameEnded');
         // Act
         $this->sut->nextState();
         // Assert

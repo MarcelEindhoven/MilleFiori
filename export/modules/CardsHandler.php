@@ -74,6 +74,10 @@ class CardsHandler {
         return $this->getNumberCards(CardsHandler::HAND);
     }
 
+    public function getNumberDeckCards() {
+        return $this->getNumberCards(CardsHandler::DECK);
+    }
+
     public function getNumberCards($location) {
         $total_cards = 0;
         foreach ($this->cards->countCardsByLocationArgs($location) as $number_cards) {

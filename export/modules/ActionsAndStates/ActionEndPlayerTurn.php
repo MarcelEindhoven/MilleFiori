@@ -42,12 +42,20 @@ class ActionEndPlayerTurn {
         return $this->cards_handler->getNumberPlayerCards() <= 4;
     }
 
+    protected function hasGameEnded(): bool {
+        return $this->cards_handler->getNumberDeckCards() < 20;
+    }
+
     public function nextState() {
 
         if (! $this->hasRoundEnded()) {
             $what = 'turn';
         } else if (! $this->hasHandEnded()) {
             $what = 'round';
+        } else if (! $this->hasGameEnded()) {
+            $what = 'hand';
+        } else {
+            $what = 'game';
         }
         $this->gamestate->nextState($what . 'Ended');
     }
