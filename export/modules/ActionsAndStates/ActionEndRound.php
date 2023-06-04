@@ -31,11 +31,11 @@ class ActionEndRound {
     }
 
     public function execute() : ActionEndRound {
+        if ($this->hasHandEnded()) {
+        } else {
+            $this->cards_handler->swapHands();
+        }
         return $this;
-    }
-
-    protected function hasRoundEnded(): bool {
-        return !(($this->cards_handler->getNumberPlayerCards() + $this->cards_handler->getNumberSelectedCards()) % 4);
     }
 
     protected function hasHandEnded(): bool {
@@ -49,9 +49,7 @@ class ActionEndRound {
     public function nextState() {
         $postfix = '';
 
-        if (! $this->hasRoundEnded()) {
-            $what = 'turn';
-        } else if (! $this->hasHandEnded()) {
+        if (! $this->hasHandEnded()) {
             $what = 'round';
             $postfix = $this->is_card_selection_simultaneous ? 'MultipleActivePlayers' : 'SingleActivePlayer';
         } else if (! $this->hasGameEnded()) {
