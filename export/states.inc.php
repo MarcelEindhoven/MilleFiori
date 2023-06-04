@@ -112,7 +112,15 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('Selecting next player'),
         "type" => "game",
         "action" => "stEndOfTurn",
-        "transitions" => array( "turnEnded" => 20, "roundEndedSingleActivePlayer" => 12, "roundEndedMultipleActivePlayers" => 20, "handEnded" => 5, "gameEnded" => 99 )
+        "transitions" => array( "turnEnded" => 20, "roundEnded" => 24)
+    ),
+    24 => array(
+        "name" => "endOfRound",
+        "description" => clienttranslate('End of round'),
+        "descriptionmyturn" => clienttranslate('End of round'),
+        "type" => "game",
+        "action" => "stEndOfRound",
+        "transitions" => array( "roundEndedSingleActivePlayer" => 12, "roundEndedMultipleActivePlayers" => 20, "handEnded" => 5, "gameEnded" => 99 )
     ),
     30 => array(
         "name" => "selectCardSingleActivePlayer",

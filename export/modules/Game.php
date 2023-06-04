@@ -21,6 +21,7 @@ include_once(__DIR__.'/Ocean.php');
 include_once(__DIR__.'/Categories.php');
 include_once(__DIR__.'/ActionsAndStates/ActionActivatePlayerOrRobot.php');
 include_once(__DIR__.'/ActionsAndStates/ActionEndPlayerTurn.php');
+include_once(__DIR__.'/ActionsAndStates/ActionEndRound.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsField.php');
@@ -141,6 +142,10 @@ class Game {
 
     public function stEndOfTurn() {
         ActionEndPlayerTurn::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+    }
+
+    public function stEndOfRound() {
+        ActionEndRound::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function playerSelectsField($player_id, $field_id) {

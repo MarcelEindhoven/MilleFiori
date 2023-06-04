@@ -25,11 +25,6 @@ class ActionEndPlayerTurn {
         return $this;
     }
 
-    public function setCardSelectionSimultaneous($is_card_selection_simultaneous) : ActionEndPlayerTurn {
-        $this->is_card_selection_simultaneous = $is_card_selection_simultaneous;
-        return $this;
-    }
-
     public function execute() : ActionEndPlayerTurn {
         return $this;
     }
@@ -38,28 +33,10 @@ class ActionEndPlayerTurn {
         return !(($this->cards_handler->getNumberPlayerCards() + $this->cards_handler->getNumberSelectedCards()) % 4);
     }
 
-    protected function hasHandEnded(): bool {
-        return $this->cards_handler->getNumberPlayerCards() <= 4;
-    }
-
-    protected function hasGameEnded(): bool {
-        return $this->cards_handler->getNumberDeckCards() < 20;
-    }
-
     public function nextState() {
-        $postfix = '';
+        $what = $this->hasRoundEnded() ? 'round' : 'turn';
 
-        if (! $this->hasRoundEnded()) {
-            $what = 'turn';
-        } else if (! $this->hasHandEnded()) {
-            $what = 'round';
-            $postfix = $this->is_card_selection_simultaneous ? 'MultipleActivePlayers' : 'SingleActivePlayer';
-        } else if (! $this->hasGameEnded()) {
-            $what = 'hand';
-        } else {
-            $what = 'game';
-        }
-        $this->gamestate->nextState($what . 'Ended' . $postfix);
+        $this->gamestate->nextState($what . 'Ended');
     }
 }
 
