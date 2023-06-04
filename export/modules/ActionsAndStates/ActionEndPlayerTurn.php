@@ -53,7 +53,7 @@ class ActionEndPlayerTurn {
             $what = 'turn';
         } else if (! $this->hasHandEnded()) {
             $what = 'round';
-            $postfix = 'MultipleActivePlayers';
+            $postfix = $this->is_card_selection_simultaneous ? 'MultipleActivePlayers' : 'SingleActivePlayer';
         } else if (! $this->hasGameEnded()) {
             $what = 'hand';
         } else {

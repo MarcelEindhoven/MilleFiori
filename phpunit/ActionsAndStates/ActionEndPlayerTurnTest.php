@@ -54,6 +54,16 @@ class ActionEndPlayerTurnTest extends TestCase{
         // Assert
     }
 
+    public function testNextState_SufficientPlayerCardsSelectionNotSimultaneous_RoundEndedSelectionNotSimultaneous() {
+        // Arrange
+        $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(8));
+        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('roundEndedSingleActivePlayer');
+        $this->sut->setCardSelectionSimultaneous(false);
+        // Act
+        $this->sut->nextState();
+        // Assert
+    }
+
     public function testNextState_SufficientDeckCards_HandEnded() {
         // Arrange
         $this->mock_cards->expects($this->exactly(2))->method('getNumberPlayerCards')->will($this->returnValue(4));
