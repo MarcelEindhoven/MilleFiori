@@ -37,24 +37,6 @@ class CardsHandler {
         return $this;
     }
 
-    public function swapHands(array $player_ids) : CardsHandler {
-        if (count($player_ids) < 2) {
-            return $this;
-        }
-        $previous_player = CardsHandler::LOCATION_SWAP;
-        foreach ($player_ids as $player_id) {
-            $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, $player_id, $previous_player);
-            $previous_player = $player_id;
-        }
-
-        $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, CardsHandler::LOCATION_SWAP, $previous_player);
-        foreach ($player_ids as $player_id) {
-            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Pass hand to other player');
-        }
-
-        return $this;
-    }
-
     public function selectExtraCard($card_id) {
         $this->cards->moveCard($card_id, CardsHandler::PLAYED_HAND);
         $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD, CardsHandler::PLAYED_HAND);

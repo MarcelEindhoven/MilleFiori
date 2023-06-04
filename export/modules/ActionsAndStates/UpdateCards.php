@@ -38,18 +38,23 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
-    public function swapHands(array $player_ids) : UpdateCards {
-        if (count($player_ids) < 2) {
+    public function setPlayerIDs(array $player_ids) : UpdateCards {
+        $this->player_ids = $player_ids;
+        return $this;
+    }
+
+    public function swapHands() : UpdateCards {
+        if (count($this->player_ids) < 2) {
             return $this;
         }
         $previous_player = UpdateCards::LOCATION_SWAP;
-        foreach ($player_ids as $player_id) {
+        foreach ($this->player_ids as $player_id) {
             $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, $player_id, $previous_player);
             $previous_player = $player_id;
         }
 
         $this->cards->moveAllCardsInLocation(CardsHandler::HAND, CardsHandler::HAND, UpdateCards::LOCATION_SWAP, $previous_player);
-        foreach ($player_ids as $player_id) {
+        foreach ($this->player_ids as $player_id) {
             $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Pass hand to other player');
         }
 
