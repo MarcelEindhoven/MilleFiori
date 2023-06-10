@@ -71,9 +71,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     private function arrangePlayerOrRobot($is_robot)
     {
-        $player_id = 5;
-        $this->mock_player_or_robot->expects($this->exactly(1))->method('getCurrentPlayerOrRobotID')->will($this->returnValue($player_id));
-        $this->mock_player_or_robot->expects($this->exactly(1))->method('isIDRobot')->with($player_id)->will($this->returnValue($is_robot));
+        $this->mock_player_or_robot->expects($this->exactly(1))->method('isRobot')->with()->will($this->returnValue($is_robot));
     }
 }
 ?>

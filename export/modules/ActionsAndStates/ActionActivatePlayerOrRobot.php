@@ -38,8 +38,7 @@ class ActionActivatePlayerOrRobot {
     }
 
     public function nextState() {
-        $id = $this->current_player_or_robot->getCurrentPlayerOrRobotID();
-        $who = $this->current_player_or_robot->isIDRobot($id) ? 'Robot' : 'Player';
+        $who = $this->current_player_or_robot->isRobot() ? 'Robot' : 'Player';
 
         $what = $this->is_card_selection_simultaneous ? 'Play' : 'Select';
 

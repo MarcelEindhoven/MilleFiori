@@ -52,18 +52,19 @@ class CurrentPlayerOrRobotTest extends TestCase{
     // Is robot or player
     public function testIsRobotID_Small_IsRobot() {
         // Arrange
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID);
         $player_id = 5;
         // Act
-        $is_robot = $this->sut->isIDRobot($player_id);
+        $is_robot = $this->sut->isRobot();
         // Assert
         $this->assertTrue($is_robot);
     }
 
     public function testIsRobotID_Large_IsPlayer() {
         // Arrange
-        $player_id = 55;
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
         // Act
-        $is_robot = $this->sut->isIDRobot($player_id);
+        $is_robot = $this->sut->isRobot();
         // Assert
         $this->assertFalse($is_robot);
     }
@@ -71,8 +72,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
     // Next robot or player
     public function testNext_First_Second() {
         // Arrange
-        $player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID;
-        $this->sut->setCurrentPlayerOrRobotID($player_id);
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID);
         $expected_player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID;
         // Act
         $this->sut->next();
@@ -82,8 +82,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
 
     public function testNext_Last_First() {
         // Arrange
-        $player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID;
-        $this->sut->setCurrentPlayerOrRobotID($player_id);
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
         $expected_player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID;
         // Act
         $this->sut->next();
