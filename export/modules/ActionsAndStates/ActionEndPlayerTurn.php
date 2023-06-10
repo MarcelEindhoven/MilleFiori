@@ -30,7 +30,7 @@ class ActionEndPlayerTurn {
     }
 
     protected function hasRoundEnded(): bool {
-        return !(($this->cards_handler->getNumberPlayerCards() + $this->cards_handler->getNumberSelectedCards()) % 4);
+        return $this->cards_handler->haveAllPlayersSameCardCount();
     }
 
     public function nextState() {

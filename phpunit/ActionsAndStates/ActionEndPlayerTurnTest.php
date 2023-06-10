@@ -27,26 +27,16 @@ class ActionEndPlayerTurnTest extends TestCase{
 
     public function testNextState_1PlayerHasAdditionalHandCard_turnEnded() {
         // Arrange
-        $this->mock_cards->expects($this->exactly(1))->method('getNumberPlayerCards')->will($this->returnValue(5));
+        $this->mock_cards->expects($this->exactly(1))->method('haveAllPlayersSameCardCount')->will($this->returnValue(false));
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('turnEnded');
         // Act
         $this->sut->nextState();
         // Assert
     }
 
-    public function testNextState_1PlayerHasSelectedCard_turnEnded() {
+    public function testNextState_PlayersSameNumberOfCards_RoundEnded() {
         // Arrange
-        $this->mock_cards->expects($this->exactly(1))->method('getNumberPlayerCards')->will($this->returnValue(4));
-        $this->mock_cards->expects($this->exactly(1))->method('getNumberSelectedCards')->will($this->returnValue(1));
-        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('turnEnded');
-        // Act
-        $this->sut->nextState();
-        // Assert
-    }
-
-    public function testNextState_PlayersSameNumberOfCardsCards_RoundEnded() {
-        // Arrange
-        $this->mock_cards->expects($this->exactly(1))->method('getNumberPlayerCards')->will($this->returnValue(8));
+        $this->mock_cards->expects($this->exactly(1))->method('haveAllPlayersSameCardCount')->will($this->returnValue(true));
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('roundEnded');
         // Act
         $this->sut->nextState();
