@@ -21,11 +21,6 @@ class ActionNewHand {
         return $this;
     }
 
-    public function setData($data) : ActionNewHand {
-        $this->data = $data;
-        return $this;
-    }
-
     public function setCardsHandler($cards_handler) : ActionNewHand {
         $this->cards_handler = $cards_handler;
         return $this;
