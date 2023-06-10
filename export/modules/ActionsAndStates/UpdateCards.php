@@ -61,13 +61,21 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
-    public function dealNewHand($player_id, $number_cards) {
-        $this->cards->pickCards($number_cards, 'deck', $player_id);
-        $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Deal new hand');
+    public function dealNewHands($number_cards) : UpdateCards {
+        foreach ($this->player_ids as $player_id) {
+            $this->cards->pickCards($number_cards, 'deck', $player_id);
+            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id), 'Deal new hand');
+            }
+
+        return $this;
     }
 
-    public function moveHandToSideboard($player_id) {
-        $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
+    public function moveHandsToSideboard() : UpdateCards {
+        foreach ($this->player_ids as $player_id) {
+            $this->movePrivateToPublic('Giving up own card', $player_id, CardsHandler::HAND, CardsHandler::SIDEBOARD);
+        }
+
+        return $this;
     }
 
     public function moveFromHandToSelected($card_id, $current_player_id) {

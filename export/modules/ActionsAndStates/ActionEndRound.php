@@ -32,6 +32,7 @@ class ActionEndRound {
 
     public function execute() : ActionEndRound {
         if ($this->hasHandEnded()) {
+            $this->cards_handler->moveHandsToSideboard();
         } else {
             $this->cards_handler->swapHands();
         }

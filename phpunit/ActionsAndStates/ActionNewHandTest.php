@@ -19,23 +19,16 @@ class ActionNewHandTest extends TestCase{
     protected ActionNewHand $sut;
 
     protected function setUp(): void {
-        $this->mock_data = $this->createMock(CurrentData::class);
-        $this->sut = ActionNewHand::create($this->mock_data);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->sut = ActionNewHand::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
-
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
-        $this->sut->setGameState($this->mock_gamestate);
     }
 
     public function testExecute_2Players_DataCards() {
         // Arrange
-        $player_ids = [5, 55];
-        $this->mock_data->expects($this->exactly(1))->method('getPlayerRobotIDs')->willReturnOnConsecutiveCalls($player_ids);
-
-        $this->mock_cards->expects($this->exactly(2))->method('moveHandToSideboard')->withConsecutive([$player_ids[0]], [$player_ids[1]]);
-        $this->mock_cards->expects($this->exactly(2))->method('dealNewHand')->withConsecutive();
+        $this->mock_cards->expects($this->exactly(1))->method('dealNewHands');
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         // Act
         $this->sut->execute();

@@ -34,6 +34,15 @@ class ActionEndRoundTest extends TestCase{
         // Assert
     }
 
+    public function testExecute_InsufficientPlayerCards_SwapHands() {
+        // Arrange
+        $this->arrangeNumberPlayerCards(0);
+        $this->mock_cards->expects($this->exactly(1))->method('moveHandsToSideboard');
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
     public function testNextState_SufficientPlayerCardsSelectionSimultaneous_RoundEndedSelectionSimultaneous() {
         // Arrange
         $this->arrangeNumberPlayerCards(8);

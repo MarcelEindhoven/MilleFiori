@@ -11,9 +11,9 @@ namespace NieuwenhovenGames\MilleFiori;
 
 class ActionNewHand {
 
-    public static function create($data) : ActionNewHand {
+    public static function create($gamestate) : ActionNewHand {
         $object = new ActionNewHand();
-        return $object->setData($data)->setNumberCardsNewHand(2);
+        return $object->setGameState($gamestate)->setNumberCardsNewHand(2);
     }
 
     public function setGameState($gamestate) : ActionNewHand {
@@ -42,10 +42,7 @@ class ActionNewHand {
     }
 
     public function execute() : ActionNewHand {
-        foreach ($this->data->getPlayerRobotIDs() as $player_id) {
-            $this->cards_handler->moveHandToSideboard($player_id);
-            $this->cards_handler->dealNewHand($player_id, $this->number_cards);
-        }
+        $this->cards_handler->dealNewHands($this->number_cards);
 
         return $this;
     }

@@ -120,7 +120,7 @@ class Game {
     }
 
     public function stNewHand() {
-        ActionNewHand::create($this->data_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+        ActionNewHand::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
     public function stRobotsSelectCard() {
