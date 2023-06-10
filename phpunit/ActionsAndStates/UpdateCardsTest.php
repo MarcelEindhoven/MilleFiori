@@ -100,5 +100,32 @@ class UpdateCardsTest extends TestCase{
         // Assert
         $this->assertEquals($expected_total, $total);
     }
+
+    public function testSameCardCount_HandUnequal_False() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(1))->method('countCardsByLocationArgs')->will($this->returnValue([1 => 2, 2 =>0, 3 => 1]));
+        // Act
+        $have_same_card_count = $this->sut->haveAllPlayersSameCardCount();
+        // Assert
+        $this->assertFalse($have_same_card_count);
+    }
+
+    public function testSameCardCount_SelectedHandUnequal_False() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(2))->method('countCardsByLocationArgs')->will($this->onConsecutiveCalls([1 => 1, 2 =>1, 3 => 1], [1 => 2, 2 =>0, 3 => 1]));
+        // Act
+        $have_same_card_count = $this->sut->haveAllPlayersSameCardCount();
+        // Assert
+        $this->assertFalse($have_same_card_count);
+    }
+
+    public function testSameCardCount_SelectedHandsEqual_True() {
+        // Arrange
+        $this->mockCards->expects($this->exactly(2))->method('countCardsByLocationArgs')->will($this->returnValue([1 => 1, 2 =>1, 3 => 1]));
+        // Act
+        $have_same_card_count = $this->sut->haveAllPlayersSameCardCount();
+        // Assert
+        $this->assertTrue($have_same_card_count);
+    }
 }
 ?>

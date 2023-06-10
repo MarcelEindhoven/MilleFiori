@@ -43,6 +43,16 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
+    public function haveAllPlayersSameCardCount() : bool {
+        if (1 != count(array_unique(array_values($this->cards->countCardsByLocationArgs(CardsHandler::HAND))))) {
+            return false;
+        }
+        if (1 != count(array_unique(array_values($this->cards->countCardsByLocationArgs(CardsHandler::SELECTED_HAND))))) {
+            return false;
+        }
+        return true;
+    }
+
     public function swapHands() : UpdateCards {
         if (count($this->player_ids) < 2) {
             return $this;
