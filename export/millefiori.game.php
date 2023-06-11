@@ -330,11 +330,17 @@ class MilleFiori extends Table
 
         $this->game->stNewHand();
     }
-    
+
     function stRobotsSelectCard() {
         self::trace(__FUNCTION__);
 
         $this->game->stRobotsSelectCard();
+    }
+
+    function stRobotSelectsCard() {
+        self::trace(__FUNCTION__);
+
+        $this->game->stRobotSelectsCard();
     }
 
     public function stActivatePlayerOrRobot() {

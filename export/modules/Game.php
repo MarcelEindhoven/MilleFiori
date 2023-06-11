@@ -124,11 +124,15 @@ class Game {
     }
 
     public function stRobotsSelectCard() {
-        ActionRobotsSelectCard::create($this->gamestate)->setRobotHandler($this->robot_handler)->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->execute()->nextState();
+        ActionRobotsSelectCard::create($this->gamestate)->setRobotHandler($this->robot_handler)->setCardsHandler($this->update_cards)->execute()->nextState();
+    }
+
+    public function stRobotSelectsCard() {
+        $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
+        ActionRobotSelectsCard::create($this->gamestate)->setRobot($robot)->setCardsHandler($this->update_cards)->execute()->nextState();
     }
 
     public function stActivatePlayerOrRobot() {
-        
         ActionActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
