@@ -23,6 +23,17 @@ class ActionEndPlayerTurnTest extends TestCase{
 
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
+
+        $this->mock_player_or_robot = $this->createMock(\NieuwenhovenGames\BGA\CurrentPlayerOrRobot::class);
+        $this->sut->setCurrentPlayerOrRobot($this->mock_player_or_robot);
+    }
+
+    public function testExecute_Always_NextPlayer() {
+        // Arrange
+        $this->mock_player_or_robot->expects($this->exactly(1))->method('nextPlayerOrRobot');
+        // Act
+        $this->sut->execute();
+        // Assert
     }
 
     public function testNextState_1PlayerHasAdditionalHandCard_turnEnded() {

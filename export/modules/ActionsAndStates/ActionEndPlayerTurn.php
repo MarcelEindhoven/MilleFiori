@@ -20,12 +20,19 @@ class ActionEndPlayerTurn {
         return $this;
     }
 
+    public function setCurrentPlayerOrRobot($current_player_or_robot) : ActionEndPlayerTurn {
+        $this->current_player_or_robot = $current_player_or_robot;
+        return $this;
+    }
+
     public function setCardsHandler($cards_handler) : ActionEndPlayerTurn {
         $this->cards_handler = $cards_handler;
         return $this;
     }
 
     public function execute() : ActionEndPlayerTurn {
+        $this->current_player_or_robot->nextPlayerOrRobot();
+
         return $this;
     }
 

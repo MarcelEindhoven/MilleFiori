@@ -75,7 +75,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID);
         $expected_player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID;
         // Act
-        $this->sut->next();
+        $this->sut->nextPlayerOrRobot();
         // Assert
         $this->assertEquals($expected_player_id, $this->sut->getCurrentPlayerOrRobotID());
     }
@@ -85,7 +85,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
         $expected_player_id = UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID;
         // Act
-        $this->sut->next();
+        $this->sut->nextPlayerOrRobot();
         // Assert
         $this->assertEquals($expected_player_id, $this->sut->getCurrentPlayerOrRobotID());
     }

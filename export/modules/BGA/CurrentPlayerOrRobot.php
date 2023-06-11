@@ -24,7 +24,7 @@ class CurrentPlayerOrRobot {
         return $this;
     }
 
-    public function next() : CurrentPlayerOrRobot {
+    public function nextPlayerOrRobot() : CurrentPlayerOrRobot {
         $new_number = $this->getNextPlayerOrRobotNumber();
 
         $this->setCurrentPlayerOrRobotNumber($new_number);
