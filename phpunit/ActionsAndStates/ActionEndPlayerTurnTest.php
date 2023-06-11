@@ -10,7 +10,9 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionEndPlayerTurn.php');
+
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
+include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
 
 class ActionEndPlayerTurnTest extends TestCase{
