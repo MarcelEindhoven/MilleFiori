@@ -343,6 +343,12 @@ class MilleFiori extends Table
         $this->game->stRobotSelectsCard();
     }
 
+    function stRobotPlaysCardSelectsField() {
+        self::trace(__FUNCTION__);
+
+        $this->game->stRobotPlaysCardSelectsField();
+    }
+
     public function stActivatePlayerOrRobot() {
         self::trace(__FUNCTION__);
 
