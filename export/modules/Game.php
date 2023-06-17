@@ -132,6 +132,14 @@ class Game {
         ActionRobotSelectsCard::create($this->gamestate)->setRobot($robot)->setCardsHandler($this->update_cards)->execute()->nextState();
     }
 
+    public function stRobotPlaysCardSelectsField() {
+        $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
+        $action = ActionRobotPlaysCardSelectsField::create($this->gamestate)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean);
+        $this->event_emitter->on('select_extra_card', [$action, 'selectExtraCard']);
+
+        $action->execute()->nextState();
+    }
+
     public function stActivatePlayerOrRobot() {
         ActionActivatePlayerOrRobot::create($this->gamestate)->setCurrentPlayerOrRobot($this->current_player_or_robot)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
