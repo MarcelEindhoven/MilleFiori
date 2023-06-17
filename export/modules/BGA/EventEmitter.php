@@ -12,13 +12,21 @@ class EventEmitter {
     protected array $subscriptions = [];
 
     public function on($channel, callable $callable) {
-        $this->subscriptions[] = [$channel, $callable];
+        $this->subscriptions[] = [$channel, $callable, false];
+    }
+
+    public function once($channel, callable $callable) {
+        $this->subscriptions[] = [$channel, $callable, true];
     }
 
     public function emit($channel, $event) {
-        foreach($this->subscriptions as [$subscription_channel, $callable]) {
+        foreach ($this->subscriptions as $key => [$subscription_channel, $callable, $callOnlyOnce]) {
             if ($channel == $subscription_channel) {
                 $callable($event);
+
+                if ($callOnlyOnce) {
+                    unset($this->subscriptions[$key]);
+                }
             }
         }
     }
