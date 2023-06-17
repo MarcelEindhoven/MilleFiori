@@ -82,7 +82,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         // Assert
     }
 
-    public function testState_ExtraCard_TurnEnded() {
+    public function testState_ExtraCard_TransitionExtraCard() {
         // Arrange
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('selectExtraCard');
         $this->sut->selectExtraCard([]);

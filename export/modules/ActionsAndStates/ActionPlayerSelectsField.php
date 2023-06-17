@@ -52,7 +52,7 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
-    public function selectExtraCard($event) {
+    public function selectExtraCard() {
         $this->select_extra_card = true;
     }
 
