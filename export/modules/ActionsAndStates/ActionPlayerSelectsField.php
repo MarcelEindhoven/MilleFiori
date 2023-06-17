@@ -41,11 +41,6 @@ class ActionPlayerSelectsField {
         return $this;
     }
 
-    public function setEventEmitter($event_handler) : ActionPlayerSelectsField {
-        $this->event_handler = $event_handler;
-        return $this;
-    }
-
     public function setPlayerAndField($player_id, $field_id) : ActionPlayerSelectsField {
         $this->player_id = $player_id;
         $this->field_id = $field_id;
@@ -61,8 +56,6 @@ class ActionPlayerSelectsField {
         $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
 
         $this->cards_handler->emptyPlayedHand();
-
-        $this->event_handler->on('select_extra_card', [$this, 'selectExtraCard']);
 
         $this->field_selection_handler->playerSelectsField($this->player_id, $this->field_id);
 

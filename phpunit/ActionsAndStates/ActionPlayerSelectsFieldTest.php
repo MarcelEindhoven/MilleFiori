@@ -34,9 +34,6 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
 
-        $this->mock_event_handler = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
-        $this->sut->setEventEmitter($this->mock_event_handler);
-
         $this->player_id = 55;
         $this->field_id = 'field_ocean_5';
         $this->sut->setPlayerAndField($this->player_id, $this->field_id);
@@ -53,14 +50,6 @@ class ActionPlayerSelectsFieldTest extends TestCase{
     public function testExecute_Always_EmptyPlayedHand() {
         // Arrange
         $this->mock_cards->expects($this->exactly(1))->method('emptyPlayedHand');
-        // Act
-        $this->sut->execute();
-        // Assert
-    }
-
-    public function testExecute_Always_Subscription() {
-        // Arrange
-        $this->mock_event_handler->expects($this->exactly(1))->method('on')->with('select_extra_card', [$this->sut, 'selectExtraCard']);
         // Act
         $this->sut->execute();
         // Assert
