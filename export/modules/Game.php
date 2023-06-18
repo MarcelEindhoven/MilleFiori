@@ -164,7 +164,7 @@ class Game {
     }
 
     public function playerSelectsField($player_id, $field_id) {
-        $action = ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();
+        $action = ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id);
         $this->event_emitter->once('select_extra_card', [$action, 'selectExtraCard']);
 
         $action->execute()->nextState();
