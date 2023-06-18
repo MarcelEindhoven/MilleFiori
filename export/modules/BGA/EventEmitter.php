@@ -11,11 +11,11 @@ namespace NieuwenhovenGames\BGA;
 class EventEmitter {
     protected array $subscriptions = [];
 
-    public function on($channel, callable $callable) {
+    public function on($channel, $callable) {
         $this->subscriptions[] = [$channel, $callable, false];
     }
 
-    public function once($channel, callable $callable) {
+    public function once($channel, $callable) {
         $this->subscriptions[] = [$channel, $callable, true];
     }
 
