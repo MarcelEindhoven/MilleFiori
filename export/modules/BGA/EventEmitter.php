@@ -19,6 +19,14 @@ class EventEmitter {
         $this->subscriptions[] = [$channel, $callable, true];
     }
 
+    public function off($channel, $callable) {
+        foreach ($this->subscriptions as $key => [$subscription_channel, $subscription_callable, $callOnlyOnce]) {
+            if (($channel == $subscription_channel) && ($callable == $subscription_callable)) {
+                unset($this->subscriptions[$key]);
+            }
+        }
+    }
+
     public function emit($channel, $event) {
         foreach ($this->subscriptions as $key => [$subscription_channel, $callable, $callOnlyOnce]) {
             if ($channel == $subscription_channel) {
