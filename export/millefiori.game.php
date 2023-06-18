@@ -331,19 +331,19 @@ class MilleFiori extends Table
         $this->game->stNewHand();
     }
 
-    function stRobotsSelectCard() {
+    public function stRobotsSelectCard() {
         self::trace(__FUNCTION__);
 
         $this->game->stRobotsSelectCard();
     }
 
-    function stRobotSelectsCard() {
+    public function stRobotSelectsCard() {
         self::trace(__FUNCTION__);
 
         $this->game->stRobotSelectsCard();
     }
 
-    function stRobotPlaysCardSelectsField() {
+    public function stRobotPlaysCardSelectsField() {
         self::trace(__FUNCTION__);
 
         $this->game->stRobotPlaysCardSelectsField();
@@ -353,6 +353,11 @@ class MilleFiori extends Table
         self::trace(__FUNCTION__);
 
         $this->game->stActivatePlayerOrRobot();
+    }
+
+    public function stPlayerSelectsCard() {
+        self::trace(__FUNCTION__);
+
     }
 
     public function stPlayerPlaysCard() {
@@ -369,7 +374,7 @@ class MilleFiori extends Table
         $this->game->stEndOfTurn();
     }
 
-    function stSelectCardMultipleActivePlayers() {
+    public function stSelectCardMultipleActivePlayers() {
         self::trace( "stSelectCardMultipleActivePlayers" );
         $this->gamestate->setAllPlayersMultiactive();
     }

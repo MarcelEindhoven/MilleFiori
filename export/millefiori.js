@@ -406,16 +406,18 @@ function (dojo, declare) {
             from = notif.args.fromStock;
             if (notif.args.player_id) {
                 if(this.isCurrentPlayerActive()) {
-                    from = notif.args.fromStock + '_item_' + notif.args.card.id;
+                    from = notif.args.fromStock + '_item_' + notif.args.card['id'];
+                } else {
+                    from = null;
                 }
             }
 
             if (notif.args.toStock) {
-                this.getHand(notif.args.toStock).addToStockWithId(notif.args.card.type, notif.args.card.id, from);
+                this.getHand(notif.args.toStock).addToStockWithId(notif.args.card['type'], notif.args.card['id'], from);
             }
 
             if (notif.args.fromStock) {
-                this.getHand(notif.args.fromStock).removeFromStockById(notif.args.card.id);
+                this.getHand(notif.args.fromStock).removeFromStockById(notif.args.card['id']);
             }
         },
         notify_selectableFields: function(notif) {

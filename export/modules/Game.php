@@ -141,6 +141,8 @@ class Game {
         $this->event_emitter->once('select_extra_card', [$action, 'selectExtraCard']);
 
         $action->execute()->nextState();
+
+        $this->event_emitter->off('select_extra_card', [$action, 'selectExtraCard']);
     }
 
     public function stActivatePlayerOrRobot() {
@@ -168,6 +170,8 @@ class Game {
         $this->event_emitter->once('select_extra_card', [$action, 'selectExtraCard']);
 
         $action->execute()->nextState();
+
+        $this->event_emitter->off('select_extra_card', [$action, 'selectExtraCard']);
     }
 
     public function allRobotsPlayCard() {
