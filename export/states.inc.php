@@ -173,21 +173,6 @@ $machinestates = array(
         "action" => "stRobotSelectsExtraCard",
         "transitions" => array("playCard" => 41)
     ),
-
-/*
-    Examples:
-    
-    
-    5 => array(
-        "name" => "playerTurn",
-        "description" => clienttranslate('${actplayer} must play a card or pass'),
-        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-        "type" => "activeplayer",
-        "possibleactions" => array( "playCard", "pass" ),
-        "transitions" => array( "playCard" => 2, "pass" => 2 )
-    ), 
-
-*/    
    
     // Final state.
     // Please do not modify (and do not overload action/args methods).

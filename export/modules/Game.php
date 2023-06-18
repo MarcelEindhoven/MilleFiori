@@ -75,7 +75,10 @@ class Game {
     public function setCards($cards) : Game {
         $this->cards = $cards;
         $this->data_handler->setCards($this->cards);
+
         $this->update_cards = UpdateCards::create($this->cards);
+        $this->update_cards->setPlayerIDs($this->data_handler->getPlayerRobotIDs());
+
         return $this;
     }
 
@@ -153,7 +156,7 @@ class Game {
     }
 
     public function stEndOfTurn() {
-        ActionEndPlayerTurn::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
+        ActionEndPlayerTurn::create($this->gamestate)->setCardsHandler($this->update_cards)->setCurrentPlayerOrRobot($this->current_player_or_robot)->execute()->nextState();
     }
 
     public function stEndOfRound() {

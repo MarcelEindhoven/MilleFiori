@@ -43,14 +43,13 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
-    public function haveAllPlayersSameCardCount() : bool {
-        if (1 != count(array_unique(array_values($this->cards->countCardsByLocationArgs(CardsHandler::HAND))))) {
-            return false;
-        }
-        if (1 != count(array_unique(array_values($this->cards->countCardsByLocationArgs(CardsHandler::SELECTED_HAND))))) {
-            return false;
-        }
-        return true;
+    public function haveAllPlayersSameHandCount() : bool {
+        // Do all players have the same number of cards (> 0) in their hand?
+        return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(CardsHandler::HAND))));
+    }
+
+    public function areAnyCardsSelected() : bool {
+        return (bool) $this->cards->countCardsByLocationArgs(CardsHandler::SELECTED_HAND);
     }
 
     public function swapHands() : UpdateCards {

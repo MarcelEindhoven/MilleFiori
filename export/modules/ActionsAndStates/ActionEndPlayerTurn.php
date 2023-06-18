@@ -37,7 +37,7 @@ class ActionEndPlayerTurn {
     }
 
     protected function hasRoundEnded(): bool {
-        return $this->cards_handler->haveAllPlayersSameCardCount();
+        return $this->cards_handler->haveAllPlayersSameHandCount() && ! $this->cards_handler->areAnyCardsSelected();;
     }
 
     public function nextState() {

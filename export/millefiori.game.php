@@ -173,7 +173,7 @@ class MilleFiori extends Table
 
         $data_handler = NieuwenhovenGames\MilleFiori\CurrentData::create($this)->setCards($this->cards);
 
-        if ($this->checkAction('playCard', false)) {
+        if ($this->checkAction('selectField', false)) {
             return $data_handler->getAllDataActivePlayerPlayingCard($current_player_id);
         } else {
             return $data_handler->getAllData($current_player_id);
@@ -363,6 +363,8 @@ class MilleFiori extends Table
 
     public function stEndOfTurn() {
         self::trace(__FUNCTION__);
+        self::trace('hand '.implode(',',  $this->cards->countCardsByLocationArgs('hand')));
+        self::trace('selectedhand '.implode(',',  $this->cards->countCardsByLocationArgs('selectedhand')));
 
         $this->game->stEndOfTurn();
     }
