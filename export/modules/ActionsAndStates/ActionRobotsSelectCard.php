@@ -10,17 +10,13 @@ namespace NieuwenhovenGames\MilleFiori;
 
 include_once(__DIR__.'/../ActionsAndStates/Robot.php');
 include_once(__DIR__.'/../CurrentData/CurrentData.php');
+include_once(__DIR__.'/../BGA/Action.php');
 
-class ActionRobotsSelectCard {
+class ActionRobotsSelectCard extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionRobotsSelectCard {
         $object = new ActionRobotsSelectCard();
         return $object->setGameState($gamestate);
-    }
-
-    public function setGameState($gamestate) : ActionRobotsSelectCard {
-        $this->gamestate = $gamestate;
-        return $this;
     }
 
     public function setCardsHandler($cards_handler) : ActionRobotsSelectCard {
@@ -40,10 +36,6 @@ class ActionRobotsSelectCard {
         }
 
         return $this;
-    }
-
-    public function nextState() {
-        $this->gamestate->nextState();
     }
 }
 
