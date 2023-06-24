@@ -392,28 +392,6 @@ class MilleFiori extends Table
     private function hasAnyPlayerSelectedCard() : bool  {
         return $this->cardsHandler->getNumberSelectedCards() > 0;
     }
-    private function numberPlayerHandCard() : int  {
-        self::trace( "numberPlayerHandCard total " .  $this->cardsHandler->getNumberPlayerCards());
-        self::trace( "numberPlayerHandCard " .  $this->cardsHandler->getNumberPlayerCards() / 4);
-        return $this->cardsHandler->getNumberPlayerCards() / 4;
-    }
-    function stSelectPlayer() {
-        self::trace( "stSelectPlayer" );
-
-        if ($this->hasAnyPlayerSelectedCard()) {
-            $this->activeNextPlayer();
-
-            $this->moveFromSelectedToPlayed();
-
-            $this->gamestate->nextState('turnBusy');
-        } else if ($this->numberPlayerHandCard() > 1) {
-            $this->cardsHandler->swapHands(array_keys($this->playerProperties->getPropertiesPlayersPlusRobots()));
-
-            $this->gamestate->nextState('turnEnded');
-        } else {
-            $this->gamestate->nextState('roundEnded');
-        }
-    }
     function stPlayCard() {
         self::trace( "stPlayCard" );
 
