@@ -9,7 +9,6 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../ActionsAndStates/Robot.php');
-include_once(__DIR__.'/../CurrentData/CurrentData.php');
 include_once(__DIR__.'/../BGA/Action.php');
 
 class ActionRobotsSelectCard extends \NieuwenhovenGames\BGA\Action {

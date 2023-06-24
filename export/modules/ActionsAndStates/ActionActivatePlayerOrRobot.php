@@ -9,18 +9,13 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../ActionsAndStates/Robot.php');
-include_once(__DIR__.'/../CurrentData/CurrentData.php');
+include_once(__DIR__.'/../BGA/Action.php');
 
-class ActionActivatePlayerOrRobot {
+class ActionActivatePlayerOrRobot extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionActivatePlayerOrRobot {
         $object = new ActionActivatePlayerOrRobot();
         return $object->setGameState($gamestate);
-    }
-
-    public function setGameState($gamestate) : ActionActivatePlayerOrRobot {
-        $this->gamestate = $gamestate;
-        return $this;
     }
 
     public function setCurrentPlayerOrRobot($current_player_or_robot) : ActionActivatePlayerOrRobot {

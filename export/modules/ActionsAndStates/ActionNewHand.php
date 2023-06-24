@@ -8,17 +8,13 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
+include_once(__DIR__.'/../BGA/Action.php');
 
-class ActionNewHand {
+class ActionNewHand extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionNewHand {
         $object = new ActionNewHand();
         return $object->setGameState($gamestate)->setNumberCardsNewHand(2);
-    }
-
-    public function setGameState($gamestate) : ActionNewHand {
-        $this->gamestate = $gamestate;
-        return $this;
     }
 
     public function setCardsHandler($cards_handler) : ActionNewHand {

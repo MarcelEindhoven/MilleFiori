@@ -13,17 +13,14 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-class ActionPlayerSelectsField {
+include_once(__DIR__.'/../BGA/Action.php');
+
+class ActionPlayerSelectsField extends \NieuwenhovenGames\BGA\Action {
     protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionPlayerSelectsField {
         $object = new ActionPlayerSelectsField();
         return $object->setGameState($gamestate);
-    }
-
-    public function setGameState($gamestate) : ActionPlayerSelectsField {
-        $this->gamestate = $gamestate;
-        return $this;
     }
 
     public function setCardsHandler($cards_handler) : ActionPlayerSelectsField {

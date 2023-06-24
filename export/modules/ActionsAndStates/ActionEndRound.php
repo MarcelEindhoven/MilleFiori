@@ -8,16 +8,13 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-class ActionEndRound {
+include_once(__DIR__.'/../BGA/Action.php');
+
+class ActionEndRound extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionEndRound {
         $object = new ActionEndRound();
         return $object->setGameState($gamestate);
-    }
-
-    public function setGameState($gamestate) : ActionEndRound {
-        $this->gamestate = $gamestate;
-        return $this;
     }
 
     public function setCardsHandler($cards_handler) : ActionEndRound {
