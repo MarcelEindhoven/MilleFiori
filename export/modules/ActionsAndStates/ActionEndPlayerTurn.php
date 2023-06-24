@@ -37,10 +37,10 @@ class ActionEndPlayerTurn extends \NieuwenhovenGames\BGA\Action {
         return $this->cards_handler->haveAllPlayersSameHandCount() && ! $this->cards_handler->areAnyCardsSelected();;
     }
 
-    public function nextState() {
+    public function getTransitionName() : string {
         $what = $this->hasRoundEnded() ? 'round' : 'turn';
 
-        $this->gamestate->nextState($what . 'Ended');
+        return $what . 'Ended';
     }
 }
 

@@ -44,7 +44,7 @@ class ActionEndRound extends \NieuwenhovenGames\BGA\Action {
         return $this->cards_handler->getNumberDeckCards() < 20;
     }
 
-    public function nextState() {
+    public function getTransitionName() : string {
         $postfix = '';
 
         if (! $this->hasHandEnded()) {
@@ -55,7 +55,8 @@ class ActionEndRound extends \NieuwenhovenGames\BGA\Action {
         } else {
             $what = 'game';
         }
-        $this->gamestate->nextState($what . 'Ended' . $postfix);
+
+        return $what . 'Ended' . $postfix;
     }
 }
 

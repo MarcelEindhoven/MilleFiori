@@ -32,12 +32,12 @@ class ActionActivatePlayerOrRobot extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function nextState() {
+    public function getTransitionName() : string {
         $who = $this->current_player_or_robot->isRobot() ? 'Robot' : 'Player';
 
         $what = $this->is_card_selection_simultaneous ? 'Play' : 'Select';
 
-        $this->gamestate->nextState('activate' . $who . 'To' . $what . 'Card');
+        return 'activate' . $who . 'To' . $what . 'Card';
     }
 }
 

@@ -61,8 +61,8 @@ class ActionRobotPlaysCardSelectsField extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function nextState() {
-        $this->gamestate->nextState($this->select_extra_card ? 'selectExtraCard' : 'turnEnded');
+    public function getTransitionName() : string {
+        return $this->select_extra_card ? 'selectExtraCard' : 'turnEnded';
     }
 }
 

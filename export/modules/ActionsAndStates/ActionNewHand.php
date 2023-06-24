@@ -38,14 +38,8 @@ class ActionNewHand extends \NieuwenhovenGames\BGA\Action {
         return $this;
     }
 
-    public function nextState() : ActionNewHand {
-        if ($this->is_card_selection_simultaneous) {
-            $this->gamestate->nextState('selectCardMultipleActivePlayers');
-        } else {
-            $this->gamestate->nextState('selectCardSingleActivePlayer');
-        }
-
-        return $this;
+    public function getTransitionName() : string {
+        return $this->is_card_selection_simultaneous ? 'selectCardMultipleActivePlayers' : 'selectCardSingleActivePlayer';
     }
 }
 
