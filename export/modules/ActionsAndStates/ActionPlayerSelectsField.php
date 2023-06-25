@@ -19,8 +19,7 @@ class ActionPlayerSelectsField extends \NieuwenhovenGames\BGA\SubscribedAction {
     protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionPlayerSelectsField {
-        $object = new ActionPlayerSelectsField();
-        return $object->setGameState($gamestate);
+        return new ActionPlayerSelectsField($gamestate);
     }
 
     public function setCardsHandler($cards_handler) : ActionPlayerSelectsField {

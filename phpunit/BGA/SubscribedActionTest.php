@@ -21,13 +21,11 @@ class SubscribedActionTest extends TestCase{
     protected SubscribedAction $sut;
 
     protected function setUp(): void {
-        $this->sut = new TestSubscribedAction();
+        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
+        $this->sut = new TestSubscribedAction($this->mock_gamestate);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);
         $this->sut->setEventEmitter($this->mock_emitter);
-
-        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
-        $this->sut->setGameState($this->mock_gamestate);
     }
 
     public function testSubscribe_Always_EmitterOnCalled() {

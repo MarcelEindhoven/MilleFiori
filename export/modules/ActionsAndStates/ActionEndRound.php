@@ -13,8 +13,7 @@ include_once(__DIR__.'/../BGA/Action.php');
 class ActionEndRound extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionEndRound {
-        $object = new ActionEndRound();
-        return $object->setGameState($gamestate);
+        return new ActionEndRound($gamestate);
     }
 
     public function setCardsHandler($cards_handler) : ActionEndRound {

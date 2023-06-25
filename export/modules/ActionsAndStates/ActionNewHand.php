@@ -13,8 +13,8 @@ include_once(__DIR__.'/../BGA/Action.php');
 class ActionNewHand extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionNewHand {
-        $object = new ActionNewHand();
-        return $object->setGameState($gamestate)->setNumberCardsNewHand(2);
+        $object = new ActionNewHand($gamestate);
+        return $object->setNumberCardsNewHand(2);
     }
 
     public function setCardsHandler($cards_handler) : ActionNewHand {

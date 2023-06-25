@@ -13,8 +13,7 @@ namespace NieuwenhovenGames\MilleFiori;
 class ActionEndPlayerTurn extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionEndPlayerTurn {
-        $object = new ActionEndPlayerTurn();
-        return $object->setGameState($gamestate);
+        return new ActionEndPlayerTurn($gamestate);
     }
 
     public function setCurrentPlayerOrRobot($current_player_or_robot) : ActionEndPlayerTurn {

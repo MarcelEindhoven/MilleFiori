@@ -14,8 +14,7 @@ include_once(__DIR__.'/../BGA/Action.php');
 class ActionActivatePlayerOrRobot extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionActivatePlayerOrRobot {
-        $object = new ActionActivatePlayerOrRobot();
-        return $object->setGameState($gamestate);
+        return new ActionActivatePlayerOrRobot($gamestate);
     }
 
     public function setCurrentPlayerOrRobot($current_player_or_robot) : ActionActivatePlayerOrRobot {

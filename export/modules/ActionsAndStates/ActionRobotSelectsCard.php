@@ -14,8 +14,7 @@ include_once(__DIR__.'/../BGA/Action.php');
 class ActionRobotSelectsCard extends \NieuwenhovenGames\BGA\Action {
 
     public static function create($gamestate) : ActionRobotSelectsCard {
-        $object = new ActionRobotSelectsCard();
-        return $object->setGameState($gamestate);
+        return new ActionRobotSelectsCard($gamestate);
     }
 
     public function setCardsHandler($cards_handler) : ActionRobotSelectsCard {

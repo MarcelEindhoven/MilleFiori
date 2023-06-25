@@ -19,8 +19,7 @@ class ActionRobotPlaysCardSelectsField extends \NieuwenhovenGames\BGA\Subscribed
     protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionRobotPlaysCardSelectsField {
-        $object = new ActionRobotPlaysCardSelectsField();
-        return $object->setGameState($gamestate);
+        return new ActionRobotPlaysCardSelectsField($gamestate);
     }
 
     public function setCardsHandler($cards_handler) : ActionRobotPlaysCardSelectsField {

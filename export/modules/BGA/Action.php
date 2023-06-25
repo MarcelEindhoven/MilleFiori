@@ -13,6 +13,10 @@ include_once(__DIR__.'/GameStateInterface.php');
 class Action {
     const DEFAULT_TRANSITION_NAME = '';
 
+    function __construct($gamestate) {
+        $this->gamestate = $gamestate;
+    }
+
     public function setGameState($gamestate) : Action {
         $this->gamestate = $gamestate;
         return $this;
