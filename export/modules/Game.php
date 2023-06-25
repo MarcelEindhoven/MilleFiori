@@ -137,12 +137,8 @@ class Game {
 
     public function stRobotPlaysCardSelectsField() {
         $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
-        $action = ActionRobotPlaysCardSelectsField::create($this->gamestate)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean);
-        $this->event_emitter->once('select_extra_card', [$action, 'selectExtraCard']);
 
-        $action->execute()->nextState();
-
-        $this->event_emitter->off('select_extra_card', [$action, 'selectExtraCard']);
+        ActionRobotPlaysCardSelectsField::create($this->gamestate)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
     }
 
     public function stActivatePlayerOrRobot() {
@@ -166,12 +162,7 @@ class Game {
     }
 
     public function playerSelectsField($player_id, $field_id) {
-        $action = ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id);
-        $this->event_emitter->once('select_extra_card', [$action, 'selectExtraCard']);
-
-        $action->execute()->nextState();
-
-        $this->event_emitter->off('select_extra_card', [$action, 'selectExtraCard']);
+        ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();;
     }
 
     public function allRobotsPlayCard() {

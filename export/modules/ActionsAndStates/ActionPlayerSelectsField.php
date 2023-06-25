@@ -13,9 +13,9 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/Action.php');
+include_once(__DIR__.'/../BGA/SubscribedAction.php');
 
-class ActionPlayerSelectsField extends \NieuwenhovenGames\BGA\Action {
+class ActionPlayerSelectsField extends \NieuwenhovenGames\BGA\SubscribedAction {
     protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionPlayerSelectsField {
@@ -49,6 +49,8 @@ class ActionPlayerSelectsField extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function execute() : ActionPlayerSelectsField {
+        $this->subscribe('selectExtraCard', 'select_extra_card');
+
         // Note: this is a side-effect of empty played hand
         $this->notify_handler->notifyPlayer($this->player_id, 'selectableFields', '', ['selectableFields' => []]);
 

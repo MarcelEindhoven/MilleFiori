@@ -25,6 +25,9 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
         $this->sut = ActionPlayerSelectsField::create($this->mock_gamestate);
 
+        $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
+        $this->sut->setEventEmitter($this->mock_emitter);
+
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
 
@@ -58,6 +61,15 @@ class ActionPlayerSelectsFieldTest extends TestCase{
     public function testExecute_Always_playerSelectsField() {
         // Arrange
         $this->mock_data_handler->expects($this->exactly(1))->method('playerSelectsField')->with($this->player_id, $this->field_id);
+        // Act
+        $this->sut->execute();
+        // Assert
+    }
+
+    public function testExecute_Always_Subscribe() {
+        // Arrange
+        $this->mock_emitter->expects($this->exactly(1))->method('on')->with('selectExtraCard', [$this->sut, 'select_extra_card']);
+
         // Act
         $this->sut->execute();
         // Assert

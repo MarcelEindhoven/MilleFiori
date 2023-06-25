@@ -25,6 +25,9 @@ class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
         $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
         $this->sut = ActionRobotPlaysCardSelectsField::create($this->mock_gamestate);
 
+        $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
+        $this->sut->setEventEmitter($this->mock_emitter);
+
         $this->mock_cards = $this->createMock(UpdateCards::class);
         $this->sut->setCardsHandler($this->mock_cards);
 
@@ -42,6 +45,8 @@ class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
     }
 
     protected function arrangeExecute() {
+        $this->mock_emitter->expects($this->exactly(1))->method('on')->with('selectExtraCard', [$this->sut, 'select_extra_card']);
+
         $this->mock_robot->method('getPlayerID')->will($this->returnValue($this->player_id));
 
         $expected_field_ids = [$this->field_id];
