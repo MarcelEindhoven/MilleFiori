@@ -13,9 +13,9 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/Action.php');
+include_once(__DIR__.'/../BGA/SubscribedAction.php');
 
-class ActionRobotPlaysCardSelectsField extends \NieuwenhovenGames\BGA\Action {
+class ActionRobotPlaysCardSelectsField extends \NieuwenhovenGames\BGA\SubscribedAction {
     protected bool $select_extra_card = false;
 
     public static function create($gamestate) : ActionRobotPlaysCardSelectsField {
@@ -48,6 +48,8 @@ class ActionRobotPlaysCardSelectsField extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function execute() : ActionRobotPlaysCardSelectsField {
+        $this->subscribe('selectExtraCard', 'select_extra_card');
+
         // Move from selected to played
         $this->cards_handler->playSelectedCard($this->robot->getPlayerID());
 
