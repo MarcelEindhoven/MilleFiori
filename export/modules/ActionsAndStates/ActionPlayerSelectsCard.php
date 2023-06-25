@@ -10,24 +10,24 @@ namespace NieuwenhovenGames\MilleFiori;
 
 include_once(__DIR__.'/../BGA/Action.php');
 
-class PlayerSelectsCard extends \NieuwenhovenGames\BGA\Action {
-    public static function create($gamestate) : PlayerSelectsCard {
-        return new PlayerSelectsCard($gamestate);
+class ActionPlayerSelectsCard extends \NieuwenhovenGames\BGA\Action {
+    public static function create($gamestate) : ActionPlayerSelectsCard {
+        return new ActionPlayerSelectsCard($gamestate);
     }
 
-    public function setPlayerAndCard($player_id, $card_id) : PlayerSelectsCard {
+    public function setPlayerAndCard($player_id, $card_id) : ActionPlayerSelectsCard {
         $this->player_id = $player_id;
         $this->card_id = $card_id;
 
         return $this;
     }
 
-    public function setCardsHandler($cards_handler) : PlayerSelectsCard {
+    public function setCardsHandler($cards_handler) : ActionPlayerSelectsCard {
         $this->cards_handler = $cards_handler;
         return $this;
     }
 
-    public function execute() : PlayerSelectsCard {
+    public function execute() : ActionPlayerSelectsCard {
         $this->cards_handler->moveFromHandToSelected($this->card_id, $this->player_id);
 
         return $this;

@@ -26,7 +26,7 @@ include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsField.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
-include_once(__DIR__.'/ActionsAndStates/PlayerSelectsCard.php');
+include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/ActionsAndStates/RobotHandler.php');
@@ -150,7 +150,7 @@ class Game {
     }
 
     public function playerSelectsCard($player_id, $card_id) {
-        PlayerSelectsCard::create()->setCardsHandler($this->update_cards)->setGameState($this->gamestate)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
+        ActionPlayerSelectsCard::create($this->gamestate)->setCardsHandler($this->update_cards)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
     }
 
     public function stEndOfTurn() {
