@@ -149,10 +149,6 @@ class Game {
         ActionPlayerPlaysCard::create($this->gamestate)->setDataHandler($this->data_handler)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->execute();
     }
 
-    public function playerSelectsCard($player_id, $card_id) {
-        ActionPlayerSelectsCard::create($this->gamestate)->setCardsHandler($this->update_cards)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
-    }
-
     public function stEndOfTurn() {
         ActionEndPlayerTurn::create($this->gamestate)->setCardsHandler($this->update_cards)->setCurrentPlayerOrRobot($this->current_player_or_robot)->execute()->nextState();
     }
@@ -161,51 +157,12 @@ class Game {
         ActionEndRound::create($this->gamestate)->setCardsHandler($this->update_cards)->setCardSelectionSimultaneous($this->is_card_selection_simultaneous)->execute()->nextState();
     }
 
+    public function playerSelectsCard($player_id, $card_id) {
+        ActionPlayerSelectsCard::create($this->gamestate)->setCardsHandler($this->update_cards)->setPlayerAndCard($player_id, $card_id)->execute()->nextState();
+    }
+
     public function playerSelectsField($player_id, $field_id) {
         ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();;
-    }
-
-    public function allRobotsPlayCard() {
-        $this->sqlDatabase->trace( "allRobotsPlayCard" );
-        foreach (Robot::create($this->playerProperties->getRobotProperties()) as $robot) {
-            $cards = $this->cards->getCardsInLocation(Game::CARDS_SELECTED_HAND, $robot->getPlayerID());
-            $card = array_shift($cards);
-            $this->robotPlayCard($robot, $card);
-        }
-    }
-    private function robotPlayCard($robot, $card) {
-        $card_id = $card[Game::CARD_KEY_ID];
-        $this->cards->moveCard($card_id, Game::CARDS_PLAYED_HAND);
-
-        $fields = $this->categories->getSelectableFieldIDs($robot->getPlayerID(), $card[Game::CARD_KEY_TYPE]);
-        $field_id = $robot->selectField($fields);
-
-        if ($this->processSelectedField($robot->getPlayerID(), Fields::getID($field_id))) {
-            // Extra card
-            $cards = $this->cards_handler->getSideboard();
-            $card = array_shift($cards);
-            $this->robotPlayCard($robot, $card);
-        }
-    }
-
-    public function processSelectedField($player_id, $id_within_category) {
-        $reward = $this->ocean->getReward($player_id, $id_within_category);
-
-        $this->cards_handler->emptyPlayedHand();
-
-        $this->processRewardPoints($player_id, $reward['points']);
-
-        return $reward['extra_card'];
-    }
-
-    private function processRewardPoints($player_id, $points) {
-        if ($points != 0) {
-            $this->playerProperties->addScore($player_id, $points);
-        }
-    }
-
-    public function getTooltips() {
-        return Ocean::PLACES_PER_CARD;
     }
 }
 
