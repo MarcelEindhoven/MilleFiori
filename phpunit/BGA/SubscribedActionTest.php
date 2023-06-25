@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Check event subscription and unsubscription
  *------
  * MilleFiori implementation unit tests : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  *
@@ -14,16 +15,6 @@ include_once(__DIR__.'/../../export/modules/BGA/SubscribedAction.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
 
 class TestSubscribedAction extends SubscribedAction {
-    protected string $transition_name = '';
-
-    public function setTransitionName(string $transition_name) {
-        $this->transition_name = $transition_name;
-        return $this;
-    }
-
-    protected function getTransitionName(): string {
-        return $this->transition_name;
-    }
 }
 
 class SubscribedActionTest extends TestCase{
@@ -34,32 +25,38 @@ class SubscribedActionTest extends TestCase{
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);
         $this->sut->setEventEmitter($this->mock_emitter);
-    }
 
-    protected function arrangeDefault(string $transition_name = '') {
         $this->mock_gamestate = $this->createMock(GameStateInterface::class);
         $this->sut->setGameState($this->mock_gamestate);
-
-        $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with($transition_name);
     }
 
-    public function testNextState_Default_TransitionEmpty() {
+    public function testSubscribe_Always_EmitterOnCalled() {
         // Arrange
-        $this->sut = new SubscribedAction();
+        $this->event_name = 'event';
+        $this->method_name = 'handle_event';
 
-        $this->arrangeDefault();
+        $this->mock_emitter->expects($this->exactly(1))->method('on')->with($this->event_name, [$this->sut, $this->method_name]);
+        // Act
+        $this->sut->subscribe($this->event_name, $this->method_name);
+        // Assert
+    }
+
+    public function testNextState_Subscribed_EmitterOffCalled() {
+        // Arrange
+        $this->event_name = 'event';
+        $this->method_name = 'handle_event';
+
+        $this->mock_emitter->expects($this->exactly(1))->method('off')->with($this->event_name, [$this->sut, $this->method_name]);
+
+        $this->sut->subscribe($this->event_name, $this->method_name);
         // Act
         $this->sut->nextState();
         // Assert
     }
 
-    public function testNextState_ChildOverridesTransition_NextStateWithThatTransition() {
+    public function testNextState_NotSubscribed_EmitterOffNotCalled() {
         // Arrange
-
-        $transition_name = 'x ';
-        $this->sut->setTransitionName($transition_name);
-
-        $this->arrangeDefault($transition_name);
+        $this->mock_emitter->expects($this->exactly(0))->method('off');
         // Act
         $this->sut->nextState();
         // Assert

@@ -11,13 +11,27 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/Action.php');
 
 class SubscribedAction extends Action {
+    protected string $event_name = '';
+    protected string $method_name = '';
+
     public function setEventEmitter($event_handler) : SubscribedAction {
         $this->event_handler = $event_handler;
         return $this;
     }
 
+    public function subscribe($event_name, $method_name) {
+        $this->event_name = $event_name;
+        $this->method_name = $method_name;
+
+        $this->event_handler->on($event_name, [$this, $method_name]);
+    }
+
     public function nextState() {
         parent::nextState();
+
+        if ($this->event_name) {
+            $this->event_handler->off($this->event_name, [$this, $this->method_name]);
+        }
     }
 }
 ?>
