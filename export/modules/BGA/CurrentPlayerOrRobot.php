@@ -2,6 +2,7 @@
 namespace NieuwenhovenGames\BGA;
 /**
  * Choose the next player or robot
+ * Also activate the player if not a robot
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -24,10 +25,18 @@ class CurrentPlayerOrRobot {
         return $this;
     }
 
+    public function setGameState($gamestate) : CurrentPlayerOrRobot {
+        $this->gamestate = $gamestate;
+        return $this;
+    }
+
     public function nextPlayerOrRobot() : CurrentPlayerOrRobot {
         $new_number = $this->getNextPlayerOrRobotNumber();
 
         $this->setCurrentPlayerOrRobotNumber($new_number);
+        if (!$this->isRobot()) {
+            $this->gamestate->changeActivePlayer($this->player_id);
+        }
 
         return $this;
     }

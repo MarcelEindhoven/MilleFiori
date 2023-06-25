@@ -37,6 +37,9 @@ class CurrentPlayerOrRobotTest extends TestCase{
     protected function setUp(): void {
         $this->sut = CurrentPlayerOrRobot::create(0);
         $this->sut->setPlayerAndRobotProperties(CurrentPlayerOrRobotTest::DEFAULT_DATA);
+
+        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
+        $this->sut->setGameState($this->mock_gamestate);
     }
 
     public function testID_NoChange_GetEqualsSet() {
@@ -88,6 +91,24 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $this->sut->nextPlayerOrRobot();
         // Assert
         $this->assertEquals($expected_player_id, $this->sut->getCurrentPlayerOrRobotID());
+    }
+
+    public function testNext_Robot_DoNotActivate() {
+        // Arrange
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
+        $this->mock_gamestate->expects($this->exactly(0))->method('changeActivePlayer');
+        // Act
+        $this->sut->nextPlayerOrRobot();
+        // Assert
+    }
+
+    public function testNext_Player_Activate() {
+        // Arrange
+        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID);
+        $this->mock_gamestate->expects($this->exactly(1))->method('changeActivePlayer')->with(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
+        // Act
+        $this->sut->nextPlayerOrRobot();
+        // Assert
     }
 }
 ?>

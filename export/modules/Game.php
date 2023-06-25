@@ -90,6 +90,8 @@ class Game {
     public function setCurrentPlayerID($current_player_or_robot_id) : Game {
         $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_or_robot_id);
         $this->current_player_or_robot->setPlayerAndRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
+
+        $this->current_player_or_robot->setGameState($this->gamestate);
         return $this;
     }
 
@@ -138,7 +140,7 @@ class Game {
     public function stRobotPlaysCardSelectsField() {
         $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
 
-        ActionRobotPlaysCardSelectsField::create($this->gamestate)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
+        ActionRobotPlaysCardSelectsField::create($this->gamestate)->setEventEmitter($this->event_emitter)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
     }
 
     public function stActivatePlayerOrRobot() {
@@ -162,7 +164,7 @@ class Game {
     }
 
     public function playerSelectsField($player_id, $field_id) {
-        ActionPlayerSelectsField::create($this->gamestate)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();;
+        ActionPlayerSelectsField::create($this->gamestate)->setEventEmitter($this->event_emitter)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();;
     }
 }
 
