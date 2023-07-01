@@ -10,14 +10,14 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
-include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Database.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class UpdateStorageTest extends TestCase{
     protected UpdateStorage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(DatabaseInterface::class);
+        $this->mock_database = $this->createMock(Database::class);
         $this->sut = UpdateStorage::create($this->mock_database);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);

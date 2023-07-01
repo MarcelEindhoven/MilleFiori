@@ -1,6 +1,8 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Access BGA game protected database methods
+ * @see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -8,10 +10,14 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-interface DatabaseInterface {
+interface Database {
+    /** DbQuery */
     public function query(string $query) : void;
+    /** getObjectFromDB */
     public function getObject(string $query) : array;
+    /** getObjectListFromDB */
     public function getObjectList(string $query) : array;
+    /** getCollectionFromDB */
     public function getCollection(string $query) : array;
     
     public function trace(string $trace) : void;

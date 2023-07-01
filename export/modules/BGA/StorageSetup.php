@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/DatabaseInterface.php');
+include_once(__DIR__.'/Database.php');
 
 class StorageSetup {
 

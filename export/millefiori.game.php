@@ -19,7 +19,7 @@
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
-require_once(__DIR__.'/modules/BGA/DatabaseInterface.php');
+require_once(__DIR__.'/modules/BGA/Database.php');
 
 include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');
@@ -67,7 +67,7 @@ class MilleFiori extends Table
         return $this->getGameStateValue('card_selection') == 1;
     }
 
-    // NieuwenhovenGames\BGA\DatabaseInterface
+    // NieuwenhovenGames\BGA\Database
     public function query(string $query) : void  {
         self::DbQuery($query);
     }

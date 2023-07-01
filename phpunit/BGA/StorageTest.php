@@ -10,13 +10,13 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
-include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Database.php');
 
 class StorageTest extends TestCase{
     protected Storage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(DatabaseInterface::class);
+        $this->mock_database = $this->createMock(Database::class);
         $this->sut = Storage::create($this->mock_database);
     }
 

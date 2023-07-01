@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/DatabaseInterface.php');
+require_once(__DIR__.'/../BGA/Database.php');
 
 include_once(__DIR__.'/../PlayerRobotProperties.php');
 

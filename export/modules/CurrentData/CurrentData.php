@@ -9,7 +9,6 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 include_once(__DIR__.'/../BGA/Deck.php');
-require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 require_once(__DIR__.'/../BGA/Storage.php');
 
 include_once(__DIR__.'/../Categories.php');
