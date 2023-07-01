@@ -138,8 +138,6 @@ class Game {
     }
 
     public function stSelectsField($action) {
-        $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
-
         $action->setEventEmitter($this->event_emitter)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
     }
 
