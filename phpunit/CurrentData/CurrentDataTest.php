@@ -16,7 +16,7 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentPlayerRobotProper
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
 include_once(__DIR__.'/../../export/modules/Game.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/CardsInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Cards.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 include_once(__DIR__.'/../../export/modules/BGA/DatabaseInterface.php');
 
@@ -30,7 +30,7 @@ class CurrentDataTest extends TestCase{
 
         $this->mock_properties = $this->createMock(CurrentPlayerRobotProperties::class);
 
-        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\Cards::class);
         $this->sut->setCards($this->mock_cards);
         $this->player_id = 7;
     }

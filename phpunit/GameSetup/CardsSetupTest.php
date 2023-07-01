@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/CardsInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Cards.php');
 
 class CardsSetupTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];
@@ -19,7 +19,7 @@ class CardsSetupTest extends TestCase{
     protected CardsSetup $sut;
 
     protected function setUp(): void {
-        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\Cards::class);
         $this->sut = CardsSetup::create($this->mock_cards);
     }
 
@@ -35,7 +35,7 @@ class CardsSetupTest extends TestCase{
     public function testCreate_Default_CreateShuffle() {
         // Arrange
         $this->mock_cards->expects($this->exactly(1))->method('createCards');
-        $this->mock_cards->expects($this->exactly(1))->method('shuffle')->with(CardsHandler::DECK);
+        $this->mock_cards->expects($this->exactly(1))->method('shuffle')->with(\NieuwenhovenGames\BGA\Cards::STANDARD_DECK);
         // Act
         $total = $this->sut->createAndShuffle();
         // Assert

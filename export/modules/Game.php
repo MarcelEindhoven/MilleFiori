@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/BGA/CardsInterface.php');
+include_once(__DIR__.'/BGA/Cards.php');
 require_once(__DIR__.'/BGA/DatabaseInterface.php');
 require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
 include_once(__DIR__.'/BGA/EventEmitter.php');
@@ -33,13 +33,6 @@ include_once(__DIR__.'/ActionsAndStates/RobotHandler.php');
 include_once(__DIR__.'/CurrentData/CurrentData.php');
 
 class Game {
-    const CARDS_HAND = 'hand';
-    const CARDS_SELECTED_HAND = 'selectedhand';
-    const CARDS_PLAYED_HAND = 'playedhand';
-    const CARDS_BOARD_HAND = 'sideboard';
-    const CARD_KEY_ID = 'id';
-    const CARD_KEY_TYPE = 'type';
-
     public static function create($sqlDatabase) : Game {
         $object = new Game();
         return $object->setDatabase($sqlDatabase);

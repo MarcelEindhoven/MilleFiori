@@ -11,8 +11,6 @@ namespace NieuwenhovenGames\MilleFiori;
 include_once(__DIR__.'/../BGA/NotifyInterface.php');
 
 class NotifyHandler {
-    const HAND = 'hand';
-
     static public function create($notifyInterface) : NotifyHandler {
         $handler = new NotifyHandler();
         return $handler->setNotifyInterface($notifyInterface);
@@ -31,7 +29,7 @@ class NotifyHandler {
     }
 
     public function notifyPlayerHand($player_id, $hand, $message) {
-        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [NotifyHandler::HAND => $hand]);
+        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [\NieuwenhovenGames\BGA\Cards::PLAYER_HAND => $hand]);
     }
 
     public function notifyEmptyPlayedHand() {

@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/CardsInterface.php');
+include_once(__DIR__.'/../BGA/Cards.php');
 require_once(__DIR__.'/../BGA/DatabaseInterface.php');
 require_once(__DIR__.'/../BGA/Storage.php');
 
@@ -19,9 +19,7 @@ include_once(__DIR__.'/CurrentPlayerRobotProperties.php');
 include_once(__DIR__.'/CurrentCategories.php');
 
 class CurrentData {
-    const CARDS_HAND = 'hand';
     const CARDS_SELECTED_HAND = 'selectedhand';
-    const CARDS_PLAYED_HAND = 'playedhand';
     const CARDS_BOARD_HAND = 'sideboard';
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';

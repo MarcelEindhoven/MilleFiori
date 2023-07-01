@@ -10,17 +10,14 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/BGA/CardsInterface.php');
+require_once(__DIR__.'/BGA/Cards.php');
 include_once(__DIR__.'/BGA/NotifyInterface.php');
 
 class CardsHandler {
-    const DECK = 'deck';
     const LOCATION_SWAP = -3;
-    const HAND = 'hand';
     const SELECTED_HAND = 'selectedhand';
     const PLAYED_HAND = 'playedhand';
     const SIDEBOARD = 'sideboard';
-    const DISCARD_PILE = 'discard';
 
     static public function create($cards) : CardsHandler {
         $cardsHandler = new CardsHandler();
@@ -43,7 +40,7 @@ class CardsHandler {
     }
 
     public function emptyPlayedHand() {
-        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, CardsHandler::DISCARD_PILE);
+        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Cards::DISCARD_PILE);
 
         $this->notifyHandler->notifyEmptyPlayedHand();
     }
@@ -53,11 +50,11 @@ class CardsHandler {
     }
 
     public function getNumberPlayerCards() {
-        return $this->getNumberCards(CardsHandler::HAND);
+        return $this->getNumberCards(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND);
     }
 
     public function getNumberDeckCards() {
-        return $this->getNumberCards(CardsHandler::DECK);
+        return $this->getNumberCards(\NieuwenhovenGames\BGA\Cards::STANDARD_DECK);
     }
 
     public function getNumberCards($location) {
@@ -69,7 +66,7 @@ class CardsHandler {
     }
 
     public function getOnlyCardFromPlayerHand($player_id) : array {
-        return $this->getOnlyCardFromLocation(CardsHandler::HAND, $player_id);
+        return $this->getOnlyCardFromLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id);
     }
 
     public function getOnlyCardFromPlayingHand() : array {
@@ -98,7 +95,7 @@ class CardsHandler {
     }
 
     public function dealNewHand($player_id, $number_cards) {
-        $this->cards->pickCards($number_cards, CardsHandler::DECK, $player_id);
+        $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Cards::STANDARD_DECK, $player_id);
     }
 
     public function getSideboard() {
@@ -106,7 +103,7 @@ class CardsHandler {
     }
 
     public function getHand($player_id) {
-        return $this->cards->getCardsInLocation(CardsHandler::HAND, $player_id);
+        return $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id);
     }
 
 }

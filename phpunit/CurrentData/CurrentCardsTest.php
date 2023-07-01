@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentCards.php');
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/CardsInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Cards.php');
 
 class CurrentCardsTest extends TestCase{
     protected CurrentCards $sut;
 
     protected function setUp(): void {
-        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\CardsInterface::class);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\Cards::class);
         $this->sut = CurrentCards::create($this->mock_cards);
     }
 

@@ -8,9 +8,13 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-interface CardsInterface {
+interface Cards {
+    const STANDARD_DECK = 'deck';
+    const PLAYER_HAND = 'hand';
+    const DISCARD_PILE = 'discard';
+
     public function init( $table_name );
-    public function createCards( $cards, $location='deck', $location_arg=null );
+    public function createCards( $cards, $location=Cards::STANDARD_DECK, $location_arg=null );
 
     public function pickCard( $location, $player_id );
     public function pickCards( $nbr, $location, $player_id );
