@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * @see https://boardgamearena.com/doc/Deck
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -8,13 +9,13 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-interface Cards {
+interface Deck {
     const STANDARD_DECK = 'deck';
     const PLAYER_HAND = 'hand';
     const DISCARD_PILE = 'discard';
 
     public function init( $table_name );
-    public function createCards( $cards, $location=Cards::STANDARD_DECK, $location_arg=null );
+    public function createCards( $cards, $location=Deck::STANDARD_DECK, $location_arg=null );
 
     public function pickCard( $location, $player_id );
     public function pickCards( $nbr, $location, $player_id );

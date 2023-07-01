@@ -29,7 +29,7 @@ class NotifyHandler {
     }
 
     public function notifyPlayerHand($player_id, $hand, $message) {
-        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [\NieuwenhovenGames\BGA\Cards::PLAYER_HAND => $hand]);
+        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [\NieuwenhovenGames\BGA\Deck::PLAYER_HAND => $hand]);
     }
 
     public function notifyEmptyPlayedHand() {

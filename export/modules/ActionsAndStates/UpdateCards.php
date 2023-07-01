@@ -10,7 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Cards.php');
+require_once(__DIR__.'/../BGA/Deck.php');
 include_once(__DIR__.'/../BGA/NotifyInterface.php');
 include_once(__DIR__.'/../CardsHandler.php');
 
@@ -37,7 +37,7 @@ class UpdateCards extends CardsHandler {
 
     public function haveAllPlayersSameHandCount() : bool {
         // Do all players have the same number of cards (> 0) in their hand?
-        return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND))));
+        return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND))));
     }
 
     public function areAnyCardsSelected() : bool {
@@ -50,13 +50,13 @@ class UpdateCards extends CardsHandler {
         }
         $previous_player = CardsHandler::LOCATION_SWAP;
         foreach ($this->player_ids as $player_id) {
-            $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id, $previous_player);
+            $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id, $previous_player);
             $previous_player = $player_id;
         }
 
-        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, CardsHandler::LOCATION_SWAP, $previous_player);
+        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::LOCATION_SWAP, $previous_player);
         foreach ($this->player_ids as $player_id) {
-            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id), 'Pass hand to other player');
+            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Pass hand to other player');
         }
 
         return $this;
@@ -64,8 +64,8 @@ class UpdateCards extends CardsHandler {
 
     public function dealNewHands($number_cards) : UpdateCards {
         foreach ($this->player_ids as $player_id) {
-            $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Cards::STANDARD_DECK, $player_id);
-            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id), 'Deal new hand');
+            $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Deck::STANDARD_DECK, $player_id);
+            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Deal new hand');
             }
 
         return $this;
@@ -73,7 +73,7 @@ class UpdateCards extends CardsHandler {
 
     public function moveHandsToSideboard() : UpdateCards {
         foreach ($this->player_ids as $player_id) {
-            $this->movePrivateToPublic('Giving up own card', $player_id, \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, CardsHandler::SIDEBOARD);
+            $this->movePrivateToPublic('Giving up own card', $player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD);
         }
 
         return $this;
@@ -81,10 +81,10 @@ class UpdateCards extends CardsHandler {
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, 'card' => $selectedCard]);
-            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $current_player_id);
+            $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, 'card' => $selectedCard]);
+            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $current_player_id);
         }
-        $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => \NieuwenhovenGames\BGA\Cards::PLAYER_HAND, 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
+        $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 

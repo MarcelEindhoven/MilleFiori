@@ -10,7 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Cards.php');
+require_once(__DIR__.'/../BGA/Deck.php');
 include_once(__DIR__.'/../CardsHandler.php');
 
 class CurrentCards extends CardsHandler {
@@ -25,7 +25,7 @@ class CurrentCards extends CardsHandler {
     }
 
     public function getHands($player_id) {
-        $result[\NieuwenhovenGames\BGA\Cards::PLAYER_HAND] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Cards::PLAYER_HAND, $player_id );
+        $result[\NieuwenhovenGames\BGA\Deck::PLAYER_HAND] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id );
         $result['selectedhand'] = $this->cards->getCardsInLocation(CardsHandler::SELECTED_HAND, $player_id );
         
         // Cards played beside the table
