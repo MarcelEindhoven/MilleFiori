@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Handle up to 1 subscription. The subscription is disabled at the end of nextState
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -11,6 +12,7 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/Action.php');
 
 class SubscribedAction extends Action {
+    
     protected string $event_name = '';
     protected string $method_name = '';
 

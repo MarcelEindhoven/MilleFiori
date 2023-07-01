@@ -137,10 +137,16 @@ class Game {
         ActionRobotSelectsCard::create($this->gamestate)->setRobot($robot)->setCardsHandler($this->update_cards)->execute()->nextState();
     }
 
+    public function stSelectsField($action) {
+        $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
+
+        $action->setEventEmitter($this->event_emitter)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
+    }
+
     public function stRobotPlaysCardSelectsField() {
         $robot = $this->robot_handler->setCurrentPlayerID($this->current_player_or_robot->getCurrentPlayerOrRobotID())->getCurrentRobot();
 
-        ActionRobotPlaysCardSelectsField::create($this->gamestate)->setEventEmitter($this->event_emitter)->setDataHandler($this->data_handler)->setRobot($robot)->setCardsHandler($this->update_cards)->setFieldSelectionHandler($this->update_ocean)->execute()->nextState();;
+        $this->stSelectsField(ActionRobotPlaysCardSelectsField::create($this->gamestate)->setDataHandler($this->data_handler)->setRobot($robot));
     }
 
     public function stActivatePlayerOrRobot() {
@@ -164,7 +170,7 @@ class Game {
     }
 
     public function playerSelectsField($player_id, $field_id) {
-        ActionPlayerSelectsField::create($this->gamestate)->setEventEmitter($this->event_emitter)->setCardsHandler($this->update_cards)->setNotifyHandler($this->notifyInterface)->setFieldSelectionHandler($this->update_ocean)->setPlayerAndField($player_id, $field_id)->execute()->nextState();;
+        $this->stSelectsField(ActionPlayerSelectsField::create($this->gamestate)->setNotifyHandler($this->notifyInterface)->setPlayerAndField($player_id, $field_id));
     }
 }
 
