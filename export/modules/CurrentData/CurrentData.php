@@ -18,8 +18,6 @@ include_once(__DIR__.'/CurrentPlayerRobotProperties.php');
 include_once(__DIR__.'/CurrentCategories.php');
 
 class CurrentData {
-    const CARDS_SELECTED_HAND = 'selectedhand';
-    const CARDS_BOARD_HAND = 'sideboard';
     const CARD_KEY_ID = 'id';
     const CARD_KEY_TYPE = 'type';
 
