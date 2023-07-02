@@ -99,7 +99,7 @@ class CurrentData {
     }
 
     public function getSelectableFieldIDsActivePlayerPlayingCard($player_id, $player_robot_data) : array {
-        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
+        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[CurrentData::CARD_KEY_TYPE];
 
         $categories = CurrentCategories::create($player_robot_data);
 
@@ -107,7 +107,7 @@ class CurrentData {
     }
 
     public function getSelectableFieldIDs($player_id) : array {
-        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[Game::CARD_KEY_TYPE];
+        $card_type_being_played = $this->current_cards->getOnlyCardFromPlayingHand()[CurrentData::CARD_KEY_TYPE];
 
         $categories = CurrentCategories::create($this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
 
