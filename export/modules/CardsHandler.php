@@ -29,22 +29,6 @@ class CardsHandler {
         return $this;
     }
 
-    public function setNotifyHandler($notifyHandler) : CardsHandler {
-        $this->notifyHandler = $notifyHandler;
-        return $this;
-    }
-
-    public function selectExtraCard($card_id) {
-        $this->cards->moveCard($card_id, CardsHandler::PLAYED_HAND);
-        $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD, CardsHandler::PLAYED_HAND);
-    }
-
-    public function emptyPlayedHand() {
-        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
-
-        $this->notifyHandler->notifyEmptyPlayedHand();
-    }
-
     public function getNumberSelectedCards() {
         return $this->getNumberCards(CardsHandler::SELECTED_HAND);
     }
@@ -80,18 +64,6 @@ class CardsHandler {
     public function getOnlyCardFromLocation($location, $location_arg = null) : array {
         $cards = $this->cards->getCardsInLocation($location, $location_arg);
         return $cards ? array_shift($cards) : null;
-    }
-
-    public function playSelectedCard($player_id) {
-        $this->movePrivateToPublic('Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
-    }
-
-    public function movePrivateToPublic($message, $player_id, $from, $to) {
-        foreach ($this->cards->getCardsInLocation($from, $player_id) as $card) {
-            $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, $message . $player_id , $player_id, $from, $to);
-        }
-
-        $this->cards->moveAllCardsInLocation($from, $to, $player_id);
     }
 
     public function dealNewHand($player_id, $number_cards) {

@@ -88,6 +88,29 @@ class UpdateCards extends CardsHandler {
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
     }
 
+    public function playSelectedCard($player_id) {
+        $this->movePrivateToPublic('Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+    }
+
+    public function movePrivateToPublic($message, $player_id, $from, $to) {
+        foreach ($this->cards->getCardsInLocation($from, $player_id) as $card) {
+            $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, $message . $player_id , $player_id, $from, $to);
+        }
+
+        $this->cards->moveAllCardsInLocation($from, $to, $player_id);
+    }
+
+    public function selectExtraCard($card_id) {
+        $this->cards->moveCard($card_id, CardsHandler::PLAYED_HAND);
+        $this->notifyHandler->notifyCardMoved($this->cards->getCard($card_id), 'Playing extra card', CardsHandler::SIDEBOARD, CardsHandler::PLAYED_HAND);
+    }
+
+    public function emptyPlayedHand() {
+        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
+
+        $this->notifyHandler->notifyEmptyPlayedHand();
+    }
+
 }
 
 ?>
