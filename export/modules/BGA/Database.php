@@ -19,8 +19,6 @@ interface Database {
     public function getObjectList(string $query) : array;
     /** getCollectionFromDB */
     public function getCollection(string $query) : array;
-    
-    public function trace(string $trace) : void;
 
     /*
     Protected methods that cannot be called directly
