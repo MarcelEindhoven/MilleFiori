@@ -13,14 +13,14 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionEndPlayerTurn
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 
 class ActionEndPlayerTurnTest extends TestCase{
 
     protected ActionEndPlayerTurn $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
         $this->sut = ActionEndPlayerTurn::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);

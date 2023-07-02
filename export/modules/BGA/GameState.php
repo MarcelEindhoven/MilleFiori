@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-interface GameStateInterface {
+interface GameState {
     public function changeActivePlayer( $player_id );
     public function setAllPlayersMultiactive();
     public function setAllPlayersNonMultiactive( $next_state );

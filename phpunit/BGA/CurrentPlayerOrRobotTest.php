@@ -38,7 +38,7 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $this->sut = CurrentPlayerOrRobot::create(0);
         $this->sut->setPlayerAndRobotProperties(CurrentPlayerOrRobotTest::DEFAULT_DATA);
 
-        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(GameState::class);
         $this->sut->setGameState($this->mock_gamestate);
     }
 

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/Action.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 
 class TestAction extends Action {
     protected string $transition_name = '';
@@ -34,7 +34,7 @@ class ActionTest extends TestCase{
     }
 
     protected function arrangeDefault(string $transition_name = '') {
-        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(GameState::class);
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with($transition_name);
     }
 

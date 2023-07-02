@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionRobotPlaysCar
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
@@ -22,7 +22,7 @@ class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
     protected ActionRobotPlaysCardSelectsField $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
         $this->sut = ActionRobotPlaysCardSelectsField::create($this->mock_gamestate);
 
         $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);

@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionRobotSelectsC
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/Robot.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
 
 class ActionRobotSelectsCardTest extends TestCase{
@@ -22,7 +22,7 @@ class ActionRobotSelectsCardTest extends TestCase{
     protected ActionRobotSelectsCard $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
         $this->sut = ActionRobotSelectsCard::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);

@@ -11,14 +11,14 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionEndRound.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 
 class ActionEndRoundTest extends TestCase{
 
     protected ActionEndRound $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
         $this->sut = ActionEndRound::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/SubscribedAction.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 
 class TestSubscribedAction extends SubscribedAction {
 }
@@ -21,7 +21,7 @@ class SubscribedActionTest extends TestCase{
     protected SubscribedAction $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(GameState::class);
         $this->sut = new TestSubscribedAction($this->mock_gamestate);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);

@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
 
 class ActionNewHandTest extends TestCase{
 
     protected ActionNewHand $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameStateInterface::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
         $this->sut = ActionNewHand::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);
