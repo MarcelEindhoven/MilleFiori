@@ -11,7 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 require_once(__DIR__.'/../BGA/Deck.php');
-include_once(__DIR__.'/../BGA/NotifyInterface.php');
+include_once(__DIR__.'/../BGA/Notifications.php');
 include_once(__DIR__.'/../CardsHandler.php');
 
 class UpdateCards extends CardsHandler {

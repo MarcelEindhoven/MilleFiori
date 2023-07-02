@@ -88,7 +88,7 @@ class Game {
         return $this;
     }
 
-    public function setNotifyInterface($notifyInterface) : Game {
+    public function setNotifications($notifyInterface) : Game {
         $this->notifyInterface = $notifyInterface;
         $this->notifyHandler = NotifyHandler::create($notifyInterface);
         $this->update_cards->setNotifyHandler($this->notifyHandler);

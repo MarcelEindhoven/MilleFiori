@@ -11,7 +11,7 @@ namespace NieuwenhovenGames\MilleFiori;
  */
 
 require_once(__DIR__.'/BGA/Deck.php');
-include_once(__DIR__.'/BGA/NotifyInterface.php');
+include_once(__DIR__.'/BGA/Notifications.php');
 
 class CardsHandler {
     const LOCATION_SWAP = -3;

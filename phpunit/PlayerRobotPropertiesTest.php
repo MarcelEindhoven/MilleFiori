@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
 
 include_once(__DIR__.'/../export/modules/BGA/Database.php');
-include_once(__DIR__.'/../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../export/modules/BGA/Notifications.php');
 
 class PlayerRobotPropertiesTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];
     public function setup() : void {
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\Database::class);
-        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
-        $this->sut = PlayerRobotProperties::create($this->mock)->setNotifyInterface($this->mockNotify);
+        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
+        $this->sut = PlayerRobotProperties::create($this->mock)->setNotifications($this->mockNotify);
     }
 
     private function optionalSeparator(int $index) : string {

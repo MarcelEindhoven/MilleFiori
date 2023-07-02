@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerPlaysCa
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
-include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
 
 class ActionPlayerPlaysCardTest extends TestCase{
 
@@ -29,7 +29,7 @@ class ActionPlayerPlaysCardTest extends TestCase{
         $this->mock_data_handler = $this->createMock(CurrentData::class);
         $this->sut->setDataHandler($this->mock_data_handler);
 
-        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
+        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
 
         $this->player_id = 55;

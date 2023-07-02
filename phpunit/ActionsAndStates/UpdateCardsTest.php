@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/NotifyHandler.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/Deck.php');
-include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
 
 class UpdateCardsTest extends TestCase{
     public function setup() : void {

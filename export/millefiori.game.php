@@ -141,7 +141,7 @@ class MilleFiori extends Table
         self::trace( "Initialise helper classes" );
 
         $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
-        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifyInterface($this);
+        $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifications($this);
         $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
 
         $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
@@ -150,7 +150,7 @@ class MilleFiori extends Table
         $this->game->setCards($this->cards);
         $this->game->setGameState($this->gamestate);
         $this->game->setCardsHandler($this->cardsHandler);
-        $this->game->setNotifyInterface($this);
+        $this->game->setNotifications($this);
         $this->game->setFields($this->fields);
 
         $this->game->setCurrentPlayerID($this->getGameStateValue('current_player_or_robot_id'));

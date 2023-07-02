@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/ActionsAndStates/NotifyHandler.php');
 
-include_once(__DIR__.'/../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../export/modules/BGA/Notifications.php');
 
 class NotifyHandlerTest extends TestCase{
     public function setup() : void {
-        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\NotifyInterface::class);
+        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
         $this->sut = NotifyHandler::create($this->mockNotify);
     }
 

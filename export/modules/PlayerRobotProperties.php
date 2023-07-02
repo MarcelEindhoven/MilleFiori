@@ -41,7 +41,7 @@ class PlayerRobotProperties {
         return $this;
     }
 
-    public function setNotifyInterface($notifyInterface) : PlayerRobotProperties {
+    public function setNotifications($notifyInterface) : PlayerRobotProperties {
         $this->notifyInterface = $notifyInterface;
         return $this;
     }

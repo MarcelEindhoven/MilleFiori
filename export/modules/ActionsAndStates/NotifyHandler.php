@@ -8,15 +8,15 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-include_once(__DIR__.'/../BGA/NotifyInterface.php');
+include_once(__DIR__.'/../BGA/Notifications.php');
 
 class NotifyHandler {
     static public function create($notifyInterface) : NotifyHandler {
         $handler = new NotifyHandler();
-        return $handler->setNotifyInterface($notifyInterface);
+        return $handler->setNotifications($notifyInterface);
     }
 
-    public function setNotifyInterface($notifyInterface) : NotifyHandler {
+    public function setNotifications($notifyInterface) : NotifyHandler {
         $this->notifyInterface = $notifyInterface;
         return $this;
     }

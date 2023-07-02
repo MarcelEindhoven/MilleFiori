@@ -14,7 +14,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
 include_once(__DIR__.'/../../export/modules/BGA/GameStateInterface.php');
-include_once(__DIR__.'/../../export/modules/BGA/NotifyInterface.php');
+include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
