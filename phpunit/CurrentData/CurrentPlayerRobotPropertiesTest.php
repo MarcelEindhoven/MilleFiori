@@ -14,8 +14,10 @@ include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentPlayerRobotPropertiesTest extends TestCase{
     const FIELDS = ['id', 'score', 'no', 'name', 'color', 'ocean_position'];
-    const PLAYER_DATA = [55 => 'TEST'];
-    const ROBOT_DATA = [5 => 'TESTR'];
+    const PLAYER_DATA = [55 => ['name' => 'TEST']];
+    const ROBOT_DATA = [5 => ['name' => 'TESTR']];
+    const PLAYER_EXPECTED_DATA = [55 => ['name' => 'TEST', 'is_robot' => false]];
+    const ROBOT_EXPECTED_DATA = [5 => ['name' => 'TESTR', 'is_robot' => true]];
     const PLAYER_BUCKET_INPUT_DATA = ['player', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
     const ROBOT_BUCKET_INPUT_DATA = ['robot', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
 
@@ -36,7 +38,7 @@ class CurrentPlayerRobotPropertiesTest extends TestCase{
         // Act
         $data = $this->sut->getPlayerData();
         // Assert
-        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_DATA, $data);
+        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_EXPECTED_DATA, $data);
     }
 
     public function testProperties_GetPlayerRobot_GetBucket() {
@@ -50,7 +52,7 @@ class CurrentPlayerRobotPropertiesTest extends TestCase{
         // Act
         $data = $this->sut->getPlayerDataIncludingRobots();
         // Assert
-        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_DATA + CurrentPlayerRobotPropertiesTest::ROBOT_DATA, $data);
+        $this->assertEquals(CurrentPlayerRobotPropertiesTest::PLAYER_EXPECTED_DATA + CurrentPlayerRobotPropertiesTest::ROBOT_EXPECTED_DATA, $data);
     }
 }
 ?>
