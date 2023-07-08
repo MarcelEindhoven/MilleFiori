@@ -225,9 +225,9 @@ function (dojo, declare) {
             hand.onItemCreate = dojo.hitch( this, 'setupNewCard' ); 
 
             // Create cards types:
-            for (var id = 0; id < 110; id++) {
-                if (id != 35) {
-                    hand.addItemType(id, id, g_gamethemeurl + 'img/alle_kaarten.png', id);
+            for (var type = 0; type < 110; type++) {
+                if (type != 35) {
+                    hand.addItemType(type, type, g_gamethemeurl + 'img/alle_kaarten.png', type);
                 }
             }
 
@@ -349,6 +349,9 @@ function (dojo, declare) {
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
 
+            dojo.subscribe( 'stockToStock', this, "notify_stockToStock" );
+            this.notifqueue.setSynchronous('stockToStock', 1100);
+
             dojo.subscribe( 'emptyPlayedHand', this, "notify_emptyPlayedHand" );
             this.notifqueue.setSynchronous('emptyPlayedHand', 1100);
         }, 
@@ -386,7 +389,7 @@ function (dojo, declare) {
 
             this.moveShips(notif.args);
         },
-        getHand: function (id) {
+        getStock: function (id) {
             if (id == 'hand') {
                 return this.hand;
             }
@@ -413,11 +416,11 @@ function (dojo, declare) {
             }
 
             if (notif.args.toStock) {
-                this.getHand(notif.args.toStock).addToStockWithId(notif.args.card['type'], notif.args.card['id'], from);
+                this.getStock(notif.args.toStock).addToStockWithId(notif.args.card['type'], notif.args.card['id'], from);
             }
 
             if (notif.args.fromStock) {
-                this.getHand(notif.args.fromStock).removeFromStockById(notif.args.card['id']);
+                this.getStock(notif.args.fromStock).removeFromStockById(notif.args.card['id']);
             }
         },
         notify_selectableFields: function(notif) {
@@ -433,5 +436,9 @@ function (dojo, declare) {
             }
             dojo.query('.selectable').connect('onclick', this, 'onSelectField');
         },
+        notify_stockToStock: function(notification) {
+            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], notification.args.item['id'], notification.args.from + '_item_' + notification.args.item['id']);
+            this.getStock(notification.args.from).removeFromStockById(notification.args.item['id']);
+        }
    });             
 });
