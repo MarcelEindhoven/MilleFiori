@@ -40,7 +40,7 @@ class CurrentDataTest extends TestCase{
 
     public function testGet_Integration_CardsInLocation() {
         // Arrange
-        $this->mock_cards->expects($this->exactly(4))->method('getCardsInLocation')->will($this->returnValue(['x']));
+        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue(['x']));
         // Act
         $this->actDefault();
         // Assert

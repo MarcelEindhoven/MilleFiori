@@ -24,11 +24,11 @@ class CurrentCardsTest extends TestCase{
     public function testGet_Hands_Array() {
         // Arrange
         $player_id = 7;
-        $this->mock_cards->expects($this->exactly(4))->method('getCardsInLocation')->will($this->returnValue(['x']));
+        $this->mock_cards->expects($this->exactly(5))->method('getCardsInLocation')->will($this->returnValue(['x']));
         // Act
-        $hands = $this->sut->getHands($player_id);
+        $hands = $this->sut->getHands($player_id)['hands'];
         // Assert
-        $this->assertCount(4, $hands);
+        $this->assertCount(5, $hands);
     }
 }
 ?>

@@ -56,7 +56,7 @@ function (dojo, declare) {
             this.createShips(gamedatas);
             this.moveShips(gamedatas);
             
-            this.createAndFillHands(gamedatas);
+            this.createAndFillHands(gamedatas.hands);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -74,12 +74,10 @@ function (dojo, declare) {
                 this.addTokenOnBoard(player.id, player.no, player.color, 'ocean', 0);
             }            
         },
-        createAndFillHands: function( gamedatas ) {
-            this.hand = this.createAndFillHand('hand', this.gamedatas.hand);
-            this.sideboard = this.createAndFillHand('sideboard', this.gamedatas.sideboard);
-            this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
-            this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
-            this.discard = this.createAndFillHand('discard', this.gamedatas.discard);
+        createAndFillHands: function(hands) {
+            for (const name in hands) {
+                this.createAndFillHand(name, hands[name]);
+            }
         },
 
         ///////////////////////////////////////////////////
