@@ -40,6 +40,11 @@
     <div id="playedhand" class="single_card_hand">
     </div>
 </div>
+<div style="display: inline-block">
+    <h3>Played card</h3>
+    <div id="discard" class="single_card_hand">
+    </div>
+</div>
 </div>
 <div id="hand_wrap" class="whiteblock">
     <h3>Board cards</h3>

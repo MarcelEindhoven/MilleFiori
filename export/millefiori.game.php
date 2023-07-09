@@ -142,14 +142,13 @@ class MilleFiori extends Table
 
         $this->notifyHandler = NieuwenhovenGames\MilleFiori\NotifyHandler::create($this);
         $this->playerProperties = NieuwenhovenGames\MilleFiori\PlayerRobotProperties::create($this)->setNotifications($this);
-        $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards)->setNotifyHandler($this->notifyHandler);
+        $this->cardsHandler = NieuwenhovenGames\MilleFiori\CardsHandler::create($this->cards);
 
         $this->fields = new NieuwenhovenGames\MilleFiori\Fields();
 
         $this->game = NieuwenhovenGames\MilleFiori\Game::create($this);
         $this->game->setCards($this->cards);
         $this->game->setGameState($this->gamestate);
-        $this->game->setCardsHandler($this->cardsHandler);
         $this->game->setNotifications($this);
         $this->game->setFields($this->fields);
 
@@ -188,9 +187,7 @@ class MilleFiori extends Table
         $result['hand'] = $this->cards->getCardsInLocation( 'hand', $player_id );
         $result['selectedhand'] = $this->cards->getCardsInLocation( 'selectedhand', $player_id );
         
-        // Cards played beside the table
-        $result['sideboard'] = $this->cardsHandler->getSideboard();
-
+        $result['sideboard'] = $this->cards->getCardsInLocation( 'sideboard');
         $result['playedhand'] = $this->cards->getCardsInLocation( 'playedhand');
 
         return $result;
@@ -388,9 +385,6 @@ class MilleFiori extends Table
     }
     private function haveAllPlayersSelectedCard() : bool{
         return $this->cardsHandler->getNumberSelectedCards() == 4;
-    }
-    private function hasAnyPlayerSelectedCard() : bool  {
-        return $this->cardsHandler->getNumberSelectedCards() > 0;
     }
     function stPlayCard() {
         self::trace( "stPlayCard" );

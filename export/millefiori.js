@@ -78,6 +78,7 @@ function (dojo, declare) {
             this.sideboard = this.createAndFillHand('sideboard', this.gamedatas.sideboard);
             this.selectedhand = this.createAndFillHand('selectedhand', this.gamedatas.selectedhand);
             this.playedhand = this.createAndFillHand('playedhand', this.gamedatas.playedhand);
+            this.discard = this.createAndFillHand('discard', this.gamedatas.discard);
         },
 
         ///////////////////////////////////////////////////
@@ -219,6 +220,7 @@ function (dojo, declare) {
             return this.fillHand(this.createHand(name), cards);
         },
         createHand: function(name) {
+            // Refactoring: make this a map
             hand = new ebg.stock(); // new stock object for hand
             hand.create( this, $(name), this.cardwidth, this.cardheight );
             hand.image_items_per_row = 9; // 9 images per row
@@ -352,6 +354,10 @@ function (dojo, declare) {
             dojo.subscribe( 'stockToStock', this, "notify_stockToStock" );
             this.notifqueue.setSynchronous('stockToStock', 1100);
 
+            dojo.subscribe( 'playerToStock', this, "notify_playerToStock" );
+            this.notifqueue.setSynchronous('playerToStock', 1100);
+            this.notifqueue.setIgnoreNotificationCheck( 'playerToStock', (notif) => (notif.args.player_id == this.player_id) );
+
             dojo.subscribe( 'emptyPlayedHand', this, "notify_emptyPlayedHand" );
             this.notifqueue.setSynchronous('emptyPlayedHand', 1100);
         }, 
@@ -390,6 +396,7 @@ function (dojo, declare) {
             this.moveShips(notif.args);
         },
         getStock: function (id) {
+            // Refactoring: make this a map
             if (id == 'hand') {
                 return this.hand;
             }
@@ -401,6 +408,9 @@ function (dojo, declare) {
             }
             if (id == 'sideboard') {
                 return this.sideboard;
+            }
+            if (id == 'discard') {
+                return this.discard;
             }
         },
         notify_cardMoved: function(notif) {
@@ -437,8 +447,21 @@ function (dojo, declare) {
             dojo.query('.selectable').connect('onclick', this, 'onSelectField');
         },
         notify_stockToStock: function(notification) {
+            // This notification is either for all players moving an item from public stock to public stock or
+            // for one player where 1 of the stocks is not public
+            if (notification.bIsTableMsg ) {} // notification for all players
             this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], notification.args.item['id'], notification.args.from + '_item_' + notification.args.item['id']);
             this.getStock(notification.args.from).removeFromStockById(notification.args.item['id']);
+        },
+        notify_playerToStock: function(notification) {
+            // This notification is for all players moving an item from private stock to public stock
+            // The player might be a robot
+            if (notification.args.player_is_robot) {
+                from = null;
+            } else {
+                from = 'player_board_'+ notification.args.player_id
+            }
+            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], notification.args.item['id'], from);
         }
    });             
 });
