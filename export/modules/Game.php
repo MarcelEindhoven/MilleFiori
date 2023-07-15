@@ -75,11 +75,6 @@ class Game {
         return $this;
     }
 
-    public function setCardsHandler($cards_handler) : Game {
-        $this->cards_handler = $cards_handler;
-        return $this;
-    }
-
     public function setCurrentPlayerID($current_player_or_robot_id) : Game {
         $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_or_robot_id);
         $this->current_player_or_robot->setPlayerAndRobotProperties($this->data_handler->getPlayerDataIncludingRobots());

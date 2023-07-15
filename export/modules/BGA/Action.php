@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php#States_functions
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
