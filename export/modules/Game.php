@@ -75,8 +75,8 @@ class Game {
         return $this;
     }
 
-    public function setCurrentPlayerID($current_player_or_robot_id) : Game {
-        $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_or_robot_id);
+    public function setCurrentPlayerID($current_player_id) : Game {
+        $this->current_player_or_robot = \NieuwenhovenGames\BGA\CurrentPlayerOrRobot::create($current_player_id);
         $this->current_player_or_robot->setPlayerAndRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
 
         $this->current_player_or_robot->setGameState($this->gamestate);

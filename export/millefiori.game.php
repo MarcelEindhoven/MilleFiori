@@ -130,7 +130,6 @@ class MilleFiori extends Table
 
         $this->activeNextPlayer();
         $this->setGameStateInitialValue('start_player_id', $this->getActivePlayerId());
-        $this->setGameStateInitialValue('current_player_or_robot_id', $this->getActivePlayerId());
 
         $this->initialiseHelperClasses();
 
@@ -152,7 +151,7 @@ class MilleFiori extends Table
         $this->game->setNotifications($this);
         $this->game->setFields($this->fields);
 
-        $this->game->setCurrentPlayerID($this->getGameStateValue('current_player_or_robot_id'));
+        $this->game->setCurrentPlayerID($this->getActivePlayerId());
         $this->game->setCardSelectionSimultaneous($this->isCardSelectionSimultaneous());
     }
 
