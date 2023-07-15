@@ -1,7 +1,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * MilleFiori implementation : © <Your name here> <Your email address here>
+ * MilleFiori implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -53,24 +53,27 @@ function (dojo, declare) {
 
             // TODO: Setting up players boards if needed
 
-            this.createShips(gamedatas);
-            this.moveShips(gamedatas);
+            this.createShips(gamedatas.playersIncludingRobots);
+            this.moveShips(gamedatas.playersIncludingRobots);
             
             this.createAndFillHands(gamedatas.hands);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
-            dojo.connect( this.hand, 'onChangeSelection', this, 'onMyHandSelectionChanged' );
-            dojo.connect( this.sideboard, 'onChangeSelection', this, 'onExtraHandSelectionChanged' );
+            this.onChangeSelection('hand', 'onMyHandSelectionChanged');
+            this.onChangeSelection('sideboard', 'onExtraHandSelectionChanged');
             
             this.setSelectableFields(this.gamedatas.selectableFields);
 
             console.log( "Ending game setup" );
         },
-        createShips: function( gamedatas ) {
-            for( var player_id in gamedatas.playersIncludingRobots ) {
-                var player = gamedatas.playersIncludingRobots[player_id];
+        onChangeSelection: function(hand_name, method_name) {
+            dojo.connect(this.getStock(hand_name), 'onChangeSelection', this, method_name);
+        },
+        createShips: function(playersIncludingRobots) {
+            for( var player_id in playersIncludingRobots ) {
+                var player = playersIncludingRobots[player_id];
                 this.addTokenOnBoard(player.id, player.no, player.color, 'ocean', 0);
             }            
         },
@@ -163,22 +166,22 @@ function (dojo, declare) {
             }
         },        
         onMyHandSelectionChanged: function() {
-            var items = this.hand.getSelectedItems();
+            var items = this.getStock('hand').getSelectedItems();
 
             if (items.length > 0) {
                 var card_id = items[0].id;
                 this.selectCard(card_id);
             }
-            this.hand.unselectAll();
+            this.getStock('hand').unselectAll();
         },
         onExtraHandSelectionChanged: function() {
-            var items = this.sideboard.getSelectedItems();
+            var items = this.getStock('sideboard').getSelectedItems();
 
             if (items.length > 0) {
                 var card_id = items[0].id;
                 this.selectExtraCard(card_id);
             }
-            this.sideboard.unselectAll();
+            this.getStock('sideboard').unselectAll();
         },
         onSelectField: function( evt ) {
             dojo.stopEvent( evt );
@@ -208,9 +211,9 @@ function (dojo, declare) {
             }
             this.slideToObject(token_id, destination).play();
         },
-        moveShips: function(gamedatas) {
-            for( var player_id in gamedatas.playersIncludingRobots ) {
-                var player = gamedatas.playersIncludingRobots[player_id];
+        moveShips: function(playersIncludingRobots) {
+            for( var player_id in playersIncludingRobots ) {
+                var player = playersIncludingRobots[player_id];
                 console.log('moveShips player_id ' + player_id + ' ocean_position ' + player.ocean_position);
                 this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
             }
@@ -344,7 +347,7 @@ function (dojo, declare) {
         }, 
         notif_newPlayerHand: function(notif) {
             console.log('notif_newPlayerHand');
-            this.fillHand(this.hand, notif.args.hand);
+            this.fillHand(this.getStock('hand'), notif.args.hand);
         },
         notify_newScore : function(notif) {
             // Update players' score
@@ -357,24 +360,24 @@ function (dojo, declare) {
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
             if (undefined != notif.args.hand) {
-                this.fillHand(this.hand, notif.args.hand);
+                this.fillHand(this.getStock('hand'), notif.args.hand);
             }
             if (undefined != notif.args.selectedhand) {
-                this.fillHand(this.selectedhand, notif.args.selectedhand);
+                this.fillHand(this.getStock('selectedhand'), notif.args.selectedhand);
             }
             if (undefined != notif.args.playedhand) {
-                this.fillHand(this.playedhand, notif.args.playedhand);
+                this.fillHand(this.getStock('playedhand'), notif.args.playedhand);
             }
         },
         notify_emptyPlayedHand: function(notif) {
             console.log('notify_emptyPlayedHand');
 
-            this.playedhand.removeAll();
+            this.getStock('playedhand').removeAll();
         },
         notify_shipMoved: function(notif) {
             console.log('notify_shipMoved ' + notif.args.playersIncludingRobots.length);
 
-            this.moveShips(notif.args);
+            this.moveShips(notif.args.playersIncludingRobots);
         },
         notify_cardMoved: function(notif) {
             console.log('notify_cardMoved ' + notif.args.card['type'] + ' ' + notif.args.card['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);
