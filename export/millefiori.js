@@ -311,7 +311,7 @@ function (dojo, declare) {
         */
         setupNotifications: function() {
             console.log( 'notifications subscriptions setup' );
-            this.setupNotificationsGeneric();
+            this.setupNotificationsStock();
             
             // TODO: here, associate your game notifications with local methods
             
@@ -415,7 +415,7 @@ function (dojo, declare) {
 
         ///////////////////////////////////////////////////
         //// Game independent methods
-        setupNotificationsGeneric: function() {
+        setupNotificationsStock: function() {
 
             dojo.subscribe( 'stockToStock', this, "notify_stockToStock" );
             this.notifqueue.setSynchronous('stockToStock', 1100);
@@ -446,22 +446,25 @@ function (dojo, declare) {
         getStock: function (id) {
             return this.stocks[id];
         },
+        getOptionalPlayerBoard: function(player_id) {
+            return player_id in this.gamedatas.players ? 'player_board_'+ player_id : null;
+        },
         notify_stockToStock: function(notification) {
             // This notification is either for all players moving an item from public stock to public stock or
             // for one player where 1 of the stocks is not public
-            if (notification.bIsTableMsg ) {} // notification for all players
-            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], notification.args.item['id'], notification.args.from + '_item_' + notification.args.item['id']);
-            this.getStock(notification.args.from).removeFromStockById(notification.args.item['id']);
+            item_id = notification.args.item['id']
+            from = notification.args.from + '_item_' + item_id;
+
+            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], item_id, from);
+            this.getStock(notification.args.from).removeFromStockById(item_id);
         },
         notify_playerToStock: function(notification) {
             // This notification is for all players moving an item from private stock to public stock
-            // The player might be a robot
-            if (notification.args.player_is_robot) {
-                from = null;
-            } else {
-                from = 'player_board_'+ notification.args.player_id
-            }
-            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], notification.args.item['id'], from);
+            // The source player might not have a player board
+            item_id = notification.args.item['id'];
+            from = this.getOptionalPlayerBoard(notification.args.player_id);
+
+            this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], item_id, from);
         }
     });             
 });
