@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Database.php');
+require_once(__DIR__.'/../BGA/Storage.php');
 
 include_once(__DIR__.'/../PlayerRobotProperties.php');
 
@@ -27,7 +27,7 @@ class CurrentPlayerRobotProperties extends PlayerRobotProperties {
     public function getPlayerData(): array {
         $properties = $this->storage->getBucket(PlayerRobotProperties::PLAYER_BUCKET_NAME, PlayerRobotProperties::BUCKET_KEYS, PlayerRobotProperties::PLAYER_KEY_PREFIX);
         foreach ($properties as & $property) {
-            $property['is_robot'] = false;
+            $property['is_player'] = true;
         }
         return $properties;
     }
@@ -35,7 +35,7 @@ class CurrentPlayerRobotProperties extends PlayerRobotProperties {
     public function getRobotData(): array {
         $properties = $this->storage->getBucket(PlayerRobotProperties::ROBOT_BUCKET_NAME, PlayerRobotProperties::BUCKET_KEYS, PlayerRobotProperties::PLAYER_KEY_PREFIX);
         foreach ($properties as & $property) {
-            $property['is_robot'] = true;
+            $property['is_player'] = false;
         }
         return $properties;
     }

@@ -1,6 +1,9 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * Get all data from 1 SQL table
+ * Strip the common prefix from all keys in the output array
+ * The client that calls getBucket does not need to be aware that SQL is involved
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -11,7 +14,6 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/Database.php');
 
 class Storage {
-
     static public function create($sql_database) : Storage {
         $object = new Storage();
         return $object->setDatabase($sql_database);
@@ -22,7 +24,7 @@ class Storage {
         return $this;
     }
 
-    public function getBucket(string $bucket_name, array $bucket_fields, string $prefix = '') {
+    public function getBucket(string $bucket_name, array $bucket_fields, string $prefix = '') : array {
         // Why a prefix is needed: https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $field_names_query_strings = [];
         foreach ($bucket_fields as $field_name) {

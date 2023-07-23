@@ -16,8 +16,8 @@ class CurrentPlayerRobotPropertiesTest extends TestCase{
     const FIELDS = ['id', 'score', 'no', 'name', 'color', 'ocean_position'];
     const PLAYER_DATA = [55 => ['name' => 'TEST']];
     const ROBOT_DATA = [5 => ['name' => 'TESTR']];
-    const PLAYER_EXPECTED_DATA = [55 => ['name' => 'TEST', 'is_robot' => false]];
-    const ROBOT_EXPECTED_DATA = [5 => ['name' => 'TESTR', 'is_robot' => true]];
+    const PLAYER_EXPECTED_DATA = [55 => ['name' => 'TEST', 'is_player' => true]];
+    const ROBOT_EXPECTED_DATA = [5 => ['name' => 'TESTR', 'is_player' => false]];
     const PLAYER_BUCKET_INPUT_DATA = ['player', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
     const ROBOT_BUCKET_INPUT_DATA = ['robot', CurrentPlayerRobotPropertiesTest::FIELDS, 'player_'];
 
