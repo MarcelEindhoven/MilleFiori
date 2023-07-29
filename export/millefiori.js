@@ -345,10 +345,6 @@ function (dojo, declare) {
             dojo.subscribe( 'emptyStock', this, "notify_emptyStock" );
             this.notifqueue.setSynchronous('emptyStock', 1100);
         }, 
-        notif_newStockContent: function(notif) {
-            console.log('notif_newStockContent');
-            this.fillStock(this.getStock('hand'), notif.args.hand);
-        },
         notify_newScore : function(notif) {
             // Update players' score
             console.log('notify_newScore');
@@ -448,6 +444,10 @@ function (dojo, declare) {
         },
         getOptionalPlayerBoard: function(player_id) {
             return player_id in this.gamedatas.players ? 'player_board_'+ player_id : null;
+        },
+        notif_newStockContent: function(notif) {
+            console.log('notif_newStockContent');
+            this.fillStock(notif.args.stock_id, notif.args.items);
         },
         notify_stockToStock: function(notification) {
             // This notification is either for all players moving an item from public stock to public stock or

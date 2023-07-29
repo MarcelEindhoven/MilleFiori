@@ -22,9 +22,17 @@ class StockHandlerTest extends TestCase{
         $this->sut->setNotificationsHandler($this->mockNotify);
     }
 
-    public function testEmit_NoSubscribers_NothingHappens() {
+    public function testnewStockContent_Private_NotifyPlayer() {
         // Arrange
+        $stock_id = 'Stock';
+        $items = [];
+        $message = 'Test';
+        $player_id = 'Player';
+        $arguments = [StockHandler::ARGUMENT_KEY_STOCK => $stock_id, StockHandler::ARGUMENT_KEY_STOCK_ITEMS => $items];
+
+        $this->mockNotify->expects($this->exactly(1))->method('notifyPlayer')->with($player_id, StockHandler::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
         // Act
+        $this->sut->setNewStockContent($player_id, $stock_id, $message, $items);
         // Assert
     }
 }

@@ -9,10 +9,17 @@ namespace NieuwenhovenGames\BGA;
  */
 
 class StockHandler {
+    const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
+    const ARGUMENT_KEY_STOCK = 'stock_id';
+    const ARGUMENT_KEY_STOCK_ITEMS = 'items';
 
     public function setNotificationsHandler($notificationsHandler) : StockHandler {
         $this->notificationsHandler = $notificationsHandler;
         return $this;
+    }
+    public function setNewStockContent(string $player_id, string $stock_id, string $message, array $items) {
+        $arguments = [StockHandler::ARGUMENT_KEY_STOCK => $stock_id, StockHandler::ARGUMENT_KEY_STOCK_ITEMS => $items];
+        $this->notificationsHandler->notifyPlayer($player_id, StockHandler::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
     }
 }
 ?>
