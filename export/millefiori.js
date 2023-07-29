@@ -324,8 +324,8 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
-            dojo.subscribe( 'newStock', this, "notif_newStock" );
-            this.notifqueue.setSynchronous( 'newStock', 500 );  
+            dojo.subscribe( 'newStockContent', this, "notif_newStockContent" );
+            this.notifqueue.setSynchronous( 'newStockContent', 500 );  
 
             dojo.subscribe( 'playerHands', this, "notif_playerHands" );
             this.notifqueue.setSynchronous( 'playerHands', 500 );  
@@ -345,8 +345,8 @@ function (dojo, declare) {
             dojo.subscribe( 'emptyStock', this, "notify_emptyStock" );
             this.notifqueue.setSynchronous('emptyStock', 1100);
         }, 
-        notif_newStock: function(notif) {
-            console.log('notif_newStock');
+        notif_newStockContent: function(notif) {
+            console.log('notif_newStockContent');
             this.fillStock(this.getStock('hand'), notif.args.hand);
         },
         notify_newScore : function(notif) {
