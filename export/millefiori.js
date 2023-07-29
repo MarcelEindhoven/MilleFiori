@@ -324,8 +324,8 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
-            dojo.subscribe( 'newPlayerHand', this, "notif_newPlayerHand" );
-            this.notifqueue.setSynchronous( 'newPlayerHand', 500 );  
+            dojo.subscribe( 'newStock', this, "notif_newStock" );
+            this.notifqueue.setSynchronous( 'newStock', 500 );  
 
             dojo.subscribe( 'playerHands', this, "notif_playerHands" );
             this.notifqueue.setSynchronous( 'playerHands', 500 );  
@@ -342,12 +342,12 @@ function (dojo, declare) {
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
 
-            dojo.subscribe( 'emptyPlayedHand', this, "notify_emptyPlayedHand" );
-            this.notifqueue.setSynchronous('emptyPlayedHand', 1100);
+            dojo.subscribe( 'emptyStock', this, "notify_emptyStock" );
+            this.notifqueue.setSynchronous('emptyStock', 1100);
         }, 
-        notif_newPlayerHand: function(notif) {
-            console.log('notif_newPlayerHand');
-            this.fillHand(this.getStock('hand'), notif.args.hand);
+        notif_newStock: function(notif) {
+            console.log('notif_newStock');
+            this.fillStock(this.getStock('hand'), notif.args.hand);
         },
         notify_newScore : function(notif) {
             // Update players' score
@@ -360,17 +360,17 @@ function (dojo, declare) {
             // Get the color of the player who is returning the discs
             //var targetColor = this.gamedatas.players[ notif.args.player_id ].color;
             if (undefined != notif.args.hand) {
-                this.fillHand(this.getStock('hand'), notif.args.hand);
+                this.fillStock(this.getStock('hand'), notif.args.hand);
             }
             if (undefined != notif.args.selectedhand) {
-                this.fillHand(this.getStock('selectedhand'), notif.args.selectedhand);
+                this.fillStock(this.getStock('selectedhand'), notif.args.selectedhand);
             }
             if (undefined != notif.args.playedhand) {
-                this.fillHand(this.getStock('playedhand'), notif.args.playedhand);
+                this.fillStock(this.getStock('playedhand'), notif.args.playedhand);
             }
         },
-        notify_emptyPlayedHand: function(notif) {
-            console.log('notify_emptyPlayedHand');
+        notify_emptyStock: function(notif) {
+            console.log('notify_emptyStock');
 
             this.getStock('playedhand').removeAll();
         },

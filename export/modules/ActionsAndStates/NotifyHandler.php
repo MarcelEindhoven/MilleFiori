@@ -29,11 +29,11 @@ class NotifyHandler {
     }
 
     public function notifyPlayerHand($player_id, $hand, $message) {
-        $this->notifyPlayerIfNotRobot($player_id, 'newPlayerHand', $message, [\NieuwenhovenGames\BGA\Deck::PLAYER_HAND => $hand]);
+        $this->notifyPlayerIfNotRobot($player_id, 'newStock', $message, [\NieuwenhovenGames\BGA\Deck::PLAYER_HAND => $hand]);
     }
 
     public function notifyEmptyPlayedHand() {
-        $this->notifyInterface->notifyAllPlayers('emptyPlayedHand', '', []);
+        $this->notifyInterface->notifyAllPlayers('emptyStock', '', []);
     }
 
     public function notifyCardMoved($card, $message, $from_stock, $to_stock) {
