@@ -61,7 +61,7 @@ class UpdateCards extends CardsHandler {
 
         $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::LOCATION_SWAP, $previous_player);
         foreach ($this->player_ids as $player_id) {
-            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Pass hand to other player');
+            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Pass hand to other player');
         }
 
         return $this;
@@ -70,7 +70,7 @@ class UpdateCards extends CardsHandler {
     public function dealNewHands($number_cards) : UpdateCards {
         foreach ($this->player_ids as $player_id) {
             $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Deck::STANDARD_DECK, $player_id);
-            $this->notifyHandler->notifyPlayerHand($player_id, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Deal new hand');
+            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Deal new hand');
             }
 
         return $this;

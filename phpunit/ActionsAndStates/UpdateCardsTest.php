@@ -25,7 +25,7 @@ class UpdateCardsTest extends TestCase{
 
     public function testswapHands_NoPlayers_NoAction() {
         // Arrange
-        $this->mockNotify->expects($this->exactly(0))->method('notifyPlayerHand');
+        $this->mockStockHandler->expects($this->exactly(0))->method('setNewStockContent');
         $this->mockCards->expects($this->exactly(0))->method('moveAllCardsInLocation');
         $this->sut->setPlayerIDs([]);
         // Act
@@ -44,7 +44,7 @@ class UpdateCardsTest extends TestCase{
 
     public function testswapHands_2Players2Robots_4Notify() {
         // Arrange
-        $this->mockNotify->expects($this->exactly(4))->method('notifyPlayerHand');
+        $this->mockStockHandler->expects($this->exactly(4))->method('setNewStockContent');
         $this->sut->setPlayerIDs([2, 3, 11, 12]);
         // Act
         $this->sut->swapHands();
