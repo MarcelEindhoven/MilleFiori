@@ -25,6 +25,11 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
+    public function setStockHandler($stockHandler) : UpdateCards {
+        $this->stockHandler = $stockHandler;
+        return $this;
+    }
+
     public function setNotifyHandler($notifyHandler) : UpdateCards {
         $this->notifyHandler = $notifyHandler;
         return $this;

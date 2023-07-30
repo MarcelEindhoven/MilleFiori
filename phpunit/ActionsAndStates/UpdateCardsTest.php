@@ -13,13 +13,14 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/NotifyHandler.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/Deck.php');
-include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/StockHandler.php');
 
 class UpdateCardsTest extends TestCase{
     public function setup() : void {
         $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\Deck::class);
         $this->mockNotify = $this->createMock(NotifyHandler::class);
-        $this->sut = UpdateCards::create($this->mockCards)->setNotifyHandler($this->mockNotify);
+        $this->mockStockHandler = $this->createMock(\NieuwenhovenGames\BGA\StockHandler::class);
+        $this->sut = UpdateCards::create($this->mockCards)->setNotifyHandler($this->mockNotify)->setStockHandler($this->mockStockHandler);
     }
 
     public function testswapHands_NoPlayers_NoAction() {

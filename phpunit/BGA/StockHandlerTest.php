@@ -32,7 +32,7 @@ class StockHandlerTest extends TestCase{
 
         $this->mockNotify->expects($this->exactly(1))->method('notifyPlayer')->with($player_id, StockHandler::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
         // Act
-        $this->sut->setNewStockContent($player_id, $stock_id, $message, $items);
+        $this->sut->setNewStockContent($player_id, $stock_id, $items, $message);
         // Assert
     }
 }
