@@ -26,6 +26,8 @@ include_once(__DIR__.'/ActionsAndStates/ActionEndRound.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerPlaysCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsField.php');
+include_once(__DIR__.'/ActionsAndStates/ActionRobotPlaysCardSelectsField.php');
+include_once(__DIR__.'/ActionsAndStates/ActionRobotSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionRobotsSelectCard.php');
 include_once(__DIR__.'/ActionsAndStates/ActionPlayerSelectsCard.php');
 include_once(__DIR__.'/ActionsAndStates/UpdateCards.php');

@@ -41,7 +41,7 @@
     </div>
 </div>
 <div style="display: inline-block">
-    <h3>Played card</h3>
+    <h3>Discard pile</h3>
     <div id="discard" class="single_card_hand">
     </div>
 </div>

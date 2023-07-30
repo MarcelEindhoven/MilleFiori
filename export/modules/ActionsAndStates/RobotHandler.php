@@ -20,7 +20,7 @@ class RobotHandler {
 
     public function createRobot($player_id, $data): Robot {
         $object = Robot::create($player_id, $data);
-        $this->robots[] = $object;
+        $this->robots[$player_id] = $object;
 
         return $object;
     }
