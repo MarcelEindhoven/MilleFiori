@@ -11,8 +11,14 @@ namespace NieuwenhovenGames\BGA;
 
 class StockHandler {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';
+    const EVENT_STOCK_TO_STOCK = 'stockToStock';
+
     const ARGUMENT_KEY_STOCK = 'stock_id';
+    const ARGUMENT_KEY_STOCK_FROM = 'from';
+    const ARGUMENT_KEY_STOCK_TO = 'to';
+
     const ARGUMENT_KEY_STOCK_ITEMS = 'items';
+    const ARGUMENT_KEY_STOCK_ITEM = 'item';
 
     static public function create($notificationsHandler) {
         $object = new StockHandler();
@@ -23,9 +29,15 @@ class StockHandler {
         $this->notificationsHandler = $notificationsHandler;
         return $this;
     }
-    public function setNewStockContent(string $player_id, string $stock_id, array $items, string $message) {
+
+    public function setNewStockContent($player_id, string $stock_id, array $items, string $message) {
         $arguments = [StockHandler::ARGUMENT_KEY_STOCK => $stock_id, StockHandler::ARGUMENT_KEY_STOCK_ITEMS => $items];
         $this->notificationsHandler->notifyPlayer($player_id, StockHandler::EVENT_NEW_STOCK_CONTENT, $message, $arguments);
+    }
+
+    public function moveCard($player_id, string $from, string $to, array $item, string $message) {
+        $arguments = [StockHandler::ARGUMENT_KEY_STOCK_FROM => $from, StockHandler::ARGUMENT_KEY_STOCK_TO => $to, StockHandler::ARGUMENT_KEY_STOCK_ITEM => $item];
+        $this->notificationsHandler->notifyPlayer($player_id, StockHandler::EVENT_STOCK_TO_STOCK, $message, $arguments);
     }
 }
 ?>
