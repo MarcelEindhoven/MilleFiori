@@ -89,8 +89,8 @@ class UpdateCards extends CardsHandler {
             $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, 'card' => $selectedCard]);
             $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $current_player_id);
         }
-        $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, 'toStock' => 'selectedhand', 'card' => $this->cards->getCard($card_id)]);
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
+        $this->stockHandler->moveCard($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $this->cards->getCard($card_id), 'You selected');
     }
 
     public function playSelectedCard($player_id) {

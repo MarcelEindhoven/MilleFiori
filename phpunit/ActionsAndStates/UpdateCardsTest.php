@@ -128,5 +128,24 @@ class UpdateCardsTest extends TestCase{
         // Assert
         $this->assertFalse($are_any_cards_selected);
     }
+
+    public function testmoveFromHandToSelected_SelectedEmpty_SingleMove() {
+        // Arrange
+        // Arguments
+        $card_id = 3;
+        $current_player_id = 5;
+        // Selected hand is empty
+        $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue([]));
+        // Single move
+        $this->mockCards->expects($this->exactly(1))->method('moveCard')
+        ->with($card_id, CardsHandler::SELECTED_HAND, $current_player_id);
+        $card = ['id'=>$card_id];
+        $this->mockCards->expects($this->exactly(1))->method('getCard')->with($card_id)->will($this->returnValue($card));
+        $this->mockStockHandler->expects($this->exactly(1))->method('moveCard')
+        ->with($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $card, 'You selected');
+        // Act
+        $this->sut->moveFromHandToSelected($card_id, $current_player_id);
+        // Assert
+    }
 }
 ?>

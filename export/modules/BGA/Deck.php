@@ -30,8 +30,11 @@ interface Deck {
     public function moveAllCardsInLocationKeepOrder( $from_location, $to_location );
     public function playCard( $card_id );
 
+    // Returns database entry associated with card ID including the mandatory keys id, type, type_arg, location, location arg
     public function getCard($card_id) : array;
+    // Return array of card IDs
     public function getCards( $cards_array ) : array;
+    // Returns an empty array if the location is empty
     public function getCardsInLocation( $location, $location_arg = null, $order_by = null ) : array;
     public function countCardInLocation( $location, $location_arg=null ) : int;
     public function countCardsInLocations() : int;
