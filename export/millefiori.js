@@ -233,6 +233,10 @@ function (dojo, declare) {
                 }
             }
 
+            if (name == 'discard') {
+                hand.setOverlap(9, 29);
+            }
+
             return hand;
         },
         setupNewCard: function( card_div, card_type_id, card_id )
