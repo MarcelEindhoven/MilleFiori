@@ -47,7 +47,24 @@ class StockHandlerTest extends TestCase{
 
         $this->mockNotify->expects($this->exactly(1))->method('notifyPlayer')->with($player_id, StockHandler::EVENT_STOCK_TO_STOCK, $message, $arguments);
         // Act
-        $this->sut->moveCard($player_id, $from, $to, $item, $message);
+        $this->sut->moveCardPrivate($player_id, $from, $to, $item, $message);
+        // Assert
+    }
+
+    public function testMoveCard_PrivateToPublic_NotifyPlayer() {
+        // Arrange
+        $from = 'Stock1';
+        $to = 'Stock2';
+        $item = [];
+        $message_private = 'Test1';
+        $message_public = 'Test2';
+        $player_id = 55;
+        $arguments = [StockHandler::ARGUMENT_KEY_STOCK_FROM => $from, StockHandler::ARGUMENT_KEY_STOCK_TO => $to, StockHandler::ARGUMENT_KEY_STOCK_ITEM => $item];
+
+        $this->mockNotify->expects($this->exactly(1))->method('notifyPlayer')->with($player_id, StockHandler::EVENT_STOCK_TO_STOCK, $message_private, $arguments);
+        $this->mockNotify->expects($this->exactly(1))->method('notifyAllPlayers')->with(StockHandler::EVENT_PLAYER_TO_STOCK, $message_public, $arguments, $player_id);
+        // Act
+        $this->sut->moveCardPrivatePublic($player_id, $from, $to, $item, $message_private, $message_public);
         // Assert
     }
 }

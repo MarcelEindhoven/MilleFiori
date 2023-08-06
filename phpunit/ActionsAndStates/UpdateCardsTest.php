@@ -152,7 +152,7 @@ class UpdateCardsTest extends TestCase{
         ->with($card_id, CardsHandler::SELECTED_HAND, $this->player_id);
         $card = ['id' => $card_id, 'type' => $card_type];
         $this->mockCards->expects($this->exactly(1))->method('getCard')->with($card_id)->will($this->returnValue($card));
-        $this->mockStockHandler->expects($this->exactly(1))->method('moveCard')
+        $this->mockStockHandler->expects($this->exactly(1))->method('moveCardPrivate')
         ->with($this->player_id, $from, $to, $card, $message);
     }
 }
