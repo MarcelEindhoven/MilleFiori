@@ -64,6 +64,10 @@ class CurrentData {
         return $this;
     }
 
+    public function getCardNamePerType() {
+        return $this->all_data_common[CurrentData::RESULT_KEY_TOOLTIPS_CARDS];
+    }
+
     public function getPlayerRobotIDs(): array {
         return array_keys($this->all_data_common[CurrentData::RESULT_KEY_PLAYERSROBOTS]);
     }

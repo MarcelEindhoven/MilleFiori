@@ -40,6 +40,10 @@ class UpdateCards extends CardsHandler {
         return $this;
     }
 
+    public function setCardNamePerType(array $card_name_per_type) {
+        $this->card_name_per_type = $card_name_per_type;
+    }
+
     public function haveAllPlayersSameHandCount() : bool {
         // Do all players have the same number of cards (> 0) in their hand?
         return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND))));
@@ -90,7 +94,8 @@ class UpdateCards extends CardsHandler {
             $this->stockHandler->moveCard($current_player_id, CardsHandler::SELECTED_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $selectedCard, '');
         }
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
-        $this->stockHandler->moveCard($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $this->cards->getCard($card_id), 'You selected');
+        $selected_card = $this->cards->getCard($card_id);
+        $this->stockHandler->moveCard($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $selected_card, 'You selected ' . $this->card_name_per_type[$selected_card['type']]);
     }
 
     public function playSelectedCard($player_id) {

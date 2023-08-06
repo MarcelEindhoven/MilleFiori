@@ -74,6 +74,7 @@ class Game {
 
         $this->update_cards = UpdateCards::create($this->cards);
         $this->update_cards->setPlayerIDs($this->data_handler->getPlayerRobotIDs());
+        $this->update_cards->setCardNamePerType($this->data_handler->getCardNamePerType());
 
         return $this;
     }
