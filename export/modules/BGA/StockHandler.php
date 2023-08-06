@@ -2,6 +2,7 @@
 namespace NieuwenhovenGames\BGA;
 /**
  * Send events to JavaScript stock
+ * Handle public versus private stocks
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -45,6 +46,11 @@ class StockHandler {
         $this->moveCardPrivate($player_id, $from, $to, $item, $message_private);
         $arguments = $this->getArgumentsMove($from, $to, $item);
         $this->notificationsHandler->notifyAllPlayers(StockHandler::EVENT_PLAYER_TO_STOCK, $message_public, $arguments, $player_id);
+    }
+
+    public function moveCardPublic(string $from, string $to, array $item, string $message_public = '') {
+        $arguments = $this->getArgumentsMove($from, $to, $item);
+        $this->notificationsHandler->notifyAllPlayers(StockHandler::EVENT_STOCK_TO_STOCK, $message_public, $arguments);
     }
 
     protected function getArgumentsMove(string $from, string $to, array $item) {

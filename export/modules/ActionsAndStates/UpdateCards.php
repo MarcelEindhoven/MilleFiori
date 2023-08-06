@@ -82,7 +82,7 @@ class UpdateCards extends CardsHandler {
 
     public function moveHandsToSideboard() : UpdateCards {
         foreach ($this->player_ids as $player_id) {
-            $this->movePrivateToPublic('Giving up own card', $player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD);
+            $this->movePrivateToPublic('giving up', $player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD);
         }
 
         return $this;
@@ -103,16 +103,24 @@ class UpdateCards extends CardsHandler {
     }
 
     public function playSelectedCard($player_id) {
-        $this->movePrivateToPublic('Playing selected card', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
+        $this->movePrivateToPublic('playing', $player_id, CardsHandler::SELECTED_HAND, CardsHandler::PLAYED_HAND);
     }
 
     public function movePrivateToPublic($message, $player_id, $from, $to) {
         foreach ($this->cards->getCardsInLocation($from, $player_id) as $card) {
             $card_name = $this->card_name_per_type[$card['type']];
-            $this->stockHandler->moveCardPrivatePublic($player_id, $from, $to, $card, 'You play ' . $card_name, '${player_name} plays ' . $card_name);
+            $this->stockHandler->moveCardPrivatePublic($player_id, $from, $to, $card, 'You ' . $message . ' ' . $card_name, '${player_name} ' . $message . ' ' . $card_name);
         }
 
         $this->cards->moveAllCardsInLocation($from, $to, $player_id);
+    }
+
+    public function movePublicToPublic($from, $to) {
+        foreach ($this->cards->getCardsInLocation($from) as $card) {
+            $this->stockHandler->moveCardPublic($from, $to, $card);
+        }
+
+        $this->cards->moveAllCardsInLocation($from, $to);
     }
 
     public function selectExtraCard($card_id) {
@@ -121,9 +129,7 @@ class UpdateCards extends CardsHandler {
     }
 
     public function emptyPlayedHand() {
-        $this->cards->moveAllCardsInLocation(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
-
-        $this->notifyHandler->notifyEmptyPlayedHand();
+        $this->movePublicToPublic(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
     }
 
 }
