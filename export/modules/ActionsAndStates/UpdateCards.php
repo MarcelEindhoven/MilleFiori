@@ -95,7 +95,11 @@ class UpdateCards extends CardsHandler {
         }
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
         $selected_card = $this->cards->getCard($card_id);
-        $this->stockHandler->moveCardPrivate($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $selected_card, 'You selected ' . $this->card_name_per_type[$selected_card['type']]);
+        $this->stockHandler->moveCardPrivate(
+            $current_player_id, 
+            \NieuwenhovenGames\BGA\Deck::PLAYER_HAND,
+            CardsHandler::SELECTED_HAND, $selected_card,
+            'You selected ' . $this->card_name_per_type[$selected_card['type']]);
     }
 
     public function playSelectedCard($player_id) {
@@ -104,7 +108,8 @@ class UpdateCards extends CardsHandler {
 
     public function movePrivateToPublic($message, $player_id, $from, $to) {
         foreach ($this->cards->getCardsInLocation($from, $player_id) as $card) {
-            $this->notifyHandler->notifyCardMovedFromPrivateToPublic($card, $message . $player_id , $player_id, $from, $to);
+            $card_name = $this->card_name_per_type[$card['type']];
+            $this->stockHandler->moveCardPrivatePublic($player_id, $from, $to, $card, 'You play ' . $card_name, '${player_name} plays ' . $card_name);
         }
 
         $this->cards->moveAllCardsInLocation($from, $to, $player_id);

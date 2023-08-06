@@ -83,11 +83,13 @@ class UpdateCardsTest extends TestCase{
     public function testSelectedCard_Play_MoveNotify() {
         // Arrange
         $player_id = 3;
-        $cards = [[]];
+        $cards = [['id' => 7, 'type' => 1]];
+        $this->name_selected_card = 2;
+        $this->sut->setCardNamePerType([1, $this->name_selected_card]);
         $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue($cards));
 
         $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
-        $this->mockNotify->expects($this->exactly(1))->method('notifyCardMovedFromPrivateToPublic');
+        $this->mockStockHandler->expects($this->exactly(1))->method('moveCardPrivatePublic');
         // Act
         $this->sut->playSelectedCard($player_id);
         // Assert

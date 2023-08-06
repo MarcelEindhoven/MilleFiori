@@ -461,6 +461,7 @@ function (dojo, declare) {
         notify_playerToStock: function(notification) {
             // This notification is for all players moving an item from private stock to public stock
             // The source player might not have a player board
+            console.log('notify_playerToStock player_id' + notification.args.player_id);
             item_id = notification.args.item['id'];
             from = this.getOptionalPlayerBoard(notification.args.player_id);
 

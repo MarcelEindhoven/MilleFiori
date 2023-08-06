@@ -17,5 +17,6 @@ namespace NieuwenhovenGames\BGA;
 interface Notifications {
     public function notifyPlayer($player_id, string $notification_type, string $notification_log, array $notification_args) : void;
     public function notifyAllPlayers(string $notification_type, string $notification_log, array $notification_args) : void;
+    public function clienttranslate(string $notification_log) : string;
 }
 ?>

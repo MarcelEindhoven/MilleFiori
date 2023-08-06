@@ -17,6 +17,11 @@ namespace NieuwenhovenGames\BGA;
  */
 
 class PlayerRobotNotifications {
+    static public function create($notifyInterface, $player_robot_data) : PlayerRobotNotifications {
+        $handler = new PlayerRobotNotifications();
+        return $handler->setNotificationsHandler($notifyInterface)->setPlayerRobotData($player_robot_data);
+    }
+
     public function setPlayerRobotData($data) : PlayerRobotNotifications {
         $this->data = $data;
         return $this;
