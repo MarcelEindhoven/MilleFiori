@@ -468,10 +468,12 @@ function (dojo, declare) {
             console.log('notify_playerToStock player_id ' + notification.args.player_id + ' to ' + notification.args.to);
             item_id = notification.args.item['id'];
             from = this.getOptionalPlayerBoard(notification.args.player_id);
+            stock = this.getStock(notification.args.to);
+            type = notification.args.item['type'];
             if (from) {
-                this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], item_id, from);
+                stock.addToStockWithId(type, item_id, from);
             } else {
-                this.getStock(notification.args.to).addToStockWithId(notification.args.item['type'], item_id);
+                stock.addToStockWithId(type, item_id);
             }
 
             
