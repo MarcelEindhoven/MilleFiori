@@ -86,8 +86,8 @@ class UpdateCards extends CardsHandler {
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->notifyHandler->notifyPlayerIfNotRobot($current_player_id, 'cardMoved', '', ['fromStock' => 'selectedhand', 'toStock' => \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, 'card' => $selectedCard]);
             $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $current_player_id);
+            $this->stockHandler->moveCard($current_player_id, CardsHandler::SELECTED_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $selectedCard, '');
         }
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
         $this->stockHandler->moveCard($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $this->cards->getCard($card_id), 'You selected');

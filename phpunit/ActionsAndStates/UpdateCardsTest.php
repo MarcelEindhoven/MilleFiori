@@ -132,20 +132,24 @@ class UpdateCardsTest extends TestCase{
     public function testmoveFromHandToSelected_SelectedEmpty_SingleMove() {
         // Arrange
         // Arguments
-        $card_id = 3;
-        $current_player_id = 5;
+        $this->selected_card_id = 3;
+        $this->player_id = 5;
         // Selected hand is empty
         $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue([]));
         // Single move
+        $this->arrangeMoveCard($this->selected_card_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, 'You selected');
+        // Act
+        $this->sut->moveFromHandToSelected($this->selected_card_id, $this->player_id);
+        // Assert
+    }
+
+    protected function arrangeMoveCard($card_id, $from, $to, $message) {
         $this->mockCards->expects($this->exactly(1))->method('moveCard')
-        ->with($card_id, CardsHandler::SELECTED_HAND, $current_player_id);
-        $card = ['id'=>$card_id];
+        ->with($card_id, CardsHandler::SELECTED_HAND, $this->player_id);
+        $card = ['id' => $card_id];
         $this->mockCards->expects($this->exactly(1))->method('getCard')->with($card_id)->will($this->returnValue($card));
         $this->mockStockHandler->expects($this->exactly(1))->method('moveCard')
-        ->with($current_player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, $card, 'You selected');
-        // Act
-        $this->sut->moveFromHandToSelected($card_id, $current_player_id);
-        // Assert
+        ->with($this->player_id, $from, $to, $card, $message);
     }
 }
 ?>
