@@ -362,6 +362,12 @@ class MilleFiori extends Table
         $this->game->stPlayerPlaysCard();
     }
 
+    public function stEndOfRound() {
+        self::trace(__FUNCTION__);
+
+        $this->game->stEndOfRound();
+    }
+
     public function stEndOfTurn() {
         self::trace(__FUNCTION__);
         self::trace('hand '.implode(',',  $this->cards->countCardsByLocationArgs('hand')));
