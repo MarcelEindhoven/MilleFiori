@@ -63,8 +63,11 @@ class UpdateCardsTest extends TestCase{
 
     public function testCardPlayed_Empty_Notify() {
         // Arrange
+        $cards = [['id' => 7, 'type' => 1]];
+        $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue($cards));
+
         $this->mockCards->expects($this->exactly(1))->method('moveAllCardsInLocation');
-        $this->mockNotify->expects($this->exactly(1))->method('notifyEmptyPlayedHand');
+        $this->mockStockHandler->expects($this->exactly(1))->method('moveCardPublic');
         // Act
         $this->sut->emptyPlayedHand();
         // Assert
