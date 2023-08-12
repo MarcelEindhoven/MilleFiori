@@ -19,6 +19,8 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/UpdateStorage.php');
 
 class PlayerRobotNotifications {
+    const EVENT_KEY_PUBLIC_MESSAGE = 'public_message';
+
     static public function create($notifyInterface, $player_robot_data) : PlayerRobotNotifications {
         $handler = new PlayerRobotNotifications();
         return $handler->setNotificationsHandler($notifyInterface)->setPlayerRobotData($player_robot_data);
@@ -56,7 +58,8 @@ class PlayerRobotNotifications {
 
     public function propertyUpdated($event) {
         $player_id = $event[UpdateStorage::EVENT_KEY_NAME_SELECTOR] == 'player_id' ? $event[UpdateStorage::EVENT_KEY_SELECTED] : null;
-        $this->notifyAllPlayers(UpdateStorage::EVENT_NAME, '', $event, $player_id);
+        $public_message = array_key_exists(PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE, $event) ? $event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] : '';
+        $this->notifyAllPlayers(UpdateStorage::EVENT_NAME, $public_message, $event, $player_id);
     }
 }
 ?>

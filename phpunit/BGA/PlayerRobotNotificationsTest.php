@@ -77,13 +77,33 @@ class PlayerRobotNotificationsTest extends TestCase{
         // Assert
     }
 
-    public function testpropertyUpdated_Always_notifyAllPlayers() {
+    public function testpropertyUpdated_PublicMessage_Notify() {
+        // Arrange
+        $this->notification_type = UpdateStorage::EVENT_NAME;
+        $this->notification_log = 'Message';
+
+        $additional_arguments = ['player_id' => $this->player_id, 'player_name' => $this->input_data[$this->player_id]['name']];
+        $event = [
+            PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE => $this->notification_log,
+            UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id',
+            UpdateStorage::EVENT_KEY_SELECTED => $this->player_id];
+        $this->notification_args = $event;
+
+        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($this->notification_type, $this->notification_log, $this->notification_args + $additional_arguments);
+        // Act
+        $this->sut->propertyUpdated($event);
+        // Assert
+    }
+
+    public function testpropertyUpdated_PublicMessage_NotifyWithoutMessage() {
         // Arrange
         $this->notification_type = UpdateStorage::EVENT_NAME;
         $this->notification_log = '';
 
         $additional_arguments = ['player_id' => $this->player_id, 'player_name' => $this->input_data[$this->player_id]['name']];
-        $event = [UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id', UpdateStorage::EVENT_KEY_SELECTED => $this->player_id];
+        $event = [
+            UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id',
+            UpdateStorage::EVENT_KEY_SELECTED => $this->player_id];
         $this->notification_args = $event;
 
         $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($this->notification_type, $this->notification_log, $this->notification_args + $additional_arguments);
