@@ -348,12 +348,24 @@ function (dojo, declare) {
 
             dojo.subscribe( 'emptyStock', this, "notify_emptyStock" );
             this.notifqueue.setSynchronous('emptyStock', 1100);
+
+            dojo.subscribe( 'propertyUpdated', this, "notify_propertyUpdated" );
         }, 
         notify_newScore : function(notif) {
             // Update players' score
             console.log('notify_newScore');
 
             this.scoreCtrl[notif.args.player_id].toValue(notif.args.newScore);
+        },
+        notify_propertyUpdated : function(notif) {
+            console.log('notify_propertyUpdated');
+            if (notif.args.player_id) {
+                if (notif.args.field_name_value == 'player_score') {
+                    if (notif.args.player_id in this.gamedatas.players) {
+                        this.scoreCtrl[notif.args.player_id].toValue(notif.args.new_value);
+                    }
+                }
+            }
         },
         notif_playerHands: function(notif) {
             console.log('notif_playerHands');

@@ -15,7 +15,7 @@ include_once(__DIR__.'/../Ocean.php');
 class UpdateOcean extends Ocean {
     static public function create($data): UpdateOcean {
         $object = new UpdateOcean();
-        $object->ocean_positions = $data;
+        $object->setOceanPositions($data);
         return $object;
     }
 

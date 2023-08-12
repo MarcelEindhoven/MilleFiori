@@ -53,7 +53,7 @@ class UpdateOceanTest extends TestCase{
         $this->mock_array->expects($this->exactly(0))->method('offsetSet');
         $this->mock_reward_handler->expects($this->exactly(0))->method('gainedAdditionalReward');
         // Act
-        $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
+        $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
     }
 
@@ -63,7 +63,7 @@ class UpdateOceanTest extends TestCase{
         $this->arrangeForNewPosition(7);
         $this->mock_reward_handler->expects($this->exactly(1))->method('gainedAdditionalReward')->withConsecutive(['select_extra_card', []]);
         // Act
-        $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
+        $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
     }
 
@@ -74,7 +74,7 @@ class UpdateOceanTest extends TestCase{
         $event_points = ['player_id' => $this->player_id, 'points' => 10];
         $this->mock_reward_handler->expects($this->exactly(1))->method('gainedPoints')->withConsecutive([$this->player_id, 10]);
         // Act
-        $tooltips = $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
+        $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert
     }
 

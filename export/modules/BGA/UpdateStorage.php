@@ -16,7 +16,7 @@ class UpdateStorage {
     const EVENT_KEY_UPDATED_VALUE = 'new_value';
     const EVENT_KEY_NAME_SELECTOR = 'field_name_selector';
     const EVENT_KEY_SELECTED = 'selected_field';
-    const EVENT_NAME = 'bucket_updated';
+    const EVENT_NAME = 'propertyUpdated';
 
     static public function create($sql_database) : UpdateStorage {
         $object = new UpdateStorage();
@@ -30,10 +30,11 @@ class UpdateStorage {
 
     public function setEventEmitter($event_handler) : UpdateStorage {
         $this->event_handler = $event_handler;
-        $this->event_handler->on(UpdateStorage::EVENT_NAME, [$this, 'bucketUpdated']);
+        $this->event_handler->on(UpdateStorage::EVENT_NAME, [$this, 'propertyUpdated']);
         return $this;
     }
-    public function bucketUpdated($event) {
+
+    public function propertyUpdated($event) {
         $this->updateValueForField(
             $event[UpdateStorage::EVENT_KEY_BUCKET],
             $event[UpdateStorage::EVENT_KEY_NAME_VALUE],
@@ -44,15 +45,6 @@ class UpdateStorage {
 
     public function updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector) {
         $this->sql_database->query("UPDATE $bucket_name SET $field_name_value=$value WHERE $field_name_selector=$value_selector");
-
-        // Deprecated?
-        $event = [
-            UpdateStorage::EVENT_KEY_BUCKET => $bucket_name,
-            UpdateStorage::EVENT_KEY_NAME_VALUE => $field_name_value,
-            UpdateStorage::EVENT_KEY_UPDATED_VALUE => $value,
-            UpdateStorage::EVENT_KEY_NAME_SELECTOR => $field_name_selector,
-            UpdateStorage::EVENT_KEY_SELECTED => $value_selector];
-        $this->event_handler->emit($bucket_name, $event);
     }
 }
 ?>

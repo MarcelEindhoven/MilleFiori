@@ -40,8 +40,6 @@ class UpdateStorageTest extends TestCase{
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => $this->field_name_selector,
             UpdateStorage::EVENT_KEY_SELECTED => $this->value_selector
         ];
-
-        $this->mock_emitter->expects($this->exactly(1))->method('emit');
     }
 
     protected function arrangeQuery($expected_query) {
@@ -62,7 +60,7 @@ class UpdateStorageTest extends TestCase{
         // Arrange
         $this->expectWarning();
         // Act
-        $this->sut->bucketUpdated([]);
+        $this->sut->propertyUpdated([]);
         // Assert
     }
 
@@ -70,7 +68,7 @@ class UpdateStorageTest extends TestCase{
         // Arrange
         $this->arrangeDefault();
         // Act
-        $this->sut->bucketUpdated($this->event);
+        $this->sut->propertyUpdated($this->event);
         // Assert
     }
 }

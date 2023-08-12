@@ -93,7 +93,9 @@ class Game {
 
         $this->notifyHandler = NotifyHandler::create($notifyInterface);
         $this->update_cards->setNotifyHandler($this->notifyHandler);
+
         $this->notifications_handler = \NieuwenhovenGames\BGA\PlayerRobotNotifications::create($notifyInterface, $this->data_handler->getPlayerDataIncludingRobots());
+        $this->notifications_handler->setEventEmitter($this->event_emitter);
 
         $this->stockHandler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications_handler);
         $this->update_cards->setStockHandler($this->stockHandler);

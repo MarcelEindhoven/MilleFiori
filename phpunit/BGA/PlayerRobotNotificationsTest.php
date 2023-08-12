@@ -11,6 +11,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
 
 include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
 
@@ -25,6 +26,10 @@ class PlayerRobotNotificationsTest extends TestCase{
 
         $this->mock_notifications = $this->createMock(Notifications::class);
         $this->sut->setNotificationsHandler($this->mock_notifications);
+
+        $this->mock_emitter = $this->createMock(EventEmitter::class);
+        $this->mock_emitter->expects($this->exactly(1))->method('on');
+        $this->sut->setEventEmitter($this->mock_emitter);
 
         $this->notification_type = 'notification_type';
         $this->notification_log = 'notification_log';
@@ -69,6 +74,21 @@ class PlayerRobotNotificationsTest extends TestCase{
         $this->mock_notifications->expects($this->exactly(0))->method('notifyPlayer');
         // Act
         $this->sut->notifyPlayer($this->robot_id, $this->notification_type, $this->notification_log, $this->notification_args);
+        // Assert
+    }
+
+    public function testpropertyUpdated_Always_notifyAllPlayers() {
+        // Arrange
+        $this->notification_type = UpdateStorage::EVENT_NAME;
+        $this->notification_log = '';
+
+        $additional_arguments = ['player_id' => $this->player_id, 'player_name' => $this->input_data[$this->player_id]['name']];
+        $event = [UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id', UpdateStorage::EVENT_KEY_SELECTED => $this->player_id];
+        $this->notification_args = $event;
+
+        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($this->notification_type, $this->notification_log, $this->notification_args + $additional_arguments);
+        // Act
+        $this->sut->propertyUpdated($event);
         // Assert
     }
 }
