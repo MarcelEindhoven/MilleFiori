@@ -425,7 +425,6 @@ function (dojo, declare) {
             this.notifqueue.setIgnoreNotificationCheck( 'playerToStock', (notif) => (notif.args.player_id == this.player_id) );
         },
         createStock: function(name, item_width, item_height, image_items_per_row) {
-            // Refactoring: make this a map
             stock = new ebg.stock(); // new stock object for stock
             stock.create( this, $(name), item_width, item_height);
             stock.image_items_per_row = image_items_per_row;
@@ -450,8 +449,7 @@ function (dojo, declare) {
             return player_id in this.gamedatas.players ? 'player_board_'+ player_id : null;
         },
         notif_newStockContent: function(notif) {
-            console.log('notif_newStockContent');
-            this.fillStock(notif.args.stock_id, notif.args.items);
+            this.fillStock(this.getStock(notif.args.stock_id), notif.args.items);
         },
         notify_stockToStock: function(notification) {
             // This notification is either for all players moving an item from public stock to public stock or
