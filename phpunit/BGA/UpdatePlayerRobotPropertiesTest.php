@@ -77,7 +77,7 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
         // Assert
     }
 
-    private function arrangeSet($bucket_name, $player_id, $new_value)
+    private function arrangeSet($bucket_name, $player_id, $new_value, $public_message = null)
     {
         // see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
         $this->event = [
@@ -90,8 +90,21 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
             // Event info to inform the players
             UpdatePlayerRobotProperties::EVENT_KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
         ];
+        if ($public_message) {
+            $this->event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] = $public_message;
+        }
         $this->mock_emitter->expects($this->exactly(1))->method('emit')->with(UpdateStorage::EVENT_NAME, $this->event);
+    }
+
+    public function testPublicMessage_Present_MessageInEvent() {
+        // Arrange
+        $new_value = 9;
+        $public_message = 'hello world';
+        $this->sut->setPublicMessageWhenUpdated(UpdatePlayerRobotPropertiesTest::DEFAULT_KEY, $public_message);
+        $this->arrangeSet(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME, UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID, $new_value, $public_message);
+        // Act
+        $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
+        // Assert
     }
 }
 ?>
-

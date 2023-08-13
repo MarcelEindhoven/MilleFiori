@@ -52,6 +52,7 @@ class Game {
 
         $this->player_properties = new \NieuwenhovenGames\BGA\UpdatePlayerRobotProperties($this->data_handler->getPlayerDataIncludingRobots());
         $this->player_properties->setEventEmitter($this->event_emitter);
+        $this->player_properties->setPublicMessageWhenUpdated(\NieuwenhovenGames\BGA\UpdatePlayerRobotProperties::KEY_SCORE, '${player_name} score becomes ');
 
         $this->reward_handler = \NieuwenhovenGames\BGA\RewardHandler::createFromPlayerProperties($this->player_properties);;
         $this->reward_handler->setEventEmitter($this->event_emitter);

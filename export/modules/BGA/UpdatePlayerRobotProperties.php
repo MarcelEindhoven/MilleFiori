@@ -17,9 +17,16 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-class UpdateSpecificProperty extends \ArrayObject {
-    public function setEventEmitter($event_handler) : UpdateSpecificProperty {
+class PropertiesSinglePlayer extends \ArrayObject {
+    public $public_messages_when_property_is_updated = [];
+
+    public function setEventEmitter($event_handler) : PropertiesSinglePlayer {
         $this->event_handler = $event_handler;
+        return $this;
+    }
+
+    public function setPublicMessageWhenUpdated(string $property_name, string $public_message) : PropertiesSinglePlayer {
+        $this->public_messages_when_property_is_updated[$property_name] = $public_message;
         return $this;
     }
 
@@ -37,9 +44,13 @@ class UpdateSpecificProperty extends \ArrayObject {
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,
             UpdateStorage::EVENT_KEY_SELECTED => $this->offsetGet(UpdatePlayerRobotProperties::KEY_ID),
-            // Event info to inform the players
+            // Event info to inform the players, may be deprecated
             UpdatePlayerRobotProperties::EVENT_KEY_NAME => $this->offsetGet(UpdatePlayerRobotProperties::KEY_NAME),
+            // Message to inform the players
         ];
+        if (\array_key_exists($property_name, $this->public_messages_when_property_is_updated)) {
+            $event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] = $this->public_messages_when_property_is_updated[$property_name];
+        }
         $this->event_handler->emit(UpdateStorage::EVENT_NAME, $event);
     }
 }
@@ -61,7 +72,7 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
     public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);
         foreach($array as $player_id => $player_properties) {
-            $this[$player_id] = new UpdateSpecificProperty($player_properties);
+            $this[$player_id] = new PropertiesSinglePlayer($player_properties);
         }
     }
 
@@ -71,6 +82,14 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
         }
 
         $this->event_handler = $event_handler;
+
+        return $this;
+    }
+
+    public function setPublicMessageWhenUpdated(string $property_name, string $public_message) : UpdatePlayerRobotProperties {
+        foreach($this->getIterator() as $player_id => $player_properties) {
+            $player_properties->setPublicMessageWhenUpdated($property_name, $public_message);
+        }
 
         return $this;
     }
