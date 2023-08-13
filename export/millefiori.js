@@ -213,10 +213,13 @@ function (dojo, declare) {
         },
         moveShips: function(playersIncludingRobots) {
             for( var player_id in playersIncludingRobots ) {
-                var player = playersIncludingRobots[player_id];
-                console.log('moveShips player_id ' + player_id + ' ocean_position ' + player.ocean_position);
-                this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+player.ocean_position).play();
+                var player_properties = playersIncludingRobots[player_id];
+                this.moveShip(player_id, player_properties.ocean_position);
             }
+        },
+        moveShip: function(player_id, ocean_position) {
+            console.log('moveShip player_id ' + player_id + ' ocean_position ' + ocean_position);
+            this.slideToObject( 'token_'+player_id+'_0', 'field_ocean_'+ ocean_position).play();
         },
         createAndFillHand: function(name, items) {
             return this.fillStock(this.createHand(name), items);
@@ -337,9 +340,6 @@ function (dojo, declare) {
             dojo.subscribe( 'selectableFields', this, "notify_selectableFields" );
             this.notifqueue.setSynchronous( 'selectableFields', 500 );
 
-            dojo.subscribe( 'shipMoved', this, "notify_shipMoved" );
-            this.notifqueue.setSynchronous( 'shipMoved', 500 );
-
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
 
@@ -355,6 +355,9 @@ function (dojo, declare) {
                     if (notif.args.player_id in this.gamedatas.players) {
                         this.scoreCtrl[notif.args.player_id].toValue(notif.args.new_value);
                     }
+                }
+                if (notif.args.field_name_value == 'player_ocean_position') {
+                    this.moveShip(notif.args.player_id, notif.args.new_value);
                 }
             }
         },
@@ -376,11 +379,6 @@ function (dojo, declare) {
             console.log('notify_emptyStock');
 
             this.getStock('playedhand').removeAll();
-        },
-        notify_shipMoved: function(notif) {
-            console.log('notify_shipMoved ' + notif.args.playersIncludingRobots.length);
-
-            this.moveShips(notif.args.playersIncludingRobots);
         },
         notify_cardMoved: function(notif) {
             console.log('notify_cardMoved ' + notif.args.card['type'] + ' ' + notif.args.card['id'] + ' ' + notif.args.fromStock + ' -> ' + notif.args.toStock);

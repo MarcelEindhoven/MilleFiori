@@ -228,11 +228,6 @@ class MilleFiori extends Table
             $this->notif_playerHands($player_id);
         }
     }
-    function notify_shipMoved() {
-        self::trace("notify_shipMoved ". count($this->getPlayerData()));
-
-        $this->notifyAllPlayers('shipMoved', '', ['playersIncludingRobots' => $this->playerProperties->getPropertiesPlayersPlusRobots()]);
-    }
     function notif_playerHands($current_player_id) {
         self::notifyPlayer($current_player_id, 'playerHands', '', $this->getHands($current_player_id));
     }
