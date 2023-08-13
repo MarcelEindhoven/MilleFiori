@@ -340,9 +340,6 @@ function (dojo, declare) {
             dojo.subscribe( 'shipMoved', this, "notify_shipMoved" );
             this.notifqueue.setSynchronous( 'shipMoved', 500 );
 
-            dojo.subscribe( 'newScore', this, "notify_newScore" );
-            this.notifqueue.setSynchronous( 'newScore', 500 );
-
             dojo.subscribe( 'cardMoved', this, "notify_cardMoved" );
             this.notifqueue.setSynchronous('cardMoved', 1100);
 
@@ -351,12 +348,6 @@ function (dojo, declare) {
 
             dojo.subscribe( 'propertyUpdated', this, "notify_propertyUpdated" );
         }, 
-        notify_newScore : function(notif) {
-            // Update players' score
-            console.log('notify_newScore');
-
-            this.scoreCtrl[notif.args.player_id].toValue(notif.args.newScore);
-        },
         notify_propertyUpdated : function(notif) {
             console.log('notify_propertyUpdated');
             if (notif.args.player_id) {
