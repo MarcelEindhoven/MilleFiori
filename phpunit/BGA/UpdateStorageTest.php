@@ -58,10 +58,14 @@ class UpdateStorageTest extends TestCase{
 
     public function testBucketUpdated_EmptyEvent_Warning() {
         // Arrange
-        $this->expectWarning();
         // Act
-        $this->sut->propertyUpdated([]);
+        try {
+            $this->sut->propertyUpdated([]);
+        } catch(\PHPUnit\Framework\Error\Notice $e) {
+            $exception = 'notice';
+        }
         // Assert
+        $this->assertEquals('notice', $exception);
     }
 
     public function testBucketUpdated_NormalEvent_DatabaseUpdate() {

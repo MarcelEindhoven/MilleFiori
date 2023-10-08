@@ -27,10 +27,15 @@ class PlayerPropertyTest extends TestCase{
 
     public function testGet_UnknownPlayer_Exception() {
         // Arrange
-        $this->expectWarning();
+        //$this->expectException(\PHPUnit\Framework\Error\Notice::class);
         // Act
-        $dummy = $this->sut[1];
+        try {
+            $dummy = $this->sut[1];
+        } catch(\PHPUnit\Framework\Error\Notice $e) {
+            $exception = 'notice';
+        }
         // Assert
+        $this->assertEquals('notice', $exception);
     }
 
     public function testGet_KnownPlayer_Position5() {

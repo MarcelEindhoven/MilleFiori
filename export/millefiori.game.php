@@ -165,7 +165,7 @@ class MilleFiori extends Table
         _ when a player refreshes the game page (F5)
     */
     protected function getAllDatas() {
-        self::trace( "getAllDatas your message here" );
+        self::trace('PHP version: ' . phpversion());
 
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
 

@@ -36,7 +36,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $this->actSelectableFieldIDs(card_id: 7);
+        $this->actSelectableFieldIDs(7);
         // Assert
         $this->assertFieldID(3);
     }
@@ -45,7 +45,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(5);
         // Act
-        $this->actSelectableFieldIDs(card_id: 7);
+        $this->actSelectableFieldIDs(7);
         // Assert
         $this->assertFieldID(8);
     }
@@ -54,7 +54,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(20);
         // Act
-        $this->actSelectableFieldIDs(card_id: 7);
+        $this->actSelectableFieldIDs(7);
         // Assert
         $this->assertFieldID(20);
     }
@@ -72,7 +72,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $reward = $this->actReward(new_position: 0);
+        $reward = $this->actReward(0);
         // Assert
         $this->assertNoReward($reward);
     }
@@ -81,7 +81,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $reward = $this->actReward(new_position: 1);
+        $reward = $this->actReward(1);
         // Assert
         $this->assertPoints($reward, 1);
     }
@@ -89,17 +89,20 @@ class CurrentOceanTest extends TestCase{
     public function testReward_OneTooMuch_Exception() {
         // Arrange
         $this->arrangeForPosition(0);
-        $this->expectWarning();
-        // Act
-        $reward = $this->actReward(new_position: Ocean::NUMBER_FIELDS);
+        try {
+            $this->actReward(Ocean::NUMBER_FIELDS);
+        } catch(\PHPUnit\Framework\Error\Notice $e) {
+            $exception = 'notice';
+        }
         // Assert
+        $this->assertEquals('notice', $exception);
     }
 
     public function testReward_MaximumID_Points() {
         // Arrange
         $this->arrangeForPosition(0);
         // Act
-        $reward = $this->actReward(new_position: $this->getMaxPosition());
+        $reward = $this->actReward($this->getMaxPosition());
         // Assert
         $this->assertPoints($reward, 10);
     }
@@ -108,7 +111,7 @@ class CurrentOceanTest extends TestCase{
         // Arrange
         $this->arrangeForPosition($this->getMaxPosition());
         // Act
-        $reward = $this->actReward(new_position: $this->getMaxPosition());
+        $reward = $this->actReward($this->getMaxPosition());
         // Assert
         $this->assertNoReward($reward);
     }

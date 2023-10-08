@@ -37,11 +37,13 @@ class HousesTest extends TestCase{
 
     public function testReward_Overflow_Exception() {
         // Arrange
-        $this->expectWarning();
-        // Act
-        $reward = $this->sut->getReward(2, 20);
+        try {
+            $reward = $this->sut->getReward(2, 20);
+        } catch(\PHPUnit\Framework\Error\Notice $e) {
+            $exception = 'notice';
+        }
         // Assert
-        $this->assertEquals(3, $reward['points']);
+        $this->assertEquals('notice', $exception);
     }
 
     public function testSelectableFields_OtherCategory_Empty() {
