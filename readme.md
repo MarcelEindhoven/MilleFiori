@@ -2,6 +2,8 @@
 
 ## Download
 git clone https://github.com/MarcelEindhoven/MilleFiori.git
+git config user.email "Marcel.Eindhoven@Gmail.com"
+git config user.name "MarcelEindhoven"
 
 ## Deploy
 For example, use WinSCP (https://winscp.net/download/WinSCP-6.1.2-Setup.exe) to synchronise the files in export to
@@ -13,7 +15,7 @@ User MarcelEindhoven
 user MarcelEindhoven0
 https://studio.boardgamearena.com/controlpanel
 https://studio.boardgamearena.com/studio
-https://studio.boardgamearena.com/studiogame?game=millefiori
+https://studio.boardgamReadme updateearena.com/studiogame?game=millefiori
 
 ## Development
 ### PHP
