@@ -136,6 +136,8 @@ class MilleFiori extends Table
         /************ End of the game initialization *****/
     }
 
+    /*
+    */
     protected function initialiseHelperClasses() {
         self::trace( "Initialise helper classes" );
 

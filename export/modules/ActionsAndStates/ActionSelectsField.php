@@ -39,7 +39,7 @@ class ActionSelectsField extends \NieuwenhovenGames\BGA\SubscribedAction {
 
         $this->cards_handler->emptyPlayedHand();
 
-        $this->subscribe('selectExtraCard', 'select_extra_card');
+        $this->subscribe('select_extra_card', 'selectExtraCard');
         $this->field_selection_handler->playerSelectsField($this->player_id, $this->field_id);
 
         return $this;

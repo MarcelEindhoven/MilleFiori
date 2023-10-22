@@ -45,7 +45,7 @@ class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
     }
 
     protected function arrangeExecute() {
-        $this->mock_emitter->expects($this->exactly(1))->method('on')->with('selectExtraCard', [$this->sut, 'select_extra_card']);
+        $this->mock_emitter->expects($this->exactly(1))->method('on')->with('select_extra_card', [$this->sut, 'selectExtraCard']);
 
         $this->mock_robot->method('getPlayerID')->will($this->returnValue($this->player_id));
 

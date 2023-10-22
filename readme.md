@@ -1,4 +1,5 @@
-# Board game arena game 
+# Board game arena game
+In Reiner Knizia's Mille Fiori, you take the role of glass manufacturers and traders who want to profit as much as they can from their role in the production of fine glass art. 
 
 ## Download
 git clone https://github.com/MarcelEindhoven/MilleFiori.git
@@ -15,7 +16,7 @@ User MarcelEindhoven
 user MarcelEindhoven0
 https://studio.boardgamearena.com/controlpanel
 https://studio.boardgamearena.com/studio
-https://studio.boardgamReadme updateearena.com/studiogame?game=millefiori
+https://studio.boardgamearena.com/studiogame?game=millefiori
 
 ## Development
 ### PHP
