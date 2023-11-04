@@ -15,7 +15,7 @@ include_once(__DIR__.'/../../export/modules/BGA/UpdatePlayerRobotProperties.php'
 include_once(__DIR__.'/UpdatePlayerRobotPropertiesTest.php');
 
 class CurrentPlayerOrRobotTest extends TestCase{
-    const DEFAULT_ROBOT_NUMBER = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;
+    const DEFAULT_ROBOT_NUMBER = CurrentPlayerOrRobot::FIRST_PLAYER_NUMBER;
     const DEFAULT_PLAYER_NUMBER = 2;
     const DEFAULT_DATA = [
         UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID => [

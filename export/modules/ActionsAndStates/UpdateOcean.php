@@ -48,7 +48,7 @@ class UpdateOcean extends Ocean {
         }
 
         if (Ocean::EXTRA_CARD_PER_POSITION[$position]) {
-            $this->reward_handler->gainedAdditionalReward('select_extra_card', []);
+            $this->reward_handler->gainedAdditionalReward($player_id, 'select_extra_card');
         }
     }
 }

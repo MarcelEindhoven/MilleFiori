@@ -10,6 +10,7 @@ namespace NieuwenhovenGames\BGA;
  * See http://en.doc.boardgamearena.com/Studio for more information.
  *
  */
+include_once(__DIR__.'/EventEmitter.php');
 
 class RewardHandler {
     static public function createFromPlayerProperties($data) : RewardHandler {

@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\BGA;
  * See http://en.doc.boardgamearena.com/Studio for more information.
  *
  */
+include_once(__DIR__.'/Notifications.php');
 
 class StockHandler {
     const EVENT_NEW_STOCK_CONTENT = 'newStockContent';

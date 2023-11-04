@@ -61,7 +61,7 @@ class UpdateOceanTest extends TestCase{
         // Arrange
         $this->arrangeForInitialPosition(5);
         $this->arrangeForNewPosition(7);
-        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedAdditionalReward')->withConsecutive(['select_extra_card', []]);
+        $this->mock_reward_handler->expects($this->exactly(1))->method('gainedAdditionalReward')->withConsecutive([$this->player_id, 'select_extra_card']);
         // Act
         $this->sut->playerSelectsField($this->player_id, $this->chosen_field_id);
         // Assert

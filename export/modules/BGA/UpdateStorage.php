@@ -9,6 +9,7 @@ namespace NieuwenhovenGames\BGA;
  */
 
 include_once(__DIR__.'/Database.php');
+include_once(__DIR__.'/EventEmitter.php');
 
 class UpdateStorage {
     const EVENT_KEY_BUCKET = 'bucket_name';

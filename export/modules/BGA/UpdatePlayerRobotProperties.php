@@ -16,6 +16,7 @@ namespace NieuwenhovenGames\BGA;
  * See http://en.doc.boardgamearena.com/Studio for more information.
  *
  */
+include_once(__DIR__.'/EventEmitter.php');
 
 class PropertiesSinglePlayer extends \ArrayObject {
     public $public_messages_when_property_is_updated = [];
@@ -67,7 +68,6 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
     const KEY_NUMBER = 'no';
     const KEY_COLOR = 'color';
     const KEY_NAME = 'name';
-    const FIRST_PLAYER_NUMBER = 1;
 
     public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);

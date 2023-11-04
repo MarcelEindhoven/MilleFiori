@@ -10,9 +10,11 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/UpdatePlayerRobotProperties.php');
+ include_once(__DIR__.'/GameState.php');
+ include_once(__DIR__.'/UpdatePlayerRobotProperties.php');
 
 class CurrentPlayerOrRobot {
+    const FIRST_PLAYER_NUMBER = 1;
 
     static public function create($current_player_or_robot_id) : CurrentPlayerOrRobot {
         $object = new CurrentPlayerOrRobot();
@@ -42,7 +44,7 @@ class CurrentPlayerOrRobot {
     }
 
     protected function isNumberOutOfBounds($number) {
-        return $number >= UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER + count($this->properties);
+        return $number >= CurrentPlayerOrRobot::FIRST_PLAYER_NUMBER + count($this->properties);
     }
 
     protected function setCurrentPlayerOrRobotNumber($new_number) {
@@ -56,7 +58,7 @@ class CurrentPlayerOrRobot {
     protected function getNextPlayerOrRobotNumber(): int {
         $new_number = $this->properties[$this->player_id][UpdatePlayerRobotProperties::KEY_NUMBER] + 1;
         if ($this->isNumberOutOfBounds($new_number)) {
-            $new_number = UpdatePlayerRobotProperties::FIRST_PLAYER_NUMBER;
+            $new_number = CurrentPlayerOrRobot::FIRST_PLAYER_NUMBER;
         }
         return $new_number;
     }
