@@ -16,7 +16,7 @@ class StorageTest extends TestCase{
     protected Storage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(Database::class);
+        $this->mock_database = $this->createMock(FrameworkInterfaces\Database::class);
         $this->sut = Storage::create($this->mock_database);
     }
 

@@ -17,7 +17,7 @@ class GameSetupTest extends TestCase{
     protected GameSetup $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\Database::class);
+        $this->mock_database = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Database::class);
         $this->sut = GameSetup::create($this->mock_database);
     }
 

@@ -17,7 +17,7 @@ class UpdateStorageTest extends TestCase{
     protected UpdateStorage $sut;
 
     protected function setUp(): void {
-        $this->mock_database = $this->createMock(Database::class);
+        $this->mock_database = $this->createMock(FrameworkInterfaces\Database::class);
         $this->sut = UpdateStorage::create($this->mock_database);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);

@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\BGA;
+namespace NieuwenhovenGames\BGA\FrameworkInterfaces;
 /**
  * Access BGA game protected database methods
  * @see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php

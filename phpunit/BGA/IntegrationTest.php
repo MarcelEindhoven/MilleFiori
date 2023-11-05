@@ -22,7 +22,7 @@ class IntegrationTest extends TestCase{
     protected function setUp(): void {
         $this->sut = new PlayerRobotNotifications();
 
-        $this->mock_database = $this->createMock(Database::class);
+        $this->mock_database = $this->createMock(FrameworkInterfaces\Database::class);
         $this->sut_storage = UpdateStorage::create($this->mock_database);
 
         $this->sut_emitter = new EventEmitter();
