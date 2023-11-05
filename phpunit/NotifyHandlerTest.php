@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/ActionsAndStates/NotifyHandler.php');
 
-include_once(__DIR__.'/../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Notifications.php');
 
 class NotifyHandlerTest extends TestCase{
     public function setup() : void {

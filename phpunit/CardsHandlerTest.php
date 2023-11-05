@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/CardsHandler.php');
 
-include_once(__DIR__.'/../export/modules/BGA/Deck.php');
-include_once(__DIR__.'/../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Deck.php');
+include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Notifications.php');
 
 class CardsHandlerTest extends TestCase{
     public function setup() : void {

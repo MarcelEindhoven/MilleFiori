@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/StorageSetup.php');
-include_once(__DIR__.'/../../export/modules/BGA/Database.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Database.php');
 
 class StorageSetupTest extends TestCase{
     protected StorageSetup $sut;

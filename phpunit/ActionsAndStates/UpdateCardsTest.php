@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/NotifyHandler.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/Deck.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 include_once(__DIR__.'/../../export/modules/BGA/StockHandler.php');
 
 class UpdateCardsTest extends TestCase{

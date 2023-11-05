@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/Database.php');
+include_once(__DIR__.'/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/EventEmitter.php');
 
 class UpdateStorage {

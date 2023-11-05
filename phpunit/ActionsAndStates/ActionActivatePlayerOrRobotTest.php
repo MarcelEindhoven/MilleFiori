@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionActivatePlayerOrRobot.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
 
 class ActionActivatePlayerOrRobotTest extends TestCase{

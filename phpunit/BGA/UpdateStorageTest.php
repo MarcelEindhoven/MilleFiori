@@ -10,7 +10,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
-include_once(__DIR__.'/../../export/modules/BGA/Database.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class UpdateStorageTest extends TestCase{

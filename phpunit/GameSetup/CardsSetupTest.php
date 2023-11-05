@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/GameSetup/CardsSetup.php');
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/Deck.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 
 class CardsSetupTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];

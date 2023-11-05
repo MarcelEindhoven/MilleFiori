@@ -16,7 +16,7 @@ include_once(__DIR__.'/../../export/modules/CurrentData/CurrentPlayerRobotProper
 include_once(__DIR__.'/../../export/modules/CardsHandler.php');
 include_once(__DIR__.'/../../export/modules/Game.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/Deck.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Deck.php');
 include_once(__DIR__.'/../../export/modules/BGA/Storage.php');
 
 class CurrentDataTest extends TestCase{

@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionRobotsSelectC
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/Robot.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/RobotHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
 class ActionRobotsSelectCardTest extends TestCase{
 

@@ -13,8 +13,8 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionPlayerSelects
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateOcean.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
-include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Notifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class ActionPlayerSelectsFieldTest extends TestCase{

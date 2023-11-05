@@ -10,7 +10,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Deck.php');
+require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 include_once(__DIR__.'/../CardsHandler.php');
 
 class CurrentCards extends CardsHandler {

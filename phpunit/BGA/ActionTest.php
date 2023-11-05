@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/Action.php');
 
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
 class TestAction extends Action {
     protected string $transition_name = '';

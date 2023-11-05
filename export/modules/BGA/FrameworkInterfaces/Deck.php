@@ -1,7 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
- * @see https://boardgamearena.com/doc/Deck
+ * @see https://boardgamearena.com/doc/FrameworkInterfaces/Deck
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.

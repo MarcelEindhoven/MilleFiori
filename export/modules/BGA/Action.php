@@ -9,7 +9,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/GameState.php');
+include_once(__DIR__.'/FrameworkInterfaces/GameState.php');
 
 class Action {
     const DEFAULT_TRANSITION_NAME = '';

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionNewHand.php');
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/CurrentData/CurrentData.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
 class ActionNewHandTest extends TestCase{
 

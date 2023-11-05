@@ -8,7 +8,7 @@ namespace NieuwenhovenGames\MilleFiori;
  *
  */
 
-require_once(__DIR__.'/../BGA/Deck.php');
+require_once(__DIR__.'/../BGA/FrameworkInterfaces/Deck.php');
 
 class CardsSetup extends CardsHandler {
     const NUMBER_CARDS_INCLUDING_START = 110;

@@ -11,7 +11,7 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
-include_once(__DIR__.'/../../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Notifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/SubscribedAction.php');
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');

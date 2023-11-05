@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../export/modules/PlayerRobotProperties.php');
 
-include_once(__DIR__.'/../export/modules/BGA/Database.php');
-include_once(__DIR__.'/../export/modules/BGA/Notifications.php');
+include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Database.php');
+include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Notifications.php');
 
 class PlayerRobotPropertiesTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];

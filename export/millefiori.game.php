@@ -19,7 +19,7 @@
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
-require_once(__DIR__.'/modules/BGA/Database.php');
+require_once(__DIR__.'/modules/BGA/FrameworkInterfaces/Database.php');
 
 include_once(__DIR__.'/modules/Game.php');
 include_once(__DIR__.'/modules/Ocean.php');

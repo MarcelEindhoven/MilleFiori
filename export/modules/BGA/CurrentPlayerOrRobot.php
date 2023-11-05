@@ -10,7 +10,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
- include_once(__DIR__.'/GameState.php');
+ include_once(__DIR__.'/FrameworkInterfaces/GameState.php');
  include_once(__DIR__.'/UpdatePlayerRobotProperties.php');
 
 class CurrentPlayerOrRobot {

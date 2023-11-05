@@ -16,7 +16,7 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/Notifications.php');
+include_once(__DIR__.'/FrameworkInterfaces/Notifications.php');
 include_once(__DIR__.'/UpdateStorage.php');
 
 class PlayerRobotNotifications {

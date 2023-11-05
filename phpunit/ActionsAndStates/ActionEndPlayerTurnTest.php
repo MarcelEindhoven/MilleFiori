@@ -13,7 +13,7 @@ include_once(__DIR__.'/../../export/modules/ActionsAndStates/ActionEndPlayerTurn
 
 include_once(__DIR__.'/../../export/modules/ActionsAndStates/UpdateCards.php');
 include_once(__DIR__.'/../../export/modules/BGA/CurrentPlayerOrRobot.php');
-include_once(__DIR__.'/../../export/modules/BGA/GameState.php');
+include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/GameState.php');
 
 class ActionEndPlayerTurnTest extends TestCase{
 
