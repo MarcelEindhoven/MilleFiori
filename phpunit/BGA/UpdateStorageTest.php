@@ -35,7 +35,7 @@ class UpdateStorageTest extends TestCase{
 
         $this->event = [
             UpdateStorage::EVENT_KEY_BUCKET => $this->bucket_name,
-            UpdateStorage::EVENT_KEY_NAME_VALUE => $this->field_name_value,
+            UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME => $this->field_name_value,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $this->value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => $this->field_name_selector,
             UpdateStorage::EVENT_KEY_SELECTED => $this->value_selector

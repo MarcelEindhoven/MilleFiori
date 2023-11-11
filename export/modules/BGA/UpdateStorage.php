@@ -12,12 +12,16 @@ include_once(__DIR__.'/FrameworkInterfaces/Database.php');
 include_once(__DIR__.'/EventEmitter.php');
 
 class UpdateStorage {
+    protected ?FrameworkInterfaces\Database $sql_database = null;
+    protected ?EventEmitter $event_handler = null;
+
+    const EVENT_NAME = 'property_updated';
+
     const EVENT_KEY_BUCKET = 'bucket_name';
-    const EVENT_KEY_NAME_VALUE = 'field_name_value';
+    const EVENT_KEY_UPDATED_FIELD_NAME = 'field_name_value';
     const EVENT_KEY_UPDATED_VALUE = 'new_value';
     const EVENT_KEY_NAME_SELECTOR = 'field_name_selector';
     const EVENT_KEY_SELECTED = 'selected_field';
-    const EVENT_NAME = 'propertyUpdated';
 
     static public function create($sql_database) : UpdateStorage {
         $object = new UpdateStorage();
@@ -38,7 +42,7 @@ class UpdateStorage {
     public function propertyUpdated($event) {
         $this->updateValueForField(
             $event[UpdateStorage::EVENT_KEY_BUCKET],
-            $event[UpdateStorage::EVENT_KEY_NAME_VALUE],
+            $event[UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME],
             $event[UpdateStorage::EVENT_KEY_UPDATED_VALUE],
             $event[UpdateStorage::EVENT_KEY_NAME_SELECTOR],
             $event[UpdateStorage::EVENT_KEY_SELECTED]);

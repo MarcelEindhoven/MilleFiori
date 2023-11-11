@@ -83,7 +83,7 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
         $this->event = [
             // Event info for updating the database
             UpdateStorage::EVENT_KEY_BUCKET => $bucket_name,
-            UpdateStorage::EVENT_KEY_NAME_VALUE => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotPropertiesTest::DEFAULT_KEY,
+            UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotPropertiesTest::DEFAULT_KEY,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $new_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,
             UpdateStorage::EVENT_KEY_SELECTED => $player_id,
