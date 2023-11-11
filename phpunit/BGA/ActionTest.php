@@ -34,7 +34,7 @@ class ActionTest extends TestCase{
     }
 
     protected function arrangeDefault(string $transition_name = '') {
-        $this->mock_gamestate = $this->createMock(GameState::class);
+        $this->mock_gamestate = $this->createMock(FrameworkInterfaces\GameState::class);
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with($transition_name);
     }
 

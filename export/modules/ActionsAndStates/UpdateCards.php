@@ -46,7 +46,7 @@ class UpdateCards extends CardsHandler {
 
     public function haveAllPlayersSameHandCount() : bool {
         // Do all players have the same number of cards (> 0) in their hand?
-        return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND))));
+        return 1 == count(array_unique(array_values($this->cards->countCardsByLocationArgs(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND))));
     }
 
     public function areAnyCardsSelected() : bool {
@@ -59,13 +59,13 @@ class UpdateCards extends CardsHandler {
         }
         $previous_player = CardsHandler::LOCATION_SWAP;
         foreach ($this->player_ids as $player_id) {
-            $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id, $previous_player);
+            $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $player_id, $previous_player);
             $previous_player = $player_id;
         }
 
-        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::LOCATION_SWAP, $previous_player);
+        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, CardsHandler::LOCATION_SWAP, $previous_player);
         foreach ($this->player_ids as $player_id) {
-            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Pass hand to other player');
+            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $player_id), 'Pass hand to other player');
         }
 
         return $this;
@@ -73,8 +73,8 @@ class UpdateCards extends CardsHandler {
 
     public function dealNewHands($number_cards) : UpdateCards {
         foreach ($this->player_ids as $player_id) {
-            $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Deck::STANDARD_DECK, $player_id);
-            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id), 'Deal new hand');
+            $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $player_id);
+            $this->stockHandler->setNewStockContent($player_id, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $player_id), 'Deal new hand');
             }
 
         return $this;
@@ -82,7 +82,7 @@ class UpdateCards extends CardsHandler {
 
     public function moveHandsToSideboard() : UpdateCards {
         foreach ($this->player_ids as $player_id) {
-            $this->movePrivateToPublic('giving up', $player_id, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD);
+            $this->movePrivateToPublic('giving up', $player_id, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD);
         }
 
         return $this;
@@ -90,14 +90,14 @@ class UpdateCards extends CardsHandler {
 
     public function moveFromHandToSelected($card_id, $current_player_id) {
         foreach ($this->cards->getCardsInLocation('selectedhand', $current_player_id) as $selectedCard) {
-            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $current_player_id);
-            $this->stockHandler->moveCardPrivate($current_player_id, CardsHandler::SELECTED_HAND, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $selectedCard, '');
+            $this->cards->moveCard($selectedCard[Game::CARD_KEY_ID], \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $current_player_id);
+            $this->stockHandler->moveCardPrivate($current_player_id, CardsHandler::SELECTED_HAND, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $selectedCard, '');
         }
         $this->cards->moveCard($card_id, 'selectedhand', $current_player_id);
         $selected_card = $this->cards->getCard($card_id);
         $this->stockHandler->moveCardPrivate(
             $current_player_id, 
-            \NieuwenhovenGames\BGA\Deck::PLAYER_HAND,
+            \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND,
             CardsHandler::SELECTED_HAND, $selected_card,
             'You selected ' . $this->card_name_per_type[$selected_card['type']]);
     }
@@ -129,7 +129,7 @@ class UpdateCards extends CardsHandler {
     }
 
     public function emptyPlayedHand() {
-        $this->movePublicToPublic(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
+        $this->movePublicToPublic(CardsHandler::PLAYED_HAND, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::DISCARD_PILE);
     }
 
 }

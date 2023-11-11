@@ -29,7 +29,7 @@ class CurrentDataTest extends TestCase{
 
         $this->mock_properties = $this->createMock(CurrentPlayerRobotProperties::class);
 
-        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\Deck::class);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->sut->setCards($this->mock_cards);
         $this->player_id = 7;
     }

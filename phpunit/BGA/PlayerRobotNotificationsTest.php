@@ -24,7 +24,7 @@ class PlayerRobotNotificationsTest extends TestCase{
     protected function setUp(): void {
         $this->sut = new PlayerRobotNotifications();
 
-        $this->mock_notifications = $this->createMock(Notifications::class);
+        $this->mock_notifications = $this->createMock(FrameworkInterfaces\Notifications::class);
         $this->sut->setNotificationsHandler($this->mock_notifications);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);

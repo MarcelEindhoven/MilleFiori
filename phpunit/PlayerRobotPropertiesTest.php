@@ -18,7 +18,7 @@ class PlayerRobotPropertiesTest extends TestCase{
     const COLORS = ['green', 'red', 'blue', 'yellow'];
     public function setup() : void {
         $this->mock = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Database::class);
-        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
+        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Notifications::class);
         $this->sut = PlayerRobotProperties::create($this->mock)->setNotifications($this->mockNotify);
     }
 

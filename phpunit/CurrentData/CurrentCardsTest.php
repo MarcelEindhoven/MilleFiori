@@ -17,7 +17,7 @@ class CurrentCardsTest extends TestCase{
     protected CurrentCards $sut;
 
     protected function setUp(): void {
-        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\Deck::class);
+        $this->mock_cards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->sut = CurrentCards::create($this->mock_cards);
     }
 

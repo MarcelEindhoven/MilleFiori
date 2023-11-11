@@ -20,7 +20,7 @@ class ActionPlayerPlaysCardTest extends TestCase{
     protected ActionPlayerPlaysCard $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionPlayerPlaysCard::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);
@@ -29,7 +29,7 @@ class ActionPlayerPlaysCardTest extends TestCase{
         $this->mock_data_handler = $this->createMock(CurrentData::class);
         $this->sut->setDataHandler($this->mock_data_handler);
 
-        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
+        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Notifications::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
 
         $this->player_id = 55;

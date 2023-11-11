@@ -15,7 +15,7 @@ include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Notifications.p
 
 class NotifyHandlerTest extends TestCase{
     public function setup() : void {
-        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
+        $this->mockNotify = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Notifications::class);
         $this->sut = NotifyHandler::create($this->mockNotify);
     }
 

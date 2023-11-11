@@ -22,7 +22,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
     protected ActionPlayerSelectsField $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionPlayerSelectsField::create($this->mock_gamestate);
 
         $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);
@@ -34,7 +34,7 @@ class ActionPlayerSelectsFieldTest extends TestCase{
         $this->mock_data_handler = $this->createMock(UpdateOcean::class);
         $this->sut->setFieldSelectionHandler($this->mock_data_handler);
 
-        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\Notifications::class);
+        $this->mock_notify_handler = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Notifications::class);
         $this->sut->setNotifyHandler($this->mock_notify_handler);
 
         $this->player_id = 55;

@@ -7,12 +7,12 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/../../vendor/autoload.php');
+include_once(__DIR__.'/../../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
-include_once(__DIR__.'/../../export/modules/BGA/RewardHandler.php');
-include_once(__DIR__.'/../../export/modules/BGA/SubscribedAction.php');
+include_once(__DIR__.'/../../../export/modules/BGA/EventEmitter.php');
+include_once(__DIR__.'/../../../export/modules/BGA/RewardHandler.php');
+include_once(__DIR__.'/../../../export/modules/BGA/SubscribedAction.php');
 
 class TestActionHandleReward extends \NieuwenhovenGames\BGA\SubscribedAction {
     protected $field_selection_handler = null;

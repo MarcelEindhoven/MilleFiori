@@ -20,7 +20,7 @@ class ActionRobotsSelectCardTest extends TestCase{
     protected ActionRobotsSelectCard $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionRobotsSelectCard::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);

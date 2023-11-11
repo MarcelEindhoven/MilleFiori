@@ -18,7 +18,7 @@ class ActionEndRoundTest extends TestCase{
     protected ActionEndRound $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionEndRound::create($this->mock_gamestate);
 
         $this->mock_cards = $this->createMock(UpdateCards::class);

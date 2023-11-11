@@ -27,10 +27,10 @@ class CurrentCards extends CardsHandler {
     public function getHands($player_id) {
         // Private hands
         $hands = [];
-        $hands[\NieuwenhovenGames\BGA\Deck::PLAYER_HAND] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, $player_id );
+        $hands[\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, $player_id );
         $hands[CardsHandler::SELECTED_HAND] = $this->cards->getCardsInLocation(CardsHandler::SELECTED_HAND, $player_id );
         // Public hands
-        $hands[\NieuwenhovenGames\BGA\Deck::DISCARD_PILE] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\Deck::DISCARD_PILE);
+        $hands[\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::DISCARD_PILE] = $this->cards->getCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::DISCARD_PILE);
         $hands[CardsHandler::SIDEBOARD] = $this->cards->getCardsInLocation(CardsHandler::SIDEBOARD);
         $hands[CardsHandler::PLAYED_HAND] = $this->cards->getCardsInLocation(CardsHandler::PLAYED_HAND);
         $result['hands'] = $hands;

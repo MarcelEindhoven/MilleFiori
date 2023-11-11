@@ -7,16 +7,16 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/../../vendor/autoload.php');
+include_once(__DIR__.'/../../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
-include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Notifications.php');
-include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
-include_once(__DIR__.'/../../export/modules/BGA/SubscribedAction.php');
-include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
+include_once(__DIR__.'/../../../export/modules/BGA/EventEmitter.php');
+include_once(__DIR__.'/../../../export/modules/BGA/FrameworkInterfaces/Notifications.php');
+include_once(__DIR__.'/../../../export/modules/BGA/PlayerRobotNotifications.php');
+include_once(__DIR__.'/../../../export/modules/BGA/SubscribedAction.php');
+include_once(__DIR__.'/../../../export/modules/BGA/UpdateStorage.php');
 
-class IntegrationTest extends TestCase{
+class IntegrationTestNotifications extends TestCase{
     protected PlayerRobotNotifications $sut;
 
     protected function setUp(): void {
@@ -29,7 +29,7 @@ class IntegrationTest extends TestCase{
         $this->sut_storage->setEventEmitter($this->sut_emitter);
         $this->sut->setEventEmitter($this->sut_emitter);
 
-        $this->mock_notifications = $this->createMock(Notifications::class);
+        $this->mock_notifications = $this->createMock(FrameworkInterfaces\Notifications::class);
         $this->sut->setNotificationsHandler($this->mock_notifications);
 
         $this->notification_type = 'notification_type';

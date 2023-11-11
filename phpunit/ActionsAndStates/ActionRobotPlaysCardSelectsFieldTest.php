@@ -22,7 +22,7 @@ class ActionRobotPlaysCardSelectsFieldTest extends TestCase{
     protected ActionRobotPlaysCardSelectsField $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionRobotPlaysCardSelectsField::create($this->mock_gamestate);
 
         $this->mock_emitter = $this->createMock(\NieuwenhovenGames\BGA\EventEmitter::class);

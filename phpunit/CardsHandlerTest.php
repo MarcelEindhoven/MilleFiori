@@ -16,7 +16,7 @@ include_once(__DIR__.'/../export/modules/BGA/FrameworkInterfaces/Notifications.p
 
 class CardsHandlerTest extends TestCase{
     public function setup() : void {
-        $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\Deck::class);
+        $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->sut = CardsHandler::create($this->mockCards);
     }
 

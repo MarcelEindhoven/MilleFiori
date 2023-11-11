@@ -18,7 +18,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
     protected ActionActivatePlayerOrRobot $sut;
 
     protected function setUp(): void {
-        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\GameState::class);
+        $this->mock_gamestate = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\GameState::class);
         $this->sut = ActionActivatePlayerOrRobot::create($this->mock_gamestate);
 
         $this->mock_player_or_robot = $this->createMock(\NieuwenhovenGames\BGA\CurrentPlayerOrRobot::class);

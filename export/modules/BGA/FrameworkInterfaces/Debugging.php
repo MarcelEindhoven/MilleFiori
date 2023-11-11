@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\BGA;
+namespace NieuwenhovenGames\BGA\FrameworkInterfaces;
 /**
  * To debug php code you can use some tracing functions available from the parent class such as debug, trace, error, warn, dump.
  * WARNING: tracing does not work in constructor, setupNewGame and game states immediately following starting state (not sure why).

@@ -17,7 +17,7 @@ include_once(__DIR__.'/../../export/modules/BGA/StockHandler.php');
 
 class UpdateCardsTest extends TestCase{
     public function setup() : void {
-        $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\Deck::class);
+        $this->mockCards = $this->createMock(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::class);
         $this->mockNotify = $this->createMock(NotifyHandler::class);
         $this->mockStockHandler = $this->createMock(\NieuwenhovenGames\BGA\StockHandler::class);
         $this->sut = UpdateCards::create($this->mockCards)->setNotifyHandler($this->mockNotify)->setStockHandler($this->mockStockHandler);
@@ -146,7 +146,7 @@ class UpdateCardsTest extends TestCase{
         // Selected hand is empty
         $this->mockCards->expects($this->exactly(1))->method('getCardsInLocation')->will($this->returnValue([]));
         // Single move
-        $this->arrangeMoveCard($this->selected_card_id, $this->selected_card_type, \NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, 'You selected ' . $this->name_selected_card);
+        $this->arrangeMoveCard($this->selected_card_id, $this->selected_card_type, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, CardsHandler::SELECTED_HAND, 'You selected ' . $this->name_selected_card);
         // Act
         $this->sut->moveFromHandToSelected($this->selected_card_id, $this->player_id);
         // Assert

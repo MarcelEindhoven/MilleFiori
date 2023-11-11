@@ -1,5 +1,5 @@
 <?php
-namespace NieuwenhovenGames\BGA;
+namespace NieuwenhovenGames\BGA\FrameworkInterfaces;
 /**
  * @see https://boardgamearena.com/doc/Main_game_logic:_yourgamename.game.php
  *

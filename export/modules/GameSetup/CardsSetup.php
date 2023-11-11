@@ -26,14 +26,14 @@ class CardsSetup extends CardsHandler {
 
     public function initialiseSideboard($number_cards) {
         $dummy_id = CardsHandler::LOCATION_SWAP;
-        $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\Deck::STANDARD_DECK, $dummy_id);
-        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD, $dummy_id);
+        $this->cards->pickCards($number_cards, \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK, $dummy_id);
+        $this->cards->moveAllCardsInLocation(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::PLAYER_HAND, CardsHandler::SIDEBOARD, $dummy_id);
     }
 
     public function createAndShuffle() : CardsSetup {
-        $this->cards->createCards($this->getCardDefinitions(), \NieuwenhovenGames\BGA\Deck::STANDARD_DECK);
+        $this->cards->createCards($this->getCardDefinitions(), \NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
 
-        $this->cards->shuffle(\NieuwenhovenGames\BGA\Deck::STANDARD_DECK);
+        $this->cards->shuffle(\NieuwenhovenGames\BGA\FrameworkInterfaces\Deck::STANDARD_DECK);
 
         return $this;
     }
