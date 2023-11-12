@@ -20,6 +20,8 @@ class TestPlayerRobotNotifications extends PlayerRobotNotifications {
 
 class PlayerRobotNotificationsTest extends TestCase{
     protected PlayerRobotNotifications $sut;
+    protected ?FrameworkInterfaces\Notifications $mock_notifications = null;
+    protected ?EventEmitter $mock_emitter = null;
 
     protected function setUp(): void {
         $this->sut = new PlayerRobotNotifications();
@@ -28,7 +30,13 @@ class PlayerRobotNotificationsTest extends TestCase{
         $this->sut->setNotificationsHandler($this->mock_notifications);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);
-        $this->mock_emitter->expects($this->exactly(1))->method('on');
+        $this->mock_emitter->expects($this->exactly(2))->method('on');
+        /*
+        $this->mock_emitter->expects($this->exactly(2))->method('on')->withConsecutive(
+            [UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME), [$this->mock_emitter, 'playerPropertyUpdated']],
+            [UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME), [$this->mock_emitter, 'robotPropertyUpdated']],
+        );
+        */
         $this->sut->setEventEmitter($this->mock_emitter);
 
         $this->notification_type = 'notification_type';
