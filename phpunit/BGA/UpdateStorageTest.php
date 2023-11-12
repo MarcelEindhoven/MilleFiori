@@ -15,6 +15,8 @@ include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 
 class UpdateStorageTest extends TestCase{
     protected UpdateStorage $sut;
+    protected FrameworkInterfaces\Database $mock_database;
+    protected EventEmitter $mock_emitter;
 
     protected function setUp(): void {
         $this->mock_database = $this->createMock(FrameworkInterfaces\Database::class);
@@ -35,7 +37,7 @@ class UpdateStorageTest extends TestCase{
 
         $this->event = [
             UpdateStorage::EVENT_KEY_BUCKET => $this->bucket_name,
-            UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME => $this->field_name_value,
+            UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => $this->field_name_value,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $this->value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => $this->field_name_selector,
             UpdateStorage::EVENT_KEY_SELECTED => $this->value_selector
@@ -68,9 +70,14 @@ class UpdateStorageTest extends TestCase{
         $this->assertEquals('notice', $exception);
     }
 
-    public function testBucketUpdated_NormalEvent_DatabaseUpdate() {
+    public function testBucketUpdated_NormalEvent_PropagateEvent() {
         // Arrange
         $this->arrangeDefault();
+        $event = $this -> event;
+        $channel = UpdateStorage::EVENT_NAME . '_' . $event[UpdateStorage::EVENT_KEY_BUCKET];
+
+        $this->mock_emitter->expects($this->exactly(1))->method('emit')->with($channel, $event);
+
         // Act
         $this->sut->propertyUpdated($this->event);
         // Assert

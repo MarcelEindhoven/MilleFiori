@@ -54,7 +54,7 @@ class IntegrationTestNotifications extends TestCase{
         $this->value = '3';
         $this->event = [
             UpdateStorage::EVENT_KEY_BUCKET => $this->bucket_name,
-            UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME => $this->field_name_value,
+            UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => $this->field_name_value,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $this->value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => 'player_id',
             UpdateStorage::EVENT_KEY_SELECTED => $this->player_id

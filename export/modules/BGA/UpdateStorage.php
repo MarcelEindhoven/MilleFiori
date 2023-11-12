@@ -1,6 +1,7 @@
 <?php
 namespace NieuwenhovenGames\BGA;
 /**
+ * When property updated event is received, update database and propagate bucket specific event
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -18,7 +19,7 @@ class UpdateStorage {
     const EVENT_NAME = 'property_updated';
 
     const EVENT_KEY_BUCKET = 'bucket_name';
-    const EVENT_KEY_UPDATED_FIELD_NAME = 'field_name_value';
+    const EVENT_KEY_NAME_UPDATED_FIELD = 'field_name_value';
     const EVENT_KEY_UPDATED_VALUE = 'new_value';
     const EVENT_KEY_NAME_SELECTOR = 'field_name_selector';
     const EVENT_KEY_SELECTED = 'selected_field';
@@ -42,10 +43,12 @@ class UpdateStorage {
     public function propertyUpdated($event) {
         $this->updateValueForField(
             $event[UpdateStorage::EVENT_KEY_BUCKET],
-            $event[UpdateStorage::EVENT_KEY_UPDATED_FIELD_NAME],
+            $event[UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD],
             $event[UpdateStorage::EVENT_KEY_UPDATED_VALUE],
             $event[UpdateStorage::EVENT_KEY_NAME_SELECTOR],
             $event[UpdateStorage::EVENT_KEY_SELECTED]);
+
+            $this->event_handler->emit(UpdateStorage::EVENT_NAME . '_' . $event[UpdateStorage::EVENT_KEY_BUCKET], $event);
     }
 
     public function updateValueForField($bucket_name, $field_name_value, $value, $field_name_selector, $value_selector) {
