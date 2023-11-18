@@ -7,8 +7,10 @@ namespace NieuwenhovenGames\BGA;
  * It means that if you throw an exception for any reason (ex: move not allowed), no notifications will be sent to players.
  * Notifications sent between the game start (setupNewGame) and the end of the "action" method of the first active state will never reach their destination.
  * 
- * Only notify a player if it has a player board, so if it is not a robot
+ * Only notify a specific player if it has a player board, so if it is not a robot
  * Automatically fill in the player id and name in the arguments
+ * 
+ * To do: create separate class for player robot bucket notifications
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
