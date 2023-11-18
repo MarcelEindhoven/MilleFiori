@@ -11,22 +11,18 @@ include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotBucketNotifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
-
-include_once(__DIR__.'/../../export/modules/BGA/FrameworkInterfaces/Notifications.php');
-
-class TestPlayerRobotBucketNotifications extends PlayerRobotBucketNotifications {
-}
 
 class PlayerRobotBucketNotificationsTest extends TestCase{
     protected PlayerRobotBucketNotifications $sut;
-    protected ?FrameworkInterfaces\Notifications $mock_notifications = null;
+    protected ?PlayerRobotNotifications $mock_notifications = null;
     protected ?EventEmitter $mock_emitter = null;
 
     protected function setUp(): void {
         $this->sut = new PlayerRobotBucketNotifications();
 
-        $this->mock_notifications = $this->createMock(FrameworkInterfaces\Notifications::class);
+        $this->mock_notifications = $this->createMock(PlayerRobotNotifications::class);
         $this->sut->setNotificationsHandler($this->mock_notifications);
 
         $this->mock_emitter = $this->createMock(EventEmitter::class);

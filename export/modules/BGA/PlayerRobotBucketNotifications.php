@@ -13,17 +13,18 @@ namespace NieuwenhovenGames\BGA;
  *
  */
 
-include_once(__DIR__.'/FrameworkInterfaces/Notifications.php');
-include_once(__DIR__.'/UpdateStorage.php');
 include_once(__DIR__.'/EventEmitter.php');
+include_once(__DIR__.'/PlayerRobotNotifications.php');
+include_once(__DIR__.'/UpdateStorage.php');
 
 class PlayerRobotBucketNotifications {
     const EVENT_KEY_PUBLIC_MESSAGE = '${player_name} ${field_name} becomes ${field_value}';
     protected ?EventEmitter $event_handler = null;
+    protected ?PlayerRobotNotifications $notificationsHandler = null;
 
-    static public function create($notifyInterface, $player_robot_data) : PlayerRobotBucketNotifications {
+    static public function create($notifyInterface) : PlayerRobotBucketNotifications {
         $handler = new PlayerRobotBucketNotifications();
-        return $handler->setNotificationsHandler($notifyInterface)->setPlayerRobotData($player_robot_data);
+        return $handler->setNotificationsHandler($notifyInterface);
     }
 
     public function setNotificationsHandler($notificationsHandler) : PlayerRobotBucketNotifications {
