@@ -13,7 +13,7 @@ require_once(__DIR__.'/BGA/FrameworkInterfaces/Database.php');
 require_once(__DIR__.'/BGA/CurrentPlayerOrRobot.php');
 include_once(__DIR__.'/BGA/EventEmitter.php');
 include_once(__DIR__.'/BGA/PlayerProperty.php');
-include_once(__DIR__.'/BGA/PlayerRobotBucketNotifications.php');
+include_once(__DIR__.'/BGA/PlayerRobotStorageNotifications.php');
 include_once(__DIR__.'/BGA/PlayerRobotNotifications.php');
 include_once(__DIR__.'/BGA/RewardHandler.php');
 include_once(__DIR__.'/BGA/StockHandler.php');
@@ -97,7 +97,7 @@ class Game {
         $this->update_cards->setNotifyHandler($this->notifyHandler);
 
         $this->notifications_handler = \NieuwenhovenGames\BGA\PlayerRobotNotifications::create($notifyInterface, $this->data_handler->getPlayerDataIncludingRobots());
-        $this->player_robot_bucket_notifications = \NieuwenhovenGames\BGA\PlayerRobotBucketNotifications::create($this->notifications_handler);
+        $this->player_robot_bucket_notifications = \NieuwenhovenGames\BGA\PlayerRobotStorageNotifications::create($this->notifications_handler);
         $this->player_robot_bucket_notifications->setEventEmitter($this->event_emitter);
 
         $this->stockHandler = \NieuwenhovenGames\BGA\StockHandler::create($this->notifications_handler);

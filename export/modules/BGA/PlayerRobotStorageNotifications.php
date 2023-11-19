@@ -17,22 +17,22 @@ include_once(__DIR__.'/EventEmitter.php');
 include_once(__DIR__.'/PlayerRobotNotifications.php');
 include_once(__DIR__.'/UpdateStorage.php');
 
-class PlayerRobotBucketNotifications {
+class PlayerRobotStorageNotifications {
     const EVENT_KEY_PUBLIC_MESSAGE = '${player_name} ${field_name} becomes ${field_value}';
     protected ?EventEmitter $event_handler = null;
     protected ?PlayerRobotNotifications $notificationsHandler = null;
 
-    static public function create($notifyInterface) : PlayerRobotBucketNotifications {
-        $handler = new PlayerRobotBucketNotifications();
+    static public function create($notifyInterface) : PlayerRobotStorageNotifications {
+        $handler = new PlayerRobotStorageNotifications();
         return $handler->setNotificationsHandler($notifyInterface);
     }
 
-    public function setNotificationsHandler($notificationsHandler) : PlayerRobotBucketNotifications {
+    public function setNotificationsHandler($notificationsHandler) : PlayerRobotStorageNotifications {
         $this->notificationsHandler = $notificationsHandler;
         return $this;
     }
 
-    public function setEventEmitter($event_handler) : PlayerRobotBucketNotifications {
+    public function setEventEmitter($event_handler) : PlayerRobotStorageNotifications {
         $this->event_handler = $event_handler;
         $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME), [$this, 'playerPropertyUpdated']);
         $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME), [$this, 'robotPropertyUpdated']);
@@ -55,7 +55,7 @@ class PlayerRobotBucketNotifications {
             'field_name' => $field_name,
             'field_value' => $field_value,
         ];
-        $this->notificationsHandler->notifyAllPlayers(UpdateStorage::EVENT_NAME, PlayerRobotBucketNotifications::EVENT_KEY_PUBLIC_MESSAGE, $notification_arguments, $player_id);
+        $this->notificationsHandler->notifyAllPlayers(UpdateStorage::EVENT_NAME, PlayerRobotStorageNotifications::EVENT_KEY_PUBLIC_MESSAGE, $notification_arguments, $player_id);
     }
 }
 ?>

@@ -10,17 +10,17 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/../../vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
 
-include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotBucketNotifications.php');
+include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotStorageNotifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/PlayerRobotNotifications.php');
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
 
-class PlayerRobotBucketNotificationsTest extends TestCase{
-    protected PlayerRobotBucketNotifications $sut;
+class PlayerRobotStorageNotificationsTest extends TestCase{
+    protected PlayerRobotStorageNotifications $sut;
     protected ?PlayerRobotNotifications $mock_notifications = null;
     protected ?EventEmitter $mock_emitter = null;
 
     protected function setUp(): void {
-        $this->sut = new PlayerRobotBucketNotifications();
+        $this->sut = new PlayerRobotStorageNotifications();
 
         $this->mock_notifications = $this->createMock(PlayerRobotNotifications::class);
         $this->sut->setNotificationsHandler($this->mock_notifications);
