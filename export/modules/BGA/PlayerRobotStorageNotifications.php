@@ -18,7 +18,7 @@ include_once(__DIR__.'/PlayerRobotNotifications.php');
 include_once(__DIR__.'/UpdateStorage.php');
 
 class PlayerRobotStorageNotifications {
-    const EVENT_KEY_PUBLIC_MESSAGE = '${player_name} ${field_name} becomes ${field_value}';
+    const EVENT_PUBLIC_MESSAGE = '${player_name} ${field_name} becomes ${field_value}';
     protected ?EventEmitter $event_handler = null;
     protected ?PlayerRobotNotifications $notificationsHandler = null;
 
@@ -55,7 +55,7 @@ class PlayerRobotStorageNotifications {
             'field_name' => $field_name,
             'field_value' => $field_value,
         ];
-        $this->notificationsHandler->notifyAllPlayers(UpdateStorage::EVENT_NAME, PlayerRobotStorageNotifications::EVENT_KEY_PUBLIC_MESSAGE, $notification_arguments, $player_id);
+        $this->notificationsHandler->notifyAllPlayers(UpdateStorage::EVENT_NAME, PlayerRobotStorageNotifications::EVENT_PUBLIC_MESSAGE, $event + $notification_arguments, $player_id);
     }
 }
 ?>

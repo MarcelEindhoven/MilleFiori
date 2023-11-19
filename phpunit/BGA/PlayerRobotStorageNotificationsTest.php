@@ -57,7 +57,7 @@ class PlayerRobotStorageNotificationsTest extends TestCase{
             'field_value' => $field_value,
             ];
 
-        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($notification_type, $notification_log, $notification_args, $this->player_id);
+        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($notification_type, $notification_log, $event + $notification_args, $this->player_id);
         // Act
         $this->sut->propertyUpdated($event);
         // Assert

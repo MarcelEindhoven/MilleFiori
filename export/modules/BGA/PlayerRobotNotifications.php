@@ -39,13 +39,6 @@ class PlayerRobotNotifications {
         return $this;
     }
 
-    public function setEventEmitter($event_handler) : PlayerRobotNotifications {
-        $this->event_handler = $event_handler;
-        $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME), [$this, 'playerPropertyUpdated']);
-        $this->event_handler->on(UpdateStorage::getBucketSpecificEventName(UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME), [$this, 'robotPropertyUpdated']);
-        return $this;
-    }
-
     public function notifyPlayer($player_id, string $notification_type, string $notification_log, array $notification_args) : void {
         if ($this->data[$player_id]['is_player']) {
             $this->notificationsHandler->notifyPlayer($player_id, $notification_type, $notification_log, $notification_args+ $this->additionalArguments($player_id));    

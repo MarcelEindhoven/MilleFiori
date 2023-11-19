@@ -28,14 +28,14 @@ class TestActionHandleReward extends \NieuwenhovenGames\BGA\SubscribedAction {
     }
 
     public function execute() : TestActionHandleReward {
-        $this->subscribe(IntegrationTestSubscribedAction::REWARD_EVENT_NAME, 'selectExtraCard');
+        $this->subscribe(SubscribedActionIntegrationTest::REWARD_EVENT_NAME, 'selectExtraCard');
         $this->field_selection_handler->handle();
 
         return $this;
     }
 
     public function getTransitionName() : string {
-        return $this->select_extra_card ? IntegrationTestSubscribedAction::TRANSITION_AFTER_REWARD : 'turnEnded';
+        return $this->select_extra_card ? SubscribedActionIntegrationTest::TRANSITION_AFTER_REWARD : 'turnEnded';
     }
 }
 
@@ -55,11 +55,11 @@ class TestDomainWithReward {
     }
 
     public function handle() {
-        $this->reward_handler->gainedAdditionalReward(1, IntegrationTestSubscribedAction::REWARD_EVENT_NAME);
+        $this->reward_handler->gainedAdditionalReward(1, SubscribedActionIntegrationTest::REWARD_EVENT_NAME);
     }
 }
 
-class IntegrationTestSubscribedAction extends TestCase{
+class SubscribedActionIntegrationTest extends TestCase{
     const REWARD_EVENT_NAME = 'select_extra_card';
     const TRANSITION_AFTER_REWARD = 'selectExtraCard';
     public function testAction_Event_CorrespondingTransition() {
@@ -82,7 +82,7 @@ class IntegrationTestSubscribedAction extends TestCase{
         $sut_action->nextState();
 
         // Assert
-        $this->assertEquals(IntegrationTestSubscribedAction::TRANSITION_AFTER_REWARD, $game_state->transition_name);
+        $this->assertEquals(SubscribedActionIntegrationTest::TRANSITION_AFTER_REWARD, $game_state->transition_name);
     }
 }
 ?>
