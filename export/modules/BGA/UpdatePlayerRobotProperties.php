@@ -19,28 +19,21 @@ namespace NieuwenhovenGames\BGA;
 include_once(__DIR__.'/EventEmitter.php');
 
 class PropertiesSinglePlayer extends \ArrayObject {
-    public $public_messages_when_property_is_updated = [];
-
     public function setEventEmitter($event_handler) : PropertiesSinglePlayer {
         $this->event_handler = $event_handler;
         return $this;
     }
 
-    public function setPublicMessageWhenUpdated(string $property_name, string $public_message) : PropertiesSinglePlayer {
-        $this->public_messages_when_property_is_updated[$property_name] = $public_message;
-        return $this;
-    }
-
-    public function isRobotProperty() : bool {
-        return $this->offsetGet(UpdatePlayerRobotProperties::KEY_ID) < 10;
+    public function isPlayer() : bool {
+        return $this->offsetGet(UpdatePlayerRobotProperties::KEY_IS_PLAYER);
     }
 
     public function offsetSet($property_name, $property_value): void {
         parent::offsetSet($property_name, $property_value);
 
         $event = [
-            // Event info for updating the database
-            UpdateStorage::EVENT_KEY_BUCKET => $this->isRobotProperty() ? UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME : UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME,
+            // Event info for updating the database, if database is subscribed
+            UpdateStorage::EVENT_KEY_BUCKET => $this->isPlayer() ? UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME : UpdatePlayerRobotProperties::ROBOT_BUCKET_NAME,
             UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . $property_name,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $property_value,
             UpdateStorage::EVENT_KEY_NAME_SELECTOR => UpdatePlayerRobotProperties::PLAYER_KEY_PREFIX . UpdatePlayerRobotProperties::KEY_ID,
@@ -49,9 +42,6 @@ class PropertiesSinglePlayer extends \ArrayObject {
             UpdatePlayerRobotProperties::EVENT_KEY_NAME => $this->offsetGet(UpdatePlayerRobotProperties::KEY_NAME),
             // Message to inform the players
         ];
-        if (\array_key_exists($property_name, $this->public_messages_when_property_is_updated)) {
-            $event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] = $this->public_messages_when_property_is_updated[$property_name];
-        }
         $this->event_handler->emit(UpdateStorage::EVENT_NAME, $event);
     }
 }
@@ -69,6 +59,8 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
     const KEY_COLOR = 'color';
     const KEY_NAME = 'name';
 
+    const KEY_IS_PLAYER = 'is_player';
+
     public function __construct(array $array = [], int $flags = 0, string $iteratorClass = \ArrayIterator::class) {
         parent::__construct([]);
         foreach($array as $player_id => $player_properties) {
@@ -82,14 +74,6 @@ class UpdatePlayerRobotProperties extends \ArrayObject {
         }
 
         $this->event_handler = $event_handler;
-
-        return $this;
-    }
-
-    public function setPublicMessageWhenUpdated(string $property_name, string $public_message) : UpdatePlayerRobotProperties {
-        foreach($this->getIterator() as $player_id => $player_properties) {
-            $player_properties->setPublicMessageWhenUpdated($property_name, $public_message);
-        }
 
         return $this;
     }

@@ -36,7 +36,7 @@ class CurrentPlayerOrRobot {
         $new_number = $this->getNextPlayerOrRobotNumber();
 
         $this->setCurrentPlayerOrRobotNumber($new_number);
-        if (!$this->isRobot()) {
+        if ($this->isPlayer()) {
             $this->gamestate->changeActivePlayer($this->player_id);
         }
 
@@ -65,7 +65,6 @@ class CurrentPlayerOrRobot {
 
     public function getCurrentPlayerOrRobotID(): int {return $this->player_id;}
     public function setCurrentPlayerOrRobotID($player_id) {$this->player_id = $player_id;}
-    public function isIDRobot($player_id) {return $player_id <10;}
-    public function isRobot() {return $this->player_id < 10;}
+    public function isPlayer() {return $this->properties[$this->player_id][UpdatePlayerRobotProperties::KEY_IS_PLAYER];}
 }
 ?>

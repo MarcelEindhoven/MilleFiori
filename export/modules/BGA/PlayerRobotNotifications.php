@@ -9,8 +9,6 @@ namespace NieuwenhovenGames\BGA;
  * 
  * Only notify a specific player if it has a player board, so if it is not a robot
  * Automatically fill in the player id and name in the arguments
- * 
- * To do: create separate class for player robot bucket notifications
  *------
  * BGA implementation : © Marcel van Nieuwenhoven marcel.eindhoven@hotmail.com
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
@@ -51,20 +49,6 @@ class PlayerRobotNotifications {
 
     protected function additionalArguments($player_id) {
         return $player_id ? ['player_id' => $player_id, 'player_name' => $this->data[$player_id]['name']] : [];
-    }
-
-    public function playerPropertyUpdated($event) {
-        $this->propertyUpdated($event);
-    }
-
-    public function robotPropertyUpdated($event) {
-        $this->propertyUpdated($event);
-    }
-
-    public function propertyUpdated($event) {
-        $player_id = $event[UpdateStorage::EVENT_KEY_NAME_SELECTOR] == 'player_id' ? $event[UpdateStorage::EVENT_KEY_SELECTED] : null;
-        $public_message = array_key_exists(PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE, $event) ? $event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] : '';
-        $this->notifyAllPlayers(UpdateStorage::EVENT_NAME, $public_message, $event, $player_id);
     }
 }
 ?>

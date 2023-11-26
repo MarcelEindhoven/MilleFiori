@@ -14,7 +14,7 @@ include_once(__DIR__.'/../../export/modules/BGA/EventEmitter.php');
 include_once(__DIR__.'/../../export/modules/BGA/UpdateStorage.php');
 
 class UpdatePlayerRobotPropertiesTest extends TestCase{
-    const DEFAULT_ROBOT_ID = 3;
+    const DEFAULT_ROBOT_ID = 13;
     const DEFAULT_PLAYER_ID = 33;
     const DEFAULT_VALUE = 5;
     const DEFAULT_KEY = 'key';
@@ -23,12 +23,14 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
         UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID => [
             UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID,
             UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
-            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME,
+            UpdatePlayerRobotProperties::KEY_IS_PLAYER => False,
         ],
         UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID => [
             UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID,
             UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
-            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME,
+            UpdatePlayerRobotProperties::KEY_IS_PLAYER => True,
         ]
     ];
 
@@ -94,17 +96,6 @@ class UpdatePlayerRobotPropertiesTest extends TestCase{
             $this->event[PlayerRobotNotifications::EVENT_KEY_PUBLIC_MESSAGE] = $public_message;
         }
         $this->mock_emitter->expects($this->exactly(1))->method('emit')->with(UpdateStorage::EVENT_NAME, $this->event);
-    }
-
-    public function testPublicMessage_Present_MessageInEvent() {
-        // Arrange
-        $new_value = 9;
-        $public_message = 'hello world';
-        $this->sut->setPublicMessageWhenUpdated(UpdatePlayerRobotPropertiesTest::DEFAULT_KEY, $public_message);
-        $this->arrangeSet(UpdatePlayerRobotProperties::PLAYER_BUCKET_NAME, UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID, $new_value, $public_message);
-        // Act
-        $this->sut[UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID][UpdatePlayerRobotPropertiesTest::DEFAULT_KEY] = $new_value;
-        // Assert
     }
 }
 ?>

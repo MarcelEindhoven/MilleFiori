@@ -22,13 +22,15 @@ class CurrentPlayerOrRobotTest extends TestCase{
             UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID,
             UpdatePlayerRobotProperties::KEY_NUMBER => CurrentPlayerOrRobotTest::DEFAULT_ROBOT_NUMBER,
             UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
-            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME,
+            UpdatePlayerRobotProperties::KEY_IS_PLAYER => False,
         ],
         UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID => [
             UpdatePlayerRobotProperties::KEY_ID => UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID,
             UpdatePlayerRobotProperties::KEY_NUMBER => CurrentPlayerOrRobotTest::DEFAULT_PLAYER_NUMBER,
             UpdatePlayerRobotPropertiesTest::DEFAULT_KEY => UpdatePlayerRobotPropertiesTest::DEFAULT_VALUE,
-            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME
+            UpdatePlayerRobotProperties::KEY_NAME => UpdatePlayerRobotPropertiesTest::DEFAULT_NAME,
+            UpdatePlayerRobotProperties::KEY_IS_PLAYER => True,
         ]
     ];
 
@@ -50,26 +52,6 @@ class CurrentPlayerOrRobotTest extends TestCase{
         $id = $this->sut->getCurrentPlayerOrRobotID();
         // Assert
         $this->assertEquals($player_id, $id);
-    }
-
-    // Is robot or player
-    public function testIsRobotID_Small_IsRobot() {
-        // Arrange
-        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_ROBOT_ID);
-        $player_id = 5;
-        // Act
-        $is_robot = $this->sut->isRobot();
-        // Assert
-        $this->assertTrue($is_robot);
-    }
-
-    public function testIsRobotID_Large_IsPlayer() {
-        // Arrange
-        $this->sut->setCurrentPlayerOrRobotID(UpdatePlayerRobotPropertiesTest::DEFAULT_PLAYER_ID);
-        // Act
-        $is_robot = $this->sut->isRobot();
-        // Assert
-        $this->assertFalse($is_robot);
     }
 
     // Next robot or player

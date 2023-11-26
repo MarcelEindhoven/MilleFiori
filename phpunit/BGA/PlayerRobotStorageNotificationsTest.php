@@ -42,7 +42,7 @@ class PlayerRobotStorageNotificationsTest extends TestCase{
     public function testpropertyUpdated_PublicMessage_Notify() {
         // Arrange
         $notification_type = UpdateStorage::EVENT_NAME;
-        $notification_log = '${player_name} ${field_name} becomes ${field_value}';
+        $notification_log = '${player_name} ${field_name_value} becomes ${field_value}';
         $field_name = 'field_test ';
         $field_value = 'value_test ';
 
@@ -52,12 +52,8 @@ class PlayerRobotStorageNotificationsTest extends TestCase{
             UpdateStorage::EVENT_KEY_NAME_UPDATED_FIELD => $field_name,
             UpdateStorage::EVENT_KEY_UPDATED_VALUE => $field_value,
         ];
-        $notification_args = [
-            'field_name' => $field_name,
-            'field_value' => $field_value,
-            ];
 
-        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($notification_type, $notification_log, $event + $notification_args, $this->player_id);
+        $this->mock_notifications->expects($this->exactly(1))->method('notifyAllPlayers')->with($notification_type, $notification_log, $event, $this->player_id);
         // Act
         $this->sut->propertyUpdated($event);
         // Assert

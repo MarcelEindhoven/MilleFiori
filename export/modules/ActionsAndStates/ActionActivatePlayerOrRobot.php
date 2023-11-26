@@ -32,7 +32,7 @@ class ActionActivatePlayerOrRobot extends \NieuwenhovenGames\BGA\Action {
     }
 
     public function getTransitionName() : string {
-        $who = $this->current_player_or_robot->isRobot() ? 'Robot' : 'Player';
+        $who = $this->current_player_or_robot->isPlayer() ? 'Player' : 'Robot';
 
         $what = $this->is_card_selection_simultaneous ? 'Play' : 'Select';
 

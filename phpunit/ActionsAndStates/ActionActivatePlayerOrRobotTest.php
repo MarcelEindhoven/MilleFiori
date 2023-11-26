@@ -27,7 +27,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousNoRobot_PlayerPlays() {
         // Arrange
-        $this->arrangePlayerOrRobot(false);
+        $this->arrangePlayerOrRobot(true);
         $this->sut->setCardSelectionSimultaneous(true);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activatePlayerToPlayCard');
@@ -38,7 +38,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousRobot_RobotPlays() {
         // Arrange
-        $this->arrangePlayerOrRobot(true);
+        $this->arrangePlayerOrRobot(false);
         $this->sut->setCardSelectionSimultaneous(true);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activateRobotToPlayCard');
@@ -49,7 +49,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousNoRobot_PlayerSelects() {
         // Arrange
-        $this->arrangePlayerOrRobot(false);
+        $this->arrangePlayerOrRobot(true);
         $this->sut->setCardSelectionSimultaneous(false);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activatePlayerToSelectCard');
@@ -60,7 +60,7 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
 
     public function testNextState_SelectionSimultaneousRobot_RobotSelects() {
         // Arrange
-        $this->arrangePlayerOrRobot(true);
+        $this->arrangePlayerOrRobot(false);
         $this->sut->setCardSelectionSimultaneous(false);
 
         $this->mock_gamestate->expects($this->exactly(1))->method('nextState')->with('activateRobotToSelectCard');
@@ -69,9 +69,9 @@ class ActionActivatePlayerOrRobotTest extends TestCase{
         // Assert
     }
 
-    private function arrangePlayerOrRobot($is_robot)
+    private function arrangePlayerOrRobot($is_player)
     {
-        $this->mock_player_or_robot->expects($this->exactly(1))->method('isRobot')->with()->will($this->returnValue($is_robot));
+        $this->mock_player_or_robot->expects($this->exactly(1))->method('isPlayer')->with()->will($this->returnValue($is_player));
     }
 }
 ?>
